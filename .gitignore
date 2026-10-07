@@ -1,0 +1,47 @@
+# Environment
+.env
+
+# Composer
+/vendor/
+
+# Node
+/node_modules/
+
+# Storage
+/Storage/*
+/compiled/*
+
+!/Storage/.gitkeep
+!/compiled/.gitkeep
+!/Storage/cache/.gitkeep
+!/Storage/cache/mpdf/.gitkeep
+!/Storage/cache/imagick/.gitkeep
+!/Storage/cache/MailboxQueueCash/.gitkeep
+
+!/Storage/bankLogo/
+!/Storage/companies/
+!/Storage/Companies/
+!/Storage/CRMTraining/
+!/Storage/DefaultImages/
+!/Storage/cache/
+
+!/Storage/bankLogo/**
+!/Storage/companies/**
+!/Storage/Companies/**
+!/Storage/CRMTraining/**
+!/Storage/DefaultImages/**
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Database
+!/database/init.sql
+/database/backups/*.sql
+
+# Docker
+mysql-data/
