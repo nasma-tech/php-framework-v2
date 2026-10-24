@@ -1486,18 +1486,36 @@ const jdate = (input = "", options = {}) => {
     };
 };
 
-$.fn.getOptions = function (urlAddress, method = 'GET', callback) {
+$.fn.getOptions = function ({urlAddress, method = "GET", callback}) {
     $(this).on('change', function () {
         let value = $(this).val();
         $.ajax({
-            url: urlAddress, type: method, data: {value}, success: result => {
+            url: urlAddress,
+            type: method,
+            data: {value},
+            dataType: 'json',
+            success: result => {
                 if (callback) {
-                    callback(JSON.parse(result));
+                    callback(result);
                 }
             }
         });
     });
 };
+
+$.fn.getOptionsValue = function ({urlAddress, method = "GET", callback}) {
+    $.ajax({
+        url: urlAddress,
+        type: method,
+        dataType: 'json',
+        success: result => {
+            if (callback) {
+                callback(result);
+            }
+        }
+    });
+
+}
 
 const getAddressByLocation = (latitude, longitude, apiKey, showResultInput) => {
     $.ajax({

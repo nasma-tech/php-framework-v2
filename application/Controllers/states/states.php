@@ -69,18 +69,14 @@ class states extends ControllerScheme
         ])->display('states/edit-states.tpl');
     }
 
-    public function getFilterStates(): void
+    public function getStates(): void
     {
-        $countryId = $this->requestArray()['value'];
-        $output = [];
-        $country = StateModel::query()->where('country_id', '=', $countryId)->get();
-        foreach ($country as $item) {
-            $output[] = [
-                'id' => $item->id,
-                'title' => $item->title
+        echo json_encode(array_map(function ($item) {
+            return [
+                'id' => $item['id'],
+                'title' => $item['title'],
             ];
-        }
-        echo json_encode($output, JSON_UNESCAPED_UNICODE);
+        }, StateModel::query()->where('country_id', 102)->get()->toArray()), JSON_UNESCAPED_UNICODE);
     }
 
     public function getMapInfo(): void
