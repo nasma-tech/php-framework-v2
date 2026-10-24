@@ -11,6 +11,7 @@ use App\Controllers\roles\roles;
 use App\Controllers\states\states;
 use App\Controllers\Units\Units;
 use App\Controllers\users\users;
+use Packages\View\handleHttpErrorView;
 
 
 $router = new \Bramus\Router\Router();
@@ -37,11 +38,8 @@ $router->get('/', function () {
 $router->set404(function () {
     if (isAjaxRequest()) {
         http_response_code(404);
-        echo 'notFound';
     } else {
-        view->ui('', '', [
-            'getMsg' => view->show404Error()
-        ])->display('sections/404Page.tpl');
+        handleHttpErrorView::handle(404);
     }
 });
 $router->get('/login', function () {
@@ -53,9 +51,7 @@ $router->get('/logout', function () {
     header('location:/login');
 });
 $router->get('/notAccess', function () {
-    view->ui('', '', [
-        'getNotAccess' => view->showNotAccessPage()
-    ])->display('sections/notAccessPage.tpl');
+    handleHttpErrorView::handle(403);
 });
 $router->get('/Profile', function () {
     view->ui()->display('view/Profile/Profile.tpl');
@@ -102,13 +98,13 @@ $router->mount('/states', function () use ($router) {
     dynamicRoute($router, states::class, [
         [
             'method' => 'GET',
-            'path' => '/getFilterStates',
-            'action' => 'getFilterStates'
+            'path' => '/getMapInfo',
+            'action' => 'getMapInfo'
         ],
         [
             'method' => 'GET',
-            'path' => '/getMapInfo',
-            'action' => 'getMapInfo'
+            'path' => '/getStates',
+            'action' => 'getStates'
         ]
     ]);
 });
@@ -164,6 +160,6 @@ $router->mount('/IssuingPlace', function () use ($router) {
     ]);
 });
 
-    $router->mount('/UserContactTypes', function () use ($router) {
+$router->mount('/UserContactTypes', function () use ($router) {
     dynamicRoute($router, App\Controllers\UserContactTypes\UserContactTypes::class);
 });
