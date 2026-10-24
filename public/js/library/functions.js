@@ -1503,6 +1503,20 @@ $.fn.getOptions = function ({urlAddress, method = "GET", callback}) {
     });
 };
 
+$.fn.getOptionsValue = function ({urlAddress, method = "GET", callback}) {
+    $.ajax({
+        url: urlAddress,
+        type: method,
+        dataType: 'json',
+        success: result => {
+            if (callback) {
+                callback(result);
+            }
+        }
+    });
+
+}
+
 const getAddressByLocation = (latitude, longitude, apiKey, showResultInput) => {
     $.ajax({
         url: "https://api.neshan.org/v5/reverse?lat=" + latitude + "&lng=" + longitude, type: 'GET', headers: {
