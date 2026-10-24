@@ -89,12 +89,14 @@ $(function () {
         }
     })
 
+    //*** address ***//
+
     let addressCounter = $("#addressTable tbody tr").length
 
     const addressRow = (addressCounter, data) => {
         const fullAddress = `شهر ${data.cityTitle}، ${data.main_street}, ${data.side_street}, کوچه ${data.alley_name}, پلاک ${data.plaque}, واحد ${data.unit}`
         return `
-        <tr>
+        <tr id="addressRow_${addressCounter}">
             <td class="border">
                 <div class="radio">
                     <input class="form-control" type="radio" name="userAddress_is_default" id="userAddress_${addressCounter}_is_default"
@@ -117,8 +119,11 @@ $(function () {
                 <input type="text" id="userAddress_${addressCounter}_complete_address" class="form-control" name="userAddress[${addressCounter}][complete_address]" value="${fullAddress}">
             </td>
             <td class="border">
-                <button type="button" class="btn btn-icon rounded-circle btn-warning editAddressData" data-id="${addressCounter}">
+                <button type="button" class="btn btn-icon rounded-circle btn-light-warning editAddressData" data-id="${addressCounter}">
                     <i class="bx bx-edit"></i>
+                </button>
+                <button type="button" class="btn btn-icon rounded-circle btn-light-danger deleteAddressData" data-id="${addressCounter}">
+                    <i class="bx bx-trash"></i>
                 </button>
             </td>
         </tr>
@@ -219,7 +224,7 @@ $(function () {
 
                     addressTable.find('tbody').append(addressRow(++addressCounter, data))
 
-                    editAddressDataEvent()
+                    actionAddressDataEvent()
 
                 } else {
                     swalValidate('موارد مشخص شده را پر کنید')
@@ -231,7 +236,7 @@ $(function () {
 
     })
 
-    function editAddressDataEvent() {
+    function actionAddressDataEvent() {
         $(".editAddressData")
             .off('click')
             .on('click', async function () {
@@ -261,6 +266,24 @@ $(function () {
 
                 addressModalEvents()
             })
+
+        $(".deleteAddressData")
+            .off('click')
+            .on('click', function () {
+                let id = $(this).data('id')
+
+                swal.fire({
+                    title: "حذف آدرس",
+                    icon: 'error',
+                    text: 'از حذف آدرس اطمینان دارید؟',
+                    showDenyButton: true,
+                    denyButtonText: 'انصراف',
+                    confirmButtonText: 'تایید',
+                    preConfirm: () => {
+                        $(`#addressRow_${id}`).remove()
+                    }
+                })
+            })
     }
 
     function addressModalEvents() {
@@ -279,4 +302,20 @@ $(function () {
         })
     }
 
+    //*** address ***//
+
+    //*** userContactType ***//
+
+    $(".userContactTypeValue").on('input', function () {
+        const pattern = $(this).attr("data-validation-pattern");
+        const regex = new RegExp(pattern);
+
+        if (regex.test($(this).val())) {
+            $(this).addClass('is-valid').removeClass('is-invalid')
+        } else {
+            $(this).addClass('is-invalid').removeClass('is-valid')
+        }
+    })
+
+    //*** userContactType ***//
 })

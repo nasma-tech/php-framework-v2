@@ -247,10 +247,12 @@
                                                                             <td class="border">{counter}</td>
                                                                             <td class="border">{$userContactType->title}</td>
                                                                             <td class="border">
-                                                                                <input class="form-control" type="text"
+                                                                                <input class="form-control userContactTypeValue" type="text"
                                                                                        required
                                                                                        name="userContacts[{$userContactType->id}]"
-                                                                                       id="userContacts_{$userContactType->id}">
+                                                                                       id="userContacts_{$userContactType->id}"
+                                                                                       data-validation-pattern='{$userContactType->validation_pattern}'
+                                                                                >
                                                                             </td>
                                                                         </tr>
                                                                     {/foreach}
@@ -276,7 +278,8 @@
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <div class="table-responsive">
-                                                                <table class="table table-striped table-hover text-center" id="addressTable">
+                                                                <table class="table table-striped table-hover text-center"
+                                                                       id="addressTable">
                                                                     <thead class="thead-dark">
                                                                     <tr>
                                                                         <th class="border">#</th>
@@ -291,7 +294,8 @@
                                                                     <tr>
                                                                         <td class="border" colspan="4">
                                                                             <button type="button"
-                                                                                    class="btn btn-sm p-0" id="newAddressBtn">
+                                                                                    class="btn btn-sm p-0"
+                                                                                    id="newAddressBtn">
                                                                                 افزودن ردیف جدید<i
                                                                                         class="bx bx-down-arrow"></i>
                                                                             </button>
