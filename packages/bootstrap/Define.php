@@ -1,15 +1,14 @@
 <?php
+//bootstrap required
+require 'Errors.php';
+
 
 // define
-define(
-    'APP_URL',
-    $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST']
-);
+define('APP_URL', $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST']);
+define('__SOURCE__', $_SERVER['DOCUMENT_ROOT'] . '/');
 
-define(
-    '__SOURCE__',
-    $_SERVER['DOCUMENT_ROOT'] . '/'
-);
+
+
 
 // shared objects
 const view = new \Packages\View\View();
