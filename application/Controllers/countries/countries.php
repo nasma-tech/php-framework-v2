@@ -3,14 +3,14 @@
 namespace App\Controllers\countries;
 
 use App\Controllers\scheme\ControllerScheme;
-use App\Models\countriesModel\countriesModel;
+use App\Models\CountryModel\CountryModel;
 
 
 class countries extends ControllerScheme
 {
     const string singleName = 'کشور';
     const string pluralName = 'کشورها';
-    protected string $defaultModel = countriesModel::class;
+    protected string $defaultModel = CountryModel::class;
 
     public function main(): void
     {
@@ -33,7 +33,7 @@ class countries extends ControllerScheme
         ],
             ['vendors/css/tables/datatable/datatables.min'],
             [
-                'countries' => countriesModel::all(),
+                'countries' => CountryModel::all(),
             ])->display('countries/countries.tpl');
     }
 
@@ -52,7 +52,7 @@ class countries extends ControllerScheme
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
-        view->setModel(countriesModel::query()->find($id));
+        view->setModel(CountryModel::query()->find($id));
         view->ui([
             'js/countries/edit-countries'
         ])->display('countries/edit-countries.tpl');
@@ -63,7 +63,7 @@ class countries extends ControllerScheme
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
-        view->setModel(countriesModel::query()->find($id));
+        view->setModel(CountryModel::query()->find($id));
         view->ui([
             'js/countries/view-countries'
         ])->display('countries/view-countries.tpl');

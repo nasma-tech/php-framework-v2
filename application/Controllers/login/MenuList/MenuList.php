@@ -3,14 +3,14 @@
 namespace App\Controllers\login\MenuList;
 
 use App\Controllers\scheme\ControllerScheme;
-use App\Models\IconsModel\IconsModel;
-use App\Models\MenuListModel\MenuListModel;
+use App\Models\IconModel\IconModel;
+use App\Models\MenuModel\MenuModel;
 
 class MenuList extends ControllerScheme
 {
     const string singleName = 'مدیریت منو';
     const string pluralName = 'مدیریت منوها';
-    protected string $defaultModel = MenuListModel::class;
+    protected string $defaultModel = MenuModel::class;
 
     public function main(): void
     {
@@ -32,8 +32,8 @@ class MenuList extends ControllerScheme
         ],
             ['vendors/css/tables/datatable/datatables.min'],
             [
-                'menuList' => MenuListModel::all(),
-                'menuListInstance' => new MenuListModel()
+                'menuList' => MenuModel::all(),
+                'menuListInstance' => new MenuModel()
             ])->display('MenuList/MenuList.tpl');
     }
 
@@ -46,7 +46,7 @@ class MenuList extends ControllerScheme
             'js/MenuList/add-MenuList'
         ], [],
             [
-                'menuList' => MenuListModel::all()
+                'menuList' => MenuModel::all()
             ]
         )->display('MenuList/add-MenuList.tpl');
     }
@@ -56,17 +56,17 @@ class MenuList extends ControllerScheme
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
-        view->setModel(MenuListModel::query()->find($id));
+        view->setModel(MenuModel::query()->find($id));
         view->ui([
             'js/MenuList/edit-MenuList'
         ], [], [
-            'menuList' => MenuListModel::all()
+            'menuList' => MenuModel::all()
         ])->display('MenuList/edit-MenuList.tpl');
     }
 
     public function getIconsList(): void
     {
-        $get = IconsModel::all()->toArray();
+        $get = IconModel::all()->toArray();
         echo json_encode(array_map(function ($item){
             return $item['title'];
         },$get));

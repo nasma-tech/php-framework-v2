@@ -81,7 +81,7 @@
                         <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                             <div class="user-nav d-sm-flex d-none">
                                 <span class="user-name">{((isset($smarty.session.userFullName)) ? $smarty.session.userFullName : '')}</span>
-                                <span class="user-status text-muted">{((isset($smarty.session.permissionName)) ? $smarty.session.permissionName : '')}</span>
+                                <span class="user-status text-muted">{((isset($smarty.session.roleTitle)) ? $smarty.session.roleTitle : '')}</span>
                             </div>
                             <span>
                                 <img class="round"
@@ -104,7 +104,7 @@
                                    id="localTelephoneUser">
                             <input type="hidden"
                                    value="{((isset($smarty.session.permission)) ? $smarty.session.permission : '')}"
-                                   id="permissionNameUserLogin">
+                                   id="roleTitleUserLogin">
                         </div>
                     </li>
                 </ul>

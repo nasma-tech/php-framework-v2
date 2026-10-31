@@ -33,19 +33,10 @@
 <script type="text/javascript" src="{APP_URL}/public/vendors/libs/toastify/toastify-js.js"></script>
 
 
-{if isset($xfooter)}
-    {$xfooter}
+{if isset($scriptsPath)}
+    {$scriptsPath}
 {/if}
-{if isset($xfooter2)}
-    {$xfooter2}
-{/if}
-{if isset($xjq)}
-    <script>
-        jQuery(document).ready(function () {
-            {$xjq}
-        });
-    </script>
-{/if}
+
 {if isset($notify)}
     {$notify}
 {/if}

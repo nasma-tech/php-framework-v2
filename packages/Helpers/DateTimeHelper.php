@@ -2,7 +2,7 @@
 
 namespace Packages\Helpers;
 
-use App\Models\YearsModel\YearsModel;
+use App\Models\YearModel\YearModel;
 use DateTime;
 
 class DateTimeHelper
@@ -34,7 +34,7 @@ class DateTimeHelper
     public
     function getYearIdByTimeStamp(int $timestamp)
     {
-        $get = YearsModel::query()->where(['year_value' => jdate('Y', $timestamp)])->first();
+        $get = YearModel::query()->where(['year_value' => jdate('Y', $timestamp)])->first();
 
         if ($get) {
             $result = $get->id();

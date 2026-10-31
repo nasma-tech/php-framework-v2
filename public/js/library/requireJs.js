@@ -1,9 +1,5 @@
 $(function () {
     let getLocation = window.location.href;
-    //view index
-    if (location.href.search('viewIndex') != '-1') {
-        $('form:not(.notDisable)').find(':input:not(.notDisable)').prop('disabled', true);
-    }
     $("#refreshBtn").attr('href', getLocation);
     $("#backBtn").on('click', function (event) {
         event.preventDefault();

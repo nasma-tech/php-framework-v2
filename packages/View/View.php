@@ -16,7 +16,7 @@ class View
     private $pluralName;
     private $Model;
 
-    public function ui($xfooter = '', $xheader = '', array $vars = []): Smarty
+    public function ui($scriptsPath = '', $cssPath = '', array $variables = []): Smarty
     {
         $ui = new Smarty();
         $ui->setTemplateDir('view');
@@ -39,16 +39,16 @@ class View
         $ui->force_compile = true;
         $ui->cache_lifetime = 0;
 
-        foreach ($vars as $key => $item) {
+        foreach ($variables as $key => $item) {
             $ui->assign("$key", $item);
         }
 
         //Assign JS
-        $js = $this->readJs($xfooter);
-        $ui->assign('xfooter', $js);
+        $js = $this->readJs($scriptsPath);
+        $ui->assign('scriptsPath', $js);
         //Assign CSS
-        $css = $this->readCss($xheader);
-        $ui->assign('xheader', $css);
+        $css = $this->readCss($cssPath);
+        $ui->assign('cssPath', $css);
         //Make Menu
         $ui->assign('menu', new \Packages\View\Menu());
 
@@ -56,34 +56,36 @@ class View
     }
 
 
-    public function readCss($path): string
+    public function readCss(array|string $path): string
     {
-        $gen = '';
-        if ($path) {
-            if (is_array($path)) {
-                foreach ($path as $p) {
-                    $gen .= '<link rel="stylesheet" type="text/css" href="/public/' . $p . '.css"/>';
-                }
-            } else {
-                $gen = '<link rel="stylesheet" type="text/css" href="/public/' . $path . '.css"/>';
-            }
+        if (empty($path)) {
+            return '';
         }
-        return $gen;
+        $paths = is_array($path) ? $path : [$path];
+        $css = [];
+        foreach ($paths as $cssAddress) {
+            $cssAddress = trim($cssAddress, '/');
+            $filePath = '/public/'. $cssAddress. '.css';
+            $css[] = '<link rel="stylesheet" type="text/css" href="' . $filePath . '"/>';
+        }
+        return implode("\n", $css);
     }
 
-    public function readJs($path): string
+    public function readJs(array|string $path): string
     {
-        $gen = '';
-        if ($path) {
-            if (is_array($path)) {
-                foreach ($path as $p) {
-                    $gen .= '<script type="text/javascript" src="/public/' . $p . '.js?v=' . time() . '"></script>';
-                }
-            } else {
-                $gen = '<script type="text/javascript" src="/public/' . $path . '.js?v=' . time() . '"></script>';
-            }
+        if (empty($path)) {
+            return '';
         }
-        return $gen;
+        $paths = is_array($path) ? $path : [$path];
+        $scripts = [];
+        foreach ($paths as $scriptAddress) {
+            $scriptAddress = trim($scriptAddress, '/');
+            $filePath = '/public/'. $scriptAddress. '.js';
+            $version = is_file($filePath)? filemtime($filePath): time();
+            $src = '/public/'. htmlspecialchars($scriptAddress, ENT_QUOTES, 'UTF-8'). '.js?v='. $version;
+            $scripts[] = '<script src="' . $src . '"></script>';
+        }
+        return implode("\n", $scripts);
     }
 
 
@@ -194,27 +196,5 @@ class View
                     </div>';
     }
 
-    public function showNotAccessPage(): string
-    {
-        return '
-        <div class="app-content content bg-light">
-            <div class="content-wrapper">
-                 <div class="content-body">
-                    <div class="card bg-transparent shadow-none">
-                        <div class="card-content">
-                            <div class="card-body text-center bg-transparent miscellaneous">
-                              <img src="/public/images/pages/not-authorized.png" class="img-fluid" alt="not authorized" width="400">
-                              <h1 class="my-2 error-title">شما مجاز به دسترسی نیستید!</h1>
-                              <p class="text-white">
-                                  شما مجوز لارم برای مشاهده این دایرکتوری یا صفحه را ندارید.
-                              </p>
-                            </div>
-                        </div>
-                    </div>
-                 </div>
-            </div>
-        </div>
-        ';
-    }
 
 }

@@ -2,8 +2,8 @@
 
 namespace Packages\View;
 
-use App\Models\MenuListModel\MenuListModel;
-use App\Models\rolesModel\rolesModel;
+use App\Models\MenuModel\MenuModel;
+use App\Models\RoleModel\RoleModel;
 
 class Menu
 {
@@ -45,7 +45,7 @@ HTML;
             $allowedIds = $this->getAllowedMenuIds();
         }
 
-        $childMenus = MenuListModel::query()
+        $childMenus = MenuModel::query()
             ->where([
                 ['menu_parent', '=', $parentId],
                 ['hide_menu', '=', 0],
@@ -73,7 +73,7 @@ HTML;
             $icon = htmlspecialchars($item->menu_icon ?: 'bx-folder');
             $persianName = htmlspecialchars($item->menu_persian_name);
             $englishName = htmlspecialchars($item->menu_english_name);
-            $hasChildren = MenuListModel::query()
+            $hasChildren = MenuModel::query()
                 ->where([
                     ['menu_parent', '=', $menuId],
                     ['hide_menu', '=', 0],
@@ -126,10 +126,10 @@ HTML;
 
         // ✅ اگر permission = 0 بود => تمام منوها
         if (empty($user->permission) || (int)$user->permission === 0) {
-            return MenuListModel::query()->pluck('id')->toArray();
+            return MenuModel::query()->pluck('id')->toArray();
         }
 
-        $role = rolesModel::query()->find($user->permission);
+        $role = RoleModel::query()->find($user->permission);
         if (!$role || empty($role->access_json)) {
             return [];
         }
@@ -148,7 +148,7 @@ HTML;
         }
 
         // والدهایشان را هم اضافه کن
-        $allMenus = MenuListModel::query()->get(['id', 'menu_parent'])->keyBy('id')->toArray();
+        $allMenus = MenuModel::query()->get(['id', 'menu_parent'])->keyBy('id')->toArray();
 
         foreach ($allowedIds as $id) {
             $parent = $allMenus[$id]['menu_parent'] ?? 0;
@@ -166,7 +166,7 @@ HTML;
 
     private function hasAllowedChild(int $parentId, array $allowedIds): bool
     {
-        $children = MenuListModel::query()->where('menu_parent', $parentId)->where('hide_menu', '=', 0)->pluck('id')->toArray();
+        $children = MenuModel::query()->where('menu_parent', $parentId)->where('hide_menu', '=', 0)->pluck('id')->toArray();
         return array_any($children, fn($childId) => in_array($childId, $allowedIds));
     }
 }

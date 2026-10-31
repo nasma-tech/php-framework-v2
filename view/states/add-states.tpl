@@ -25,7 +25,7 @@
                                             <select class="form-control select2" name="country_id">
                                                 <option selected disabled>لطفا یک مورد را انتخاب کنید</option>
                                                 {foreach $countries as $item}
-                                                    <option value="{$item->id}" {(($item->id == 102)?'selected':'')}>{$item->country_name}</option>
+                                                    <option value="{$item->id}" {(($item->id == 102)?'selected':'')}>{$item->persian_title}</option>
                                                 {/foreach}
                                             </select>
                                         </div>
@@ -35,7 +35,7 @@
                                     <div class="form-group">
                                         <div class="controls">
                                             <label>استان</label>
-                                            <input type="text" name="state_name" class="form-control"
+                                            <input type="text" name="title" class="form-control"
                                                    autofocus placeholder="استان" required
                                                    data-validation-required-message="وارد کردن استان الزامی است">
                                         </div>
@@ -45,7 +45,7 @@
                                     <div class="form-group">
                                         <div class="controls">
                                             <label>پیش شماره استان</label>
-                                            <input type="text" name="state_area_code" class="form-control"
+                                            <input type="text" name="area_code" class="form-control"
                                                    autofocus placeholder="پیش شماره" required
                                                    data-validation-required-message="وارد کردن پیش شماره الزامی است">
                                         </div>

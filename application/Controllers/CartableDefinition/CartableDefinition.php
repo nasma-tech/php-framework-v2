@@ -4,8 +4,8 @@ namespace App\Controllers\CartableDefinition;
 
 use App\Controllers\scheme\ControllerScheme;
 use App\Models\CartableDefinitionModel\CartableDefinitionModel;
-use App\Models\rolesModel\rolesModel;
-use App\Models\usersModel\usersModel;
+use App\Models\RoleModel\RoleModel;
+use App\Models\UserModel\UserModel;
 use Exception;
 
 class CartableDefinition extends ControllerScheme
@@ -70,15 +70,15 @@ class CartableDefinition extends ControllerScheme
 
     public function getPermissionList(): void
     {
-        $getAllStaff = rolesModel::all();
+        $getAllStaff = RoleModel::all();
         echo json_encode(array_map(function ($item) {
             return [
                 'id' => $item['id'],
-                'titlePersian' => $item['per_name'],
-                'titleEnglish' => $item['per_short_name'],
+                'titlePersian' => $item['title'],
+                'titleEnglish' => "-",
                 'users' => (function () use ($item) {
                     $permissionId = $item['id'];
-                    $query = usersModel::query();
+                    $query = UserModel::query();
 
                     if ($permissionId == 1) {
                         $query->whereIn('permission_id', [0, 1]);

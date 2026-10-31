@@ -29,16 +29,16 @@
                                 </tr>
                                 </thead>
                                 <tbody id="userBodyTable">
-                                    {foreach $list as $item}
-                                        <tr>
-                                            <td class="border">{$item->id}</td>
-                                            <td class="border">{$item->full_name}</td>
-                                            <td class="border">{(($item->permission_id == 0)?'سوپرادمین':$item->staffPermissionData->per_name)}</td>
-                                            <td class="border">{$item->user_name}</td>
-                                            <td class="border">{$item->user_mobile}</td>
-                                            <td class="border">{$buttonHelper->actionButtons($item->id)}</td>
-                                        </tr>
-                                    {/foreach}
+                                {foreach $list as $item}
+                                    <tr>
+                                        <td class="border">{$item->id}</td>
+                                        <td class="border">{$item->full_name}</td>
+                                        <td class="border">{$item->username}</td>
+                                        <td class="border">{((isset($item->roleData->title)) ? $item->roleData->title : 'نامشخص')}</td>
+                                        <td class="border">--------</td>
+                                        <td class="border">{$buttonHelper->actionButtons($item->id)}</td>
+                                    </tr>
+                                {/foreach}
                                 </tbody>
                             </table>
                         </div>
@@ -49,31 +49,4 @@
     </div>
 </div>
 
-
 {include 'sections/footer.tpl'}
-<script>
-    $(".deleteBtn").on('click', function () {
-        let id = $(this).data('id');
-        swal.fire({
-            title: 'آیا از حذف این رکورد اطمینان دارید؟',
-            confirmButtonText: 'حذف',
-            showCancelButton: true,
-            cancelButtonText: 'انصراف',
-            preConfirm: () => {
-                $.ajax({
-                    url: 'deleteIndex/delete',
-                    type: 'POST',
-                    data: {
-                        id
-                    }, success: result => {
-                        swal.fire({
-                            title: 'با موفقیت حذف شد',
-                            timer: 3000,
-                            confirmButtonText: 'بستن',
-                        })
-                    }
-                })
-            }
-        })
-    })
-</script>

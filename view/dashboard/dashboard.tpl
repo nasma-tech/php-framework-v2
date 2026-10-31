@@ -17,7 +17,7 @@
                         <div class="card-content">
                             <div class="card-body text-center">
                                 <h4>{$user->full_name}</h4>
-                                <p>{((isset($smarty.session.permissionName)) ? $smarty.session.permissionName : '')}</p>
+                                <p>{((isset($smarty.session.roleTitle)) ? $smarty.session.roleTitle : '')}</p>
                                 <div class="d-flex justify-content-around mb-1">
                                     <div class="card-icons d-flex flex-column">
                                         <i class="bx bx-camera font-medium-5 font-weight-bold"></i>

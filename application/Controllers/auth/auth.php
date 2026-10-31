@@ -2,9 +2,8 @@
 
 namespace App\Controllers\auth;
 
-use App\Models\rolesModel\rolesModel;
-use App\Models\UserCorporateEmailModel\UserCorporateEmailModel;
-use App\Models\usersModel\usersModel;
+use App\Models\RoleModel\RoleModel;
+use App\Models\UserModel\UserModel;
 
 class auth
 {
@@ -32,12 +31,12 @@ class auth
             $this->userFullName = $value;
         }
     }
-    public $permission {
+    public $roleId {
         get {
-            return $this->permission;
+            return $this->roleId;
         }
         set {
-            $this->permission = $value;
+            $this->roleId = $value;
         }
     }
     public $userCompanyId {
@@ -59,13 +58,13 @@ class auth
         }
     }
 
-    public $permissionName {
+    public $roleTitle {
         get {
-            return $this->permissionName;
+            return $this->roleTitle;
 
         }
         set {
-            $this->permissionName = $value;
+            $this->roleTitle = $value;
         }
     }
 
@@ -81,36 +80,38 @@ class auth
 
     public function authentication(): void
     {
-        $userName = $_POST['user_name'];
+        $userName = trim($_POST['user_name']);
         $userPassword = sha1(md5($_POST['user_password']));
-        $userCheck = usersModel::query()->where([
-            ['username', '=', $userName],
-            ['password', '=', $userPassword]
+        $userCheck = UserModel::query()->where([
+            "username" =>$userName,
+            "password_hash" => $userPassword
         ])->first();
 
         if ($userCheck) {
-            $userMailData = UserCorporateEmailModel::query()->where('user_ids', $userCheck->id)->first();
-            $role = rolesModel::query()->find($userCheck->permission_id);
+            $role = RoleModel::query()->find($userCheck->role_id);
 
-            $this->userName = $userCheck->username;
-            $this->userFullName = $userCheck->full_name;
-            $this->userId = $userCheck->id;
-            $this->permission = $userCheck->permission_id;
-            $this->userCompanyId = $userCheck->company_id;
-            $this->representationId = $userCheck->representation_id;
-            $this->permissionName = (($role) ? $role->per_name : 'سوپر ادمین');
-            $this->userInfo = [
-                'internalNumber' => ($userMailData->internal_number ?? 0)
-            ];
-            $_SESSION['userId'] = $this->userId;
-            $_SESSION['userName'] = $this->userName;
-            $_SESSION['userFullName'] = $this->userFullName;
-            $_SESSION['permission'] = $this->permission;
-            $_SESSION['userCompanyId'] = $this->userCompanyId;
-            $_SESSION['representationId'] = $this->representationId;
-            $_SESSION['permissionName'] = $this->permissionName;
-            $_SESSION['userInfo'] = $this->userInfo;
-            echo 'successLogin';
+            if ($role) {
+                $this->userName = $userCheck->username;
+                $this->userFullName = $userCheck->full_name;
+                $this->userId = $userCheck->id;
+                $this->roleId = $userCheck->role_id;
+                $this->userCompanyId = $userCheck->company_id;
+                $this->representationId = $userCheck->representation_id;
+                $this->roleTitle = $role->title;
+                $this->userInfo = [
+                    'internalNumber' => ''
+                ];
+
+                $_SESSION['userId'] = $this->userId;
+                $_SESSION['userName'] = $this->userName;
+                $_SESSION['userFullName'] = $this->userFullName;
+                $_SESSION['roleId'] = $this->roleId;
+                $_SESSION['userCompanyId'] = $this->userCompanyId;
+                $_SESSION['representationId'] = $this->representationId;
+                $_SESSION['roleTitle'] = $this->roleTitle;
+                $_SESSION['userInfo'] = $this->userInfo;
+                echo 'successLogin';
+            }
         } else {
             echo 'userNotFound';
         }

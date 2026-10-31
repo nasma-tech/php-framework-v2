@@ -3,14 +3,14 @@
 namespace App\Controllers\Units;
 
 use App\Controllers\scheme\ControllerScheme;
-use App\Models\UnitsModel\UnitsModel;
+use App\Models\UnitModel\UnitModel;
 
 class Units extends ControllerScheme
 {
     const string singleName = 'واحد';
     const string pluralName = 'واحدها';
 
-    protected string $defaultModel = UnitsModel::class;
+    protected string $defaultModel = UnitModel::class;
 
     public function main()
     {
@@ -32,7 +32,7 @@ class Units extends ControllerScheme
         ], [
             'vendors/css/tables/datatable/datatables.min'
         ], [
-            'units' => UnitsModel::all()
+            'units' => UnitModel::all()
         ])->display('Units/Units.tpl');
     }
 
@@ -51,7 +51,7 @@ class Units extends ControllerScheme
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
-        view->setModel(UnitsModel::query()->find($id));
+        view->setModel(UnitModel::query()->find($id));
         view->ui([
             'js/Units/edit-Units'
         ])->display('Units/edit-Units.tpl');
@@ -61,7 +61,7 @@ class Units extends ControllerScheme
     public function getUnits()
     {
         $output = [];
-        foreach (UnitsModel::all() as $item) {
+        foreach (UnitModel::all() as $item) {
             $output[] = [
                 'id' => $item->id,
                 'title' => $item->unit_name,
@@ -75,7 +75,7 @@ class Units extends ControllerScheme
     {
         $id = $this->requestArray()['value'];
         $service_unit = ServicesModel::query()->findOrFail($id);
-        $find = UnitsModel::query()->findOrFail($service_unit->unit_id);
+        $find = UnitModel::query()->findOrFail($service_unit->unit_id);
 
         echo json_encode([
             'id' => $find->id,

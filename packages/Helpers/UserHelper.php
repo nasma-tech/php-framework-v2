@@ -2,7 +2,7 @@
 
 namespace Packages\Helpers;
 
-use App\Models\usersModel\usersModel;
+use App\Models\UserModel\UserModel;
 
 class UserHelper
 {
@@ -25,7 +25,7 @@ class UserHelper
             $userId = userObject()->userId;
         }
 
-        $get = usersModel::query()->find($userId);
+        $get = UserModel::query()->find($userId);
 
         if ($get) {
             $output = $get->full_name;
@@ -40,7 +40,7 @@ class UserHelper
         if (is_null($userId)) {
             $userId = userObject()->userId;
         }
-        $check = usersModel::query()->find($userId);
+        $check = UserModel::query()->find($userId);
         if ($check) {
             if ($check->user_image_gif && file_exists('/Storage/users/' . $check->id . '/' . $check->user_image_gif)) {
                 return '/Storage/users/' . $check->id . '/' . $check->user_image_gif;

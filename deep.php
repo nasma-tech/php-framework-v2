@@ -91,14 +91,19 @@ PHP;
         $filePath = $folderPath . '/' . $fileName;
         $content = <<<PHP
 <?php
+
 namespace App\Models\\{$modelName};
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class $modelName extends Model
 {
     protected \$table = '';
-    protected \$primaryKey = '';
+    protected \$primaryKey = 'id';
     public \$timestamps = false;
+    
+    use SoftDeletes;
 
     protected \$fillable = [
         //col Name

@@ -23,7 +23,6 @@
                                 <tr>
                                     <th class="border">#</th>
                                     <th class="border">نام دسترسی</th>
-                                    <th class="border">نام لاتین</th>
                                     <th class="border">عملیات</th>
                                 </tr>
                                 </thead>
@@ -32,10 +31,7 @@
                                     <tr>
                                         <td class="border">{$item->id}</td>
                                         <td class="border">
-                                            {$item->per_name}
-                                        </td>
-                                        <td class="border">
-                                            {$item->per_short_name}
+                                            {$item->title}
                                         </td>
                                         <td class="border">
                                             {$buttonHelper->actionButtons($item->id)}

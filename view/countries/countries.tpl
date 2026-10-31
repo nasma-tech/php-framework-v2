@@ -32,9 +32,9 @@
                                     <tr>
                                         <td class="border">{$item->id}</td>
                                         <td class="border">
-                                            {$item->country_name}
+                                            {$item->persian_title}
                                         </td>
-                                        <td class="border" dir="ltr">{$item->country_area_code}</td>
+                                        <td class="border" dir="ltr">{$item->persian_title}</td>
                                         <td class="border text-center" dir="ltr">{$buttonHelper->actionButtons($item->id)}</td>
                                     </tr>
                                 {/foreach}

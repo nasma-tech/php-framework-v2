@@ -32,10 +32,10 @@
                                 {foreach $states as $item}
                                     <tr>
                                         <td></td>
-                                        <td>{$item->state_name}
+                                        <td>{$item->title}
                                         </td>
-                                        <td>{$country::query()->find($item->country_id)->country_name}</td>
-                                        <td>{$item->state_area_code}</td>
+                                        <td>{$country::query()->find($item->country_id)->persian_title}</td>
+                                        <td>{$item->area_code}</td>
                                         <td>
                                             {$buttonHelper->actionButtons($item->id)}
                                         </td>

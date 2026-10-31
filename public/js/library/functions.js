@@ -1486,18 +1486,36 @@ const jdate = (input = "", options = {}) => {
     };
 };
 
-$.fn.getOptions = function (urlAddress, method = 'GET', callback) {
+$.fn.getOptions = function ({urlAddress, method = "GET", callback}) {
     $(this).on('change', function () {
         let value = $(this).val();
         $.ajax({
-            url: urlAddress, type: method, data: {value}, success: result => {
+            url: urlAddress,
+            type: method,
+            data: {value},
+            dataType: 'json',
+            success: result => {
                 if (callback) {
-                    callback(JSON.parse(result));
+                    callback(result);
                 }
             }
         });
     });
 };
+
+$.fn.getOptionsValue = function ({urlAddress, method = "GET", callback}) {
+    $.ajax({
+        url: urlAddress,
+        type: method,
+        dataType: 'json',
+        success: result => {
+            if (callback) {
+                callback(result);
+            }
+        }
+    });
+
+}
 
 const getAddressByLocation = (latitude, longitude, apiKey, showResultInput) => {
     $.ajax({
@@ -1890,4 +1908,37 @@ $.fn.select2Ajax = function (route, delayTime = 200) {
  */
 function end(data) {
     return data.at(-1)
+}
+
+function getInputsNested(selector) {
+    const result = {};
+
+    $(selector).find('input[name], select[name], textarea[name]').each(function () {
+        const name = $(this).attr('name');
+        const value = $(this).val();
+
+        if (!name) return;
+
+        const keys = name.replace(/\]/g, "").split("[");
+        let current = result;
+
+        keys.forEach((key, index) => {
+            if (index === keys.length - 1) {
+                current[key] = value;
+            } else {
+                if (!current[key] || typeof current[key] !== "object") {
+                    current[key] = {};
+                }
+                current = current[key];
+            }
+        });
+    });
+
+    return result;
+}
+
+$.fn.destroySelect2 = function () {
+    if (this.hasClass('select2-hidden-accessible')) {
+        this.select2('destroy');
+    }
 }

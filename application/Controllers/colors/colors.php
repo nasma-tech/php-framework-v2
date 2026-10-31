@@ -3,14 +3,14 @@
 namespace App\Controllers\colors;
 
 use App\Controllers\scheme\ControllerScheme;
-use App\Models\colorsModel\colorsModel;
+use App\Models\ColorModel\ColorModel;
 
 
 class colors extends ControllerScheme
 {
     const string singleName = 'رنگ';
     const string pluralName = 'رنگ ها';
-    protected string $defaultModel = colorsModel::class;
+    protected string $defaultModel = ColorModel::class;
 
     public function main()
     {
@@ -31,7 +31,7 @@ class colors extends ControllerScheme
             'js/colors/colors',
         ],
             ['vendors/css/tables/datatable/datatables.min'], [
-                'colors' => colorsModel::all()
+                'colors' => ColorModel::all()
             ])->display('colors/colors.tpl');
     }
 
@@ -50,7 +50,7 @@ class colors extends ControllerScheme
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
-        view->setModel(colorsModel::query()->find($id));
+        view->setModel(ColorModel::query()->find($id));
         view->ui([
             'js/colors/edit-colors',
         ])->display('colors/edit-colors.tpl');
@@ -68,7 +68,7 @@ class colors extends ControllerScheme
     {
         $idInput = $this->requestArray()['idSelect'];
         $idValeInput = $this->requestArray()['idValeInput'];
-        $get = colorsModel::query()->where(['color_status' => 1])->get();
+        $get = ColorModel::query()->where(['color_status' => 1])->get();
         $output = [];
         $output[] = '<style>
         .swal2-html-container{
@@ -92,7 +92,7 @@ class colors extends ControllerScheme
         $value = $this->requestArray()['val'];
         $idInput = $this->requestArray()['idSelect'];
         $idValeInput = $this->requestArray()['idValeInput'];
-        $get = colorsModel::query()->where('name', 'like', "%{$value}%");
+        $get = ColorModel::query()->where('name', 'like', "%{$value}%");
         $output = [];
         foreach ($get as $item) {
             $output[] = '<div class="col-md-2">
@@ -105,7 +105,7 @@ class colors extends ControllerScheme
     public function activeOrDeactive()
     {
         $id = $this->requestArray()['id'];
-        $colors = colorsModel::query()->find($id);
+        $colors = ColorModel::query()->find($id);
         $colors->color_status = ($colors->color_status == 1) ? 0 : 1;
         if ($colors->save()) {
             echo 'changeSuccess';

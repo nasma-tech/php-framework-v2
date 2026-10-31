@@ -6,7 +6,7 @@
         {$flashMessageHelper->formCallBack()}
         <div class="row">
             <div class="col-md-12">
-                <form action="/users/editIndex/{$getData->id}" method="post" enctype="multipart/form-data">
+                <form action="/users/edit/{$getData->id}" method="post" enctype="multipart/form-data">
 
                     <div class="card shadow">
                         <div class="card-header">
@@ -119,34 +119,7 @@
                                                     </div>
                                                     <div class="tab-pane" id="profile" aria-labelledby="profile-tab"
                                                          role="tabpanel">
-                                                        <div class="row">
-                                                            <div class="col-md-2 mt-1">
-                                                                <label for="userCorporateData_user_AliasName">نام
-                                                                    مستعار</label>
-                                                                <input class="form-control exception" type="text"
-                                                                       name="userCorporateData[user_AliasName]"
-                                                                       id="userCorporateData_user_AliasName"
-                                                                       value="{(($userCorporateEmail) ? $userCorporateEmail->user_AliasName : '')}">
-                                                            </div>
 
-                                                            <div class="col-md-2 mt-1">
-                                                                <label for="userCorporateData_mail_address">ایمیل
-                                                                    سازمانی</label>
-                                                                <input class="form-control exception" type="text"
-                                                                       name="userCorporateData[mail_address]"
-                                                                       id="userCorporateData_mail_address"
-                                                                       value="{(($userCorporateEmail) ? $userCorporateEmail->mail_address : '')}">
-                                                            </div>
-
-                                                            <div class="col-md-2 mt-1">
-                                                                <label for="userCorporateData_internal_number">شماره
-                                                                    داخلی</label>
-                                                                <input class="form-control exception" type="text"
-                                                                       name="userCorporateData[internal_number]"
-                                                                       id="userCorporateData_internal_number"
-                                                                       value="{(($userCorporateEmail) ? $userCorporateEmail->internal_number : '')}">
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                     <div class="tab-pane" id="about" aria-labelledby="about-tab"
                                                          role="tabpanel">
@@ -171,9 +144,9 @@
                                                                        name="username" required="required">
                                                             </div>
                                                             <div class="col-md-2 mt-1">
-                                                                <label>رمزعبور</label>
-                                                                <input class="form-control" id="user_password"
-                                                                       name="user_password"
+                                                                <label for="password">رمزعبور</label>
+                                                                <input class="form-control" id="password"
+                                                                       name="password"
                                                                        required="required"
                                                                 >
                                                             </div>

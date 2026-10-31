@@ -34,14 +34,17 @@
     <link rel="stylesheet" href="/public/vendors/css/animate/animate.css"/>
     <link rel="stylesheet" href="/public/css/jalalidatepicker.min.css">
     <link rel="stylesheet" type="text/css" href="/public/vendors/libs/toastify/toastify.min.css">
-    
+
+{*    template styles*}
+    <link rel="stylesheet" href="/view/templates/templatesStyle.css">
+
     <script src="/public/vendors/js/vendors.min.js"></script>
     <script src="/public/vendors/libs/leaflet/leaflet.js"></script>
     <script src="/public/js/library/moment.min.js"></script>
 
 
-    {if isset($xheader)}
-        {$xheader}
+    {if isset($cssPath)}
+        {$cssPath}
     {/if}
 
 </head>

@@ -3,7 +3,7 @@
 namespace Packages\Helpers;
 
 
-use App\Models\rolesModel\rolesModel;
+use App\Models\RoleModel\RoleModel;
 
 class PermissionHelper
 {
@@ -45,7 +45,7 @@ class PermissionHelper
      */
     private static function loadPermissions(int $roleId): void
     {
-        $role = rolesModel::query()->find($roleId);
+        $role = RoleModel::query()->find($roleId);
         if (!$role || empty($role->access_json)) {
             self::$permissions = [];
             return;
@@ -60,10 +60,10 @@ class PermissionHelper
             $permissionId = userObject()->permissionId;
         }
 
-        $get = rolesModel::query()->find($permissionId);
+        $get = RoleModel::query()->find($permissionId);
 
         if ($get) {
-            $output = $get->per_name ?? $defaultValue;
+            $output = $get->title ?? $defaultValue;
         }
 
         return $output ?? $defaultValue;

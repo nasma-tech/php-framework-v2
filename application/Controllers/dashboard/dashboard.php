@@ -2,10 +2,9 @@
 
 namespace App\Controllers\dashboard;
 
-use App\Models\UserCorporateEmailModel\UserCorporateEmailModel;
 use App\Controllers\CartableDefinition\CartableDefinition;
-use App\Models\rolesModel\rolesModel;
-use App\Models\usersModel\usersModel;
+use App\Models\RoleModel\RoleModel;
+use App\Models\UserModel\UserModel;
 use SmartyException;
 use Exception;
 
@@ -104,9 +103,8 @@ class dashboard
                 'vendors/css/charts/apexcharts4.min',
             ],
             [
-                'user' => usersModel::query()->find(userObject()->userId),
-                'role' => rolesModel::query()->find(userObject()->userId),
-                'userEmail' => UserCorporateEmailModel::query()->where(['user_id' => userObject()->userId])->first(),
+                'user' => UserModel::query()->find(userObject()->userId),
+                'role' => RoleModel::query()->find(userObject()->userId),
                 'tabData' => $tabData,
                 'labelColorData' => [
                     0 => 'bg-rgba-info',

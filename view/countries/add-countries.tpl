@@ -20,11 +20,11 @@
                             <div class="row">
                                 <div class="col-md-2">
                                     <label>نام کشور</label>
-                                    <input type="text" name="country_name" class="form-control">
+                                    <input type="text" name="persian_title" class="form-control">
                                 </div>
                                 <div class="col-md-2">
                                     <label>نام لاتین کشور</label>
-                                    <input type="text" name="country_english_name" class="form-control">
+                                    <input type="text" name="english_title" class="form-control">
                                 </div>
                                 <div class="col-md-2">
                                     <label>نام استاندارد کشور</label>
@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label>پیش شماره</label>
-                                    <input type="text" name="country_area_code" class="form-control">
+                                    <input type="text" name="persian_title" class="form-control">
                                 </div>
                             </div>
                             <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">

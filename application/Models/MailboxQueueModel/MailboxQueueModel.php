@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MailboxQueueModel extends Model
 {
-    protected $table = 'tbl_MailboxQueue';
+    protected $table = 'mailbox_queue';
     protected $primaryKey = 'id';
     public $timestamps = false;
 

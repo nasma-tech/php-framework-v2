@@ -3,15 +3,15 @@
 namespace App\Controllers\roles;
 
 use App\Controllers\scheme\ControllerScheme;
-use App\Models\MenuListModel\MenuListModel;
-use App\Models\rolesModel\rolesModel;
+use App\Models\MenuModel\MenuModel;
+use App\Models\RoleModel\RoleModel;
 
 
 class roles extends ControllerScheme
 {
     const string singleName = 'دسترسی';
     const string pluralName = 'دسترسی ها';
-    protected string $defaultModel = rolesModel::class;
+    protected string $defaultModel = RoleModel::class;
 
     public function main(): void
     {
@@ -33,7 +33,7 @@ class roles extends ControllerScheme
         ], [
             'vendors/css/tables/datatable/datatables.min'
         ], [
-            'permission' => rolesModel::all(),
+            'permission' => RoleModel::all(),
         ])->display('roles/roles.tpl');
     }
 
@@ -45,9 +45,9 @@ class roles extends ControllerScheme
         view->ui([
             'js/roles/add-roles'
         ], '', [
-            'permissions' => rolesModel::all(),
-            'menuList' => new MenuListModel()
-        ])->display('roles/add-role.tpl');
+            'permissions' => RoleModel::all(),
+            'menuList' => new MenuModel()
+        ])->display('roles/add-roles.tpl');
     }
 
     public function editIndex($id): void
@@ -55,27 +55,29 @@ class roles extends ControllerScheme
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
-        view->setModel(rolesModel::query()->find($id));
+        view->setModel(RoleModel::query()->find($id));
         view->ui([
             'js/roles/edit-roles'
         ], '', [
-            'permissions' => rolesModel::all(),
-            'menuList' => new MenuListModel()
-        ])->display('roles/edit-role.tpl');
+            'permissions' => RoleModel::all(),
+            'menuList' => new MenuModel()
+        ])->display('roles/edit-roles.tpl');
     }
 
     public function add(): void
     {
+        csrf->csrfValidate();
         $array = array_map(function ($item) {
             return $item;
         }, $this->requestArray()['parentMenu']);
-        csrf->csrfValidate();
-        $addStaffPermissions = rolesModel::query()->create();
-        $addStaffPermissions->per_name = $this->requestArray()['per_name'];
-        $addStaffPermissions->per_short_name = $this->requestArray()['per_short_name'];
-        $addStaffPermissions->per_status = $this->requestArray()['per_status'];
-        $addStaffPermissions->access_json = json_encode($array, JSON_UNESCAPED_UNICODE);
-        if ($addStaffPermissions->save()) {
+
+        $add = RoleModel::query()->create([
+            "title" => $this->requestArray()['title'],
+            "status" => $this->requestArray()['status'],
+            "access_json" => json_encode($array, JSON_UNESCAPED_UNICODE),
+            "user_id" => userObject()->userId
+        ]);
+        if ($add->save()) {
             $this->successCallBack('addIndex');
         } else {
             $this->failedCallBack('/main');
@@ -89,13 +91,20 @@ class roles extends ControllerScheme
             return $item;
         }, $this->requestArray()['parentMenu']);
         csrf->csrfValidate();
-        $editStaffPermissions = rolesModel::query()->find($id);
-        $editStaffPermissions->per_name = $this->requestArray()['per_name'];
-        $editStaffPermissions->per_short_name = $this->requestArray()['per_short_name'];
-        $editStaffPermissions->per_status = $this->requestArray()['per_status'];
-        $editStaffPermissions->access_json = json_encode($array, JSON_UNESCAPED_UNICODE);
-        if ($editStaffPermissions->save()) {
-           echo 'save Ok';
+        $edit = RoleModel::query()->find($id);
+        if ($edit) {
+            $edit->update([
+                "title" => $this->requestArray()['title'],
+                "status" => $this->requestArray()['status'],
+                "access_json" => json_encode($array, JSON_UNESCAPED_UNICODE),
+                "updated_at" => date("Y-m-d H:i:s")
+            ]);
+
+            if ($edit->save()) {
+                $this->successCallBack("/roles/editIndex/$id");
+            } else {
+                $this->failedCallBack('/main');
+            }
         }
     }
 

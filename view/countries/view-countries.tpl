@@ -20,8 +20,8 @@
                                     <div class="form-group">
                                         <div class="controls">
                                             <label>نام کشور</label>
-                                            <input type="text" name="country_name"
-                                                   value="{($getData->country_name)?$getData->country_name:''}"
+                                            <input type="text" name="persian_title"
+                                                   value="{($getData->persian_title)?$getData->persian_title:''}"
                                                    class="form-control" autofocus placeholder="نام کشور" required
                                                    data-validation-required-message="وارد کردن نام کشور الزامی است">
                                         </div>
@@ -29,8 +29,8 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label>نام لاتین کشور</label>
-                                    <input type="text" name="country_english_name"
-                                           value="{($getData->country_english_name)?$getData->country_english_name:''}"
+                                    <input type="text" name="english_title"
+                                           value="{($getData->english_title)?$getData->english_title:''}"
                                            class="form-control">
                                 </div>
                                 <div class="col-md-2">
@@ -43,8 +43,8 @@
                                     <div class="form-group">
                                         <div class="controls">
                                             <label>پیش شماره</label>
-                                            <input type="text" name="country_area_code"
-                                                   value="{($getData->country_area_code)?$getData->country_area_code:''}"
+                                            <input type="text" name="persian_title"
+                                                   value="{($getData->persian_title)?$getData->persian_title:''}"
                                                    class="form-control" autofocus placeholder="پیش شماره" required
                                                    data-validation-required-message="وارد کردن پیش شماره الزامی است">
                                         </div>

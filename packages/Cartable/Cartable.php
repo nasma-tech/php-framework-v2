@@ -6,7 +6,7 @@ use App\core\Service\ActionType;
 use App\core\Service\ProcessType;
 use App\core\Service\ServiceSchema;
 use App\Models\CartableDefinitionModel\CartableDefinitionModel;
-use App\Models\usersModel\usersModel;
+use App\Models\UserModel\UserModel;
 use Exception;
 
 class Cartable
@@ -649,7 +649,7 @@ class Cartable
 
             } else {
                 $userId = $getData->user_id;
-                $getUser = usersModel::query()->find($userId);
+                $getUser = UserModel::query()->find($userId);
 
                 $userName = userHelper->getUserFullName($userId);
                 $userImage = userHelper->getUserImage($userId);

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CartableDefinitionModel extends Model
 {
-    protected $table = 'tbl_CartableDefinition';
+    protected $table = 'cartable_definitions';
     protected $primaryKey = 'id';
     public $timestamps = false;
 

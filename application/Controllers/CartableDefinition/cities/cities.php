@@ -3,15 +3,15 @@
 namespace App\Controllers\CartableDefinition\cities;
 
 use App\Controllers\scheme\ControllerScheme;
-use App\Models\citiesModel\citiesModel;
-use App\Models\countriesModel\countriesModel;
-use App\Models\statesModel\statesModel;
+use App\Models\CityModel\CityModel;
+use App\Models\CountryModel\CountryModel;
+use App\Models\StateModel\StateModel;
 
 class cities extends ControllerScheme
 {
     const string singleName = 'شهر';
     const string pluralName = 'شهر ها';
-    protected string $defaultModel = citiesModel::class;
+    protected string $defaultModel = CityModel::class;
 
     public function main(): void
     {
@@ -33,8 +33,8 @@ class cities extends ControllerScheme
         ],
             ['vendors/css/tables/datatable/datatables.min'],
             [
-                'cities' => citiesModel::all(),
-                'state' => new statesModel()
+                'cities' => CityModel::all(),
+                'state' => new StateModel()
             ])->display('cities/cities.tpl');
     }
 
@@ -46,8 +46,8 @@ class cities extends ControllerScheme
         view->ui([
             'js/cities/add-cities'
         ], '', [
-            'country' => countriesModel::all(),
-            'states' => statesModel::all()
+            'country' => CountryModel::all(),
+            'states' => StateModel::all()
         ])->display('cities/add-cities.tpl');
     }
 
@@ -56,23 +56,28 @@ class cities extends ControllerScheme
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
-        view->setModel(citiesModel::query()->find($id));
+        view->setModel(CityModel::query()->find($id));
         view->ui([
             'js/cities/cities'
         ], '', [
-            'country' => countriesModel::all(),
-            'states' => statesModel::all()
+            'country' => CountryModel::all(),
+            'states' => StateModel::all()
         ])->display('cities/edit-cities.tpl');
     }
 
     public function getFilterCities(): void
     {
-        $stateId = $this->requestArray()['value'];
-        $get = citiesModel::query()->where('state_id', $stateId)->get()->toArray();
+        $stateId = $this->requestArray()['value'] ?? '';
+
+        if ($stateId) {
+            $get = CityModel::query()->where('state_id', $stateId)->get()->toArray();
+        } else {
+            $get = CityModel::query()->get()->toArray();
+        }
         echo json_encode(array_map(function ($item) {
             return [
                 'id' => $item['id'],
-                'title' => $item['city_name'],
+                'title' => $item['title'],
             ];
         }, $get), JSON_UNESCAPED_UNICODE);
     }
@@ -81,7 +86,7 @@ class cities extends ControllerScheme
     {
         $id = $this->requestArray()['id'];
         $output = [];
-        $get = citiesModel::query()->find($id);
+        $get = CityModel::query()->find($id);
         $output['latitude'] = $get->latitude;
         $output['longitude'] = $get->longitude;
         echo json_encode($output, JSON_UNESCAPED_UNICODE);

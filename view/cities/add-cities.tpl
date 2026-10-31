@@ -25,7 +25,7 @@
                                             <select class="form-control select2" name="country_id" required>
                                                 <option selected disabled>لطفا یک کشور را انتخاب کنید</option>
                                                 {foreach $country as $item}
-                                                    <option value="{$item->id}" {(($item->id == 102)?'selected':'')}>{$item->country_name}</option>
+                                                    <option value="{$item->id}" {(($item->id == 102)?'selected':'')}>{$item->persian_title}</option>
                                                 {/foreach}
                                             </select>
                                         </div>
@@ -39,7 +39,7 @@
                                             <select class="form-control select2" name="state_id" required>
                                                 <option selected disabled>لطفا یک استان را انتخاب کنید</option>
                                                 {foreach $states as $item}
-                                                    <option value="{$item->id}">{$item->state_name}</option>
+                                                    <option value="{$item->id}">{$item->title}</option>
                                                 {/foreach}
                                             </select>
                                         </div>
@@ -50,7 +50,7 @@
                                     <div class="form-group">
                                         <div class="controls">
                                             <label>نام شهر</label>
-                                            <input type="text" name="city_name" class="form-control" autofocus
+                                            <input type="text" name="title" class="form-control" autofocus
                                                    placeholder="نام شهر" required
                                                    data-validation-required-message="وارد کردن نام شهر الزامی است">
                                         </div>

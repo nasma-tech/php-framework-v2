@@ -2,7 +2,7 @@
 
 namespace Packages\Helpers;
 
-use App\Models\MenuListModel\MenuListModel;
+use App\Models\MenuModel\MenuModel;
 
 class ButtonHelper
 {
@@ -91,7 +91,7 @@ class ButtonHelper
     private function getCurrentMenuId(): int
     {
         $path = explode('/', trim($_SERVER['REQUEST_URI'], '/'))[0] ?? '';
-        $menu = MenuListModel::query()->where('menu_english_name', '=', "$path")->first();
+        $menu = MenuModel::query()->where('menu_english_name', '=', "$path")->first();
         return (int)$menu?->id;
     }
 }
