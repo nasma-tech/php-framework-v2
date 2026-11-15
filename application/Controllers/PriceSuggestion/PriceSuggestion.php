@@ -102,7 +102,6 @@ class PriceSuggestion extends ControllerScheme
     {
         csrf->csrfValidate();
         $data = $this->requestArray();
-
         $this->checkRequired([
             'productList' => 'محصولات انتخاب نشده است',
         ], $data);
@@ -130,17 +129,29 @@ class PriceSuggestion extends ControllerScheme
             $addPriceSuggestion->update([
                 'price_suggestion_number' => $this->makePriceSuggestionNumber($addPriceSuggestion->id)
             ]);
-
-            foreach ($data['productList'] as $item){
-
+            foreach ($data['productList'] as $item) {
+                $discountAmount = 0;
+                if ($item['discount_type'] == 'percentage') {
+                    $discountAmount = numberNormalizer->removePriceSeparator($item['discount_amount']);
+                } else if ($item['discount_type'] == 'cash') {
+                    $discountAmount = numberNormalizer->removePriceSeparator($item['discount_unit_amount']);
+                }
                 $makeProduct = [
-                    'price_suggestion_id'=>$addPriceSuggestion->id,
-                    'product_id'=>$item['product_id'],
-                    'amount'=>numberNormalizer->removePriceSeparator($item['product_amount']),
-                    'unit_price'=>numberNormalizer->removePriceSeparator($item['unit_price']),
+                    'price_suggestion_id' => $addPriceSuggestion->id,
+                    'product_id' => $item['product_id'],
+                    'amount' => numberNormalizer->removePriceSeparator($item['product_amount']),
+                    'unit_price' => numberNormalizer->removePriceSeparator($item['product_unit_price']),
+                    'discount_type' => (($item['discount_type']) ?: 'noDiscount'),
+                    'discount_unit_amount' => numberNormalizer->removePriceSeparator($item['discount_unit_amount']),
+                    'discount_amount' => numberNormalizer->removePriceSeparator($item['discount_amount']),
+                    'total_unit_price' => numberNormalizer->removePriceSeparator($item['product_unit_price']) - $discountAmount,
+                    'total_product_price' => numberNormalizer->removePriceSeparator($item['product_amount']) * (numberNormalizer->removePriceSeparator($item['product_unit_price']) - $discountAmount),
                 ];
                 PriceSuggestionProductModel::query()->create($makeProduct);
             }
+            $this->successCallBack("/ContactProjects/ContactProjectDetail/{$projectId}", 'پیشنهاد قیمت با موفقیت ثبت شد');
+        } else {
+            $this->failedCallBack("/PriceSuggestion/createPriceSuggestion/{$projectId}/{$followUpId}", 'خطا در ثبت پیشنهاد قیمت');
         }
 
     }

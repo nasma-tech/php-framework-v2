@@ -143,7 +143,7 @@ class ControllerScheme
         }
     }
 
-    public function successCallBack($redirectTo, $message = 'رکورد با موفقیت اضافه شد', $second = 1)
+    public function successCallBack($redirectTo, $message = 'رکورد با موفقیت اضافه شد', $second = 1): void
     {
         setcookie('successMessage', $message, time() + $second, '/');
         header("Location: $redirectTo");

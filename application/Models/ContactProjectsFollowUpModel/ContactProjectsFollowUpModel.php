@@ -4,8 +4,10 @@ namespace App\Models\ContactProjectsFollowUpModel;
 
 use App\Models\ContactProjectsFollowUpActionsModel\ContactProjectsFollowUpActionsModel;
 use App\Models\FollowUpActionsTitleModel\FollowUpActionsTitleModel;
+use App\Models\PriceSuggestionModel\PriceSuggestionModel;
 use App\Models\UserModel\UserModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -39,6 +41,11 @@ class ContactProjectsFollowUpModel extends Model
     public function userData():HasOne
     {
         return $this->hasOne(UserModel::class,'id','user_id');
+    }
+
+    public function priceSuggestionData(): HasOne
+    {
+        return $this->hasOne(PriceSuggestionModel::class,'contact_project_followup_id','id');
     }
 
 }

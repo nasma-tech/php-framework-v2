@@ -121,9 +121,22 @@
                                                         </div>
                                                     </div>
                                                 {elseif $item.FollowUp_action_id == 8}
-                                                    <a class="btn btn-sm btn-icon btn-primary" href="/PriceSuggestion/createPriceSuggestion/{$getData.id}/{$item.id}">
-                                                        <i class="bx bx-file"></i>
-                                                    </a>
+                                                    <div class="dropup">
+                                                        <span class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer"
+                                                              data-toggle="dropdown" aria-haspopup="true"
+                                                              aria-expanded="false" role="menu">
+                                                        </span>
+                                                        <div class="dropdown-menu" x-placement="bottom-start"
+                                                             style="position: absolute; transform: translate3d(62px, 5px, 0px); top: 0px; left: 0px; will-change: transform;">
+
+                                                            <a class="dropdown-item text-primary"
+                                                               href="/PriceSuggestion/createPriceSuggestion/{$getData.id}/{$item.id}"
+                                                               data-count="1">
+                                                                <i class="bx bx-file text-primary mr-1"></i>
+                                                                پیشنهاد قیمت
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                 {/if}
                                             </td>
                                         </tr>

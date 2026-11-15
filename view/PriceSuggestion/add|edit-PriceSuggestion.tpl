@@ -92,33 +92,35 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <table class="table table-striped table-hover text-center">
-                                            <thead class="thead-dark">
-                                            <tr>
-                                                <th class="border">ردیف</th>
-                                                <th class="border">محصول</th>
-                                                <th class="border" width="200">مقدار</th>
-                                                <th class="border">واحد</th>
-                                                <th class="border" width="200">قیمت واحد (ریال)</th>
-                                                <th class="border">مجموع</th>
-                                                <th class="border">عملیات</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody id="mainProduct"></tbody>
-                                            <tfoot>
-                                            <tr>
-                                                <th class="border" colspan="7">
-                                                    <div class="d-flex flex-column justify-content-end">
-                                                        <button type="button"
-                                                                class="btn btn-sm btn-primary btn-icon glow"
-                                                                id="addProductButton">
-                                                            <i class="bx bx-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </th>
-                                            </tr>
-                                            </tfoot>
-                                        </table>
+                                        <div class="table-responsive-md table-responsive">
+                                            <table class="table table-striped table-hover text-center">
+                                                <thead class="thead-dark">
+                                                <tr>
+                                                    <th class="border">ردیف</th>
+                                                    <th class="border">محصول</th>
+                                                    <th class="border">مقدار</th>
+                                                    <th class="border">واحد</th>
+                                                    <th class="border">قیمت واحد (ریال)</th>
+                                                    <th class="border">مجموع</th>
+                                                    <th class="border">عملیات</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="mainProduct"></tbody>
+                                                <tfoot>
+                                                <tr>
+                                                    <th class="border" colspan="7">
+                                                        <div class="d-flex flex-column justify-content-end">
+                                                            <button type="button"
+                                                                    class="btn btn-sm btn-primary btn-icon glow"
+                                                                    id="addProductButton">
+                                                                <i class="bx bx-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

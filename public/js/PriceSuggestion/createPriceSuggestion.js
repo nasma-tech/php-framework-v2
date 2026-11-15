@@ -90,16 +90,22 @@ $(function () {
                         </div>
                     </div>
                     <input class="form-control discountType" type="hidden" readonly placeholder="نوع تحفیف" name="productList[${rowCounter}][discount_type]">
-                    <div class="input-group">
+                    <div class="input-group" style="margin-top: 3px">
                         <div class="input-group-append">
-                            <span class="input-group-text font-small-2">مقدار تخفیف</span>
+                            <span class="input-group-text font-small-2">واحد تخفیف</span>
                         </div>
-                        <input class="form-control discountAmount text-center" readonly placeholder="مقدار تخفیف" name="productList[${rowCounter}][discount_amount]">
+                        <input class="form-control discountUnitAmount text-center" readonly placeholder="واحد تخفیف" name="productList[${rowCounter}][discount_unit_amount]">
+                    </div>
+                    <div class="input-group" style="margin-top: 3px">
+                        <div class="input-group-append">
+                            <span class="input-group-text font-small-2">مجموع تخفیف</span>
+                        </div>
+                        <input class="form-control discountAmount text-center" readonly placeholder="مجموع تخفیف" name="productList[${rowCounter}][discount_amount]">
                         <div class="input-group-append">
                             <span class="input-group-text font-small-2">ریال</span>
                         </div>
                     </div>
-                    <div class="input-group">
+                    <div class="input-group" style="margin-top: 3px">
                         <div class="input-group-append">
                             <span class="input-group-text font-small-2">
                                 قیمت واحد پس از تخفیف
@@ -129,6 +135,10 @@ $(function () {
                             <a class="dropdown-item text-secondary discountButton" data-type="cash" style="cursor: pointer;">
                                 <i class="bx bx-money text-secondary mr-1"></i>
                                 تخفیف ریالی
+                            </a>
+                            <a class="dropdown-item text-danger removeDiscountButton" style="cursor: pointer;display: none">
+                                <i class="bx bx-x text-danger mr-1"></i>
+                                حذف تخفیف
                             </a>
                         </div>
                     </div>
@@ -179,7 +189,6 @@ $(function () {
         let discountType = $(this).data('type');
         let textDiscountType = $(this).text().trim();
         let unitPrice = parseFloat($row.find('td').eq(4).find('input').val().replaceAll(',', ''))
-        let unitPriceAfterDiscount = parseFloat($row.find('td').eq(5).find('.unitPriceAfterDiscount').val().replaceAll(',', ''))
         let productAmount = parseFloat($row.find('td').eq(2).find('input').val());
         if (!unitPrice) {
             swal.fire({
@@ -212,13 +221,18 @@ $(function () {
                         if (discountType == 'cash') {
                             $("#discountAmount").priceInput()
                             $row.find('td').eq(5).find('.discountType').val(discountType)
-                            $row.find('td').eq(5).find('.discountAmount').val(discountAmount.toLocaleString())
+                            $row.find('td').eq(5).find('.discountAmount').val((productAmount * discountAmount).toLocaleString())
                             $row.find('td').eq(5).find('.unitPriceAfterDiscount').val((unitPrice - discountAmount).toLocaleString())
                         }
-                        $row.find('td').eq(5).find('.productSumRow').val((unitPriceAfterDiscount * productAmount).toLocaleString())
-                    }else {
+                        $(this).closest('.dropdown-menu').find('.discountButton').hide()
+                        $(this).closest('.dropdown-menu').find('.removeDiscountButton').show()
+                        $row.find('td').eq(5).find('.discountUnitAmount').val(discountAmount.toLocaleString())
+                    } else {
                         swalValidate('لطفا مقدار تخفیف را وارد کنید')
                     }
+                    let unitPriceAfterDiscount = parseFloat($row.find('td').eq(5).find('.unitPriceAfterDiscount').val().replaceAll(',', ''))
+                    $row.find('td').eq(5).find('.productSumRow').val((unitPriceAfterDiscount * productAmount).toLocaleString())
+                    $("#sumAllProductRow").text(sumAllRow().toLocaleString())
                 }
             })
             if (discountType == 'percentage') {
@@ -228,6 +242,19 @@ $(function () {
                 $("#discountAmount").priceInput()
             }
         }
+    })
+
+    $("#mainProduct").on('click', '.removeDiscountButton', function () {
+        let $row = $(this).closest('tr');
+        let productAmount = parseFloat($row.find('td').eq(2).find('input').val());
+        let unitPrice = parseFloat($row.find('td').eq(4).find('input').val().replaceAll(',', ''))
+        $row.find('td').eq(5).find('.discountType').val('')
+        $row.find('td').eq(5).find('.discountAmount').val('')
+        $row.find('td').eq(5).find('.unitPriceAfterDiscount').val(unitPrice.toLocaleString())
+        $row.find('td').eq(5).find('.productSumRow').val((unitPrice * productAmount).toLocaleString())
+        $("#sumAllProductRow").text(sumAllRow().toLocaleString())
+        $(this).closest('.dropdown-menu').find('.discountButton').show()
+        $(this).closest('.dropdown-menu').find('.removeDiscountButton').hide()
     })
 
     $("#brand_id").change(function () {
