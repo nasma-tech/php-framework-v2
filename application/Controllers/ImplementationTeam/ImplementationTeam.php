@@ -14,8 +14,8 @@ use App\Models\WorkGroupsModel\WorkGroupsModel;
 
 class ImplementationTeam extends ControllerScheme
 {
-    const string singleName = 'تیم نصب';
-    const string pluralName = 'تیم های نصب';
+    const string singleName = 'تیم ';
+    const string pluralName = 'تیم  ';
 
     protected string $defaultModel = ImplementationTeamModel::class;
 
@@ -67,7 +67,6 @@ class ImplementationTeam extends ControllerScheme
             'vendors/css/charts/valadart/style'
         ],
             [
-                'implementation' => ImplementationTeamModel::query()->pluck('project_type_id')->toArray(),
                 'projectsType' => ProjectsTypeModel::all()
             ]
         )->display('ImplementationTeam/add-ImplementationTeam.tpl');
@@ -107,37 +106,26 @@ class ImplementationTeam extends ControllerScheme
         $data = $this->requestArray();
 
         $needle = [
-            'project_type_id',
             'team_title',
             'jsonOutput',
         ];
 
         if (validator->validateRequestsData($needle)) {
-            $checkExist = ImplementationTeamModel::query()
-                ->where([
-                    'project_type_id' => $data['project_type_id']
-                ])->exists();
 
 
-            if (!$checkExist) {
-                $add = ImplementationTeamModel::query()
-                    ->create([
-                        'project_type_id' => $data['project_type_id'],
-                        'team_title' => $data['team_title'],
-                        'team_data_json' => json_encode(json_decode($data['jsonOutput'], true)['nodeDataArray'], JSON_UNESCAPED_UNICODE),
-                        'nodes_data_json' => $data['jsonOutput'],
-                        'user_id' => userObject()->userId
-                    ]);
+            $add = ImplementationTeamModel::query()
+                ->create([
+                    'team_title' => $data['team_title'],
+                    'team_data_json' => json_encode(json_decode($data['jsonOutput'], true)['nodeDataArray'], JSON_UNESCAPED_UNICODE),
+                    'nodes_data_json' => $data['jsonOutput'],
+                    'user_id' => userObject()->userId
+                ]);
 
-                if ($add) {
-                    $this->successCallBack('/ImplementationTeam/main', 'تیم با موفقیت اضافه شد');
-                }
-            } else {
-                $this->failedCallBack('/ImplementationTeam/new', "تیم برای نوع پروژه انتخابی ثبت شده است");
+            if ($add) {
+                $this->successCallBack('/ImplementationTeam/main', 'تیم با موفقیت اضافه شد');
             }
         } else {
-            var_print("flyy me to the moon");
-            die();
+            $this->failedCallBack('/ImplementationTeam/new', "تیم برای نوع پروژه انتخابی ثبت شده است");
 
             header('location:/notAccess');
         }
@@ -150,7 +138,6 @@ class ImplementationTeam extends ControllerScheme
 
         if ($getData) {
             $needle = [
-                'project_type_id',
                 'team_title',
                 'jsonOutput',
             ];
@@ -235,7 +222,6 @@ class ImplementationTeam extends ControllerScheme
 
                 if ($returnAdditionalData) {
                     $result[$team->id]['workGroupIds'][] = (int)$item['workGroupId'];
-                    $result[$team->id]['projectTypeId'] = $team->project_type_id;
                 } else {
                     $result[$team->id][] = (int)$item['workGroupId'];
                 }

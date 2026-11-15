@@ -7,12 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class ImplementationTeamModel extends Model
 {
-    protected $table = 'tbl_ImplementationTeam';
+    protected $table = 'teams';
     protected $primaryKey = 'id';
     public $timestamps = false;
 
     protected $fillable = [
-        'project_type_id',
         'team_title',
         'team_data_json',
         'nodes_data_json',

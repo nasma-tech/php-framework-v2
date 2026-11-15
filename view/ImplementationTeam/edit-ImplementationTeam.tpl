@@ -29,13 +29,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-3">
-                                <label>نوع پروژه</label>
-                                <select class="form-control select2" id="project_type_id"
-                                        name="project_type_id">
-                                    <option>{$getData->projectTypes->title}</option>
-                                </select>
-                            </div>
+
                             <div class="col-md-3">
                                 <label>عنوان تیم</label>
                                 <input class="form-control" id="team_title" name="team_title"

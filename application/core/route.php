@@ -94,7 +94,13 @@ $router->mount('/MenuList', function () use ($router) {
     ]);
 });
 $router->mount('/countries', function () use ($router) {
-    dynamicRoute($router, countries::class);
+    dynamicRoute($router, countries::class,[
+        [
+        'method' => 'GET',
+        'path' => '/getCountryData(/\d+)',
+        'action' => 'getCountryData'
+    ],
+    ]);
 });
 $router->mount('/states', function () use ($router) {
     dynamicRoute($router, states::class, [
@@ -366,5 +372,16 @@ $router->mount('/WorkGroups', function () use ($router) {
         ]
     ]);
 });$router->mount('/Warehouses', function () use ($router) {
-    dynamicRoute($router, App\Controllers\Warehouses\Warehouses::class);
+    dynamicRoute($router, App\Controllers\Warehouses\Warehouses::class,[
+        [
+            'method' => 'POST',
+            'path' => "/getWarehouseKeepers",
+            'action' => 'getWarehouseKeepers'
+        ],
+        [
+            'method' => 'POST',
+            'path' => "/addTeam",
+            'action' => 'addTeam'
+        ],
+    ]);
 });

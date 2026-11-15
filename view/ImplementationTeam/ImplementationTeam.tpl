@@ -23,7 +23,6 @@
                                 <tr>
                                     <th class="border">#</th>
                                     <th class="border">عنوان</th>
-                                    <th class="border">نوع پروژه</th>
                                     <th class="border">عملیات</th>
                                 </tr>
                                 </thead>
@@ -34,9 +33,7 @@
                                         <td class="border">
                                             {$item->team_title}
                                         </td>
-                                        <td class="border">
-                                            {$item->projectTypes->title}
-                                        </td>
+
                                         <td class="border text-center">{$buttonHelper->actionButtons($item->id)}</td>
                                     </tr>
                                 {/foreach}

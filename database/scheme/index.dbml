@@ -1,191 +1,216 @@
 Table brands {
-  id int [pk]
-  label varchar(191)
-  logo_address varchar(191)
-  user_id int [ref: - users.id]
-  created_at datetime
-  update_at datetime
-  deleted_at datetime
+    id int [pk]
+    label varchar(191)
+    logo_address varchar(191)
+    user_id int [ref : - users.id]
+    created_at datetime
+    update_at datetime
+    deleted_at datetime
 }
 
 Table roles {
-  id int [pk, increment]
-  title varchar
-  access_json json
-  status tinyint(1)
-  user_id int [ref: - users.id]
-  created_at datetime
-  updated_at datetime
-  deleted_at datetime
+    id int [pk, increment]
+    title varchar
+    access_json json
+    status tinyint(1)
+    user_id int [ref : - users.id]
+    created_at datetime
+    updated_at datetime
+    deleted_at datetime
 }
 Table users {
-  id int [pk, increment]
-  gender varchar(191)
-  first_name varchar(191)
-  last_name varchar(191)
-  full_name varchar(191)
-  username varchar(191)
-  password_hash varchar(191)
-  avatar varchar(191)
-  role_id int [ref: - roles.id]
-  user_id int [ref: - users.id]
-  created_at datetime
-  updated_at datetime
-  deleted_at datetime
+    id int [pk, increment]
+    gender varchar(191)
+    first_name varchar(191)
+    last_name varchar(191)
+    full_name varchar(191)
+    username varchar(191)
+    password_hash varchar(191)
+    avatar varchar(191)
+    role_id int [ref : - roles.id]
+    user_id int [ref : - users.id]
+    created_at datetime
+    updated_at datetime
+    deleted_at datetime
 }
 
 Table warehouseUsageType {
-  id int [pk, increment]
-  label varchar(191)
-  user_id int [ref: - users.id]
-  created_at datetime
-  updated_at datetime
-  deleted_at datetime
+    id int [pk, increment]
+    label varchar(191)
+    user_id int [ref : - users.id]
+    created_at datetime
+    updated_at datetime
+    deleted_at datetime
 }
 
 Table warehouseDefinition {
-  id int [pk, increment]
-  label varchar(191)
-  brand_id int [ref: - brands.id]
-  type_id int [ref: - warehouseType.id]
-  warehouseUsageType_id int [ref: - warehouseUsageType.id]
+    id int [pk, increment]
+    label varchar(191)
+    brand_id int [ref : - brands.id]
+    type_id int [ref : - warehouseType.id]
+    warehouseUsageType_id int [ref : - warehouseUsageType.id]
 }
 
 Table warehouseType {
-  id int [pk, increment]
-  label varchar(191)
-  user_id int [ref: - users.id]
-  created_at datetime
-  updated_at datetime
-  deleted_at datetime
+    id int [pk, increment]
+    label varchar(191)
+    user_id int [ref : - users.id]
+    created_at datetime
+    updated_at datetime
+    deleted_at datetime
 }
 
 Table warehouseAddressAnnouncement {
-  id int [pk, increment]
-  warehouse_id int [ref: - warehouseDefinition.id]
-  city_id int [ref: - city.id]
-  location varchar(191)
-  postalCode varchar(191)
-  phoneNumber varchar(191)
-  user_id int [ref: - users.id]
-  created_at datetime
-  updated_at datetime
-  deleted_at datetime
+    id int [pk, increment]
+    warehouse_id int [ref : - warehouseDefinition.id]
+    city_id int [ref : - city.id]
+    location varchar(191)
+    postalCode varchar(191)
+    phoneNumber varchar(191)
+    user_id int [ref : - users.id]
+    created_at datetime
+    updated_at datetime
+    deleted_at datetime
 }
 Table warehousesKeeperTeam {
-  id int [pk,increment]
-  label varchar(191)
-  warehouse_id int [ref: - warehouseDefinition.id]
-  description varchar(191)
-  user_id int [ref: - users.id]
-  created_at datetime
-  updated_at datetime
-  deleted_at datetime
+    id int [pk, increment]
+    label varchar(191)
+    warehouse_id int [ref : - warehouseDefinition.id]
+    description varchar(191)
+    user_id int [ref : - users.id]
+    created_at datetime
+    updated_at datetime
+    deleted_at datetime
 }
 
 Table warehouseTeamDetail {
-  warehouceKeeper_id int [ref: - users.id]
-  warehouce_team_id int [ref: - warehousesKeeperTeam.id]
-  parent_id int [ref: - warehouseTeamDetail.warehouceKeeper_id]
-  user_id int [ref: - users.id]
-  created_at datetime
-  updated_at datetime
-  deleted_at datetime
+    warehouceKeeper_id int [ref : - users.id]
+    warehouce_team_id int [ref : - warehousesKeeperTeam.id]
+    parent_id int [ref : - warehouseTeamDetail.warehouceKeeper_id]
+    user_id int [ref : - users.id]
+    created_at datetime
+    updated_at datetime
+    deleted_at datetime
 }
 
 Table country {
-  id int [pk, increment]
-  label varchar(191)
-  user_id int [ref: - users.id]
-  created_at datetime
-  updated_at datetime
-  deleted_at datetime
+    id int [pk, increment]
+    label varchar(191)
+    user_id int [ref : - users.id]
+    created_at datetime
+    updated_at datetime
+    deleted_at datetime
 }
 
 Table state {
-  id int [pk, increment]
-  country_id int [ref: - country.id]
-  label varchar(191)
-  user_id int [ref: - users.id]
-  created_at datetime
-  updated_at datetime
-  deleted_at datetime
+    id int [pk, increment]
+    country_id int [ref : - country.id]
+    label varchar(191)
+    user_id int [ref : - users.id]
+    created_at datetime
+    updated_at datetime
+    deleted_at datetime
 }
 
 Table city {
-  id int [pk, increment]
-  state_id int [ref: - state.id]
-  label varchar(191)
-  user_id int [ref: - users.id]
-  created_at datetime
-  updated_at datetime
-  deleted_at datetime
+    id int [pk, increment]
+    state_id int [ref : - state.id]
+    label varchar(191)
+    user_id int [ref : - users.id]
+    created_at datetime
+    updated_at datetime
+    deleted_at datetime
 }
 Table warehouseOwnerShip {
-  id int [pk,increment]
-  warehouce_id int [ref: - warehouseDefinition.id]
-  person_type_id int [ref:-person_type.id]
-  full_name varchar(255)
-  registration_date varchar(191)
-  Email varchar(191)
-  registration_number varchar(191)
-  national_code varchar(191)
-  economic_code varchar(191)
-  postal_code varchar(191)
-  customer_company_address varchar(191)
-  signatureOwners json [note:"صاحبین امضا"]
-  user_id int [ref: - users.id]
-  created_at datetime
-  updated_at datetime
-  deleted_at datetime
+    id int [pk, increment]
+    warehouce_id int [ref : - warehouseDefinition.id]
+
+    user_id int [ref : - users.id]
+    created_at datetime
+    updated_at datetime
+    deleted_at datetime
 }
-Table person_type{
-  id int [pk,increment]
-  label varchar(191)
-  user_id int [ref: - users.id]
-  created_at datetime
-  updated_at datetime
-  deleted_at datetime
+Table LegalwarehouseOwnerShip {
+    id int [pk, increment]
+    warehouseOwnerShip_id int [ref : - warehouseOwnerShip]
+    person_type_id int [ref : -person_type.id]
+    full_name varchar(255)
+    registration_date varchar(191)
+    registration_number varchar(191)
+    national_code varchar(191)
+    economic_code varchar(191)
+    postal_code varchar(191)
+    customer_company_address varchar(191)
+    signatureOwners json [note : "صاحبین امضا"]
+    user_id int [ref : - users.id]
+    created_at datetime
+    updated_at datetime
+    deleted_at datetime
 }
-Table warehousePhoneNumber {  
-  id int [pk,increment]
-  phone_type_id int [ref: - ContactPhoneLabel.id]
-  warehouseContact_id int [ref: - warehouseOwnerShip.id]
-  phoneNumber varchar(191)
-  user_id int [ref: - users.id]
-  created_at datetime
-  updated_at datetime
-  deleted_at datetime
+Table LegalWarehouseOwnerAllocation{
+
+}
+Table naturalPersonwarehouseOwnerShip {
+    id int [pk, increment]
+    warehouseOwnerShip_id int [ref : - warehouseOwnerShip]
+    person_type_id int [ref : -person_type.id]
+    full_name varchar(255)
+    national_code varchar(191)
+    father_name varchar(191)
+    birth_date timestamp
+    user_id int [ref : - users.id]
+    created_at datetime
+    updated_at datetime
+    deleted_at datetime
+}
+
+Table person_type {
+    id int [pk, increment]
+    label varchar(191)
+    user_id int [ref : - users.id]
+    created_at datetime
+    updated_at datetime
+    deleted_at datetime
+}
+Table warehousePhoneNumber {
+    id int [pk, increment]
+    phone_type_id int [ref : - ContactPhoneLabel.id]
+    warehouseContact_id int [ref : - warehouseOwnerShip.id]
+    phoneNumber varchar(191)
+    user_id int [ref : - users.id]
+    created_at datetime
+    updated_at datetime
+    deleted_at datetime
 }
 Table ContactPhoneLabel {
-  id  int [pk,increment]
-  type varchar(191)
-  user_id int [ref:-users.id]
-  created_at datetime
-  updated_at datetime 
-  deleted_at datetime 
+    id  int [pk, increment]
+    type varchar(191)
+    user_id int [ref : -users.id]
+    created_at datetime
+    updated_at datetime
+    deleted_at datetime
 }
 Table warehouseContactSocialNetworks {
-  warehouseContact_phone_id int [ref: - warehousePhoneNumber.id]
-  social_network_id int [ref: - SocialNetworksList.id]
-  user_id int [ref:-users.id]
-  updated_at datetime
-  deleted_at datetime
+    warehouseContact_phone_id int [ref : - warehousePhoneNumber.id]
+    social_network_id int [ref : - SocialNetworksList.id]
+    user_id int [ref : -users.id]
+    updated_at datetime
+    deleted_at datetime
 }
 Table SocialNetworksList {
-  id int [pk,increment]
-  label varchar(191)
-icon varchar(255)
-user_id int [ref:-users.id]
-updated_at datetime
-deleted_at datetime
+    id int [pk, increment]
+    label varchar(191)
+    icon varchar(255)
+    user_id int [ref : -users.id]
+    updated_at datetime
+    deleted_at datetime
 }
 Table warehouseOwnerAllocation {
-  warehouseOwnerShip_id int [ref: - warehouseOwnerShip.id]
-  warehouseDefinition_id int [ref: - warehouseDefinition.id]
-  allocarionDocument varchar(255)
-  date datetime 
-  user_id int [ref:-users.id]
-updated_at datetime
-deleted_at datetime
+    warehouseOwnerShip_id int [ref : - warehouseOwnerShip.id]
+    warehouseDefinition_id int [ref : - warehouseDefinition.id]
+    allocarionDocument varchar(255)
+    date datetime
+    user_id int [ref : -users.id]
+    updated_at datetime
+    deleted_at datetime
 }

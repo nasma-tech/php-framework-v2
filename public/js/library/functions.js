@@ -9,7 +9,30 @@ const readImage = (input, showImageId) => {
     }
 };
 
+//validate input file type
+const validateDocument = (file_id, validateFile = ["jpeg", "jpg", "png", "pdf"]) => {
+    const $file = $(`#${file_id}`);
+    const file = $file[0].files[0];
 
+    if (!file) return true;
+
+    const extension = file.name.split('.').pop().toLowerCase();
+
+    if (!validateFile.includes(extension)) {
+        $file.val("");
+
+        Swal.fire({
+            icon: 'warning',
+            title: "فرمت فایل انتخاب‌شده مجاز نیست",
+            text: `فرمت‌های مجاز: ${validateFile.join(", ")}`,
+            confirmButtonText: 'بستن'
+        });
+
+        return false;
+    }
+
+    return true;
+};
 // tinymce editor create
 const tinyEditor = (textAreaInput) => {
     tinymce.init({

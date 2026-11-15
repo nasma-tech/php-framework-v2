@@ -8,26 +8,40 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-    const diagram = initOrgChart("orgChartDiv", initialNodeDataArray);
-    window.__orgChartDiagram = diagram; // handy for console access / debugging
+    const chartElement = document.getElementById("orgChartDiv");
 
-    document.getElementById("btnAddRoot").addEventListener("click", () => {
+    if (!chartElement) return;
+
+    const diagram = initOrgChart("orgChartDiv", initialNodeDataArray);
+
+    window.__orgChartDiagram = diagram;
+
+    const btnAddRoot = document.getElementById("btnAddRoot");
+    const btnExport = document.getElementById("btnExport");
+    const btnImport = document.getElementById("btnImport");
+    const btnUndo = document.getElementById("btnUndo");
+    const btnRedo = document.getElementById("btnRedo");
+
+    btnAddRoot?.addEventListener("click", () => {
         const model = diagram.model;
         diagram.startTransaction("addRoot");
+
         model.addNodeData({
             key: OrgChartModel.getNextKey(model),
             userId: null,
             workGroupId: null
         });
+
         diagram.commitTransaction("addRoot");
     });
 
-    document.getElementById("btnExport").addEventListener("click", () => {
+    btnExport?.addEventListener("click", () => {
         document.getElementById("jsonOutput").value = OrgChartModel.toJSON(diagram);
     });
 
-    document.getElementById("btnImport").addEventListener("click", () => {
+    btnImport?.addEventListener("click", () => {
         const json = document.getElementById("jsonOutput").value;
+
         try {
             diagram.model = OrgChartModel.fromJSON(json);
         } catch (err) {
@@ -35,6 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    document.getElementById("btnUndo").addEventListener("click", () => diagram.commandHandler.undo());
-    document.getElementById("btnRedo").addEventListener("click", () => diagram.commandHandler.redo());
+    btnUndo?.addEventListener("click", () => diagram.commandHandler.undo());
+    btnRedo?.addEventListener("click", () => diagram.commandHandler.redo());
 });
