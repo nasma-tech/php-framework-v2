@@ -74,7 +74,12 @@ class ContactProjects extends ControllerScheme
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
-        view->setModel(ContactProjectsModel::query()->find($id));
+        view->setModel(ContactProjectsModel::query()
+            ->with([
+                'followUpData',
+                'followUpData.priceSuggestionData',
+            ])
+            ->find($id));
         view->ui([
             'js/CustomerContactInformation/ContactProject',
             'js/CustomerContactInformation/ContactFollowUp',

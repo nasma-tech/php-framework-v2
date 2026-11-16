@@ -168,7 +168,7 @@ CREATE TABLE `ContactPhones` (
 
 LOCK TABLES `ContactPhones` WRITE;
 /*!40000 ALTER TABLE `ContactPhones` DISABLE KEYS */;
-INSERT INTO `ContactPhones` VALUES (1,4,2,'02165245854',1,'2026-11-11 12:39:02','2026-11-11 12:39:02',NULL);
+INSERT INTO `ContactPhones` VALUES (1,1,1,'09338662933',1,'2026-11-12 06:24:55','2026-11-12 06:24:55',NULL);
 /*!40000 ALTER TABLE `ContactPhones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,7 +241,7 @@ CREATE TABLE `ContactProjects` (
 
 LOCK TABLES `ContactProjects` WRITE;
 /*!40000 ALTER TABLE `ContactProjects` DISABLE KEYS */;
-INSERT INTO `ContactProjects` VALUES (1,4,'140541',1,1,1,NULL,1,'2026-11-11 12:39:02','2026-11-11 12:39:02',NULL);
+INSERT INTO `ContactProjects` VALUES (1,1,'140511',1,1,1,NULL,1,'2026-11-12 06:24:55','2026-11-12 06:24:55',NULL);
 /*!40000 ALTER TABLE `ContactProjects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -298,7 +298,7 @@ CREATE TABLE `ContactProjectsFollowUp` (
   CONSTRAINT `ContactProjectsFollowUp_ContactProjects_id_fk` FOREIGN KEY (`contact_project_id`) REFERENCES `ContactProjects` (`id`),
   CONSTRAINT `ContactProjectsFollowUp_FollowUpActionsTitle_id_fk` FOREIGN KEY (`FollowUp_action_id`) REFERENCES `FollowUpActionsTitle` (`id`),
   CONSTRAINT `ContactProjectsFollowUp_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='پیگیری های پروژه';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='پیگیری های پروژه';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -307,7 +307,7 @@ CREATE TABLE `ContactProjectsFollowUp` (
 
 LOCK TABLES `ContactProjectsFollowUp` WRITE;
 /*!40000 ALTER TABLE `ContactProjectsFollowUp` DISABLE KEYS */;
-INSERT INTO `ContactProjectsFollowUp` VALUES (1,1,8,'1794429000','یصشیصش',1,'2026-11-11 12:39:02',NULL);
+INSERT INTO `ContactProjectsFollowUp` VALUES (1,1,8,'1794947400','test',1,'2026-11-12 06:24:55',NULL),(2,1,8,'1794947400','dwadwad',1,'2026-11-12 08:56:54',NULL),(3,1,8,'1794774600','dwadwa',1,'2026-11-12 08:57:19',NULL);
 /*!40000 ALTER TABLE `ContactProjectsFollowUp` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -400,6 +400,7 @@ CREATE TABLE `ContactSocialNetworks` (
 
 LOCK TABLES `ContactSocialNetworks` WRITE;
 /*!40000 ALTER TABLE `ContactSocialNetworks` DISABLE KEYS */;
+INSERT INTO `ContactSocialNetworks` VALUES (1,2),(1,3),(1,5),(1,6);
 /*!40000 ALTER TABLE `ContactSocialNetworks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -436,7 +437,7 @@ CREATE TABLE `Contacts` (
   CONSTRAINT `Contacts_ContactsGroup_id_fk` FOREIGN KEY (`contact_group_id`) REFERENCES `ContactsGroup` (`id`),
   CONSTRAINT `Contacts_states_id_fk` FOREIGN KEY (`state_id`) REFERENCES `states` (`id`),
   CONSTRAINT `Contacts_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='جدول مخاطبین';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='جدول مخاطبین';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -445,7 +446,7 @@ CREATE TABLE `Contacts` (
 
 LOCK TABLES `Contacts` WRITE;
 /*!40000 ALTER TABLE `Contacts` DISABLE KEYS */;
-INSERT INTO `Contacts` VALUES (1,'991209','سامان','مختاری',1,'0311005438',5,1672,3,3,1,'2026-11-11 12:37:38','2026-11-11 12:37:38',NULL),(2,'847614','سامان','مختاری',1,'0311005438',5,1672,3,3,1,'2026-11-11 12:38:05','2026-11-11 12:38:05',NULL),(3,'342050','سامان','مختاری',1,'0311005438',5,1672,3,3,1,'2026-11-11 12:38:29','2026-11-11 12:38:29',NULL),(4,'916683','سامان','مختاری',1,'0311005438',5,1672,3,3,1,'2026-11-11 12:39:01','2026-11-11 12:39:01',NULL);
+INSERT INTO `Contacts` VALUES (1,'645024','سامان','مختاری',1,'0311005438',5,1672,1,8,1,'2026-11-12 06:24:55','2026-11-12 06:24:55',NULL);
 /*!40000 ALTER TABLE `Contacts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -536,6 +537,81 @@ LOCK TABLES `IndustryType` WRITE;
 /*!40000 ALTER TABLE `IndustryType` DISABLE KEYS */;
 INSERT INTO `IndustryType` VALUES (1,'غذایی',1,'2026-11-11 12:25:48','2026-11-11 12:25:48',NULL),(2,'داروئی',1,'2026-11-11 12:25:48','2026-11-11 12:25:48',NULL);
 /*!40000 ALTER TABLE `IndustryType` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PriceSuggestion`
+--
+
+DROP TABLE IF EXISTS `PriceSuggestion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PriceSuggestion` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `price_suggestion_number` varchar(191) DEFAULT NULL,
+  `contact_id` int DEFAULT NULL COMMENT 'ref to contact table',
+  `contact_project_id` int DEFAULT NULL COMMENT 'ref to contact project table',
+  `contact_project_followup_id` int DEFAULT NULL COMMENT 'ref to Contact Projects FollowUp table',
+  `brand_id` int DEFAULT NULL COMMENT 'ref to brand table',
+  `sale_team_id` int DEFAULT NULL COMMENT 'ref to sale team table',
+  `country_id` int DEFAULT NULL COMMENT 'ref to country table',
+  `state_id` int DEFAULT NULL COMMENT 'ref to states table',
+  `city_id` int DEFAULT NULL COMMENT 'ref to city table',
+  `marketer_id` int DEFAULT NULL COMMENT 'ref to marketers table',
+  `description` text,
+  `day_validity` tinyint DEFAULT NULL COMMENT 'روز اعتبار',
+  `day_validity_timestamp` varchar(255) DEFAULT NULL COMMENT 'محاسبه تاریخ اعتبار',
+  `user_id` int DEFAULT NULL COMMENT 'ref to users table',
+  `created_at` datetime DEFAULT (now()),
+  `updated_at` datetime DEFAULT (now()),
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PriceSuggestion`
+--
+
+LOCK TABLES `PriceSuggestion` WRITE;
+/*!40000 ALTER TABLE `PriceSuggestion` DISABLE KEYS */;
+INSERT INTO `PriceSuggestion` VALUES (1,'PS-140508231-1',1,1,3,NULL,NULL,102,4,125,NULL,'',1,'1794743344',NULL,'2026-11-14 11:49:04','2026-11-14 11:49:04',NULL),(2,'PS-140508232-2',1,1,3,NULL,NULL,102,4,125,NULL,'',1,'1794743351',NULL,'2026-11-14 11:49:11','2026-11-14 11:49:11',NULL),(3,'PS-140508233-3',1,1,3,NULL,NULL,102,4,125,NULL,'',1,'1794743533',1,'2026-11-14 11:52:13','2026-11-14 11:52:13',NULL),(4,'PS-140508234-4',1,1,3,4,NULL,102,4,123,NULL,'dwadwa',1,'1794745518',1,'2026-11-14 12:25:18','2026-11-14 12:25:18',NULL);
+/*!40000 ALTER TABLE `PriceSuggestion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PriceSuggestionProduct`
+--
+
+DROP TABLE IF EXISTS `PriceSuggestionProduct`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PriceSuggestionProduct` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `price_suggestion_id` int DEFAULT NULL COMMENT 'ref to PriceSuggestion table',
+  `product_id` int DEFAULT NULL COMMENT 'ref to products table',
+  `amount` varchar(191) DEFAULT NULL,
+  `unit_price` varchar(255) DEFAULT NULL,
+  `discount_type` enum('noDiscount','percentageDiscount','cashDiscount') NOT NULL DEFAULT 'noDiscount',
+  `discount_amount` varchar(20) NOT NULL DEFAULT '0',
+  `unit_price_without_discount` varchar(255) DEFAULT NULL COMMENT 'قیمت واحد بدون تحففیف',
+  `unit_price_with_discount` varchar(255) DEFAULT NULL COMMENT 'قیمت واحد با تحففیف',
+  `total_unit_price` varchar(255) DEFAULT NULL COMMENT 'قیمت واحد نهایی | با تخفیف یا بدون تخفیف',
+  `total_product_price` varchar(255) DEFAULT NULL COMMENT 'مقدار * قیمت واحد نهایی',
+  `created_at` datetime DEFAULT (now()),
+  `updated_at` datetime DEFAULT (now()),
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PriceSuggestionProduct`
+--
+
+LOCK TABLES `PriceSuggestionProduct` WRITE;
+/*!40000 ALTER TABLE `PriceSuggestionProduct` DISABLE KEYS */;
+/*!40000 ALTER TABLE `PriceSuggestionProduct` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1837,7 +1913,7 @@ CREATE TABLE `users` (
   KEY `fk_users_roles_id` (`role_id`),
   CONSTRAINT `fk_users_roles_id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`),
   CONSTRAINT `fk_users_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci COMMENT='Compute full_name from first_name and last_name. Store a password hash, never plaintext.';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci COMMENT='Compute full_name from first_name and last_name. Store a password hash, never plaintext.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1846,7 +1922,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Mr','سوپر','ادمین','سوپر ادمین','admin','10470c3b4b1fed12c3baac014be15fac67c6e815',NULL,0,NULL,'2026-10-08 12:40:24','2026-10-08 12:40:24',NULL);
+INSERT INTO `users` VALUES (1,'Mr','سوپر','ادمین','سوپر ادمین','admin','10470c3b4b1fed12c3baac014be15fac67c6e815',NULL,0,NULL,'2026-10-08 12:40:24','2026-10-08 12:40:24',NULL),(3,'Mr','سامان','مختاری','سوپر ادمین','saman','10470c3b4b1fed12c3baac014be15fac67c6e815',NULL,0,NULL,'2026-10-08 12:40:24','2026-10-08 12:40:24',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1887,4 +1963,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-11-12  6:06:56
+-- Dump completed on 2026-11-15  5:37:42

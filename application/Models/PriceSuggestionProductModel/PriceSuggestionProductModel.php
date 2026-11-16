@@ -21,6 +21,7 @@ class PriceSuggestionProductModel extends Model
         'discount_type',
         'discount_amount',
         'discount_unit_amount',
+        'discount_unit_amount_cash',
         'total_unit_price',
         'total_unit_price',
         'total_product_price',

@@ -41,11 +41,24 @@ $(function () {
     }
 
     const sumAllRow = () => {
-        let sum = 0;
+        let result = {
+            sumRow: 0,
+            sumDiscount: 0,
+        }
         $("#mainProduct tr").each(function () {
-            sum += parseFloat($(this).find('td').eq(5).find('input').val().replaceAll(',', ''))
+            let sumRow = parseFloat($(this).find('td').eq(5).find('.productSumRow').val().replaceAll(',', ''));
+            let discountAmount = parseFloat($(this).find('td').eq(5).find('.discountAmount').val().replaceAll(',', ''));
+            if (!isNaN(sumRow)) {
+                result.sumRow += sumRow;
+            }
+            if (!isNaN(discountAmount)) {
+                result.sumDiscount += discountAmount
+            }
         })
-        return sum;
+
+        $("#sumAllProductRow").text(result.sumRow.toLocaleString())
+        $("#sumAllDiscountRow").text(result.sumDiscount.toLocaleString())
+        return result;
     }
 
     const makeProductRow = (rowCounter) => {
@@ -147,7 +160,8 @@ $(function () {
         `
     }
 
-    let mainProductCount = $("#mainProduct tr").length;
+    let mainProductCount = $("#mainProduct tr").length + 1;
+
     $("#addProductButton").on('click', function () {
         let brand = $("#brand_id").val()
         if (brand) {
@@ -160,8 +174,38 @@ $(function () {
     })
 
     $("#mainProduct").on('click', '.removeProductRowButton', function () {
-        $(this).closest('tr').remove()
-        countProductRow()
+        if ($(this).data('id') !== undefined) {
+            swal.fire({
+                icon: 'warning',
+                title: '<h5>توجه !</h5>',
+                text: 'بعد از حذف امکان بازگشت وجود ندارد',
+                confirmButtonText: 'تایید',
+                showDenyButton: true,
+                denyButtonText: 'انصراف',
+                preConfirm: () => {
+                    $.ajax({
+                        url: '/PriceSuggestion/removeProductRow',
+                        type: 'POST',
+                        data: {
+                            id: $(this).data('id')
+                        }, success: result => {
+                            if (result === 'deleteSuccess') {
+                                $(this).closest('tr').remove()
+                                sumAllRow()
+                                countProductRow()
+                                customAlert('success', 'حذف با موفقیت انجام شد')
+                            } else {
+                                customAlert('error', 'خطا در حذف')
+                            }
+                        }
+                    })
+                }
+            })
+        } else {
+            $(this).closest('tr').remove()
+            sumAllRow()
+            countProductRow()
+        }
     })
 
     $("#mainProduct").on('change', '.product_id', function () {
@@ -181,7 +225,7 @@ $(function () {
         let productUnitPrice = parseFloat($row.find('.unitPriceAfterDiscount').val().replaceAll(',', '')) || 0;
         let totalPrice = productAmount * productUnitPrice;
         $row.find('td').eq(5).find('.productSumRow').val(totalPrice.toLocaleString()).priceInput()
-        $("#sumAllProductRow").text(sumAllRow().toLocaleString())
+        sumAllRow()
     });
 
     $("#mainProduct").on('click', '.discountButton', function () {
@@ -215,7 +259,7 @@ $(function () {
                         if (discountType == 'percentage') {
                             $("#discountAmount").priceInput(2)
                             $row.find('td').eq(5).find('.discountType').val(discountType)
-                            $row.find('td').eq(5).find('.discountAmount').val(((unitPrice * discountAmount) / 100).toLocaleString())
+                            $row.find('td').eq(5).find('.discountAmount').val((productAmount * (unitPrice * discountAmount) / 100).toLocaleString())
                             $row.find('td').eq(5).find('.unitPriceAfterDiscount').val((unitPrice - (unitPrice * discountAmount) / 100).toLocaleString())
                         }
                         if (discountType == 'cash') {
@@ -232,7 +276,7 @@ $(function () {
                     }
                     let unitPriceAfterDiscount = parseFloat($row.find('td').eq(5).find('.unitPriceAfterDiscount').val().replaceAll(',', ''))
                     $row.find('td').eq(5).find('.productSumRow').val((unitPriceAfterDiscount * productAmount).toLocaleString())
-                    $("#sumAllProductRow").text(sumAllRow().toLocaleString())
+                    sumAllRow()
                 }
             })
             if (discountType == 'percentage') {
@@ -250,9 +294,10 @@ $(function () {
         let unitPrice = parseFloat($row.find('td').eq(4).find('input').val().replaceAll(',', ''))
         $row.find('td').eq(5).find('.discountType').val('')
         $row.find('td').eq(5).find('.discountAmount').val('')
+        $row.find('td').eq(5).find('.discountUnitAmount').val('')
         $row.find('td').eq(5).find('.unitPriceAfterDiscount').val(unitPrice.toLocaleString())
         $row.find('td').eq(5).find('.productSumRow').val((unitPrice * productAmount).toLocaleString())
-        $("#sumAllProductRow").text(sumAllRow().toLocaleString())
+        sumAllRow()
         $(this).closest('.dropdown-menu').find('.discountButton').show()
         $(this).closest('.dropdown-menu').find('.removeDiscountButton').hide()
     })
@@ -261,4 +306,7 @@ $(function () {
         $("#mainProduct").empty()
         mainProductCount = $("#mainProduct tr").length;
     })
+
+    sumAllRow()
+
 })

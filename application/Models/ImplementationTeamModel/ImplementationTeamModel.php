@@ -4,6 +4,7 @@ namespace App\Models\ImplementationTeamModel;
 
 use App\Models\ProjectsTypeModel\ProjectsTypeModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ImplementationTeamModel extends Model
 {
@@ -21,7 +22,7 @@ class ImplementationTeamModel extends Model
         'deleted_at'
     ];
 
-    public function projectTypes()
+    public function projectTypes(): HasOne
     {
         return $this->hasOne(ProjectsTypeModel::class, 'id', 'project_type_id');
     }

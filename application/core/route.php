@@ -387,6 +387,21 @@ $router->mount('/PriceSuggestion', function () use ($router) {
             'method' => 'GET',
             'path' => "/createPriceSuggestion/(\d+)/(\d+)",
             'action' => 'createPriceSuggestion'
+        ],
+        [
+            'method' => 'GET',
+            'path' => "/editPriceSuggestion/(\d+)",
+            'action' => 'editPriceSuggestion'
+        ],
+        [
+            'method' => 'POST',
+            'path' => "/updatePriceSuggestion/(\d+)",
+            'action' => 'updatePriceSuggestion'
+        ],
+        [
+            'method' => 'POST',
+            'path' => "/removeProductRow",
+            'action' => 'removeProductRow'
         ]
     ]);
 });
