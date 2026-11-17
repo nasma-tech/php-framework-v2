@@ -133,10 +133,6 @@
                                                     <tr>
                                                         <td class="border">
                                                             {$key+1}
-                                                            <input class="form-control product_amount" dir="ltr"
-                                                                   value="{$item.id}"
-                                                                   type="hidden"
-                                                                   readonly name="productList[{$key+1}][productId]"/>
                                                         </td>
                                                         <td class="border">
                                                             <select class="form-control select2 product_id"
@@ -146,6 +142,10 @@
                                                                     <option value="{$product.id}">{$product.label}</option>
                                                                 {/foreach}
                                                             </select>
+                                                            <input class="form-control" dir="ltr"
+                                                                   value="{$item.id}"
+                                                                   type="hidden"
+                                                                   readonly name="productList[{$key+1}][productId]"/>
                                                         </td>
                                                         <td class="border">
                                                             <input class="form-control product_amount" dir="ltr"

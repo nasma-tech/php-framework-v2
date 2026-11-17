@@ -163,7 +163,6 @@ class PriceSuggestion extends ControllerScheme
 
     public function updatePriceSuggestion($id): void
     {
-        $_ENV['APP_DEBUG'] = 1;
         csrf->csrfValidate();
         $find = PriceSuggestionModel::query()->find($id);
         if ($find) {
@@ -229,13 +228,14 @@ class PriceSuggestion extends ControllerScheme
 
     }
 
+
     public function removeProductRow(): void
     {
         $id = $this->requestArray()['id'];
         $delete = PriceSuggestionProductModel::query()->find($id)?->delete();
-        if ($delete){
+        if ($delete) {
             echo 'deleteSuccess';
-        }else{
+        } else {
             echo 'DeleteFailed';
         }
     }

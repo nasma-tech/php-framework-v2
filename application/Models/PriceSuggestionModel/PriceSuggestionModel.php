@@ -2,7 +2,9 @@
 
 namespace App\Models\PriceSuggestionModel;
 
+use App\Models\CustomerContactInformationModel\CustomerContactInformationModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PriceSuggestionModel extends Model
@@ -31,5 +33,10 @@ class PriceSuggestionModel extends Model
         'updated_at',
         'deleted_at'
     ];
+
+    public function contactData(): HasOne
+    {
+        return $this->hasOne(CustomerContactInformationModel::class,'id','contact_id');
+    }
 
 }
