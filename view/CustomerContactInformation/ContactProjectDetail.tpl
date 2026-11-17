@@ -63,18 +63,24 @@
                                             <td class="border">{jdate("Y/m/d",$item.next_followUp_date)}</td>
                                             <td class="border">{$item.userData.full_name}</td>
                                             <td class="border">
-                                                {if $item.next_followUp_date == strtotime('today')}
-                                                    <div class="badge badge-pill badge-light-primary">
-                                                        پیگیری های امروز
+                                                {if $item.followUpActionData}
+                                                    <div class="badge badge-pill badge-light-success">
+                                                        پیگیری شده
                                                     </div>
-                                                {elseif $item.next_followUp_date < strtotime('today')}
-                                                    <div class="badge badge-pill badge-light-danger">
-                                                        عقب افتاده
-                                                    </div>
-                                                {elseif $item.next_followUp_date > strtotime('today')}
-                                                    <div class="badge badge-pill badge-light-warning">
-                                                        برنامه ریزی شده
-                                                    </div>
+                                                {else}
+                                                    {if $item.next_followUp_date == strtotime('today')}
+                                                        <div class="badge badge-pill badge-light-primary">
+                                                            پیگیری های امروز
+                                                        </div>
+                                                    {elseif $item.next_followUp_date < strtotime('today')}
+                                                        <div class="badge badge-pill badge-light-danger">
+                                                            عقب افتاده
+                                                        </div>
+                                                    {elseif $item.next_followUp_date > strtotime('today')}
+                                                        <div class="badge badge-pill badge-light-warning">
+                                                            برنامه ریزی شده
+                                                        </div>
+                                                    {/if}
                                                 {/if}
                                             </td>
                                             <td class="border">
@@ -126,9 +132,10 @@
                                                                     پیشنهاد
                                                                     قیمت</a>
                                                                 <a class="dropdown-item text-primary"
-                                                                   href="/PriceSuggestion/editPriceSuggestion/{$item.priceSuggestionData.id}"
+                                                                   href="/ProformaInvoice/createProformaInvoice/{$item.priceSuggestionData.id}"
                                                                    style="cursor: pointer">
-                                                                    <i class="bx bxs-file-blank mr-1 text-primary"></i>صدور پیشفاکتور</a>
+                                                                    <i class="bx bxs-file-blank mr-1 text-primary"></i>صدور
+                                                                    پیشفاکتور</a>
                                                             {else}
                                                                 <a class="dropdown-item text-success"
                                                                    href="/PriceSuggestion/createPriceSuggestion/{$getData.id}/{$item.id}"
