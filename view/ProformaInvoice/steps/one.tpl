@@ -11,7 +11,7 @@
                 </div>
                 <div class="col-md-3 mt-2">
                     <label for="">مشتری</label>
-                    <input class="form-control" required id="" name="">
+                    <input class="form-control" required value="{$priceSuggestionData.contactData.first_name} {$priceSuggestionData.contactData.last_name}" id="" name="">
                 </div>
                 <div class="col-md-3 mt-2">
                     <label>شرکت مشتری</label>

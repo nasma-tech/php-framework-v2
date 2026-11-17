@@ -3,6 +3,8 @@
 namespace App\Controllers\ProformaInvoice;
 
 use App\Controllers\scheme\ControllerScheme;
+use App\Models\brandsModel\brandsModel;
+use App\Models\PriceSuggestionModel\PriceSuggestionModel;
 use App\Models\ProformaInvoiceModel\ProformaInvoiceModel;
 
 class ProformaInvoice extends ControllerScheme
@@ -36,8 +38,9 @@ class ProformaInvoice extends ControllerScheme
     }
 
 
-    public function addIndex(): void
+    public function createProformaInvoice($priceSuggestionId): void
     {
+        $getPriceSuggestionData = PriceSuggestionModel::query()->find($priceSuggestionId);
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
@@ -49,6 +52,8 @@ class ProformaInvoice extends ControllerScheme
             'css/ProformaInvoice/add|edit-ProformaInvoice'
         ],
             [
+                'priceSuggestionData'=>$getPriceSuggestionData,
+                'brands' => brandsModel::query()->get(),
             ]
         )->display('ProformaInvoice/add|edit-ProformaInvoice.tpl');
     }

@@ -1,7 +1,6 @@
 {include 'sections/header.tpl'}
 {include 'sections/top-bar.tpl'}
 {include 'sections/side-menu.tpl'}
-
 <div class="app-content content">
     <div class="content-wrapper">
         {$flashMessageHelper->formCallBack()}
@@ -9,8 +8,8 @@
             <div class="col-md-12">
                 <div class="card shadow">
                     <div class="card-header">
-                        <h4 class="card-title">افزودن {$singleName} جدید</h4>
-                        {$buttonHelper->refreshAndBackButton()}
+                        <h4 class="card-title">صدور {$singleName} | مشتری :  <code>{$priceSuggestionData.contactData.first_name} {$priceSuggestionData.contactData.last_name}</code></h4>
+                        {$buttonHelper->refreshBtn()}
                     </div>
                 </div>
             </div>

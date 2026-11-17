@@ -166,7 +166,6 @@ $router->mount('/IssuingPlace', function () use ($router) {
         ]
     ]);
 });
-
 $router->mount('/UserContactTypes', function () use ($router) {
     dynamicRoute($router, App\Controllers\UserContactTypes\UserContactTypes::class);
 });
@@ -199,16 +198,20 @@ $router->mount('/ProductGrad', function () use ($router) {
 $router->mount('/brands', function () use ($router) {
     dynamicRoute($router, App\Controllers\brands\brands::class);
 });
-
 $router->mount('/ProductQualities', function () use ($router) {
     dynamicRoute($router, App\Controllers\ProductQualities\ProductQualities::class);
 });
-
 $router->mount('/ProductsPriceList', function () use ($router) {
     dynamicRoute($router, App\Controllers\ProductsPriceList\ProductsPriceList::class);
 });
 $router->mount('/ProformaInvoice', function () use ($router) {
-    dynamicRoute($router, \App\Controllers\ProformaInvoice\ProformaInvoice::class);
+    dynamicRoute($router, \App\Controllers\ProformaInvoice\ProformaInvoice::class,[
+        [
+            'method' => 'GET',
+            'path' => '/createProformaInvoice(/\d+)',
+            'action' => 'createProformaInvoice'
+        ],
+    ]);
 });
 $router->mount('/Companies', function () use ($router) {
     dynamicRoute($router, App\Controllers\Companies\Companies::class, [
@@ -230,7 +233,6 @@ $router->mount('/ProductCategories', function () use ($router) {
 $router->mount('/MeasurementUnit', function () use ($router) {
     dynamicRoute($router, App\Controllers\MeasurementUnit\MeasurementUnit::class);
 });
-
 $router->mount('/ContactPhoneLabel', function () use ($router) {
     dynamicRoute($router, App\Controllers\ContactPhoneLabel\ContactPhoneLabel::class, [
         [
@@ -353,7 +355,6 @@ $router->mount('/ContactsGroup', function () use ($router) {
         ]
     ]);
 });
-
 $router->mount('/ContactAcquisitionSources', function () use ($router) {
     dynamicRoute($router, App\Controllers\ContactAcquisitionSources\ContactAcquisitionSources::class, [
         [
@@ -404,4 +405,10 @@ $router->mount('/PriceSuggestion', function () use ($router) {
             'action' => 'removeProductRow'
         ]
     ]);
+});
+$router->mount('/ChargesDeductions', function () use ($router) {
+    dynamicRoute($router, App\Controllers\ChargesDeductions\ChargesDeductions::class);
+});
+$router->mount('/ProformaInvoiceSettings', function () use ($router) {
+    dynamicRoute($router, App\Controllers\ProformaInvoiceSettings\ProformaInvoiceSettings::class);
 });
