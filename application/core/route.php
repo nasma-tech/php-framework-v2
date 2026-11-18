@@ -166,12 +166,12 @@ $router->mount('/UserContactTypes', function () use ($router) {
     dynamicRoute($router, App\Controllers\UserContactTypes\UserContactTypes::class);
 });
 $router->mount('/Products', function () use ($router) {
-    dynamicRoute($router, App\Controllers\Products\Products::class,[
+    dynamicRoute($router, App\Controllers\Products\Products::class, [
         [
-        'method' => 'GET',
-        'path' => '/getProductData',
-        'action' => 'getProductData'
-    ]
+            'method' => 'GET',
+            'path' => '/getProductData',
+            'action' => 'getProductData'
+        ]
     ]);
 });
 $router->mount('/ProductGroup', function () use ($router) {
@@ -198,7 +198,13 @@ $router->mount('/ProductsPriceList', function () use ($router) {
     dynamicRoute($router, App\Controllers\ProductsPriceList\ProductsPriceList::class);
 });
 $router->mount('/ProformaInvoice', function () use ($router) {
-    dynamicRoute($router, \App\Controllers\ProformaInvoice\ProformaInvoice::class);
+    dynamicRoute($router, \App\Controllers\ProformaInvoice\ProformaInvoice::class, [
+        [
+            'method' => 'GET',
+            'path' => "/process(/\d+)?",
+            'action' => 'process'
+        ]
+    ]);
 });
 $router->mount('/Companies', function () use ($router) {
     dynamicRoute($router, App\Controllers\Companies\Companies::class, [
@@ -285,7 +291,7 @@ $router->mount('/FollowUpActionsTitle', function () use ($router) {
     dynamicRoute($router, App\Controllers\FollowUpActionsTitle\FollowUpActionsTitle::class);
 });
 $router->mount('/ContactPhones', function () use ($router) {
-    dynamicRoute($router, App\Controllers\ContactPhones\ContactPhones::class,[
+    dynamicRoute($router, App\Controllers\ContactPhones\ContactPhones::class, [
         [
             'method' => 'POST',
             'path' => "/checkNumberInput",
@@ -294,7 +300,7 @@ $router->mount('/ContactPhones', function () use ($router) {
     ]);
 });
 $router->mount('/Companies', function () use ($router) {
-    dynamicRoute($router, App\Controllers\Companies\Companies::class,[
+    dynamicRoute($router, App\Controllers\Companies\Companies::class, [
         [
             'method' => 'POST',
             'path' => "/addCompanies",
