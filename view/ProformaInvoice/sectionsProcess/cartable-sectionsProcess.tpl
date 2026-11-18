@@ -6,6 +6,11 @@
                     {$cartableData->getActivityLogView()}
                 {/if}
             </div>
+            {foreachelse}
+            <div class="col-12 text-center">
+                <img src="/public/images/profile/pages/maintenance.png" alt="">
+                <h3>هنوز کارتابلی نداریم!</h3>
+            </div>
         {/foreach}
     </div>
 </div>

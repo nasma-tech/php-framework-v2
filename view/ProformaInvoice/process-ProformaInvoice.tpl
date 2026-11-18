@@ -45,19 +45,6 @@
                                     </button>
                                 {/if}
                             {/foreach}
-                            {*                            <a class="dropdown-item"*}
-                            {*                               href="#"><i*}
-                            {*                                        class="bx bx-edit text-success mr-50"></i>ویرایش*}
-                            {*                                پیش*}
-                            {*                                فاکتور</a>*}
-                            {*                            <a class="dropdown-item"*}
-                            {*                               href="#"><i*}
-                            {*                                        class="bx bx-plus-circle mr-50 text-warning"></i>ثبت*}
-                            {*                                الحاقیه</a>*}
-                            {*                            <a class="dropdown-item" style="cursor: pointer"><i*}
-                            {*                                        class="bx bx-check-shield mr-50"></i>ثبت تضامین</a>*}
-                            {*                            <a class="dropdown-item" id="depositAllocationButton" style="cursor: pointer"><i*}
-                            {*                                        class="bx bx-money mr-50"></i>تخصیص واریزی</a>*}
                         </div>
                     </div>
                 </div>
@@ -72,13 +59,13 @@
                              src="" alt="logo">
                     </div>
                     <div class="col-md-3 text-center" style="border-left: 1px dotted">
-                        <h6 class="my-1"><i class="bx bx-support"></i>مشخصات کارشناس</h6>
+                        <h6 class="my-1"><i class="bx align-middle bx-support"></i>مشخصات کارشناس</h6>
                     </div>
                     <div class="col-md-3 text-center" style="border-left: 1px dotted">
-                        <h6 class="my-1"><i class="bx bx-user-voice"></i>اطلاعات مشتری</h6>
+                        <h6 class="my-1"><i class="bx align-middle bx-user-voice"></i>اطلاعات مشتری</h6>
                     </div>
                     <div class="col-md-3 text-center">
-                        <h6 class="my-1"><i class="bx bx-file"></i>اطلاعات پیش فاکتور</h6>
+                        <h6 class="my-1"><i class="bx align-middle bx-file"></i>اطلاعات پیش فاکتور</h6>
                     </div>
                 </div>
             </div>
@@ -96,7 +83,8 @@
                                        id="{$mainSection['name']}-tab-justified"
                                        data-toggle="pill"
                                        href="#{$mainSection['name']}-justified"
-                                       aria-expanded="{((isset($mainSection['activeStep']) && $mainSection['activeStep']) ? 'true' : 'false')}">{$mainSection['title']}
+                                       aria-expanded="{((isset($mainSection['activeStep']) && $mainSection['activeStep']) ? 'true' : 'false')}"><i
+                                                class="bx {$mainSection['icon']} align-middle"></i>{$mainSection['title']}
                                     </a>
                                 </li>
                             {/foreach}
@@ -110,7 +98,9 @@
                                     {foreach $sectionsConfig['moreSections']|default:[] as $moreSection}
                                         <a class="dropdown-item" id="{$moreSection['name']}-tab-justified"
                                            href="#{$moreSection['name']}-justified"
-                                           data-toggle="pill" role="tab">{$moreSection['title']}</a>
+                                           data-toggle="pill" role="tab"><i
+                                                    class="bx {$moreSection['icon']} mr-50"></i> {$moreSection['title']}
+                                        </a>
                                         {if isset($moreSection['appendAfterDivider']) && $moreSection['appendAfterDivider']}
                                             <div class="dropdown-divider"></div>
                                         {/if}

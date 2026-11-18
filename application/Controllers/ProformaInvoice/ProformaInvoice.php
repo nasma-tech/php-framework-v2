@@ -90,12 +90,40 @@ class ProformaInvoice extends ControllerScheme
 
             $stepsConfig = [
                 [
-                    'title' => 'پیش فاکتور',
-                    'description' => 'اطلاعات اولیه پیش فاکتور صادر شده',
-                    'icon' => 'bx-task',
+                    'title' => 'خلاصه پیش فاکتور',
+                    'description' => 'مشاهده اطلاعات و جزئیات پیش فاکتور صادر شده',
+                    'icon' => 'bx-file',
                     'stepFile' => 'view/ProformaInvoice/processSteps/stepOne.tpl',
                     'scriptFile' => 'js/ProformaInvoice/processSteps/stepOne',
-                ]
+                ],
+                [
+                    'title' => 'تخصیص محصول',
+                    'description' => 'تعیین و تخصیص محصولات به پیش فاکتور',
+                    'icon' => 'bx-package',
+                    'stepFile' => 'view/ProformaInvoice/processSteps/stepTwo.tpl',
+                    'scriptFile' => 'js/ProformaInvoice/processSteps/stepTwo',
+                ],
+                [
+                    'title' => 'اعلام خروج',
+                    'description' => 'ثبت درخواست خروج و اعلام آمادگی بار برای ارسال',
+                    'icon' => 'bx-log-out',
+                    'stepFile' => 'view/ProformaInvoice/processSteps/stepThree.tpl',
+                    'scriptFile' => 'js/ProformaInvoice/processSteps/stepThree',
+                ],
+                [
+                    'title' => 'اعلام آدرس',
+                    'description' => 'ثبت آدرس مقصد جهت ارسال و تحویل بار',
+                    'icon' => 'bx-map',
+                    'stepFile' => 'view/ProformaInvoice/processSteps/stepFour.tpl',
+                    'scriptFile' => 'js/ProformaInvoice/processSteps/stepFour',
+                ],
+                [
+                    'title' => 'خروج بار',
+                    'description' => 'ثبت و پیگیری عملیات خروج و ارسال بار',
+                    'icon' => 'bx-truck',
+                    'stepFile' => 'view/ProformaInvoice/processSteps/stepFive.tpl',
+                    'scriptFile' => 'js/ProformaInvoice/processSteps/stepFive',
+                ],
             ];
 
             //*********************** steps configs ***********************//
@@ -104,22 +132,40 @@ class ProformaInvoice extends ControllerScheme
             $sectionsConfig = [
                 "mainSections" => [
                     [
+                        "name" => "summaryProcess",
+                        "title" => "خلاصه وضعیت",
+                        "activeStep" => true,
+                        "description" => "نمای کلی از وضعیت پیش فاکتور و میزان پیشرفت فرآیند",
+                        "icon" => "bx-dashboard info",
+                        "sectionFile" => "view/ProformaInvoice/sectionsProcess/summaryProcess-sectionsProcess.tpl",
+                        "scriptFile" => "js/ProformaInvoice/sectionsProcess/summaryProcess-sectionsProcess",
+                        "variables" => []
+                    ],
+                    [
                         "name" => "salesProcess",
                         "title" => "فرآیند فروش",
-                        "activeStep" => true,
-                        "description" => "",
-                        "icon" => "",
+                        "description" => "مشاهده و مدیریت مراحل اجرایی فرآیند فروش",
+                        "icon" => "bx-shopping-bag success",
                         "sectionFile" => "view/ProformaInvoice/sectionsProcess/salesProcess-sectionsProcess.tpl",
                         "scriptFile" => "js/ProformaInvoice/sectionsProcess/salesProcess-sectionsProcess",
+                        "variables" => []
+                    ],
+                    [
+                        "name" => "financialProcess",
+                        "title" => "فرآیند مالی",
+                        "description" => "مشاهده و پیگیری وضعیت مالی و تراکنش‌های پیش فاکتور",
+                        "icon" => "bx-wallet warning",
+                        "sectionFile" => "view/ProformaInvoice/sectionsProcess/financialProcess-sectionsProcess.tpl",
+                        "scriptFile" => "js/ProformaInvoice/sectionsProcess/financialProcess-sectionsProcess",
                         "variables" => []
                     ],
                 ],
                 "moreSections" => [
                     [
                         "name" => "cartables",
-                        "title" => "کارتابل ها",
-                        "description" => "",
-                        "icon" => "",
+                        "title" => "کارتابل‌ها",
+                        "description" => "مشاهده و پیگیری کارهای ارجاع‌شده و اقدامات مورد نیاز",
+                        "icon" => "bx-task",
                         "appendAfterDivider" => false,
                         "sectionFile" => "view/ProformaInvoice/sectionsProcess/cartable-sectionsProcess.tpl",
                         "scriptFile" => "js/ProformaInvoice/sectionsProcess/cartable-sectionsProcess",
@@ -160,19 +206,19 @@ class ProformaInvoice extends ControllerScheme
                 //    "scriptFile" => ... //js file
                 //]
                 [
-                    "name" => "submit_guarantee",
-                    "title" => "ثبت تضامین",
-                    "description" => "",
-                    "icon" => "bx-check-shield success",
-                    "type" => 'button',
-                    "scriptFile" => ''
-                ],
-                [
                     "name" => "edit_invoice",
                     "title" => "ویرایش پیش فاکتور",
                     "description" => "",
                     "href" => "#",
                     "icon" => "bx-edit warning",
+                    "scriptFile" => ''
+                ],
+                [
+                    "name" => "submit_guarantee",
+                    "title" => "ثبت تضامین",
+                    "description" => "",
+                    "icon" => "bx-check-shield success",
+                    "type" => 'button',
                     "scriptFile" => ''
                 ],
                 [
@@ -188,7 +234,15 @@ class ProformaInvoice extends ControllerScheme
                     "title" => "ثبت الحاقیه",
                     "description" => "",
                     "type" => 'button',
-                    "icon" => "bx-plus-circle danger",
+                    "icon" => "bx-plus-circle info",
+                    "scriptFile" => ''
+                ],
+                [
+                    "name" => "cancel_contract",
+                    "title" => "لغو قرارداد",
+                    "description" => "",
+                    "type" => 'button',
+                    "icon" => "bx-x-circle danger",
                     "scriptFile" => ''
                 ]
             ];
@@ -202,14 +256,13 @@ class ProformaInvoice extends ControllerScheme
                 array_merge(
                     $scripts, //static
                     array_merge($sectionsScripts['mainSections'], $sectionsScripts['moreSections']), //sections
-                    array_column($optionsConfig, 'scriptFile'), //options
+                    array_filter(array_column($optionsConfig, 'scriptFile')), //options
                     array_map(
                         fn($item) => $item['scriptFile'],
                         array_filter($stepsConfig, function ($item) {
                             if (!isset($item['conditions'])) {
                                 return true;
                             }
-
                             return !in_array(false, array_column((array)$item['conditions'], 'condition'), true);
                         })
                     ), //steps
