@@ -206,12 +206,12 @@
                                         </tbody>
                                         <tbody id="mainChargesDeductionsSumTr"></tbody>
                                         <tfoot>
-                                            <tr class="border-top">
-                                                <td>جمع کل</td>
-                                                <td class="text-right">
-                                                    <span id="finalSum" dir="rtl">0</span><span> ریال</span>
-                                                </td>
-                                            </tr>
+                                        <tr class="border-top">
+                                            <td>جمع کل</td>
+                                            <td class="text-right">
+                                                <span id="finalSum" dir="rtl">0</span><span> ریال</span>
+                                            </td>
+                                        </tr>
                                         </tfoot>
                                     </table>
                                 </div>

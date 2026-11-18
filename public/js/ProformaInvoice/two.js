@@ -203,6 +203,7 @@ $(function () {
         let brandId = $(this).val()
         $("#mainProduct,#mainChargesDeductions").empty()
         $("#mainChargesDeductionsSumTr").empty();
+        sumAllRow()
         $.ajax({
             url: '/ProformaInvoiceSettings/getChargesDeductionsSetting',
             data: {
