@@ -22,4 +22,11 @@ $(function () {
             }
         }
     );
+
+
+    $("#top_invoice_text").joditEditor()
+    $("#bottom_invoice_text").joditEditor()
+    $("#payment_terms").joditEditor()
+
+
 })

@@ -15,7 +15,7 @@
             </div>
         </div>
         {$csrf->csrfTokenInput()}
-        <form action="">
+        <form action="/ProformaInvoice/add" method="post">
             <div class="row">
                 <div class="col-md-12">
                     {include 'ProformaInvoice/steps/one.tpl'}

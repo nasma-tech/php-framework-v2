@@ -47,7 +47,12 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <label>برند</label>
-                                                <select class="form-control select2" id="" name=""></select>
+                                                <select class="form-control select2" id="" name="brand_id">
+                                                    <option selected disabled>یک برند انتخاب کنید</option>
+                                                    {foreach $brands as $item}
+                                                        <option value="{$item.id}">{$item.label}</option>
+                                                    {/foreach}
+                                                </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>لوگو</label>
@@ -63,6 +68,35 @@
                                             </div>
                                             <div class="col-md-6">
 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card shadow" style="margin-top: 3px">
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="divider divider-left">
+                                            <div class="divider-text" style="font-size: 12px">متن های پیشفاکتور</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 mt-2">
+                                                <div class="divider">
+                                                    <div class="divider-text" style="font-size: 12px">متن بالای پیشفاکتور</div>
+                                                </div>
+                                                <textarea class="form-control joditEditor" id="top_invoice_text" name="top_invoice_text"></textarea>
+                                            </div>
+                                            <div class="col-md-12 mt-2">
+                                                <div class="divider">
+                                                    <div class="divider-text" style="font-size: 12px">متن پایین پیشفاکتور</div>
+                                                </div>
+                                                <textarea class="form-control joditEditor" id="bottom_invoice_text" name="bottom_invoice_text"></textarea>
+                                            </div>
+                                            <div class="col-md-12 mt-2">
+                                                <div class="divider">
+                                                    <div class="divider-text" style="font-size: 12px">شرایط پرداخت</div>
+                                                </div>
+                                                <textarea class="form-control joditEditor" id="payment_terms" name="payment_terms"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -154,5 +188,4 @@
         </div>
     </div>
 </div>
-
 {include 'sections/footer.tpl'}

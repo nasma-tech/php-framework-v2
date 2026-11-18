@@ -2,6 +2,7 @@
 
 namespace App\Models\PriceSuggestionModel;
 
+use App\Models\ContactProjectsFollowUpModel\ContactProjectsFollowUpModel;
 use App\Models\CustomerContactInformationModel\CustomerContactInformationModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -37,6 +38,11 @@ class PriceSuggestionModel extends Model
     public function contactData(): HasOne
     {
         return $this->hasOne(CustomerContactInformationModel::class,'id','contact_id');
+    }
+
+    public function followUpData(): HasOne
+    {
+        return $this->hasOne(ContactProjectsFollowUpModel::class,'id','contact_project_followup_id');
     }
 
 }

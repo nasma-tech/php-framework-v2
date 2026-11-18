@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-md-3 mt-2">
                     <label for="">برند محصول</label>
-                    <select class="form-control select2" id="brand_id" name="brand_id">
+                    <select class="form-control select2" required id="brand_id" name="brand_id">
                         <option selected disabled>یک برند انتخاب کنید</option>
                         {foreach $brands as $item}
                             <option value="{$item.id}">{$item.label}</option>
@@ -254,7 +254,8 @@
                                         <tr>
                                             <td>معرف</td>
                                             <td>
-                                                <select class="form-control select2"></select>
+                                                <select class="form-control select2" id="marketer_id"
+                                                        name="marketer_id"></select>
                                             </td>
                                         </tr>
                                         <tr>
@@ -284,19 +285,69 @@
                                         <tr>
                                             <td>کشور</td>
                                             <td>
-                                                <select class="form-control select2"></select>
+                                                <select class="form-control select2" id="country_id" name="country_id">
+                                                    <option selected disabled>کشور را انتخاب کنید</option>
+                                                    {foreach $country as $item}
+                                                        <option value="{$item.id}"
+                                                                {if $priceSuggestionData.country_id|default:null == $item.id}selected{/if}>{$item.persian_title}</option>
+                                                    {/foreach}
+                                                </select>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>استان</td>
                                             <td>
-                                                <select class="form-control select2"></select>
+                                                <select class="form-control select2" id="state_id" name="state_id">
+                                                    <option selected disabled>استان را انتخاب کنید</option>
+                                                    {foreach $state as $item}
+                                                        <option value="{$item.id}"
+                                                                {if $priceSuggestionData.state_id|default:null == $item.id}selected{/if}>{$item.title}</option>
+                                                    {/foreach}
+                                                </select>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>شهر</td>
                                             <td>
-                                                <select class="form-control select2"></select>
+                                                <select class="form-control select2" id="city_id" name="city_id">
+                                                    <option selected disabled>شهر را انتخاب کنید</option>
+                                                    {foreach $cities as $item}
+                                                        <option value="{$item.id}"
+                                                                {if $priceSuggestionData.city_id|default:null == $item.id}selected{/if}>{$item.title}</option>
+                                                    {/foreach}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class="thead-dark">
+                                        <tr>
+                                            <th class="border text-center" colspan="2">
+                                                تحویل
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>تحویل در</td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <input class="form-control" type="number" id="delivery_date"
+                                                           name="delivery_date">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">روز</span>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                         </tbody>

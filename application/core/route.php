@@ -415,6 +415,11 @@ $router->mount('/ProformaInvoiceSettings', function () use ($router) {
             'method' => 'GET',
             'path' => "/getChargesDeductionsSetting",
             'action' => 'getChargesDeductionsSetting'
+        ],
+        [
+            'method' => 'GET',
+            'path' => "/getProformaInvoiceSettings",
+            'action' => 'getProformaInvoiceSettings'
         ]
     ]);
 });

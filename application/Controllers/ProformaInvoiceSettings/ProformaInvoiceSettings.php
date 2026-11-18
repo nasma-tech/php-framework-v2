@@ -80,7 +80,11 @@ class ProformaInvoiceSettings extends ControllerScheme
         }
         $make = [
             'brand_id' => $data['brand_id'],
-            'charges_deductions_order' => json_encode($chargesDeductions, JSON_UNESCAPED_UNICODE)];
+            'charges_deductions_order' => json_encode($chargesDeductions, JSON_UNESCAPED_UNICODE),
+            'top_invoice_text'=>$data['top_invoice_text'],
+            'bottom_invoice_text'=>$data['bottom_invoice_text'],
+            'payment_terms'=>$data['payment_terms'],
+        ];
         ProformaInvoiceSettingsModel::query()->create($make);
     }
 
@@ -101,6 +105,33 @@ class ProformaInvoiceSettings extends ControllerScheme
                     'netSumMerge' => $item['netSumMerge'],
                 ];
             }
+            echo json_encode($result, JSON_UNESCAPED_UNICODE);
+        } else {
+            echo 'notFound';
+        }
+    }
+
+    public function getProformaInvoiceSettings(): void
+    {
+        $brandId = $this->requestArray()['brandId'];
+        $get = ProformaInvoiceSettingsModel::query()->where('brand_id', $brandId)->first();
+        if ($get) {
+            $decode = json_decode($get->charges_deductions_order, true);
+            $result = [];
+            foreach ($decode as $item) {
+                $chargesDeductionInfo = ChargesDeductionsModel::query()->find($item['charges_deduction_id']);
+                $result['chargesDeduction'][] = [
+                    'id' => $chargesDeductionInfo['id'],
+                    'title' => $chargesDeductionInfo->title,
+                    'identifier' => $chargesDeductionInfo->identifier,
+                    'coefficient' => $chargesDeductionInfo->coefficient,
+                    'netSumMerge' => $item['netSumMerge'],
+                ];
+            }
+            $result['settings'] = [
+                'bottom_invoice_text'=>$get->bottom_invoice_text,
+                'payment_terms'=>$get->payment_terms,
+            ];
             echo json_encode($result, JSON_UNESCAPED_UNICODE);
         } else {
             echo 'notFound';

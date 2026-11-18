@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="divider divider-left">
-                        <div class="divider-text" style="font-size: 12px">پیشنویس</div>
+                        <div class="divider-text" style="font-size: 12px">پیش نمایش</div>
                     </div>
                 </div>
             </div>

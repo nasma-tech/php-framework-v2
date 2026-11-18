@@ -68,13 +68,11 @@ $(function () {
 
     // ثبت نهایی
     $submitButton.on("click", function (e) {
-        e.preventDefault();
         const currentStep = getActiveStep();
         let $step = $(`#step_${currentStep}`)
         if (!$step.formValidate()){
             return;
         }
-        alert("finish");
     });
 
 });

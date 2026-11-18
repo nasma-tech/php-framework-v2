@@ -1,5 +1,37 @@
 $(function () {
 
+    $("#country_id").change(function () {
+        let countryId = $(this).val();
+        $("#city_id").empty().attr('disabled', true)
+        $(this).getOptionsValue({
+            urlAddress: '/states/getStatesFilterByCountry',
+            dataSend: {
+                countryId
+            },
+            callback: result => {
+                $("#state_id").html(`<option selected disabled>یک استان انتخاب کنید</option>`)
+                $.each(result, function (key, item) {
+                    $("#state_id").append(`<option value="${item.id}">${item.title}</option>`)
+                })
+            }
+        })
+    })
+
+    $("#state_id").change(function () {
+        let value = $(this).val();
+        $(this).getOptionsValue({
+            urlAddress: '/cities/getFilterCities',
+            dataSend: {
+                value
+            },
+            callback: result => {
+                $("#city_id").attr('disabled', false).html(`<option selected disabled>یک شهر انتخاب کنید</option>`)
+                $.each(result, function (key, item) {
+                    $("#city_id").append(`<option value="${item.id}">${item.title}</option>`)
+                })
+            }
+        })
+    })
     const countProductRow = () => {
         let count = 1;
         $("#mainProduct tr").each(function () {
@@ -187,7 +219,7 @@ $(function () {
     const makeSwitchBox = ({id, netSumMerge = false, coefficient, identifier}) => {
         return `
             <div class="custom-control custom-switch custom-switch-success">
-              <input type="checkbox" class="custom-control-input chargesDeductionCheckBox" 
+              <input type="checkbox" name="chargesDeductionCheckBox[${identifier}]" value="${identifier}" class="custom-control-input chargesDeductionCheckBox" 
               data-merge="${netSumMerge}"
               data-coefficient="${coefficient}"
               data-identifier="${identifier}"
@@ -205,13 +237,13 @@ $(function () {
         $("#mainChargesDeductionsSumTr").empty();
         sumAllRow()
         $.ajax({
-            url: '/ProformaInvoiceSettings/getChargesDeductionsSetting',
+            url: '/ProformaInvoiceSettings/getProformaInvoiceSettings',
             data: {
                 brandId
             },
             dataType: 'json',
             success: result => {
-                $.each(result, function (key, item) {
+                $.each(result.chargesDeduction, function (key, item) {
                     $("#mainChargesDeductions").append(`
                         <tr>
                             <td class="border">${item.title}</td>
@@ -232,6 +264,13 @@ $(function () {
                         </tr>
                     `)
                 })
+                $('#payment_terms').joditEditor({
+                    value: result.settings.payment_terms
+                });
+                $('#bottom_invoice_text').joditEditor({
+                    value: result.settings.bottom_invoice_text
+                });
+
             }
         })
         mainProductCount = $("#mainProduct tr").length;
