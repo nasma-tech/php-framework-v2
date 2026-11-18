@@ -5,11 +5,11 @@
 //    Wizard tabs with icons setup
 // ------------------------------
 $(".wizard-horizontal").steps({
-	headerTag: "h6",
-	bodyTag: "fieldset",
-	transitionEffect: "fade",
-	titleTemplate: '<span class="step">#index#</span> #title#',
-	labels: {
+    headerTag: "h6",
+    bodyTag: "fieldset",
+    transitionEffect: "fade",
+    titleTemplate: '<span class="step">#index#</span> #title#',
+    labels: {
         cancel: "انصراف",
         current: "قدم کنونی:",
         pagination: "صفحه بندی",
@@ -18,19 +18,19 @@ $(".wizard-horizontal").steps({
         previous: "قبلی",
         loading: "در حال بارگذاری ..."
     },
-	onFinished: function (event, currentIndex) {
-		alert("فرم ثبت شد.");
-	}
+    onFinished: function (event, currentIndex) {
+        alert("فرم ثبت شد.");
+    }
 });
 //        vertical Wizard       //
 // ------------------------------
 $(".wizard-vertical").steps({
-	headerTag: "h3",
-	bodyTag: "fieldset",
-	transitionEffect: "fade",
-	enableAllSteps: true,
-	stepsOrientation: "vertical",
-	labels: {
+    headerTag: "h3",
+    bodyTag: "fieldset",
+    transitionEffect: "fade",
+    enableAllSteps: true,
+    stepsOrientation: "vertical",
+    labels: {
         cancel: "انصراف",
         current: "قدم کنونی:",
         pagination: "صفحه بندی",
@@ -39,9 +39,9 @@ $(".wizard-vertical").steps({
         previous: "قبلی",
         loading: "در حال بارگذاری ..."
     },
-	onFinished: function (event, currentIndex) {
-		alert("فرم ثبت شد.");
-	}
+    onFinished: function (event, currentIndex) {
+        alert("فرم ثبت شد.");
+    }
 });
 
 $(".wizard-vertical").find('.actions').empty()
@@ -53,11 +53,11 @@ var stepsValidation = $(".wizard-validation");
 var form = stepsValidation.show();
 
 stepsValidation.steps({
-	headerTag: "h6",
-	bodyTag: "fieldset",
-	transitionEffect: "fade",
-	titleTemplate: '<span class="step">#index#</span> #title#',
-	labels: {
+    headerTag: "h6",
+    bodyTag: "fieldset",
+    transitionEffect: "fade",
+    titleTemplate: '<span class="step">#index#</span> #title#',
+    labels: {
         cancel: "انصراف",
         current: "قدم کنونی:",
         pagination: "صفحه بندی",
@@ -66,21 +66,21 @@ stepsValidation.steps({
         previous: "قبلی",
         loading: "در حال بارگذاری ..."
     },
-	onStepChanging: function (event, currentIndex, newIndex) {
-		// Allways allow previous action even if the current form is not valid!
-		if (currentIndex > newIndex) {
-			return true;
-		}
-		form.validate().settings.ignore = ":disabled,:hidden";
-		return form.valid();
-	},
-	onFinishing: function (event, currentIndex) {
-		form.validate().settings.ignore = ":disabled";
-		return form.valid();
-	},
-	onFinished: function (event, currentIndex) {
-		alert("ثبت شد!");
-	}
+    onStepChanging: function (event, currentIndex, newIndex) {
+        // Allways allow previous action even if the current form is not valid!
+        if (currentIndex > newIndex) {
+            return true;
+        }
+        form.validate().settings.ignore = ":disabled,:hidden";
+        return form.valid();
+    },
+    onFinishing: function (event, currentIndex) {
+        form.validate().settings.ignore = ":disabled";
+        return form.valid();
+    },
+    onFinished: function (event, currentIndex) {
+        alert("ثبت شد!");
+    }
 });
 
 // Initialize validation
@@ -106,71 +106,73 @@ jQuery.extend(jQuery.validator.messages, {
 });
 
 stepsValidation.validate({
-	ignore: 'input[type=hidden]', // ignore hidden fields
-	errorClass: 'danger line-height-2',
-	successClass: 'success line-height-2',
-	highlight: function (element, errorClass) {
-		$(element).removeClass(errorClass);
-	},
-	unhighlight: function (element, errorClass) {
-		$(element).removeClass(errorClass);
-	},
-	errorPlacement: function (error, element) {
-		error.insertAfter(element);
-	},
-	rules: {
-		emailAddress: {
-			required: true,
-			email: true
-		}
-	},
-	messages: {
-		emailAddress: {
-			required: "وارد کردن ایمیل الزامی است.",
-			email: "لطفا یک ایمیل معتبر وارد نمایید."
-		}
-	}
+    ignore: 'input[type=hidden]', // ignore hidden fields
+    errorClass: 'danger line-height-2',
+    successClass: 'success line-height-2',
+    highlight: function (element, errorClass) {
+        $(element).removeClass(errorClass);
+    },
+    unhighlight: function (element, errorClass) {
+        $(element).removeClass(errorClass);
+    },
+    errorPlacement: function (error, element) {
+        error.insertAfter(element);
+    },
+    rules: {
+        emailAddress: {
+            required: true,
+            email: true
+        }
+    },
+    messages: {
+        emailAddress: {
+            required: "وارد کردن ایمیل الزامی است.",
+            email: "لطفا یک ایمیل معتبر وارد نمایید."
+        }
+    }
 });
 
 // live Icon color change on state change
 $(document).ready(function () {
-	$(".current").find(".step-icon").addClass("bx bx-time-five");
-	$(".current").find(".fonticon-wrap .livicon-evo").updateLiviconEvo({
-		strokeColor: '#5A8DEE'
-	});
+    $(".current").find(".step-icon").addClass("bx bx-time-five");
+    if (typeof $.fn.updateLiviconEvo === "function") {
+        $(".current").find(".fonticon-wrap .livicon-evo").updateLiviconEvo({
+            strokeColor: '#5A8DEE'
+        });
+    }
 });
 
 // Icon change on state
 
 // if click on next button icon change
 $(".actions [href='#next']").click(function () {
-	$(".done").find(".step-icon").removeClass("bx bx-time-five").addClass("bx bx-check-circle");
-	$(".current").find(".step-icon").removeClass("bx bx-check-circle").addClass("bx bx-time-five");
-	// live icon color change on next button's on click
-	$(".current").find(".fonticon-wrap .livicon-evo").updateLiviconEvo({
-		strokeColor: '#5A8DEE'
-	});
-	$(".current").prev("li").find(".fonticon-wrap .livicon-evo").updateLiviconEvo({
-		strokeColor: '#39DA8A'
-	});
+    $(".done").find(".step-icon").removeClass("bx bx-time-five").addClass("bx bx-check-circle");
+    $(".current").find(".step-icon").removeClass("bx bx-check-circle").addClass("bx bx-time-five");
+    // live icon color change on next button's on click
+    $(".current").find(".fonticon-wrap .livicon-evo").updateLiviconEvo({
+        strokeColor: '#5A8DEE'
+    });
+    $(".current").prev("li").find(".fonticon-wrap .livicon-evo").updateLiviconEvo({
+        strokeColor: '#39DA8A'
+    });
 });
 
 $(".actions [href='#previous']").click(function () {
-	// live icon color change on next button's on click
-	$(".current").find(".fonticon-wrap .livicon-evo").updateLiviconEvo({
-		strokeColor: '#5A8DEE'
-	});
-	$(".current").next("li").find(".fonticon-wrap .livicon-evo").updateLiviconEvo({
-		strokeColor: '#adb5bd'
-	});
+    // live icon color change on next button's on click
+    $(".current").find(".fonticon-wrap .livicon-evo").updateLiviconEvo({
+        strokeColor: '#5A8DEE'
+    });
+    $(".current").next("li").find(".fonticon-wrap .livicon-evo").updateLiviconEvo({
+        strokeColor: '#adb5bd'
+    });
 });
 
 // if click on  submit   button icon change
 $(".actions [href='#finish']").click(function () {
-	$(".done").find(".step-icon").removeClass("bx-time-five").addClass("bx bx-check-circle");
-	$(".last.current.done").find(".fonticon-wrap .livicon-evo").updateLiviconEvo({
-		strokeColor: '#39DA8A'
-	});
+    $(".done").find(".step-icon").removeClass("bx-time-five").addClass("bx bx-check-circle");
+    $(".last.current.done").find(".fonticon-wrap .livicon-evo").updateLiviconEvo({
+        strokeColor: '#39DA8A'
+    });
 });
 
 // add primary btn class
