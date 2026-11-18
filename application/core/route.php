@@ -410,5 +410,11 @@ $router->mount('/ChargesDeductions', function () use ($router) {
     dynamicRoute($router, App\Controllers\ChargesDeductions\ChargesDeductions::class);
 });
 $router->mount('/ProformaInvoiceSettings', function () use ($router) {
-    dynamicRoute($router, App\Controllers\ProformaInvoiceSettings\ProformaInvoiceSettings::class);
+    dynamicRoute($router, App\Controllers\ProformaInvoiceSettings\ProformaInvoiceSettings::class,[
+        [
+            'method' => 'GET',
+            'path' => "/getChargesDeductionsSetting",
+            'action' => 'getChargesDeductionsSetting'
+        ]
+    ]);
 });

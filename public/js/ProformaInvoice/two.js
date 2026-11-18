@@ -12,23 +12,76 @@ $(function () {
         let result = {
             sumRow: 0,
             sumDiscount: 0,
-        }
+            netSumAllProduct: 0,
+            finalSum: 0
+        };
         $("#mainProduct tr").each(function () {
-            let sumRow = parseFloat($(this).find('td').eq(5).find('.productSumRow').val().replaceAll(',', ''));
-            let discountAmount = parseFloat($(this).find('td').eq(5).find('.discountAmount').val().replaceAll(',', ''));
+            let sumRow = parseFloat(
+                $(this).find('td').eq(5).find('.productSumRow').val().replaceAll(',', '')
+            );
+            let discountAmount = parseFloat(
+                $(this).find('td').eq(5).find('.discountAmount').val().replaceAll(',', '')
+            );
             if (!isNaN(sumRow)) {
                 result.sumRow += sumRow;
             }
             if (!isNaN(discountAmount)) {
-                result.sumDiscount += discountAmount
+                result.sumDiscount += discountAmount;
             }
-        })
+        });
+        result.netSumAllProduct = result.sumRow - result.sumDiscount;
+        let finalSum = result.netSumAllProduct;
+        $(".chargesDeductionCheckBox").each(function () {
+            let coefficient = Number($(this).data('coefficient'));
+            let merge = $(this).data('merge');
+            let identifier = $(this).data('identifier');
+            if (this.checked) {
+                let percentageAmount = 0;
+                if (merge) {
+                    percentageAmount = result.netSumAllProduct * (coefficient - 1);
+                } else {
+                    percentageAmount = finalSum * (coefficient - 1);
+                }
+                $(`#${identifier}_tr`).text(
+                    Math.round(percentageAmount).toLocaleString()
+                );
+                finalSum += percentageAmount;
+            } else {
+                $(`#${identifier}_tr`).text(0);
+            }
+        });
+        result.finalSum = finalSum;
 
-        $("#sumAllProductRow").text(result.sumRow.toLocaleString())
-        $("#sumAllDiscountRow").text(result.sumDiscount.toLocaleString())
-        $("#netSumAllProductRow").text((result.sumRow - result.sumDiscount).toLocaleString())
+
+        $("#sumAllProductRow").text(result.sumRow.toLocaleString());
+        $("#sumAllDiscountRow").text(result.sumDiscount.toLocaleString());
+        $("#netSumAllProductRow").text(result.netSumAllProduct.toLocaleString());
+        $("#finalSum").text(result.finalSum.toLocaleString());
+
         return result;
-    }
+    };
+
+    $("#mainChargesDeductions").on('change', '.chargesDeductionCheckBox', function () {
+        let sumSummary = sumAllRow();
+        let finalSum = sumSummary.netSumAllProduct;
+        $(".chargesDeductionCheckBox").each(function () {
+            let coefficient = Number($(this).data('coefficient'));
+            let coefficientPercent = coefficient - 1;
+            let merge = $(this).data('merge');
+            let identifier = $(this).data('identifier');
+            if (this.checked) {
+                let baseAmount = merge ? sumSummary.netSumAllProduct : finalSum;
+                let percentageAmount = baseAmount * coefficientPercent;
+                $(`#${identifier}_tr`).text(
+                    Math.round(percentageAmount).toLocaleString()
+                );
+                finalSum += percentageAmount;
+            } else {
+                $(`#${identifier}_tr`).text(0);
+            }
+        });
+        $("#finalSum").text(Math.round(finalSum).toLocaleString());
+    });
 
     const makeProductRow = (rowCounter) => {
         let brandId = $("#brand_id").val()
@@ -130,6 +183,58 @@ $(function () {
     }
 
     let mainProductCount = $("#mainProduct tr").length + 1;
+
+    const makeSwitchBox = ({id, netSumMerge = false, coefficient, identifier}) => {
+        return `
+            <div class="custom-control custom-switch custom-switch-success">
+              <input type="checkbox" class="custom-control-input chargesDeductionCheckBox" 
+              data-merge="${netSumMerge}"
+              data-coefficient="${coefficient}"
+              data-identifier="${identifier}"
+              checked id="chargesDeduction_${id}">
+              <label class="custom-control-label" for="chargesDeduction_${id}">
+                <span class="switch-icon-left"><i class="bx bx-check"></i></span>
+                <span class="switch-icon-right"><i class="bx bx-x"></i></span>
+              </label>
+            </div>
+      `
+    }
+    $("#brand_id").change(function () {
+        let brandId = $(this).val()
+        $("#mainProduct,#mainChargesDeductions").empty()
+        $("#mainChargesDeductionsSumTr").empty();
+        $.ajax({
+            url: '/ProformaInvoiceSettings/getChargesDeductionsSetting',
+            data: {
+                brandId
+            },
+            dataType: 'json',
+            success: result => {
+                $.each(result, function (key, item) {
+                    $("#mainChargesDeductions").append(`
+                        <tr>
+                            <td class="border">${item.title}</td>
+                            <td class="border">${makeSwitchBox({
+                        id: item.id,
+                        coefficient: item.coefficient,
+                        netSumMerge: item.netSumMerge,
+                        identifier: item.identifier
+                    })}</td>
+                        </tr>
+                    `)
+                    $("#mainChargesDeductionsSumTr").append(`
+                        <tr>
+                            <td>${item.title}</td>
+                            <td class="text-right">
+                                <span id="${item.identifier}_tr" dir="rtl">0</span><span> ریال</span>
+                            </td>
+                        </tr>
+                    `)
+                })
+            }
+        })
+        mainProductCount = $("#mainProduct tr").length;
+    })
 
     $("#addProductButton").on('click', function () {
         let brand = $("#brand_id").val()

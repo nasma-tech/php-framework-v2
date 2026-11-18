@@ -203,25 +203,35 @@
                                                 <span id="netSumAllProductRow" dir="rtl">0</span><span> ریال</span>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>هزینه بسته بندی و بارگیری</td>
-                                            <td class="text-right">
-                                                <span id="" dir="rtl">0</span><span> ریال</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>مالیات بر ارزش افزوده</td>
-                                            <td class="text-right">
-                                                <span id="" dir="rtl">0</span><span> ریال</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>جمع کل</td>
-                                            <td class="text-right">
-                                                <span id="" dir="rtl">0</span><span> ریال</span>
-                                            </td>
-                                        </tr>
                                         </tbody>
+                                        <tbody id="mainChargesDeductionsSumTr"></tbody>
+                                        <tfoot>
+                                            <tr class="border-top">
+                                                <td>جمع کل</td>
+                                                <td class="text-right">
+                                                    <span id="finalSum" dir="rtl">0</span><span> ریال</span>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped text-center">
+                                        <thead class="thead-dark">
+                                        <tr>
+                                            <th class="border text-center" colspan="2">
+                                                اعمال محاسبات
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="mainChargesDeductions"></tbody>
                                     </table>
                                 </div>
                             </div>
@@ -236,37 +246,9 @@
                                         <thead class="thead-dark">
                                         <tr>
                                             <th class="border text-center" colspan="2">
-                                                اعمال محاسبات
+                                                معرف
                                             </th>
                                         </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>بسته بندی و بارگیری</td>
-                                            <td>0</td>
-                                        </tr>
-                                        <tr>
-                                            <td>مالیات</td>
-                                            <td>0</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                <th class="border text-center" colspan="2">
-                                                    معرف
-                                                </th>
-                                            </tr>
                                         </thead>
                                         <tbody>
                                         <tr>
