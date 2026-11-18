@@ -32,9 +32,23 @@
                                     {/if}
                                 {/foreach}
                                 {if $stepValidation}
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="divider">
+                                                <div class="divider-text">{$stepConfig['title']}</div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     {include $stepConfig['stepFile']}
                                 {/if}
                             {else}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="divider">
+                                            <div class="divider-text">{$stepConfig['title']}</div>
+                                        </div>
+                                    </div>
+                                </div>
                                 {include $stepConfig['stepFile']}
                             {/if}
                         </fieldset>
