@@ -30,17 +30,6 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3">
-                                <label>نوع پروژه</label>
-                                <select class="form-control select2" id="project_type_id"
-                                        name="project_type_id">
-                                    {foreach $projectsType as $item}
-                                        {if !in_array($item->id,$implementation)}
-                                            <option value="{$item->id}">{$item->title}</option>
-                                        {/if}
-                                    {/foreach}
-                                </select>
-                            </div>
-                            <div class="col-md-3">
                                 <label>عنوان تیم</label>
                                 <input class="form-control" id="team_title" name="team_title">
                             </div>

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@dbml/core": "^12.0.0"
+  }
+}

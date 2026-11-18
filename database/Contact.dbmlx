@@ -1,6 +1,0 @@
-Table Contact {
-    id bigint [pk, increment]
-    first_name varchar(191)
-    last_name varchar(191)
-    mobile varchar(20)
-}

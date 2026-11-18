@@ -94,7 +94,13 @@ $router->mount('/MenuList', function () use ($router) {
     ]);
 });
 $router->mount('/countries', function () use ($router) {
-    dynamicRoute($router, countries::class);
+    dynamicRoute($router, countries::class,[
+        [
+        'method' => 'GET',
+        'path' => '/getCountryData(/\d+)',
+        'action' => 'getCountryData'
+    ],
+    ]);
 });
 $router->mount('/states', function () use ($router) {
     dynamicRoute($router, states::class, [
@@ -105,7 +111,7 @@ $router->mount('/states', function () use ($router) {
         ],
         [
             'method' => 'GET',
-            'path' => '/getStates',
+            'path' => '/getStates(/\d+)',
             'action' => 'getStates'
         ]
     ]);
@@ -113,7 +119,7 @@ $router->mount('/states', function () use ($router) {
 $router->mount('/cities', function () use ($router) {
     dynamicRoute($router, cities::class, [
         [
-            'method' => 'GET',
+            'method' => 'POST',
             'path' => '/getFilterCities',
             'action' => 'getFilterCities'
         ],
@@ -370,5 +376,18 @@ $router->mount('/WorkGroups', function () use ($router) {
             'path' => '/getWorkGroupsIndex',
             'action' => 'getWorkGroupsIndex'
         ]
+    ]);
+});$router->mount('/Warehouses', function () use ($router) {
+    dynamicRoute($router, App\Controllers\Warehouses\Warehouses::class,[
+        [
+            'method' => 'POST',
+            'path' => "/getWarehouseKeepers",
+            'action' => 'getWarehouseKeepers'
+        ],
+        [
+            'method' => 'POST',
+            'path' => "/addTeam",
+            'action' => 'addTeam'
+        ],
     ]);
 });
