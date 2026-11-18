@@ -82,11 +82,11 @@ kbd {
     padding-bottom: 0.5rem;
 }
 
-.dt-info{
+.dt-info {
     padding-top: 0.5rem;
 }
 
-.pagination{
+.pagination {
     padding-bottom: 1rem;
 }
 
@@ -654,13 +654,29 @@ audio {
 }
 
 /* vertical wizard section becomes 100% on small screen */
+/*@media (max-width: 767.98px) {*/
+/*    .wizard.vertical .steps {*/
+/*        width: 73vw;*/
+/*    }*/
+
+/*    .wizard.vertical .content {*/
+/*        width: 73vw;*/
+/*        border-right: none;*/
+/*    }*/
+/*}*/
 @media (max-width: 767.98px) {
-    .wizard.vertical .steps {
-        width: 73vw;
+    .wizard.vertical {
+        width: 100%;
+    }
+
+    .wizard.vertical .steps,
+    .wizard.vertical .content {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .wizard.vertical .content {
-        width: 73vw;
         border-right: none;
     }
 }
@@ -2305,34 +2321,34 @@ LEGEND {
 }
 
 
-.erp-toastify{
-    min-width:400px !important;
-    background:#fff !important;
-    color:#333 !important;
-    border-radius:12px !important;
-    box-shadow:0 8px 25px rgba(0,0,0,.15);
+.erp-toastify {
+    min-width: 400px !important;
+    background: #fff !important;
+    color: #333 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .15);
 }
 
-.erp-toast{
-    display:flex;
-    align-items:center;
-    gap:15px;
+.erp-toast {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
-.toast-avatar{
-    width:80px;
-    height:80px;
-    border-radius:50%; /* اگر عکس پروفایل است */
-    object-fit:cover;
+.toast-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%; /* اگر عکس پروفایل است */
+    object-fit: cover;
 }
 
-.content .title{
-    font-weight:bold;
-    font-size:16px;
-    margin-bottom:5px;
+.content .title {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
 }
 
-.content .desc{
-    font-size:14px;
-    color:#666;
+.content .desc {
+    font-size: 14px;
+    color: #666;
 }

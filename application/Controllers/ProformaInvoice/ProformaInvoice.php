@@ -276,6 +276,7 @@ class ProformaInvoice extends ControllerScheme
                     $sectionsVariables['mainSections'] ?? [], //sections
                     $sectionsVariables['moreSections'] ?? [], //sections
                     [
+                        'processLogoAddress' => "/public/images/logo/logo-side-menu.png",
                         'cartables' => [
                             //cartables data
                         ],

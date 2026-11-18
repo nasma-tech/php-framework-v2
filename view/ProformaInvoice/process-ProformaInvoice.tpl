@@ -51,29 +51,60 @@
             </div>
         </div>
 
-        <div class="card shadow" style="margin-top: 3px">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-3 text-center" style="border-left: 1px dotted">
-                        <img class="p-1" width="256"
-                             src="" alt="logo">
-                    </div>
-                    <div class="col-md-3 text-center" style="border-left: 1px dotted">
-                        <h6 class="my-1"><i class="bx align-middle bx-support"></i>مشخصات کارشناس</h6>
-                    </div>
-                    <div class="col-md-3 text-center" style="border-left: 1px dotted">
-                        <h6 class="my-1"><i class="bx align-middle bx-user-voice"></i>اطلاعات مشتری</h6>
-                    </div>
-                    <div class="col-md-3 text-center">
-                        <h6 class="my-1"><i class="bx align-middle bx-file"></i>اطلاعات پیش فاکتور</h6>
+        <div class="row mt-1">
+
+            <div class="col-12 col-md-3">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <img class="p-1" width="256"
+                                     src="{$processLogoAddress}" alt="logo">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="col-12 col-md-3">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <h6 class="my-1"><i class="bx align-middle bx-support"></i>مشخصات کارشناس</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-3">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <h6 class="my-1"><i class="bx align-middle bx-user-voice"></i>اطلاعات مشتری</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-3">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <h6 class="my-1"><i class="bx align-middle bx-file"></i>اطلاعات پیش فاکتور</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
         {*        {if $getData->checkInvoiceValidity()}*}
         {if true}
             {$csrf->csrfTokenInput()}
-            <div class="card shadow" style="margin-top: 3px">
+            <div class="card shadow mt-1">
                 <div class="card-content">
                     <div class="card-body">
                         <ul class="nav nav-pills nav-justified">
@@ -111,7 +142,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card shadow" style="margin-top: 3px">
+            <div class="card shadow mt-1">
                 <div class="card-content">
                     <div class="card-body">
                         <div class="tab-content">
