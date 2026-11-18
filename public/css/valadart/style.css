@@ -1,0 +1,7 @@
+#orgChartDiv {
+  width: 100%;
+  height: calc(100vh - 380px);
+  min-height: 420px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}

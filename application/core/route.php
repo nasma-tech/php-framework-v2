@@ -6,7 +6,7 @@ use App\Controllers\colors\colors;
 use App\Controllers\countries\countries;
 use App\Controllers\CustomerContactInformation\CustomerContactInformation;
 use App\Controllers\dashboard\dashboard;
-use App\Controllers\ImplementationTeam\ImplementationTeam;
+use App\Controllers\salesTeam\salesTeam;
 use App\Controllers\login\login;
 use App\Controllers\login\MenuList\MenuList;
 use App\Controllers\roles\roles;
@@ -75,7 +75,7 @@ $router->mount('/dashboard', function () use ($router) {
 $router->mount('/users', function () use ($router) {
     dynamicRoute($router, users::class, [
         [
-            'method' => 'GET',
+            'method' => 'POST',
             'path' => '/getUsersForm',
             'action' => 'getUsersForm'
         ]
@@ -354,19 +354,11 @@ $router->mount('/ContactAcquisitionSources', function () use ($router) {
         ]
     ]);
 });
-$router->mount('/ImplementationTeam', function () use ($router) {
-    dynamicRoute($router, ImplementationTeam::class, [
-        [
-            'method' => 'POST',
-            'path' => "/getTreeData",
-            'action' => 'getTreeData'
-        ]
-    ]);
-});
+
 $router->mount('/WorkGroups', function () use ($router) {
     dynamicRoute($router, WorkGroups::class, [
         [
-            'method' => 'GET',
+            'method' => 'POST',
             'path' => '/getWorkGroupsIndex',
             'action' => 'getWorkGroupsIndex'
         ]
@@ -384,4 +376,7 @@ $router->mount('/WorkGroups', function () use ($router) {
             'action' => 'addTeam'
         ],
     ]);
+});
+$router->mount('/salesTeam', function () use ($router) {
+    dynamicRoute($router, App\Controllers\salesTeam\salesTeam::class);
 });
