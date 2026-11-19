@@ -13,7 +13,7 @@
                           style="font-family: monospace; padding: 5px 10px;">-----</span>
                 </h4>
                 {$buttonHelper->refreshAndBackButton(2)}
-                <div class="btn-group mb-1 float-right">
+                <div dir="rtl" class="btn-group mb-1 float-right">
                     <div class="dropdown">
 
                         <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButtonIcon"
@@ -53,7 +53,7 @@
 
         <div class="row mt-1">
 
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-3 mb-1">
                 <div class="card shadow h-100">
                     <div class="card-body">
                         <div class="row">
@@ -65,7 +65,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-3 mb-1">
                 <div class="card shadow h-100">
                     <div class="card-body">
                         <div class="row">
@@ -76,7 +76,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-3 mb-1">
                 <div class="card shadow h-100">
                     <div class="card-body">
                         <div class="row">
@@ -87,7 +87,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-3 mb-1">
                 <div class="card shadow h-100">
                     <div class="card-body">
                         <div class="row">
@@ -104,7 +104,7 @@
         {*        {if $getData->checkInvoiceValidity()}*}
         {if true}
             {$csrf->csrfTokenInput()}
-            <div class="card shadow mt-1">
+            <div class="card shadow">
                 <div class="card-content">
                     <div class="card-body">
                         <ul class="nav nav-pills nav-justified">
@@ -121,9 +121,9 @@
                             {/foreach}
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                                <a class="nav-link dropdown-toggle h-100" data-toggle="dropdown" href="#" role="button"
                                    aria-haspopup="true" aria-expanded="false">
-                                    بیشتر
+                                    <i class="bx bx-dots-vertical-rounded mr-50 align-middle"></i>بیشتر
                                 </a>
                                 <div class="dropdown-menu">
                                     {foreach $sectionsConfig['moreSections']|default:[] as $moreSection}
