@@ -49,22 +49,38 @@ $(function () {
         phoneTrCounter++
     })
 
-    $("#phoneTableBody").on('click','.removePhoneRow',function () {
+    $("#phoneTableBody").on('click', '.removePhoneRow', function () {
         let count = $(this).data('count');
         $(this).closest('tr').remove()
         $(`#socialTrRow_${count}`).remove()
     })
 
-    $("#phoneTableBody").on('input','.phone_number',function () {
+    $("#phoneTableBody").on('input', '.phone_number', function () {
         let value = $(this).val();
         if (value.length !== 11) {
             $(this).addClass('is-invalid').removeClass('is-valid')
         } else {
-            $(this).removeClass('is-invalid').addClass('is-valid')
+            $.ajax({
+                url: '/ContactPhones/checkNumberInput',
+                method: "POST",
+                data: {phone_number: value},
+                dataType: 'JSON',
+                success: (result) => {
+                    if (result.status == "exist") {
+                        swal.fire({
+                            icon: 'warning',
+                            title: `این شماره به نام ${result.contactFirstName} ${result.contactLastName}`
+                        })
+                        $(this).addClass('is-invalid').removeClass('is-valid')
+                    }else if (result.status == "Nont_exist") {
+                        $(this).removeClass('is-invalid').addClass('is-valid')
+                    }
+                }
+            })
         }
     })
 
-    $("#phoneTableBody").on('change','.contact_phone_label_id',function () {
+    $("#phoneTableBody").on('change', '.contact_phone_label_id', function () {
         let count = $(this).data('count');
         let hasSocial = $(this).find(':selected').data('social');
         if (hasSocial) {

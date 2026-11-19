@@ -9,7 +9,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title" style="float: right">افزودن {$singleName} جدید</h4>
+                        <h4 class="card-title" style="float: right">بروزرسانی {$singleName}</h4>
                         {$buttonHelper->refreshAndBackButton()}
                     </div>
                     <hr>

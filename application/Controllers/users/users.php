@@ -131,7 +131,7 @@ class users extends ControllerScheme
     {
         $get = UserModel::query()
             ->with([
-                'staffPermissionData'
+                'roleData'
             ])
             ->get();
 
@@ -140,7 +140,7 @@ class users extends ControllerScheme
                 'id' => $item['id'],
                 'fullname' => $item['full_name'],
                 'avatar' => userHelper->getUserImage($item['id']),
-                'position' => (($item['staff_permission_data']) ? $item['staff_permission_data']['per_name'] : ' - '),
+                'position' => "-",
             ];
         }, $get->toArray());
     }

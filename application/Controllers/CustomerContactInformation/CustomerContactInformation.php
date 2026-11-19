@@ -72,11 +72,12 @@ class CustomerContactInformation extends ControllerScheme
             [
                 'IndustryType' => IndustryTypeModel::query()->get(),
                 'FollowUpActionsTitle' => FollowUpActionsTitleModel::query()->get(),
+
             ]
         )->display('CustomerContactInformation/add-CustomerContactInformation.tpl');
     }
 
-    public function contactDetail($id = null)
+    public function contactDetail($id = null): void
     {
         try {
             $contactData = CustomerContactInformationModel::with([
@@ -107,13 +108,13 @@ class CustomerContactInformation extends ControllerScheme
                 ])->where('contact_id', $contactData->id)->get(),
                 'socialNetWorksList' => SocialNetworksListModel::query()->get(),
             ])->display('CustomerContactInformation/contactDetail.tpl');
-        }catch (\Exception $exception){
-            handleHttpErrorView::handle(404,'مشتری یافت نشد');
+        } catch (\Exception $exception) {
+            handleHttpErrorView::handle(404, 'مشتری یافت نشد');
         }
 
     }
 
-    public function contactDetailCall($phoneNumber)
+    public function contactDetailCall($phoneNumber): void
     {
         switch (strlen($phoneNumber)) {
             case 14:
@@ -206,7 +207,7 @@ class CustomerContactInformation extends ControllerScheme
             return CustomerContactInformationModel::query()->create($mergeData)->id;
         } elseif ($data['contact_type'] == 2) {
             $this->checkRequired([
-                'national_ID'=>'شناسه ملی'
+                'national_ID' => 'شناسه ملی'
             ], $data);
             $dataForm = [
                 'national_ID' => $data['national_ID'],
@@ -236,6 +237,7 @@ class CustomerContactInformation extends ControllerScheme
                 'contact_phone_label_id' => 'عنوان تماس',
                 'phone_number' => 'شماره تماس',
             ], $item);
+
             $socialList = $item['socialList'] ?? [];
             unset($item['socialList']);
             $item['contact_id'] = $contactId;
@@ -245,9 +247,10 @@ class CustomerContactInformation extends ControllerScheme
                 $addPhoneContact->socialNetworks()->attach($socialList);
             }
         }
+
     }
 
-    public function createProjectCode(int $contactId)
+    public function createProjectCode(int $contactId): string
     {
         $contactProject = ContactProjectsModel::query()->where('contact_id', $contactId)->count();
         return jdate('Y') . $contactId . ($contactProject + 1);
@@ -275,10 +278,7 @@ class CustomerContactInformation extends ControllerScheme
                 foreach ($data['projectRequest'] as $item) {
                     ContactProjectRequestsModel::query()->create([
                         'contact_project_id' => $addProject->id,
-                        'car_group_id' => $item['car_group_id'],
-                        'car_brand_id' => $item['car_brand_id'],
-                        'car_model_id' => $item['car_model_id'],
-                        'car_tip_id' => $item['car_tip_id'],
+                        'product_id' => $item['product_id'],
                         'request_amount' => $item['request_amount'],
                         'user_id' => userObject()->userId,
                     ]);
@@ -308,8 +308,9 @@ class CustomerContactInformation extends ControllerScheme
         ContactProjectsFollowUpModel::query()->create($makeData);
     }
 
-    public function add()
+    public function add(): void
     {
+        $_ENV['APP_DEBUG'] = 1;
         $addContact = $this->addContactInfo();
         $this->addContactPhonesAndSocialNetWorks($addContact);
         $addContactProject = $this->addContactProject($addContact);

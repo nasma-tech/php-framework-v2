@@ -1,43 +1,21 @@
 $(function () {
     const makeProductRow = (counter) => {
-        $(`#car_group_id_${counter}`).getOptionsValue({
-            urlAddress: '/CarsGroup/getCarGroups', callback: result => {
+        $(`#product_id_${counter}`).getOptionsValue({
+            urlAddress: '/Products/getProductData', callback: result => {
                 $.each(result, function (key, item) {
-                    $(`#car_group_id_${counter}`).append(`<option value="${item.id}">${item.title}</option>`)
-                })
-            }
-        })
-        $(`#car_brand_id_${counter}`).getOptionsValue({
-            urlAddress: '/CarsBrand/getCarBrands', callback: result => {
-                $.each(result, function (key, item) {
-                    $(`#car_brand_id_${counter}`).append(`<option value="${item.id}">${item.title}</option>`)
+                    $(`#product_id_${counter}`).append(`<option value="${item.id}"><item className="title">${item.title}</item></option>`)
                 })
             }
         })
         return `
             <tr>
                 <td class="border">
-                    <select class="form-control carsOptionsSelect carGroupId select2" data-count="${counter}" id="car_group_id_${counter}" name="projectRequest[${counter}][car_group_id]">
-                         <option selected disabled>گروه خودرو</option>
-                    </select>
-                </td>
-                <td class="border">
-                    <select class="form-control carsOptionsSelect carBrandId select2" data-count="${counter}" id="car_brand_id_${counter}" name="projectRequest[${counter}][car_brand_id]">
-                         <option selected disabled>برند خودرو</option>
-                    </select>
-                </td>
-                <td class="border">
-                    <select class="form-control carsOptionsSelect carModelId select2" data-count="${counter}" id="car_model_id_${counter}" name="projectRequest[${counter}][car_model_id]">
-                       <option selected disabled>مدل خودرو</option>
-                    </select>
-                </td>
-                <td class="border">
-                    <select class="form-control carsOptionsSelect carTipId select2" data-count="${counter}" id="car_tip_id_${counter}" name="projectRequest[${counter}][car_tip_id]">
-                            <option selected disabled>تیپ خودرو</option>
+                    <select class="form-control projectOptionsSelect carTipId select2" data-count="${counter}" id="product_id_${counter}" name="projectRequest[${counter}][product_id]">
+                            <option selected disabled>یک مورد را انتخاب کنید</option>
                     </select>
                 </td>
                 <td class="border" width="150">
-                    <input class="form-control requestAmount" dir="ltr" type="text" id="request_amount" data-count="${counter}" name="projectRequest[${counter}][request_amount]">
+                    <input class="form-control requestAmount" dir="ltr" type="text"  data-count="${counter}" name="projectRequest[${counter}][request_amount]">
                 </td>
                 <td class="border">
                     <div class="dropup">
@@ -58,14 +36,14 @@ $(function () {
             </tr>
         `
     }
-    let productCounter = 1;
+    let productCounter = $("#productRequestTableBody tr").length ;
 
     $("#productAppend").on('click',function () {
         $("#productRequestTableBody").append(makeProductRow(productCounter))
-        $(".carsOptionsSelect").select2({
+        $(".projectOptionsSelect").select2({
             width: '100%'
         })
-        $(".requestAmount").numberInput(2)
+        $(".requestAmount").numberInput()
         productCounter++
     })
 
@@ -73,33 +51,6 @@ $(function () {
         $(this).closest('tr').remove()
     })
 
-    $("#productRequestTableBody").on('change','.carBrandId',function () {
-        let rowCount = $(this).data('count')
-        $(`#car_model_id_${rowCount}`).empty().append('<option selected disabled>مدل خودرو</option>')
-        $(`#car_tip_id_${rowCount}`).empty().append('<option selected disabled>تیپ خودرو</option>')
-        $(this).getOptionsValue({
-            urlAddress: '/CarsModel/getCarModel', callback: result => {
-                $.each(result, function (key, item) {
-                    $(`#car_model_id_${rowCount}`).append(`<option value="${item.id}">${item.title}</option>`)
-                })
-            },requestData:{
-                carBrandId :$(this).val()
-            }
-        })
-    })
 
-    $("#productRequestTableBody").on('change','.carModelId',function () {
-        let rowCount = $(this).data('count')
-        $(`#car_tip_id_${rowCount}`).empty().append('<option selected disabled>تیپ خودرو</option>')
-        $(this).getOptionsValue({
-            urlAddress: '/CarsTip/getCarTips', callback: result => {
-                $.each(result, function (key, item) {
-                    $(`#car_tip_id_${rowCount}`).append(`<option value="${item.id}">${item.title}</option>`)
-                })
-            },requestData:{
-                carModelId :$(this).val()
-            }
-        })
-    })
 
 })

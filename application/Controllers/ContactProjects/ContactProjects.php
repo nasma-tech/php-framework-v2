@@ -9,6 +9,7 @@ use App\Models\ContactProjectsModel\ContactProjectsModel;
 use App\Models\ContactsGroupModel\ContactsGroupModel;
 use App\Models\FollowUpActionsTitleModel\FollowUpActionsTitleModel;
 use App\Models\IndustryTypeModel\IndustryTypeModel;
+use App\Models\ProductModel\ProductModel;
 
 class ContactProjects extends ControllerScheme
 {
@@ -49,6 +50,7 @@ class ContactProjects extends ControllerScheme
             //'js/ContactProjects/add-ContactProjects'
         ], [],
             [//vars
+
             ]
         )->display('ContactProjects/add-ContactProjects.tpl');
     }
@@ -67,12 +69,17 @@ class ContactProjects extends ControllerScheme
         ])->display('ContactProjects/edit-ContactProjects.tpl');
     }
 
-    public function ContactProjectDetail($id)
+    public function ContactProjectDetail($id): void
     {
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
-        view->setModel(ContactProjectsModel::query()->find($id));
+        view->setModel(ContactProjectsModel::query()
+            ->with([
+                'followUpData',
+                'followUpData.priceSuggestionData',
+            ])
+            ->find($id));
         view->ui([
             'js/CustomerContactInformation/ContactProject',
             'js/CustomerContactInformation/ContactFollowUp',
@@ -82,10 +89,11 @@ class ContactProjects extends ControllerScheme
         ], [
             'IndustryType' => IndustryTypeModel::query()->get(),
             'FollowUpActionsTitle' => FollowUpActionsTitleModel::query()->get(),
+            'Products' => ProductModel::query()->get(),
         ])->display('CustomerContactInformation/ContactProjectDetail.tpl');
     }
 
-    public function add()
+    public function add(): void
     {
         $data = $this->requestArray();
         $customerContact = new CustomerContactInformation();
@@ -108,20 +116,35 @@ class ContactProjects extends ControllerScheme
                 foreach ($data['projectRequest'] as $item) {
                     ContactProjectRequestsModel::query()->create([
                         'contact_project_id' => $addProject->id,
-                        'car_group_id' => $item['car_group_id'],
-                        'car_brand_id' => $item['car_brand_id'],
-                        'car_model_id' => $item['car_model_id'],
-                        'car_tip_id' => $item['car_tip_id'],
+                        'product_id' => $item['product_id'],
                         'request_amount' => $item['request_amount'],
                         'user_id' => userObject()->userId,
                     ]);
                 }
             }
         }
-        if (!$addProject) {
+        if ($addProject) {
             $this->successCallBack("/CustomerContactInformation/contactDetail/{$data['contact_id']}", 'پروژه با موفقیت اضافه شد');
         } else {
             $this->failedCallBack("/CustomerContactInformation/contactDetail/{$data['contact_id']}", 'افزودن پروژه با خطا مواجه شد');
         }
+    }
+
+
+    public function edit($id)
+    {
+        $data = $this->requestArray();
+        $delete = ContactProjectRequestsModel::query()->where('contact_project_id', $id)->update(['deleted_at' => date('Y-m-d H:i:s')]);
+        if ($delete) {
+            foreach ($data['projectRequest'] as $item) {
+                ContactProjectRequestsModel::query()->create([
+                    'contact_project_id' => $id,
+                    'product_id' => $item['product_id'],
+                    'request_amount' => $item['request_amount'],
+                    'user_id' => userObject()->userId,
+                ])->save();
+            }
+        }
+        $this->successCallBack("/ContactProjects/ContactProjectDetail/{$id}", 'پروژه با موفقیت بروزرسانی شد ');
     }
 }

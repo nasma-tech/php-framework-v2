@@ -87,4 +87,22 @@ class ContactPhones extends ControllerScheme
         }
 
     }
+
+    public function checkNumberInput()
+    {
+        $data = $this->requestArray();
+        $checkData = ContactPhonesModel::query()->with('contactDetail')->where('phone_number', $data['phone_number'])->first();
+//        dd($checkData);
+        if (!empty($checkData)) {
+            echo json_encode([
+                "status" => 'exist',
+                'contactFirstName' => $checkData->contactDetail->first_name,
+                'contactLastName' => $checkData->contactDetail->last_name,
+            ]);
+        } else {
+            echo json_encode([
+                "status" => 'Nont_exist',
+            ]);
+        }
+    }
 }

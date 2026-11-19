@@ -1,6 +1,8 @@
 <?php
 //bootstrap required
 
+use Packages\View\Helpers\FlashMessageHelper;
+
 require 'Errors.php';
 
 

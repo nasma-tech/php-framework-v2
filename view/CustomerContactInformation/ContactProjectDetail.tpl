@@ -22,7 +22,9 @@
 
         <div class="row mb-5" style="margin-top: 3px">
             <div class="col-md-6">
-                {include 'CustomerContactInformation/ContactProject.tpl'}
+                <form action="/ContactProjects/edit/{$getData.id}" method="post">
+                    {include 'CustomerContactInformation/ContactProject.tpl'}
+                </form>
             </div>
             <div class="col-md-6 pl-0">
                 <form action="/ContactProjectsFollowUp/add" method="post">
@@ -61,18 +63,24 @@
                                             <td class="border">{jdate("Y/m/d",$item.next_followUp_date)}</td>
                                             <td class="border">{$item.userData.full_name}</td>
                                             <td class="border">
-                                                {if $item.next_followUp_date == strtotime('today')}
-                                                    <div class="badge badge-pill badge-light-primary">
-                                                        پیگیری های امروز
+                                                {if $item.followUpActionData}
+                                                    <div class="badge badge-pill badge-light-success">
+                                                        پیگیری شده
                                                     </div>
-                                                {elseif $item.next_followUp_date < strtotime('today')}
-                                                    <div class="badge badge-pill badge-light-danger">
-                                                        عقب افتاده
-                                                    </div>
-                                                {elseif $item.next_followUp_date > strtotime('today')}
-                                                    <div class="badge badge-pill badge-light-warning">
-                                                        برنامه ریزی شده
-                                                    </div>
+                                                {else}
+                                                    {if $item.next_followUp_date == strtotime('today')}
+                                                        <div class="badge badge-pill badge-light-primary">
+                                                            پیگیری های امروز
+                                                        </div>
+                                                    {elseif $item.next_followUp_date < strtotime('today')}
+                                                        <div class="badge badge-pill badge-light-danger">
+                                                            عقب افتاده
+                                                        </div>
+                                                    {elseif $item.next_followUp_date > strtotime('today')}
+                                                        <div class="badge badge-pill badge-light-warning">
+                                                            برنامه ریزی شده
+                                                        </div>
+                                                    {/if}
                                                 {/if}
                                             </td>
                                             <td class="border">
@@ -87,40 +95,57 @@
                                                 {/if}
                                             </td>
                                             <td class="border">
-                                                {if $item.next_followUp_date <= strtotime('today')}
-                                                    <div class="dropdown">
+                                                <div class="dropdown">
                                                     <span class="bx bx-dots-horizontal-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer"
                                                           data-toggle="dropdown" aria-haspopup="true"
                                                           aria-expanded="false" role="menu">
                                                     </span>
-                                                        <div class="dropdown-menu">
-                                                            {if !$item.followUpActionData}
-                                                                <a class="dropdown-item text-primary actionMenuButton"
-                                                                   data-toggle="modal"
-                                                                   style="cursor: pointer"
-                                                                   data-type="add"
-                                                                   data-followup="{$item.id}"
-                                                                   data-target="#mainFollowUpAction">
-                                                                    <i class="bx bx-edit-alt mr-1 text-primary"></i>ثبت
-                                                                    نتیجه</a>
+                                                    <div class="dropdown-menu">
+                                                        {if !$item.followUpActionData}
+                                                            <a class="dropdown-item text-primary actionMenuButton"
+                                                               data-toggle="modal"
+                                                               style="cursor: pointer"
+                                                               data-type="add"
+                                                               data-followup="{$item.id}"
+                                                               data-target="#mainFollowUpAction">
+                                                                <i class="bx bx-edit-alt mr-1 text-primary"></i>ثبت
+                                                                نتیجه</a>
+                                                        {else}
+                                                            <a class="dropdown-item text-success actionMenuButton"
+                                                               data-toggle="modal"
+                                                               style="cursor: pointer"
+                                                               data-type="show"
+                                                               data-action="{$item.followUpActionData.followUp_description}"
+                                                               data-date="{jdate("H:i - Y/m/d",$item.followUpActionData.action_time)}"
+                                                               data-followup="{$item.id}"
+                                                               data-user="{$item.followUpActionData.userData.full_name}"
+                                                               data-target="#mainFollowUpAction">
+                                                                <i class="bx bx-show mr-1 text-success"></i>مشاهده
+                                                                نتیجه</a>
+                                                        {/if}
+                                                        {if $item.FollowUp_action_id == 8}
+                                                            {if $item.priceSuggestionData}
+                                                                <a class="dropdown-item text-warning"
+                                                                   href="/PriceSuggestion/editPriceSuggestion/{$item.priceSuggestionData.id}"
+                                                                   style="cursor: pointer">
+                                                                    <i class="bx bxs-file mr-1 text-warning"></i> اصلاح
+                                                                    پیشنهاد
+                                                                    قیمت</a>
+                                                                <a class="dropdown-item text-primary"
+                                                                   href="/ProformaInvoice/createProformaInvoice/{$item.priceSuggestionData.id}"
+                                                                   style="cursor: pointer">
+                                                                    <i class="bx bxs-file-blank mr-1 text-primary"></i>صدور
+                                                                    پیشفاکتور</a>
                                                             {else}
-                                                                <a class="dropdown-item text-success actionMenuButton"
-                                                                   data-toggle="modal"
-                                                                   style="cursor: pointer"
-                                                                   data-type="show"
-                                                                   data-action="{$item.followUpActionData.followUp_description}"
-                                                                   data-date="{jdate("H:i - Y/m/d",$item.followUpActionData.action_time)}"
-                                                                   data-followup="{$item.id}"
-                                                                   data-user="{$item.followUpActionData.userData.full_name}"
-                                                                   data-target="#mainFollowUpAction">
-                                                                    <i class="bx bx-show mr-1 text-success"></i>مشاهده
-                                                                    نتیجه</a>
+                                                                <a class="dropdown-item text-success"
+                                                                   href="/PriceSuggestion/createPriceSuggestion/{$getData.id}/{$item.id}"
+                                                                   style="cursor: pointer">
+                                                                    <i class="bx bxs-file mr-1 text-success"></i>پیشنهاد
+                                                                    قیمت</a>
                                                             {/if}
-                                                        </div>
+                                                        {/if}
                                                     </div>
-                                                {else}
-                                                    -
-                                                {/if}
+                                                </div>
                                             </td>
                                         </tr>
                                     {/foreach}
@@ -153,7 +178,8 @@
                         <div class="col-md-6 text-center" id="showUser"></div>
                         <div class="col-md-12">
                             <label for="followUp_action_description"></label>
-                            <textarea class="form-control" id="followUp_action_description" name="followUp_description" rows="10"
+                            <textarea class="form-control" id="followUp_action_description" name="followUp_description"
+                                      rows="10"
                                       style="resize: none"></textarea>
                         </div>
                     </div>

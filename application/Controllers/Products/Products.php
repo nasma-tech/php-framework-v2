@@ -10,7 +10,6 @@ use App\Models\ProductGroupModel\ProductGroupModel;
 use App\Models\ProductModel\ProductModel;
 use App\Models\ProductQualitiesModel\ProductQualitiesModel;
 
-
 class Products extends ControllerScheme
 {
     const string singleName = 'محصول';
@@ -123,8 +122,37 @@ class Products extends ControllerScheme
             if ($add) {
                 var_print('hi');
             }
-//            var_print($files);
         }
+    }
 
+    public function getProductDataFilterByBrand(): void
+    {
+        $_ENV['APP_DEBUG'] = 1;
+        $brandId = $this->requestArray()['brandId'];
+        if ($brandId){
+            echo json_encode(array_map(function ($item) {
+                return [
+                    'id' => $item['id'],
+                    'title' => $item['label'],
+                    'unitPrice'=>$item['sale_price'],
+                    'unitName' => $item['measurement_unit_data']['label'],
+                ];
+            }, ProductModel::query()
+                ->with([
+                    'measurementUnitData'
+                ])->where('brand_id',$brandId)->get()->toArray()));
+        }
+    }
+
+    public function getProductData(): void
+    {
+        echo json_encode(array_map(function ($item) {
+            return [
+                'id' => $item['id'],
+                'title' => $item['label'],
+
+            ];
+        }, ProductModel::query()
+            ->get()->toArray()));
     }
 }

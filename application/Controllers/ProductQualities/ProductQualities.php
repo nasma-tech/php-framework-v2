@@ -3,8 +3,8 @@ namespace App\Controllers\ProductQualities;
 use App\Controllers\scheme\ControllerScheme;
 use App\Models\ProductQualitiesModel\ProductQualitiesModel;
 class ProductQualities extends ControllerScheme{
-        const string singleName = '';
-        const string pluralName = '';
+        const string singleName = 'سطح کیفی';
+        const string pluralName = 'سطوح کیفی';
         protected string $defaultModel = ProductQualitiesModel::class;
         
         public function main(){

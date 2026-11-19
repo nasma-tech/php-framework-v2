@@ -3,6 +3,7 @@
 namespace App\Models\ContactPhonesModel;
 
 use App\Models\ContactPhoneLabelModel\ContactPhoneLabelModel;
+use App\Models\CustomerContactInformationModel\CustomerContactInformationModel;
 use App\Models\SocialNetworksListModel\SocialNetworksListModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -37,6 +38,14 @@ class ContactPhonesModel extends Model
     public function phoneLabelData(): HasOne
     {
         return $this->hasOne(ContactPhoneLabelModel::class,'id','contact_phone_label_id');
+    }
+    public function contactDetail()
+    {
+        return $this->belongsTo(
+            CustomerContactInformationModel::class,
+            'contact_id',
+            'id',
+        );
     }
 
 }
