@@ -9,6 +9,7 @@ $handler = new PrettyPageHandler();
 foreach (array_keys($_ENV) as $item) {
     $handler->blacklist('_ENV', $item);
 }
+
 foreach (array_keys($_SERVER) as $item) {
     $handler->blacklist('_SERVER', $item);
 }

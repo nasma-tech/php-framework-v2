@@ -95,7 +95,6 @@ class ProformaInvoice extends ControllerScheme
 
     public function add(): void
     {
-        $_ENV['APP_DEBUG'] = 1;
         $data = $this->requestArray();
 
         $makeProformaInvoiceData = [
@@ -137,6 +136,15 @@ class ProformaInvoice extends ControllerScheme
                 }
             }
 
+
+            $invoice_sum = 0;
+            $invoice_sum_discount = 0;
+            $invoice_net_sum = 0;
+            $invoice_sum_tax = 0;
+            $invoice_sum_tax_details = 0;
+            $invoice_sum_total = 0;
+
+
             foreach ($data['productList'] as $item) {
                 $unitDiscount = 0;
                 if ($item['discount_type'] == 'percentage') {
@@ -145,30 +153,51 @@ class ProformaInvoice extends ControllerScheme
                     $unitDiscount = numberNormalizer->removePriceSeparator($item['discount_unit_amount']);
                 }
                 $invoiceProduct = [
-                    'proforma_invoice_id'=>$addProformaInvoice->id,
+                    'proforma_invoice_id' => $addProformaInvoice->id,
                     'product_id' => $item['product_id'],
                     'amount' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])),
                     'unit_price' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_unit_price'])),
-                    'discount_type' => $item['discount_type'] ?? 'noDiscount',
+                    'discount_type' => (($item['discount_type']) ?: 'noDiscount'),
                     'discount_unit_amount' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['discount_unit_amount'])),
                     'discount_unit_amount_cash' => $unitDiscount,
                     'discount_amount' => numberNormalizer->removePriceSeparator($item['discount_amount']),
                     'total_unit_price' => numberNormalizer->removePriceSeparator($item['unit_price_after_discount']),
                     'total_product_price' => numberNormalizer->removePriceSeparator($item['product_amount']) * (numberNormalizer->removePriceSeparator($item['unit_price_after_discount'])),
                 ];
+
+                //test
+                $invoice_sum += $invoiceProduct['amount'] * $invoiceProduct['unit_price'];
+                $invoice_sum_discount += $unitDiscount * $invoiceProduct['amount'];
+                $invoice_net_sum += $invoiceProduct['total_unit_price'] * $invoiceProduct['amount'];
+
+                //test
                 ProformaInvoiceProductsModel::query()->create($invoiceProduct);
             }
 
+            $firstSum = 0;
+            foreach ($makeChargesDeductions as $row) {
+                if ($row['netSumMerge']) {
+                    $firstSum += $invoice_net_sum * ($row['coefficient'] - 1);
+                }
+            }
+            $secondSum = $invoice_net_sum + $firstSum;
+//            $thirdSum = 0;
+//            foreach ($makeChargesDeductions as $row) {
+//                if (!$row['netSumMerge']) {
+//                    $secondSum
+//                }
+//            }
+            var_print($invoice_sum_tax);
 
 
             $makeProformaInvoiceDetail = [
                 'proforma_invoice_id' => $addProformaInvoice->proforma_invoice_id,
                 'expert_alias_name',
                 'charges_deductions' => json_encode($makeChargesDeductions, JSON_UNESCAPED_UNICODE),
-                'invoice_sum',
-                'invoice_sum_discount',
-                'invoice_net_sum',
-                'invoice_sum_tax',
+                'invoice_sum' => $invoice_sum,
+                'invoice_sum_discount' => $invoice_sum_discount,
+                'invoice_net_sum' => $invoice_net_sum,
+                'invoice_sum_tax'=>$invoice_sum_tax,
                 'invoice_sum_tax_details',
                 'invoice_sum_total',
                 'payment_terms' => $data['payment_terms'],
@@ -177,4 +206,5 @@ class ProformaInvoice extends ControllerScheme
             $addProformaInvoiceDetail = ProformaInvoiceDetailsModel::query()->create($makeProformaInvoiceDetail);
         }
     }
+
 }
