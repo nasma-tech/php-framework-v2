@@ -1,0 +1,10 @@
+table ChargesDeductions{
+    id bigint [pk,increment]
+    identifier varchar(100)
+    title varchar(100)
+    coefficient varchar(100)
+    user_id int
+    created_at datetime [default: `CURRENT_TIMESTAMP`]
+    updated_at datetime [default: `CURRENT_TIMESTAMP`]
+    deleted_at datetime
+}

@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\users\users;
+use JetBrains\PhpStorm\NoReturn;
 
 function userObject($showKeys = false): object|array
 {
@@ -145,4 +146,11 @@ function getAllModels(): array
     }
 
     return $models;
+}
+
+#[NoReturn]
+function redirect(string $url, int $statusCode = 302): void
+{
+    header("Location: {$url}", true, $statusCode);
+    exit;
 }

@@ -28,6 +28,7 @@ class ProductModel extends Model
         "brand_id",
         "quality_level_id",
         "measurement_unit_id",
+        "unit_id",
         "cost_price",
         "sale_price",
         "customer_price",
