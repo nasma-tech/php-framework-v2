@@ -10,7 +10,7 @@
                 <h4 class="card-title" style="float: right">
                     {$singleName}
                     <span class="bg-secondary bg-light rounded"
-                          style="font-family: monospace; padding: 5px 10px;">-----</span>
+                          style="font-family: monospace; padding: 5px 10px;">{$getData->invoice_number}</span>
                 </h4>
                 {$buttonHelper->refreshAndBackButton(2)}
                 <div dir="rtl" class="btn-group mb-1 float-right">
@@ -58,8 +58,9 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <img class="p-1" width="256"
-                                     src="{$processLogoAddress}" alt="logo">
+                                <img class="p-1 w-100" width="256"
+                                     src="{(($brand) ? "/Storage/brands/{$brand->logo_address}" : "/public/images/logo/logo-side-menu.png")}"
+                                     alt="logo">
                             </div>
                         </div>
                     </div>
@@ -70,7 +71,16 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <h6 class="my-1"><i class="bx align-middle bx-support"></i>مشخصات کارشناس</h6>
+                                <h6 class="mb-1"><i class="bx align-middle bx-support text-primary"></i>مشخصات کارشناس
+                                </h6>
+                                <div>
+                                    {$expert->full_name}
+                                    |
+                                    {$saleTeam->team_title|default:'<span class="danger">بدون تیم</span>'}
+                                </div>
+                                <div>
+                                    بازاریاب: -
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -81,7 +91,16 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <h6 class="my-1"><i class="bx align-middle bx-user-voice"></i>اطلاعات مشتری</h6>
+                                <h6 class="mb-1"><i class="bx align-middle bx-user-voice text-primary"></i>اطلاعات مشتری
+                                </h6>
+                                <div>
+                                    <a target="_blank"
+                                       href="/CustomerContactInformation/contactDetail/{$contact->id}">{$contact->contact_code}
+                                        | {$contact->contactFullName()}</a>
+                                </div>
+                                <div>
+                                    {$company->company_name|default:''}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -92,7 +111,18 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <h6 class="my-1"><i class="bx align-middle bx-file"></i>اطلاعات پیش فاکتور</h6>
+                                <h6 class="mb-1"><i class="bx align-middle bx-file text-primary"></i>اطلاعات پیش فاکتور
+                                </h6>
+                                <div>
+                                    تاریخ و ساعت صدور: <span
+                                            dir="ltr">{jdate("Y/m/d H:i" , strtotime($getData->created_at))}</span>
+                                </div>
+                                <div>
+                                    زمان تحویل: <u>{$getData->delivery_date}</u> روز کاری
+                                </div>
+                                <div>
+                                    استان و شهر: {$state->title} - {$city->title}
+                                </div>
                             </div>
                         </div>
                     </div>
