@@ -2,6 +2,7 @@
 
 namespace App\Models\brandsModel;
 
+use App\Models\ProductModel\ProductModel;
 use App\Models\UserModel\UserModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -27,5 +28,10 @@ class brandsModel extends Model
     public function users()
     {
         return $this->hasOne(UserModel::class, 'id', 'user_id');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(ProductModel::class, 'brand_id', 'id');
     }
 }

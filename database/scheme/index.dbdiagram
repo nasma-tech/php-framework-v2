@@ -1,0 +1,839 @@
+{
+    "version": "3.0.0",
+    "darkMode": true,
+    "gridEnabling": true,
+    "currentViewName": null,
+    "defaultView": {
+        "detailLevel": "All",
+        "relationshipMode": "All",
+        "tablePositions": [
+            {
+                "name": "brands",
+                "schemaName": "public",
+                "x": 32.0,
+                "y": 32.0
+            },
+            {
+                "name": "roles",
+                "schemaName": "public",
+                "x": 478.0,
+                "y": 32.0
+            },
+            {
+                "name": "users",
+                "schemaName": "public",
+                "x": 924.0,
+                "y": 32.0
+            },
+            {
+                "name": "warehouseUsageType",
+                "schemaName": "public",
+                "x": 1370.0,
+                "y": 32.0
+            },
+            {
+                "name": "warehouseDefinition",
+                "schemaName": "public",
+                "x": 1816.0,
+                "y": 32.0
+            },
+            {
+                "name": "warehouseType",
+                "schemaName": "public",
+                "x": 32.0,
+                "y": 539.0
+            },
+            {
+                "name": "warehouseAddressAnnouncement",
+                "schemaName": "public",
+                "x": 478.0,
+                "y": 539.0
+            },
+            {
+                "name": "warehousesKeeperTeam",
+                "schemaName": "public",
+                "x": 924.0,
+                "y": 539.0
+            },
+            {
+                "name": "warehouseTeamDetail",
+                "schemaName": "public",
+                "x": 1370.0,
+                "y": 539.0
+            },
+            {
+                "name": "country",
+                "schemaName": "public",
+                "x": 1816.0,
+                "y": 539.0
+            },
+            {
+                "name": "state",
+                "schemaName": "public",
+                "x": 32.0,
+                "y": 959.0
+            },
+            {
+                "name": "city",
+                "schemaName": "public",
+                "x": 478.0,
+                "y": 959.0
+            },
+            {
+                "name": "person_type",
+                "schemaName": "public",
+                "x": 478.0,
+                "y": 1524.0
+            },
+            {
+                "name": "warehousePhoneNumber",
+                "schemaName": "public",
+                "x": 924.0,
+                "y": 1524.0
+            },
+            {
+                "name": "ContactPhoneLabel",
+                "schemaName": "public",
+                "x": 1370.0,
+                "y": 1524.0
+            },
+            {
+                "name": "warehouseContactSocialNetworks",
+                "schemaName": "public",
+                "x": 1816.0,
+                "y": 1524.0
+            },
+            {
+                "name": "SocialNetworksList",
+                "schemaName": "public",
+                "x": 32.0,
+                "y": 1973.0
+            },
+            {
+                "name": "warehouseOwnerShip",
+                "schemaName": "public",
+                "x": 924.0,
+                "y": 959.0
+            },
+            {
+                "name": "warehouseOwnerAllocation",
+                "schemaName": "public",
+                "x": 478.0,
+                "y": 1973.0
+            },
+            {
+                "name": "LegalwarehouseOwnerShip",
+                "schemaName": "public",
+                "x": 1370.0,
+                "y": 959.0
+            },
+            {
+                "name": "naturalPersonwarehouseOwnerShip",
+                "schemaName": "public",
+                "x": 32.0,
+                "y": 1524.0
+            },
+            {
+                "name": "LegalWarehouseOwnerAllocation",
+                "schemaName": "public",
+                "x": 1816.0,
+                "y": 959.0
+            }
+        ],
+        "tableGroupCollapseStates": [],
+        "stickyNoteLayouts": [],
+        "referencePaths": [
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "brands",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "roles",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "users",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "warehouseType",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "type_id"
+                ],
+                "secondTableName": "warehouseDefinition",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "roles",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "role_id"
+                ],
+                "secondTableName": "users",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "warehouseUsageType",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "brands",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "brand_id"
+                ],
+                "secondTableName": "warehouseDefinition",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "warehouseUsageType",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "warehouseUsageType_id"
+                ],
+                "secondTableName": "warehouseDefinition",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "warehouseType",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "warehouseDefinition",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "warehouse_id"
+                ],
+                "secondTableName": "warehouseAddressAnnouncement",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "city",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "city_id"
+                ],
+                "secondTableName": "warehouseAddressAnnouncement",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "warehouseAddressAnnouncement",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "warehouseDefinition",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "warehouse_id"
+                ],
+                "secondTableName": "warehousesKeeperTeam",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "warehousesKeeperTeam",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "warehouceKeeper_id"
+                ],
+                "secondTableName": "warehouseTeamDetail",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "warehousesKeeperTeam",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "warehouce_team_id"
+                ],
+                "secondTableName": "warehouseTeamDetail",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "warehouceKeeper_id"
+                ],
+                "firstTableName": "warehouseTeamDetail",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "parent_id"
+                ],
+                "secondTableName": "warehouseTeamDetail",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "warehouseTeamDetail",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "country",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "country",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "country_id"
+                ],
+                "secondTableName": "state",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "state",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "state",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "state_id"
+                ],
+                "secondTableName": "city",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "city",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "person_type",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "warehousePhoneNumber",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "ContactPhoneLabel",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "ContactPhoneLabel",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "phone_type_id"
+                ],
+                "secondTableName": "warehousePhoneNumber",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "warehousePhoneNumber",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "warehouseContact_phone_id"
+                ],
+                "secondTableName": "warehouseContactSocialNetworks",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "SocialNetworksList",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "social_network_id"
+                ],
+                "secondTableName": "warehouseContactSocialNetworks",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "SocialNetworksList",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "warehouseDefinition",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "warehouce_id"
+                ],
+                "secondTableName": "warehouseOwnerShip",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "warehouseOwnerShip",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "warehouseOwnerShip",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "warehouseContact_id"
+                ],
+                "secondTableName": "warehousePhoneNumber",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "warehouseOwnerShip",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "warehouseOwnerShip_id"
+                ],
+                "secondTableName": "warehouseOwnerAllocation",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "warehouseDefinition",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "warehouseDefinition_id"
+                ],
+                "secondTableName": "warehouseOwnerAllocation",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "warehouseOwnerAllocation",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "warehouseContactSocialNetworks",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "warehouseOwnerShip",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "warehouseOwnerShip_id"
+                ],
+                "secondTableName": "LegalwarehouseOwnerShip",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "person_type",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "person_type_id"
+                ],
+                "secondTableName": "LegalwarehouseOwnerShip",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "LegalwarehouseOwnerShip",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "warehouseOwnerShip",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "warehouseOwnerShip_id"
+                ],
+                "secondTableName": "naturalPersonwarehouseOwnerShip",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "person_type",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "person_type_id"
+                ],
+                "secondTableName": "naturalPersonwarehouseOwnerShip",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "users",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "user_id"
+                ],
+                "secondTableName": "naturalPersonwarehouseOwnerShip",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "person_type",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "person_type_id"
+                ],
+                "secondTableName": "warehouseOwnerShip",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "LegalwarehouseOwnerShip",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "LegalwarehouseOwnerShip_id"
+                ],
+                "secondTableName": "warehouseOwnerShip",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            },
+            {
+                "firstFieldNames": [
+                    "id"
+                ],
+                "firstTableName": "naturalPersonwarehouseOwnerShip",
+                "firstSchemaName": "public",
+                "firstRelation": "1",
+                "secondFieldNames": [
+                    "naturalPersonwarehouseOwnerShip_id"
+                ],
+                "secondTableName": "warehouseOwnerShip",
+                "secondSchemaName": "public",
+                "secondRelation": "1",
+                "checkPoints": []
+            }
+        ]
+    },
+    "views": {}
+}
