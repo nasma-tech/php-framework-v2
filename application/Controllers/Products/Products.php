@@ -5,10 +5,12 @@ namespace App\Controllers\Products;
 use App\Controllers\scheme\ControllerScheme;
 use App\Models\brandsModel\brandsModel;
 use App\Models\MeasurementUnitModel\MeasurementUnitModel;
+use App\Models\priceChangeLogsModel\priceChangeLogsModel;
 use App\Models\ProductGradeModel\ProductGradeModel;
 use App\Models\ProductGroupModel\ProductGroupModel;
 use App\Models\ProductModel\ProductModel;
 use App\Models\ProductQualitiesModel\ProductQualitiesModel;
+use Illuminate\Validation\Rule;
 
 class Products extends ControllerScheme
 {
@@ -120,7 +122,11 @@ class Products extends ControllerScheme
             ]);
 
             if ($add) {
-                var_print('hi');
+                $add->update([
+                    'file_address' => fileHelper->uploadMultipleFiles("Products", $files, $add->id)
+                ]);
+                $this->priceChangeLog($add->id);
+                $this->successCallBack("/Products/main");
             }
         }
     }
@@ -129,18 +135,18 @@ class Products extends ControllerScheme
     {
         $_ENV['APP_DEBUG'] = 1;
         $brandId = $this->requestArray()['brandId'];
-        if ($brandId){
+        if ($brandId) {
             echo json_encode(array_map(function ($item) {
                 return [
                     'id' => $item['id'],
                     'title' => $item['label'],
-                    'unitPrice'=>$item['sale_price'],
+                    'unitPrice' => $item['sale_price'],
                     'unitName' => $item['measurement_unit_data']['label'],
                 ];
             }, ProductModel::query()
                 ->with([
                     'measurementUnitData'
-                ])->where('brand_id',$brandId)->get()->toArray()));
+                ])->where('brand_id', $brandId)->get()->toArray()));
         }
     }
 
@@ -154,5 +160,26 @@ class Products extends ControllerScheme
             ];
         }, ProductModel::query()
             ->get()->toArray()));
+    }
+
+    public function priceChangeLog(int $productId, string|null $modifiedAt = null): bool
+    {
+        $get = $this->defaultModel::query()->find($productId);
+
+        if (is_null($modifiedAt)) {
+            $modifiedAt = date("Y-m-d H:i:s");
+        }
+        if ($get) {
+            $output = priceChangeLogsModel::query()->create([
+                'product_id' => $get->id,
+                'cost_price' => $get->cost_price,
+                'sale_price' => $get->sale_price,
+                'customer_price' => $get->customer_price,
+                'user_id' => userObject()->userId,
+                'modified_at' => $modifiedAt
+            ]);
+        }
+
+        return boolval($output ?? false);
     }
 }
