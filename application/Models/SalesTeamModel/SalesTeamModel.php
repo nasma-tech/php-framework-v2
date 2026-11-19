@@ -2,6 +2,7 @@
 
 namespace App\Models\SalesTeamModel;
 
+use App\Models\ProductModel\ProductModel;
 use App\Models\ProjectsTypeModel\ProjectsTypeModel;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,4 +31,9 @@ class salesTeamModel extends Model
         'update_at',
         'soft_delete',
         ];
+
+    public function product()
+    {
+        $this->hasOne(ProductModel::class , 'id', 'id');
+    }
 }
