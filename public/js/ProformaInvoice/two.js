@@ -49,7 +49,7 @@ $(function () {
         };
         $("#mainProduct tr").each(function () {
             let sumRow = parseFloat(
-                $(this).find('td').eq(5).find('.productSumRowWithOutDiscount').val().replaceAll(',', '')
+                $(this).find('td').eq(5).find('.productSumRow').val().replaceAll(',', '')
             );
             let discountAmount = parseFloat(
                 $(this).find('td').eq(5).find('.discountAmount').val().replaceAll(',', '')
@@ -151,7 +151,6 @@ $(function () {
                 </td>
                 <td class="border">
                     <div class="input-group">
-                        <input class="form-control text-center productSumRowWithOutDiscount" type="hidden" value="0" readonly id="" name="">
                         <input class="form-control text-center productSumRow" value="0" readonly id="" name="">
                         <div class="input-group-append">
                             <span class="input-group-text font-small-2">ریال</span>
@@ -338,11 +337,8 @@ $(function () {
         let $row = $(this).closest('tr');
         let productAmount = parseFloat($row.find('.product_amount').val().replaceAll(',', '')) || 0;
         let productUnitPrice = parseFloat($row.find('.unitPriceAfterDiscount').val().replaceAll(',', '')) || 0;
-        let productUnitPriceWithOutDiscount = parseFloat($row.find('.product_unit_price').val().replaceAll(',', '')) || 0;
-        let totalPriceWithOutDiscount = productAmount * productUnitPriceWithOutDiscount;
         let totalPrice = productAmount * productUnitPrice;
         $row.find('td').eq(5).find('.productSumRow').val(totalPrice.toLocaleString()).priceInput()
-        $row.find('td').eq(5).find('.productSumRowWithOutDiscount').val(totalPriceWithOutDiscount.toLocaleString()).priceInput()
         sumAllRow()
     });
 
