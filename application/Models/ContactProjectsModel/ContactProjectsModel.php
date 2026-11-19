@@ -7,6 +7,7 @@ use App\Models\ContactProjectRequestsModel\ContactProjectRequestsModel;
 use App\Models\ContactProjectsFollowUpModel\ContactProjectsFollowUpModel;
 use App\Models\CustomerContactInformationModel\CustomerContactInformationModel;
 use App\Models\IndustryTypeModel\IndustryTypeModel;
+use App\Models\PriceSuggestionModel\PriceSuggestionModel;
 use App\Models\ProductModel\ProductModel;
 use App\Models\UserModel\UserModel;
 use Illuminate\Database\Eloquent\Model;
@@ -63,4 +64,6 @@ class ContactProjectsModel extends Model
     {
         return $this->hasOne(UserModel::class,'id','user_id');
     }
+
+
 }

@@ -5,6 +5,7 @@ namespace App\Controllers\scheme;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use InvalidArgumentException;
 use JetBrains\PhpStorm\NoReturn;
 use Packages\View\handleHttpErrorView;
 
@@ -142,7 +143,7 @@ class ControllerScheme
         }
     }
 
-    public function successCallBack($redirectTo, $message = 'رکورد با موفقیت اضافه شد', $second = 1)
+    public function successCallBack($redirectTo, $message = 'رکورد با موفقیت اضافه شد', $second = 1): void
     {
         setcookie('successMessage', $message, time() + $second, '/');
         header("Location: $redirectTo");
@@ -270,13 +271,58 @@ class ControllerScheme
     /**
      * متدهای کمکی
      */
-    public function requestArray(): array
+    public function requestArray(?string $key = null, mixed $default = null, ?callable $callback = null
+    ): mixed
     {
-        return match ($_SERVER['REQUEST_METHOD']) {
-            'POST' => $_POST,
+        $method = strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET');
+        $request = match ($method) {
             'GET' => $_GET,
+            'POST' => $_POST,
+            'PUT', 'PATCH', 'DELETE' => $this->getRequestBody(),
             default => [],
         };
+        if ($key === null) {
+            return $callback !== null ? $callback($request) : $request;
+        }
+        $value = $request[$key] ?? $default;
+        if ($value === null || (is_string($value) && trim($value) === '')) {
+            $value = $default;
+        }
+        if ($callback !== null) {
+            $value = $callback($value);
+        }
+        return $value;
+    }
+
+    private function getRequestBody(): array
+    {
+        $contentType = strtolower(
+            trim(explode(';', $_SERVER['CONTENT_TYPE'] ?? '')[0])
+        );
+
+        $body = file_get_contents('php://input');
+        if ($body === false || trim($body) === '') {
+            return [];
+        }
+        if ($contentType === 'application/json') {
+
+            $data = json_decode($body, true);
+
+            if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
+                throw new InvalidArgumentException(
+                    'بدنه درخواست JSON معتبر نیست.'
+                );
+            }
+
+            return $data;
+        }
+
+        // فرم‌های معمولی برای PUT، PATCH و DELETE
+
+        $data = [];
+        parse_str($body, $data);
+
+        return $data;
     }
 
     public function changeRequestValues($key, $value): void
@@ -404,7 +450,7 @@ class ControllerScheme
     {
         $diff = array_diff(array_keys($required), array_keys($request));
         $errors = array_filter($required, function ($label, $key) use ($diff, $request) {
-            return in_array($key, $diff, true) || !isset($request[$key]) || trim((string)$request[$key]) === '';
+            return in_array($key, $diff, true) || !isset($request[$key]);
         }, ARRAY_FILTER_USE_BOTH);
         if (!empty($errors)) {
             handleHttpErrorView::handle(422, array_values($errors));

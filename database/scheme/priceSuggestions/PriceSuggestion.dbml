@@ -1,0 +1,20 @@
+Table PriceSuggestion{
+    id bigint [pk,increment]
+    price_suggestion_number varchar(191)
+    contact_id int [note:"ref to contact table"]
+    contact_project_id int [note:"ref to contact project table"]
+    contact_project_followup_id int [note:"ref to Contact Projects FollowUp table"]
+    sale_team_id int [note:"ref to sale team table"]
+    brand_id int [note:"ref to brand table"]
+    country_id int [note:"ref to country table"]
+    state_id int [note:"ref to states table"]
+    city_id int [note:"ref to city table"]
+    marketer_id int [note:"ref to marketers table"]
+    day_validity tinyint(2)
+    day_validity_timestamp varchar(255) [note:"محاسبه تاریخ اعتبار"]
+    description text
+    user_id int [note:"ref to users table"]
+    created_at datetime [default: `CURRENT_TIMESTAMP`]
+    updated_at datetime [default: `CURRENT_TIMESTAMP`]
+    deleted_at datetime
+}

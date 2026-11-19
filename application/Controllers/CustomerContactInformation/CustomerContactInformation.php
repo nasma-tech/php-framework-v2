@@ -77,7 +77,7 @@ class CustomerContactInformation extends ControllerScheme
         )->display('CustomerContactInformation/add-CustomerContactInformation.tpl');
     }
 
-    public function contactDetail($id = null)
+    public function contactDetail($id = null): void
     {
         try {
             $contactData = CustomerContactInformationModel::with([
@@ -114,7 +114,7 @@ class CustomerContactInformation extends ControllerScheme
 
     }
 
-    public function contactDetailCall($phoneNumber)
+    public function contactDetailCall($phoneNumber): void
     {
         switch (strlen($phoneNumber)) {
             case 14:
@@ -232,7 +232,7 @@ class CustomerContactInformation extends ControllerScheme
     private function addContactPhonesAndSocialNetWorks($contactId): void
     {
         $data = $this->requestArray('contactPhone', []);
-        foreach ($data['contactPhone'] as $item) {
+        foreach ($data as $item) {
             $this->checkRequired([
                 'contact_phone_label_id' => 'عنوان تماس',
                 'phone_number' => 'شماره تماس',
@@ -250,7 +250,7 @@ class CustomerContactInformation extends ControllerScheme
 
     }
 
-    public function createProjectCode(int $contactId)
+    public function createProjectCode(int $contactId): string
     {
         $contactProject = ContactProjectsModel::query()->where('contact_id', $contactId)->count();
         return jdate('Y') . $contactId . ($contactProject + 1);
@@ -275,7 +275,7 @@ class CustomerContactInformation extends ControllerScheme
         $addProject = ContactProjectsModel::query()->create($makeData);
         if (isset($data['projectRequest'])) {
             if ($addProject) {
-                foreach (array_values($data['projectRequest']) as $item) {
+                foreach ($data['projectRequest'] as $item) {
                     ContactProjectRequestsModel::query()->create([
                         'contact_project_id' => $addProject->id,
                         'product_id' => $item['product_id'],
@@ -308,9 +308,9 @@ class CustomerContactInformation extends ControllerScheme
         ContactProjectsFollowUpModel::query()->create($makeData);
     }
 
-    public function add()
+    public function add(): void
     {
-
+        $_ENV['APP_DEBUG'] = 1;
         $addContact = $this->addContactInfo();
         $this->addContactPhonesAndSocialNetWorks($addContact);
         $addContactProject = $this->addContactProject($addContact);

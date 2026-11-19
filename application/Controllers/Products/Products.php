@@ -125,13 +125,34 @@ class Products extends ControllerScheme
         }
     }
 
-    public function getProductData()
+    public function getProductDataFilterByBrand(): void
+    {
+        $_ENV['APP_DEBUG'] = 1;
+        $brandId = $this->requestArray()['brandId'];
+        if ($brandId){
+            echo json_encode(array_map(function ($item) {
+                return [
+                    'id' => $item['id'],
+                    'title' => $item['label'],
+                    'unitPrice'=>$item['sale_price'],
+                    'unitName' => $item['measurement_unit_data']['label'],
+                ];
+            }, ProductModel::query()
+                ->with([
+                    'measurementUnitData'
+                ])->where('brand_id',$brandId)->get()->toArray()));
+        }
+    }
+
+    public function getProductData(): void
     {
         echo json_encode(array_map(function ($item) {
             return [
                 'id' => $item['id'],
-                'title' => $item['title']
+                'title' => $item['label'],
+
             ];
-        }, ProductModel::query()->get()->toArray()));
+        }, ProductModel::query()
+            ->get()->toArray()));
     }
 }

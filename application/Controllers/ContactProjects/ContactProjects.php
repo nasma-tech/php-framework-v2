@@ -69,12 +69,17 @@ class ContactProjects extends ControllerScheme
         ])->display('ContactProjects/edit-ContactProjects.tpl');
     }
 
-    public function ContactProjectDetail($id)
+    public function ContactProjectDetail($id): void
     {
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
-        view->setModel(ContactProjectsModel::query()->find($id));
+        view->setModel(ContactProjectsModel::query()
+            ->with([
+                'followUpData',
+                'followUpData.priceSuggestionData',
+            ])
+            ->find($id));
         view->ui([
             'js/CustomerContactInformation/ContactProject',
             'js/CustomerContactInformation/ContactFollowUp',
@@ -88,7 +93,7 @@ class ContactProjects extends ControllerScheme
         ])->display('CustomerContactInformation/ContactProjectDetail.tpl');
     }
 
-    public function add()
+    public function add(): void
     {
         $data = $this->requestArray();
         $customerContact = new CustomerContactInformation();
