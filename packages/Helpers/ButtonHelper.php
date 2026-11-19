@@ -18,9 +18,17 @@ class ButtonHelper
         return $this->addButton($name) . $this->refreshBtn();
     }
 
+//    public function refreshAndBackButton(int $size = 1): string
+//    {
+//        return $this->backBtn($size) . $this->refreshBtn($size);
+//    }
+
     public function refreshAndBackButton(int $size = 1): string
     {
-        return $this->backBtn($size) . $this->refreshBtn($size);
+        return '<div class="header-action-buttons">'
+            . $this->backBtn($size)
+            . $this->refreshBtn($size)
+            . '</div>';
     }
 
     public function addButton($name): string

@@ -2336,3 +2336,68 @@ LEGEND {
     font-size:14px;
     color:#666;
 }
+
+/* heading buttons */
+
+.card-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    direction: ltr;
+}
+
+.card-header .card-title {
+    float: none !important;
+    margin: 0;
+    margin-left: auto;
+    order: 3;
+    direction: rtl;
+    text-align: right;
+}
+
+.card-header .header-action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+    order: 1;
+    direction: ltr;
+}
+
+.card-header .btn-group {
+    float: none !important;
+    margin: 0 !important;
+    order: 2;
+}
+
+@media (max-width: 576px) {
+    .card-header .card-title {
+        width: 100%;
+        order: 1;
+        margin-left: 0;
+    }
+
+    .card-header .header-action-buttons {
+        order: 2;
+    }
+
+    .card-header .btn-group {
+        order: 3;
+    }
+
+    .card-header .header-action-buttons a {
+        font-size: 0;
+        padding: 6px 9px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card-header .header-action-buttons a i {
+        font-size: 18px;
+        margin: 0;
+    }
+}
+
+/* heading buttons */
