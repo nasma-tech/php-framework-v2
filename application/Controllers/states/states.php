@@ -80,14 +80,14 @@ class states extends ControllerScheme
         }, StateModel::query()->where('country_id', $countryId)->get()->toArray()), JSON_UNESCAPED_UNICODE);
     }
 
-    public function getStates(): void
+    public function getStates($country_id = 102): void
     {
         echo json_encode(array_map(function ($item) {
             return [
                 'id' => $item['id'],
                 'title' => $item['title'],
             ];
-        }, StateModel::query()->where('country_id', 102)->get()->toArray()), JSON_UNESCAPED_UNICODE);
+        }, StateModel::query()->where('country_id', $country_id)->get()->toArray()), JSON_UNESCAPED_UNICODE);
     }
 
     public function getMapInfo(): void

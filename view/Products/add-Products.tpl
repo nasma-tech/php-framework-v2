@@ -23,16 +23,22 @@
                                 <label for="parent_id">محصول پایه</label>
                                 <select class="form-control select2" name="parent_id" id="parent_id" required>
                                     <option value="" selected>محصول پایه</option>
-                                    <option value="2">محصول پایه2</option>
                                     {foreach $parentProducts as $parentProduct}
-                                        <option value="{$parentProduct->id}">{$parentProduct->serial_number}
+                                        <option value="{$parentProduct->id}"
+                                                data-unit-label="{$parentProduct->measurementUnit->label}">{$parentProduct->serial_number}
                                             - {$parentProduct->label}</option>
                                     {/foreach}
                                 </select>
                             </div>
-                            <div class="col-md-3 mt-1" style="display: none">
+                            <div class="col-md-3 mt-1" id="parent_unit_ratio_element" style="display: none">
                                 <label for="parent_unit_ratio">نرخ تبدیل</label>
-                                <input class="form-control" type="text" name="parent_unit_ratio" id="parent_unit_ratio">
+                                <div class="input-group">
+                                    <input class="form-control" type="text" name="parent_unit_ratio"
+                                           id="parent_unit_ratio">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" id="parent_unit_ratio_label">-</span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-3 mt-1">
                                 <label for="label">عنوان</label>
@@ -63,7 +69,8 @@
                             </div>
                             <div class="col-md-3 mt-1">
                                 <label for="quality_level_id">سطح کیفی</label>
-                                <select class="form-control select2" name="quality_level_id" id="quality_level_id" required>
+                                <select class="form-control select2" name="quality_level_id" id="quality_level_id"
+                                        required>
                                     <option disabled selected>لطفا یک مورد را انتخاب کنید</option>
                                     {foreach $productQualities as $productQualitiy}
                                         <option value="{$productQualitiy->id}">{$productQualitiy->label}</option>
@@ -112,7 +119,8 @@
                             <div class="col-md-3 mt-1">
                                 <label for="customer_price">قیمت مصرف کننده</label>
                                 <div class="input-group">
-                                    <input class="form-control" type="text" name="customer_price" id="customer_price" required>
+                                    <input class="form-control" type="text" name="customer_price" id="customer_price"
+                                           required>
                                     <div class="input-group-append">
                                         <span class="input-group-text">ریال</span>
                                     </div>

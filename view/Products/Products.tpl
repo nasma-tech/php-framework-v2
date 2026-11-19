@@ -22,19 +22,29 @@
                                     <thead class="thead-dark">
                                     <tr>
                                         <th class="border">#</th>
+                                        <th class="border">برند</th>
                                         <th class="border">کد محصول</th>
                                         <th class="border">عنوان محصول</th>
-                                        <th class="border"></th>
-                                        <th class="border"></th>
-                                        <th class="border"></th>
+                                        <th class="border">گروه محصول</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {foreach $getData as $data}
-
                                         <tr>
-                                            <td>
-                                                {$data['title']}
+                                            <td class="border">
+                                                {counter}
+                                            </td>
+                                            <td class="border">
+                                                {$data->brand->label}
+                                            </td>
+                                            <td class="border">
+                                                {$data->serial_number}
+                                            </td>
+                                            <td class="border">
+                                                {$data['label']}
+                                            </td>
+                                            <td class="border">
+                                                {$data->productGroup->label}
                                             </td>
                                         </tr>
                                     {/foreach}
