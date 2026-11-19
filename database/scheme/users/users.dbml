@@ -1,0 +1,16 @@
+use * from '../roles/roles'
+Table users{
+id int [pk,increment]
+gender  varchar(191)
+first_name varchar(191)
+last_name varchar(191)
+full_name varchar(191)
+username varchar(191)
+password_hash varchar(191)
+avatar varchar(191)
+role_id int [ref:-roles.id]
+user_id int [ref:-users.id]
+created_at  dateTime
+updated_at dateTime
+deleted_at dateTime
+}

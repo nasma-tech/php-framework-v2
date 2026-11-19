@@ -1159,59 +1159,80 @@ $.fn.valWithRemovePriceSeparator = function () {
     return val.replace(/,/g, '');
 };
 
-$.fn.formValidate = function (showErrorMessage = true, exceptionValue = 'exception', maximumFileSize = 4, validateTextArea = false, checkRequiredAttribute = true, ignoreDisabledValue = false, enableRealtimeValidation = true) {
 
+$.fn.formValidate = function (
+    showErrorMessage = true,
+    exceptionValue = 'exception',
+    maximumFileSize = 4,
+    validateTextArea = false,
+    checkRequiredAttribute = true,
+    ignoreDisabledValue = false,
+    enableRealtimeValidation = true
+) {
     let submitAccept = true;
     let fileSizeAccept = true;
     const $form = $(this);
 
     const validateElement = function ($el) {
         const tag = $el.prop("tagName").toLowerCase();
-        const type = $el.attr("type") ? $el.attr("type").toLowerCase() : tag;
+        const type = $el.attr("type")
+            ? $el.attr("type").toLowerCase()
+            : tag;
 
         if (checkRequiredAttribute && !$el.prop('required')) {
             return;
         }
 
-        const shouldValidate = type !== 'button' && (ignoreDisabledValue || !$el.is(':disabled')) && (exceptionValue === '' || !$el.hasClass(exceptionValue)) && !$el.hasClass('select2-search__field') && (validateTextArea || tag !== "textarea");
+        const shouldValidate =
+            type !== 'button' &&
+            (ignoreDisabledValue || !$el.is(':disabled')) &&
+            (exceptionValue === '' || !$el.hasClass(exceptionValue)) &&
+            !$el.hasClass('select2-search__field') &&
+            (validateTextArea || tag !== "textarea");
 
         if (!shouldValidate) return;
 
         switch (tag) {
-            case 'select':
+            case 'select': {
                 const $container = $el.data('select2')?.$container;
                 const val = $el.val();
 
                 if (val === null || val === '') {
                     if ($container && $container.length) {
                         $container.find('.select2-selection')
-                            .removeClass('is-valid').addClass('is-invalid');
+                            .removeClass('is-valid')
+                            .addClass('is-invalid');
                     }
+
                     $el.removeClass('is-valid').addClass('is-invalid');
                     $el.parent().removeClass('not-error').addClass('has-error');
                     submitAccept = false;
                 } else {
                     if ($container && $container.length) {
                         $container.find('.select2-selection')
-                            .removeClass('is-invalid').addClass('is-valid');
+                            .removeClass('is-invalid')
+                            .addClass('is-valid');
                     }
+
                     $el.removeClass('is-invalid').addClass('is-valid');
                     $el.parent().removeClass('has-error').addClass('not-error');
                 }
                 break;
-            case 'input':
-            case 'textarea':
+            }
 
+            case 'input':
+            case 'textarea': {
                 let value = $el.val();
 
                 if (typeof tinymce !== 'undefined') {
                     const editor = tinymce.get($el.attr('id'));
+
                     if (editor) {
-                        value = editor.getContent({format: 'text'}).trim();
+                        value = editor.getContent({ format: 'text' }).trim();
                     }
                 }
 
-                if (value === '') {
+                if (value === '' || value === null) {
                     $el.removeClass('is-valid').addClass('is-invalid');
                     $el.parent('div').addClass('has-error');
                     submitAccept = false;
@@ -1219,23 +1240,19 @@ $.fn.formValidate = function (showErrorMessage = true, exceptionValue = 'excepti
                     $el.removeClass('is-invalid').addClass('is-valid');
                     $el.parent('div').removeClass('has-error');
                 }
-
                 break;
-            // case 'textarea':
-            //     if ($el.val().trim() === '') {
-            //         $el.removeClass('is-valid').addClass('is-invalid');
-            //         $el.parent('div').addClass('has-error');
-            //         submitAccept = false;
-            //     } else {
-            //         $el.removeClass('is-invalid').addClass('is-valid');
-            //         $el.parent('div').removeClass('has-error');
-            //     }
-            //     break;
-            case 'file':
+            }
+
+            case 'file': {
                 const files = $el.prop("files");
+
                 if (files && files.length > 0) {
                     for (let i = 0; i < files.length; i++) {
-                        const fileSizeInMB = checkNumberIntORFloat(files[i].size / (1024 * 1024), 2);
+                        const fileSizeInMB = checkNumberIntORFloat(
+                            files[i].size / (1024 * 1024),
+                            2
+                        );
+
                         if (fileSizeInMB > maximumFileSize) {
                             $el.removeClass('is-valid').addClass('is-invalid');
                             $el.parent('div').addClass('has-error');
@@ -1252,6 +1269,7 @@ $.fn.formValidate = function (showErrorMessage = true, exceptionValue = 'excepti
                     submitAccept = false;
                 }
                 break;
+            }
         }
     };
 
@@ -1260,30 +1278,38 @@ $.fn.formValidate = function (showErrorMessage = true, exceptionValue = 'excepti
     });
 
     if (enableRealtimeValidation) {
-        $form.find(':input').off('input.formValidate change.formValidate')
+        $form.find(':input')
+            .off('input.formValidate change.formValidate')
             .on('input.formValidate change.formValidate', function () {
                 validateElement($(this));
             });
 
-        $form.find('select.select2').off('select2:select.formValidate select2:clear.formValidate')
+        $form.find('select.select2')
+            .off('select2:select.formValidate select2:clear.formValidate')
             .on('select2:select.formValidate select2:clear.formValidate', function () {
                 validateElement($(this));
             });
     }
 
-
     if (showErrorMessage && !submitAccept) {
         if (fileSizeAccept) {
             swal.fire({
-                icon: 'warning', title: 'توجه !', text: 'موارد مشخص شده را پر کنید', confirmButtonText: 'متوجه شدم !'
+                icon: 'warning',
+                title: 'توجه !',
+                text: 'موارد مشخص شده را پر کنید',
+                confirmButtonText: 'متوجه شدم !'
             });
         } else {
-            customAlert('error', `حجم فایل انتخابی بیشتر از ${maximumFileSize} مگابایت است.`);
+            customAlert(
+                'error',
+                `حجم فایل انتخابی بیشتر از ${maximumFileSize} مگابایت است.`
+            );
         }
     }
 
     return submitAccept;
 };
+
 
 $.fn.validateFormBeforeSend = function (options = {}) {
 
@@ -1527,10 +1553,11 @@ $.fn.getOptions = function ({urlAddress, method = "GET", callback}) {
     });
 };
 
-$.fn.getOptionsValue = function ({urlAddress, method = "GET", callback}) {
+$.fn.getOptionsValue = function ({urlAddress, method = "GET", callback, dataSend = {}}) {
     $.ajax({
         url: urlAddress,
         type: method,
+        data: dataSend,
         dataType: 'json',
         success: result => {
             if (callback) {
@@ -1966,3 +1993,19 @@ $.fn.destroySelect2 = function () {
         this.select2('destroy');
     }
 }
+
+$.fn.joditEditor = function (options = {}) {
+    const settings = $.extend({
+        height: 400,
+        direction: 'rtl',
+        language: 'fa',
+        toolbarAdaptive: false
+    }, options);
+    return this.each(function () {
+        const editor = Jodit.make(this, settings);
+        if (options.value !== undefined) {
+            editor.value = options.value;
+        }
+        $(this).data('joditEditor', editor);
+    });
+};

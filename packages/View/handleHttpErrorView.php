@@ -10,11 +10,12 @@ class handleHttpErrorView
         401 => 'templates/401.tpl',
         403 => 'templates/403.tpl',
         404 => 'templates/404.tpl',
+        422 => 'templates/422.tpl',
         500 => 'templates/500.tpl',
     ];
 
     #[NoReturn]
-    public static function handle(int $code, string $errorText = ''): void
+    public static function handle(int $code, array|string $errorText = []): void
     {
         if (file_exists(__SOURCE__.'view/'.self::PAGES[$code])) {
             http_response_code($code);

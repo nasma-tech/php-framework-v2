@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@dbml/core": "^12.0.0"
+    "@dbml/core": "^12.0.0",
+    "jodit": "4.20.2"
   }
 }
