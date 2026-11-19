@@ -39,7 +39,7 @@ class CustomerContactInformationModel extends Model
 
     public function companies(): BelongsToMany
     {
-        return $this->belongsToMany(CompaniesModel::class,'ContactCompanyLinks','contact_id','company_id');
+        return $this->belongsToMany(CompaniesModel::class, 'ContactCompanyLinks', 'contact_id', 'company_id');
     }
 
     public function projectData(): HasMany
@@ -71,5 +71,9 @@ class CustomerContactInformationModel extends Model
         return $this->hasOne(ContactAcquisitionSourcesModel::class, 'id', 'contact_acquisition_source_id');
     }
 
+    public function contactFullName(): string
+    {
+        return $this->first_name . " " . $this->last_name;
+    }
 
 }

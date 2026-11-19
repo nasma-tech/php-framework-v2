@@ -2,21 +2,28 @@ $(function () {
 
     $("#parent_id").on('input', function () {
         let $element = $(this)
+        let selectedOption = $element.find('option:selected')
         let $parentUnitRatio = $("#parent_unit_ratio")
+        let $parentUnitRatioElement = $("#parent_unit_ratio_element")
+        let $parentUnitRatioLabel = $("#parent_unit_ratio_label")
 
         if ($element.val()) {
             $parentUnitRatio.val("")
                 .prop('required', true)
-                .closest('div').show()
+            $parentUnitRatioElement.show()
+            $parentUnitRatioLabel.html(selectedOption.data('unit-label'))
         } else {
             $parentUnitRatio.val("")
                 .prop('required', false)
-                .closest('div').hide()
+            $parentUnitRatioElement.hide()
+            $parentUnitRatioLabel.html('')
         }
     })
-    $("#cost_price").numberInput()
-    $("#sale_price").numberInput()
-    $("#customer_price").numberInput()
+    $("#cost_price").priceInput()
+    $("#sale_price").priceInput()
+    $("#customer_price").priceInput()
+    $('#parent_unit_ratio').numberInputAndDecimal()
+
     tinyEditor("#description")
     tinyEditor("#complete_description")
 

@@ -18,9 +18,17 @@ class ButtonHelper
         return $this->addButton($name) . $this->refreshBtn();
     }
 
+//    public function refreshAndBackButton(int $size = 1): string
+//    {
+//        return $this->backBtn($size) . $this->refreshBtn($size);
+//    }
+
     public function refreshAndBackButton(int $size = 1): string
     {
-        return $this->backBtn($size) . $this->refreshBtn($size);
+        return '<div class="header-action-buttons">'
+            . $this->backBtn($size)
+            . $this->refreshBtn($size)
+            . '</div>';
     }
 
     public function addButton($name): string
@@ -37,8 +45,8 @@ class ButtonHelper
     public function refreshBtn(int $size = 1): string
     {
         return match ($size) {
-            1 => '<a class="badge badge-secondary text-white" id="refreshBtn" style="float: left;margin-right: 5px;margin-left: 5px;cursor: pointer"> تازه سازی صفحه </a>',
-            2 => '<a class="btn btn-sm btn-secondary text-white" id="refreshBtn" style="float: left;margin-right: 5px;margin-left: 5px;cursor: pointer"><i class="bx bx-repost"></i> تازه سازی صفحه </a>',
+            1 => '<a dir="rtl" class="badge badge-secondary text-white" id="refreshBtn" style="float: left;margin-right: 5px;margin-left: 5px;cursor: pointer"> تازه سازی صفحه </a>',
+            2 => '<a dir="rtl" class="btn btn-sm btn-secondary text-white" id="refreshBtn" style="float: left;margin-right: 5px;margin-left: 5px;cursor: pointer"><i class="bx bx-repost"></i> تازه سازی صفحه</a>',
             default => ''
         };
     }
@@ -46,8 +54,8 @@ class ButtonHelper
     public function backBtn(int $size = 1): string
     {
         return match ($size) {
-            1 => '<a class="badge badge-warning text-white" id="backBtn" style="float: left;cursor: pointer"> بازگشت</a>',
-            2 => '<a class="btn btn-sm btn-warning text-white" id="backBtn" style="float: left;cursor: pointer"><i class="bx bx-undo"></i> بازگشت</a>',
+            1 => '<a dir="rtl" class="badge badge-warning text-white" id="backBtn" style="float: left;cursor: pointer"> بازگشت</a>',
+            2 => '<a dir="rtl" class="btn btn-sm btn-warning text-white" id="backBtn" style="float: left;cursor: pointer"><i class="bx bx-undo"></i> بازگشت</a>',
             default => ''
         };
     }

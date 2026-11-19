@@ -356,7 +356,7 @@ class ControllerScheme
         exit;
     }
 
-    public function validateRequestsData(array $needle = [], array|null $hayStack = null, $model = null): bool
+    public function validateRequestsData(array $needle = [], array|null $hayStack = null, $model = null)
     {
         $staticColumns = [
             "cartable_definition_id",
@@ -384,19 +384,14 @@ class ControllerScheme
         $needle = array_values(array_unique(
             array_merge($model->getFillable(), $needle)
         ));
-//        var_print($hayStack);
-//        var_print($needle);
-//        die();
 
-        foreach ($needle as $item) {
-            if (!in_array($item, $hayStack) && !in_array($item, $staticColumns)) {
-                $output = false;
-                var_print($item);
-                die();
-            }
-        }
+        $diff = array_diff(
+            array_fill_keys(array_unique(array_merge($needle, $staticColumns)), null),
+            array_fill_keys($hayStack, null)
+        );
 
-        return $output ?? true;
+        return !$diff;
+
     }
 
     public function validatePermission(array $allowGetAllPermissionIds, bool $checkSuperAdmin = true): bool

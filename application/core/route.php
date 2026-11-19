@@ -6,7 +6,7 @@ use App\Controllers\colors\colors;
 use App\Controllers\countries\countries;
 use App\Controllers\CustomerContactInformation\CustomerContactInformation;
 use App\Controllers\dashboard\dashboard;
-use App\Controllers\ImplementationTeam\ImplementationTeam;
+use App\Controllers\salesTeam\salesTeam;
 use App\Controllers\login\login;
 use App\Controllers\login\MenuList\MenuList;
 use App\Controllers\roles\roles;
@@ -75,7 +75,7 @@ $router->mount('/dashboard', function () use ($router) {
 $router->mount('/users', function () use ($router) {
     dynamicRoute($router, users::class, [
         [
-            'method' => 'GET',
+            'method' => 'POST',
             'path' => '/getUsersForm',
             'action' => 'getUsersForm'
         ]
@@ -94,7 +94,13 @@ $router->mount('/MenuList', function () use ($router) {
     ]);
 });
 $router->mount('/countries', function () use ($router) {
-    dynamicRoute($router, countries::class);
+    dynamicRoute($router, countries::class, [
+        [
+            'method' => 'GET',
+            'path' => '/getCountryData(/\d+)',
+            'action' => 'getCountryData'
+        ],
+    ]);
 });
 $router->mount('/states', function () use ($router) {
     dynamicRoute($router, states::class, [
@@ -105,7 +111,7 @@ $router->mount('/states', function () use ($router) {
         ],
         [
             'method' => 'GET',
-            'path' => '/getStates',
+            'path' => '/getStates(/\d+)',
             'action' => 'getStates'
         ],
         [
@@ -118,7 +124,7 @@ $router->mount('/states', function () use ($router) {
 $router->mount('/cities', function () use ($router) {
     dynamicRoute($router, cities::class, [
         [
-            'method' => 'GET',
+            'method' => 'POST',
             'path' => '/getFilterCities',
             'action' => 'getFilterCities'
         ],
@@ -166,16 +172,12 @@ $router->mount('/IssuingPlace', function () use ($router) {
         ]
     ]);
 });
+
 $router->mount('/UserContactTypes', function () use ($router) {
     dynamicRoute($router, App\Controllers\UserContactTypes\UserContactTypes::class);
 });
 $router->mount('/Products', function () use ($router) {
     dynamicRoute($router, App\Controllers\Products\Products::class, [
-        [
-            'method' => 'GET',
-            'path' => '/getProductDataFilterByBrand',
-            'action' => 'getProductDataFilterByBrand'
-        ],
         [
             'method' => 'GET',
             'path' => '/getProductData',
@@ -198,14 +200,21 @@ $router->mount('/ProductGrad', function () use ($router) {
 $router->mount('/brands', function () use ($router) {
     dynamicRoute($router, App\Controllers\brands\brands::class);
 });
+
 $router->mount('/ProductQualities', function () use ($router) {
     dynamicRoute($router, App\Controllers\ProductQualities\ProductQualities::class);
 });
+
 $router->mount('/ProductsPriceList', function () use ($router) {
     dynamicRoute($router, App\Controllers\ProductsPriceList\ProductsPriceList::class);
 });
 $router->mount('/ProformaInvoice', function () use ($router) {
-    dynamicRoute($router, \App\Controllers\ProformaInvoice\ProformaInvoice::class,[
+    dynamicRoute($router, \App\Controllers\ProformaInvoice\ProformaInvoice::class, [
+        [
+            'method' => 'GET',
+            'path' => "/process(/\d+)?",
+            'action' => 'process'
+        ],
         [
             'method' => 'GET',
             'path' => '/createProformaInvoice(/\d+)',
@@ -233,6 +242,7 @@ $router->mount('/ProductCategories', function () use ($router) {
 $router->mount('/MeasurementUnit', function () use ($router) {
     dynamicRoute($router, App\Controllers\MeasurementUnit\MeasurementUnit::class);
 });
+
 $router->mount('/ContactPhoneLabel', function () use ($router) {
     dynamicRoute($router, App\Controllers\ContactPhoneLabel\ContactPhoneLabel::class, [
         [
@@ -355,6 +365,7 @@ $router->mount('/ContactsGroup', function () use ($router) {
         ]
     ]);
 });
+
 $router->mount('/ContactAcquisitionSources', function () use ($router) {
     dynamicRoute($router, App\Controllers\ContactAcquisitionSources\ContactAcquisitionSources::class, [
         [
@@ -364,22 +375,28 @@ $router->mount('/ContactAcquisitionSources', function () use ($router) {
         ]
     ]);
 });
-$router->mount('/ImplementationTeam', function () use ($router) {
-    dynamicRoute($router, ImplementationTeam::class, [
-        [
-            'method' => 'POST',
-            'path' => "/getTreeData",
-            'action' => 'getTreeData'
-        ]
-    ]);
-});
+
 $router->mount('/WorkGroups', function () use ($router) {
     dynamicRoute($router, WorkGroups::class, [
         [
-            'method' => 'GET',
+            'method' => 'POST',
             'path' => '/getWorkGroupsIndex',
             'action' => 'getWorkGroupsIndex'
         ]
+    ]);
+});
+$router->mount('/Warehouses', function () use ($router) {
+    dynamicRoute($router, App\Controllers\Warehouses\Warehouses::class,[
+        [
+            'method' => 'POST',
+            'path' => "/getWarehouseKeepers",
+            'action' => 'getWarehouseKeepers'
+        ],
+        [
+            'method' => 'POST',
+            'path' => "/addTeam",
+            'action' => 'addTeam'
+        ],
     ]);
 });
 $router->mount('/PriceSuggestion', function () use ($router) {
@@ -422,4 +439,7 @@ $router->mount('/ProformaInvoiceSettings', function () use ($router) {
             'action' => 'getProformaInvoiceSettings'
         ]
     ]);
+});
+$router->mount('/salesTeam', function () use ($router) {
+    dynamicRoute($router, App\Controllers\salesTeam\salesTeam::class);
 });
