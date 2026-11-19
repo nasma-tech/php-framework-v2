@@ -12,6 +12,7 @@ use App\Models\CountryModel\CountryModel;
 use App\Models\PriceSuggestionModel\PriceSuggestionModel;
 use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
 use App\Models\ProformaInvoiceModel\ProformaInvoiceModel;
+use App\Models\ProformaInvoiceProductsModel\ProformaInvoiceProductsModel;
 use App\Models\ProformaInvoiceSettingsModel\ProformaInvoiceSettingsModel;
 use App\Models\StateModel\StateModel;
 
@@ -94,7 +95,9 @@ class ProformaInvoice extends ControllerScheme
 
     public function add(): void
     {
+        $_ENV['APP_DEBUG'] = 1;
         $data = $this->requestArray();
+
         $makeProformaInvoiceData = [
             'price_suggestion_id' => $data['price_suggestion_id'],
             'contact_id' => $data['contact_id'],
@@ -134,6 +137,30 @@ class ProformaInvoice extends ControllerScheme
                 }
             }
 
+            foreach ($data['productList'] as $item) {
+                $unitDiscount = 0;
+                if ($item['discount_type'] == 'percentage') {
+                    $unitDiscount = (numberNormalizer->removePriceSeparator($item['discount_unit_amount']) * numberNormalizer->removePriceSeparator($item['product_unit_price']) / 100);
+                } else if ($item['discount_type'] == 'cash') {
+                    $unitDiscount = numberNormalizer->removePriceSeparator($item['discount_unit_amount']);
+                }
+                $invoiceProduct = [
+                    'proforma_invoice_id'=>$addProformaInvoice->id,
+                    'product_id' => $item['product_id'],
+                    'amount' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])),
+                    'unit_price' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_unit_price'])),
+                    'discount_type' => $item['discount_type'] ?? 'noDiscount',
+                    'discount_unit_amount' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['discount_unit_amount'])),
+                    'discount_unit_amount_cash' => $unitDiscount,
+                    'discount_amount' => numberNormalizer->removePriceSeparator($item['discount_amount']),
+                    'total_unit_price' => numberNormalizer->removePriceSeparator($item['unit_price_after_discount']),
+                    'total_product_price' => numberNormalizer->removePriceSeparator($item['product_amount']) * (numberNormalizer->removePriceSeparator($item['unit_price_after_discount'])),
+                ];
+                ProformaInvoiceProductsModel::query()->create($invoiceProduct);
+            }
+
+
+
             $makeProformaInvoiceDetail = [
                 'proforma_invoice_id' => $addProformaInvoice->proforma_invoice_id,
                 'expert_alias_name',
@@ -144,8 +171,8 @@ class ProformaInvoice extends ControllerScheme
                 'invoice_sum_tax',
                 'invoice_sum_tax_details',
                 'invoice_sum_total',
-                'payment_terms',
-                'bottom_invoice_text',
+                'payment_terms' => $data['payment_terms'],
+                'bottom_invoice_text' => $data['bottom_invoice_text'],
             ];
             $addProformaInvoiceDetail = ProformaInvoiceDetailsModel::query()->create($makeProformaInvoiceDetail);
         }
