@@ -3,8 +3,11 @@
 namespace App\Controllers\salesTeam;
 use App\Controllers\scheme\ControllerScheme;
 use App\Models\brandsModel\brandsModel;
+use App\Models\ProductModel\ProductModel;
 use App\Models\SalesTeamModel\SalesTeamModel;
 use App\Models\salesTeamModifyLogModel\salesTeamModifyLogModel;
+use App\Models\SalesTeamProductsHistoryModel\SalesTeamProductsHistoryModel;
+use App\Models\SalesTeamProductsModel\SalesTeamProductsModel;
 use Packages\Security\Csrf;
 
 require_once __SOURCE__ . 'application/Controllers/scheme/ControllerScheme.php';
@@ -92,7 +95,7 @@ class salesTeam extends ControllerScheme
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
-        view->setModel(ORM::for_table($this->Model())->find_one($id));
+        view->setModel(SalesTeamModel::query()->find($id));
         view->ui([
             'assets/vendors/js/charts/valadart/go',
             'assets/vendors/js/charts/valadart/data',
@@ -119,10 +122,10 @@ class salesTeam extends ControllerScheme
         view->setPluralName(self::pluralName);
         view->setModel(SalesTeamModel::query()->find($id));
         view->ui([
-            'assets/js/salesTeam/permission-salesTeam',
-        ], [], [
+            'js/salesTeam/permission-salesTeam',
+        ], ["css/salesTeam/sale-permissions"], [
             'brands' => BrandsModel::query()->get(),
-        ])->display('/salesTeam/permission-salesTeam.tpl');
+        ])->display('salesTeam/permission-salesTeam.tpl');
     }
 
 
@@ -202,22 +205,14 @@ class salesTeam extends ControllerScheme
 
     public function getSalePermissionBrands()
     {
-        $brands = ORM::for_table('tbl_Brands')
-            ->select_many([
-                'id',
-                'name' => 'brand_persian_name',
-                'latin_name' => 'brand_latin_name',
-                'logo' => 'brand_logo',
-            ])
-            ->where('soft_delete', 0)
-            ->order_by_asc('brand_persian_name')
-            ->find_array();
+        $brands = brandsModel::query()->get();
         echo json_encode([
             'success' => true,
             'brands' => $brands,
         ], JSON_UNESCAPED_UNICODE);
         exit;
     }
+
 
     public function getSalePermissionProducts()
     {
@@ -235,71 +230,62 @@ class salesTeam extends ControllerScheme
             exit();
         }
 
-        $offset = ($page - 1) * $limit;
-        $query = ORM::for_table('qc_Products')
-            ->table_alias('p')
-            ->left_outer_join('qc_ProductCategories', ['p.category_id', '=', 'c.id'], 'c')
-            ->left_outer_join('qc_ProductGroups', ['p.group_id', '=', 'g.id'], 'g')
-            ->left_outer_join('qc_ProductGrades', ['p.grade_id', '=', 'gr.id'], 'gr')
-            ->left_outer_join('qc_ProductQualities', ['p.quality_id', '=', 'q.id'], 'q')
-            ->left_outer_join('qc_Units', ['p.unit_id', '=', 'u.id'], 'u')
-            ->where('p.brand_id', $brandId)
-            ->where('p.is_active', 1)
-            ->where('p.soft_delete', 0);
+        $products = ProductModel::with([
+            'brand',
+            'productGroup.category',
+            'grade',
+            'quality',
+            'measurementUnit',
+        ])
+            ->where('brand_id', $brandId)
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('label', 'LIKE', "%{$search}%")
+                        ->orWhere('serial_number', 'LIKE', "%{$search}%");
+                });
+            })
+            ->orderBy('label')
+            ->paginate($limit, ['*'], 'page', $page);
 
-        if ($search !== '') {
-            $searchLike = '%' . $search . '%';
-            $query->where_raw('(p.title LIKE ? OR p.product_id LIKE ?)', [$searchLike, $searchLike]);
-        }
+        $total = $products->total();
 
-        $total = $query->count();
-        $products = $query->select_many([
-            'id' => 'p.id',
-            'brand_id' => 'p.brand_id',
-            'product_code' => 'p.product_id',
-            'name' => 'p.title',
-            'default_price' => 'p.sale_price',
-            'category_name' => 'c.title',
-            'group_name' => 'g.title',
-            'grade_name' => 'gr.title',
-            'quality_name' => 'q.title',
-            'unit_name' => 'u.unite_name',
-            'unit_symbol' => 'u.unit_symbol',
-        ])->order_by_asc('p.title')
-            ->limit($limit)
-            ->offset($offset)
-            ->find_array();
+        $result = $products->getCollection()->map(function ($product) {
+            return [
+                'id' => (int)$product->id,
+                'brand_id' => (int)$product->brand_id,
+                'product_code' => $product->serial_number,
+                'name' => $product->label,
+                'default_price' => (int)($product->sale_price ?? 0),
+                'category_name' => $product->productGroup?->category?->label ?? '',
+                'group_name' => $product->productGroup?->label ?? '',
+                'grade_name' => $product->grade?->label ?? '',
+                'quality_name' => $product->quality?->label ?? '',
+                'unit_name' => $product->measurementUnit?->label ?? '',
+                'unit_symbol' => $product->measurementUnit?->unit_symbol ?? '',
+            ];
+        })->values();
 
-        foreach ($products as &$product) {
-            $product['id'] = (int)$product['id'];
-            $product['brand_id'] = (int)$product['brand_id'];
-            $product['default_price'] = (int)($product['default_price'] ?? 0);
-            $product['category_name'] = $product['category_name'] ?? '';
-            $product['group_name'] = $product['group_name'] ?? '';
-            $product['grade_name'] = $product['grade_name'] ?? '';
-            $product['quality_name'] = $product['quality_name'] ?? '';
-            $product['unit_name'] = $product['unit_name'] ?? '';
-            $product['unit_symbol'] = $product['unit_symbol'] ?? '';
-        }
-
-        unset($product);
         echo json_encode([
             'success' => true,
-            'products' => $products,
+            'products' => $result,
             'pagination' => [
                 'page' => $page,
                 'limit' => $limit,
                 'total' => $total,
-                'has_more' => ($offset + count($products)) < $total,
+                'has_more' => $products->hasMorePages(),
             ],
         ], JSON_UNESCAPED_UNICODE);
+
         exit();
     }
+
+
 
     public function getSalePermissionProductsForTeam()
     {
         $data = $this->requestArray();
         $teamId = (int)($data['team_id'] ?? 0);
+
         if ($teamId <= 0) {
             echo json_encode([
                 'success' => false,
@@ -308,58 +294,61 @@ class salesTeam extends ControllerScheme
             exit();
         }
 
-        $permissions = ORM::for_table('qc_SalesTeamProducts')->table_alias('stp')
-            ->select_many([
-                'product_id' => 'stp.product_id',
-                'price' => 'stp.product_price',
-                'brand_id' => 'p.brand_id',
-                'brand_name' => 'b.brand_persian_name',
-                'name' => 'p.title',
-                'code' => 'p.product_id',
-                'default_price' => 'p.sale_price',
-                'category_name' => 'c.title',
-                'group_name' => 'g.title',
-                'grade_name' => 'gr.title',
-                'quality_name' => 'q.title',
-                'unit_name' => 'u.unite_name',
-                'unit_symbol' => 'u.unit_symbol',
-            ])->join('qc_Products', ['stp.product_id', '=', 'p.id'], 'p')
-            ->left_outer_join('tbl_Brands', ['p.brand_id', '=', 'b.id'], 'b')
-            ->left_outer_join('qc_ProductCategories', ['p.category_id', '=', 'c.id'], 'c')
-            ->left_outer_join('qc_ProductGroups', ['p.group_id', '=', 'g.id'], 'g')
-            ->left_outer_join('qc_ProductGrades', ['p.grade_id', '=', 'gr.id'], 'gr')
-            ->left_outer_join('qc_ProductQualities', ['p.quality_id', '=', 'q.id'], 'q')
-            ->left_outer_join('qc_Units', ['p.unit_id', '=', 'u.id'], 'u')
-            ->where('stp.team_id', $teamId)
-            ->order_by_asc('b.brand_persian_name')
-            ->order_by_asc('p.title')
-            ->find_array();
+        $permissions = SalesTeamProductsModel::with([
+            'product.brand',
+            'product.productGroup.category',
+            'product.grade',
+            'product.quality',
+            'product.measurementUnit',
+        ])
+            ->where('team_id', $teamId)
+            ->get();
 
-        foreach ($permissions as &$permission) {
-            $permission['product_id'] = (int)$permission['product_id'];
-            $permission['brand_id'] = (int)$permission['brand_id'];
-            $permission['default_price'] = (int)($permission['default_price'] ?? 0);
-            if ($permission['price'] === null || $permission['price'] === '') {
-                $permission['price'] = null;
-            } else {
-                $permission['price'] = (int)$permission['price'];
+        $permissions = $permissions->sort(function ($a, $b) {
+            $brandA = $a->product?->brand?->brand_persian_name ?? '';
+            $brandB = $b->product?->brand?->brand_persian_name ?? '';
+
+            $brandCompare = strcasecmp($brandA, $brandB);
+
+            if ($brandCompare !== 0) {
+                return $brandCompare;
             }
 
-            $permission['category_name'] = $permission['category_name'] ?? '';
-            $permission['group_name'] = $permission['group_name'] ?? '';
-            $permission['grade_name'] = $permission['grade_name'] ?? '';
-            $permission['quality_name'] = $permission['quality_name'] ?? '';
-            $permission['unit_name'] = $permission['unit_name'] ?? '';
-            $permission['unit_symbol'] = $permission['unit_symbol'] ?? '';
-        }
+            $nameA = $a->product?->label ?? '';
+            $nameB = $b->product?->label ?? '';
 
-        unset($permission);
+            return strcasecmp($nameA, $nameB);
+        });
+
+        $permissions = $permissions->map(function ($item) {
+            $product = $item->product;
+
+            return [
+                'product_id' => (int)$item->product_id,
+                'price' => ($item->product_price === null || $item->product_price === '')
+                    ? null
+                    : (int)$item->product_price,
+                'brand_id' => (int)($product?->brand_id ?? 0),
+                'brand_name' => $product?->brand?->brand_persian_name ?? '',
+                'name' => $product?->label ?? '',
+                'code' => $product?->serial_number ?? '',
+                'default_price' => (int)($product?->sale_price ?? 0),
+                'category_name' => $product?->productGroup?->category?->label ?? '',
+                'group_name' => $product?->productGroup?->label ?? '',
+                'grade_name' => $product?->grade?->label ?? '',
+                'quality_name' => $product?->quality?->label ?? '',
+                'unit_name' => $product?->measurementUnit?->label ?? '',
+                'unit_symbol' => $product?->measurementUnit?->unit_symbol ?? '',
+            ];
+        })->values()->toArray();
+
         echo json_encode([
             'success' => true,
             'permissions' => $permissions,
         ], JSON_UNESCAPED_UNICODE);
         exit();
     }
+
 
     public function saveSalePermissions()
     {
@@ -395,10 +384,8 @@ class salesTeam extends ControllerScheme
 
                 return;
             }
+            $team = SalesTeamModel::query()->find($teamId);
 
-            $team = ORM::for_table('qc_SalesTeam')
-                ->where('id', $teamId)
-                ->find_one();
 
             if (!$team) {
                 echo json_encode([
@@ -439,9 +426,7 @@ class salesTeam extends ControllerScheme
             $products = array_values($products);
 
             if (!$products) {
-                ORM::for_table('qc_SalesTeamProducts')
-                    ->where('team_id', $teamId)
-                    ->delete_many();
+                SalesTeamProductsModel::query()->where('team_id', $teamId)->delete();
                 echo json_encode([
                     'success' => true,
                     'message' => 'دسترسی‌های فروش تیم با موفقیت حذف شد.'
@@ -455,27 +440,23 @@ class salesTeam extends ControllerScheme
             $validProducts = [];
 
             foreach ($products as $product) {
-                $productExists = ORM::for_table('qc_Products')
-                    ->where('id', $product['product_id'])
-                    ->where('soft_delete', 0)
-                    ->find_one();
+                $productExists = ProductModel::query()->find($product['product_id']);
 
                 if ($productExists) {
                     $validProducts[] = $product;
                 } else {
-                    ORM::for_table('qc_SalesTeamProducts')
-                        ->where('team_id', $teamId)
-                        ->where('product_id', $product['product_id'])
-                        ->delete_many();
+                    salesTeamProductsModel::query()->where([
+                        'team_id' => $teamId,
+                        'product_id' => $product['product_id'],
+                    ])->delete();
                 }
             }
 
             $products = $validProducts;
 
             if (!$products) {
-                ORM::for_table('qc_SalesTeamProducts')
-                    ->where('team_id', $teamId)
-                    ->delete_many();
+                salesteamProductsModel::query()->where('team_id', $teamId)->delete();
+
 
                 echo json_encode([
                     'success' => true,
@@ -488,25 +469,23 @@ class salesTeam extends ControllerScheme
             $productIds = [];
             foreach ($products as $product) {
                 $changed = false;
-                $row = ORM::for_table('qc_SalesTeamProducts')
-                    ->where([
-                        'team_id' => $teamId,
-                        'product_id' => $product['product_id'],
-                    ])
-                    ->find_one();
+                $row = salesteamProductsModel::query()->where([
+                    'team_id' => $teamId,
+                    'product_id' => $product['product_id'],
+                ])->first();
 
                 if ($row) {
                     if ((int)$row->product_price !== (int)$product['price']) {
                         $changed = true;
                     }
                 } else {
-                    $row = ORM::for_table('qc_SalesTeamProducts')->create();
+                    $row = salesteamProductsModel::query()->create([]);
                     $row->team_id = $teamId;
                     $row->product_id = $product['product_id'];
                 }
 
                 if ($changed) {
-                    $history = ORM::for_table('qc_SalesTeamProductsHistory')->create();
+                    $history = SalesTeamProductsHistoryModel::query()->create([]);
                     $history->team_id = $row->team_id;
                     $history->product_id = $row->product_id;
                     $history->product_price = $row->product_price;
@@ -521,10 +500,8 @@ class salesTeam extends ControllerScheme
 
                 $productIds[] = $row->product_id;
             }
+            $teamProducts = SalesTeamProductsModel::query()->where('team_id', $teamId)->get();
 
-            $teamProducts = ORM::for_table('qc_SalesTeamProducts')
-                ->where('team_id', $teamId)
-                ->find_many();
             foreach ($teamProducts as $teamProduct) {
                 if (!in_array((int)$teamProduct->product_id, $productIds, true)) {
                     $teamProduct->delete();
@@ -549,10 +526,7 @@ class salesTeam extends ControllerScheme
 
     public function getTeamData(?int $teamId = null, bool $asArray = false): IdiormResultSet|array
     {
-        $query = ORM::for_table('qc_SalesTeam')
-            ->where([
-                'soft_delete' => 0
-            ]);
+        $query = salesTeamProductsModel::query();
 
         if ($teamId) {
             $query->where_equal('id', $teamId);

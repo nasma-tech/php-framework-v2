@@ -446,5 +446,26 @@ $router->mount('/ProformaInvoiceSettings', function () use ($router) {
     ]);
 });
 $router->mount('/salesTeam', function () use ($router) {
-    dynamicRoute($router, App\Controllers\salesTeam\salesTeam::class);
+    dynamicRoute($router, App\Controllers\salesTeam\salesTeam::class,[
+        [
+            'method' => 'GET',
+            'path' => "/permissions/(\d+)",
+            'action' => 'permissionIndex'
+        ],
+        [
+            'method' => 'POST',
+            'path' => "/getSalePermissionBrands",
+            'action' => 'getSalePermissionBrands'
+        ],
+        [
+            'method' => 'POST',
+            'path' => "/getSalePermissionProducts",
+            'action' => 'getSalePermissionProducts'
+        ],
+        [
+            'method' => 'POST',
+            'path' => "/getSalePermissionProductsForTeam",
+            'action' => 'getSalePermissionProductsForTeam'
+        ]
+    ]);
 });
