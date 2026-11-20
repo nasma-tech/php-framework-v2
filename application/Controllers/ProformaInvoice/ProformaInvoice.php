@@ -178,7 +178,8 @@ class ProformaInvoice extends ControllerScheme
                 if ($row['netSumMerge']) {
                     $mergeToNetSum += $invoice_net_sum * ($row['coefficient'] - 1);
                     $invoice_sum_tax_details[] = [
-                        'charges_deduction_id' => $invoice_net_sum * ($row['coefficient'] - 1),
+                        'charges_deduction_id' => $row['charges_deduction_id'],
+                        'calculate' => $invoice_net_sum * ($row['coefficient'] - 1),
                         'coefficient' => round(($row['coefficient'] - 1), 2)
                     ];
                 }
@@ -189,7 +190,8 @@ class ProformaInvoice extends ControllerScheme
                 if (!$row['netSumMerge']) {
                     $sumTaxAfterMerge += $sumTaxMergeToNetSum * ($row['coefficient'] - 1);
                     $invoice_sum_tax_details[] = [
-                        'charges_deduction_id' => $sumTaxMergeToNetSum * ($row['coefficient'] - 1),
+                        'charges_deduction_id' => $row['charges_deduction_id'],
+                        'calculate' => $sumTaxMergeToNetSum * ($row['coefficient'] - 1),
                         'coefficient' => round(($row['coefficient'] - 1), 2)
                     ];
                 }
