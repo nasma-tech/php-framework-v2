@@ -159,6 +159,32 @@ class salesTeam extends ControllerScheme
         ])->display('salesTeam/add-groupSaleTeam.tpl');
     }
 
+    public function editGroupIndex($id)
+    {
+
+        view->setPageTitle(self::pluralName);
+        view->setSingleName(self::singleName);
+        view->setPluralName(self::pluralName);
+        view->setModel(salesTeamGroupModel::query()->find($id));
+        view->ui([
+            '/js/valadart/app',
+            '/js/valadart/go',
+            '/js/valadart/context-menu',
+            '/js/valadart/data',
+            '/js/valadart/diagram-init',
+            '/js/valadart/editing',
+            '/js/valadart/dragging-tool',
+            '/js/valadart/lookup',
+            '/js/valadart/model-helpers',
+            '/js/valadart/node-template',
+            '/js/salesTeam/add-salesTeam',
+        ], [
+            '/css/valadart/style',
+        ], [
+            'Brands' => brandsModel::query()->get(),
+        ])->display('salesTeam/edit-groupSaleTeam.tpl');
+    }
+
     public function addTeam()
     {
         csrf->csrfValidate();
@@ -780,5 +806,88 @@ class salesTeam extends ControllerScheme
     {
         $data = saleTeamGroupSalesTeamModel::query()->where('SalesTeamGroup_id', $id)->with(['user', 'salesTeam', 'salesTeamGroup'])->get();
         echo json_encode($data);
+    }
+
+    public function deleteSalesTeam()
+    {
+        $data = $this->requestArray();
+        $delete = saleTeamGroupSalesTeamModel::query()->where(['SalesTeamGroup_id' => $data['group_id'],'salesTeam_id' => $data['team_id']])->delete();
+        $deleteTeam = SalesTeamModel::query()->where('id', $data['team_id'])->delete();
+        if ($delete && $deleteTeam){
+            echo "deleteSucess";
+        }else{
+            echo "deleteFailed";
+        }
+    }
+
+    public function checkGroupTeam($id)
+    {
+        $data = saleTeamGroupSalesTeamModel::query()
+            ->where('SalesTeamGroup_id', $id)
+            ->with(['salesTeam'])
+            ->get();
+
+        if ($data->isNotEmpty()) {
+            echo json_encode([
+                'message' => 'withData',
+                'data' => $data
+            ]);
+        } else {
+            echo json_encode([
+                'message' => 'withoutData',
+                'data' => []
+            ]);
+        }
+    }
+
+    public function deleteGroup($id)
+    {
+        $check = saleTeamGroupSalesTeamModel::query()->where('SalesTeamGroup_id', $id)->get();
+        if (!$check) {
+            var_print('data');
+            die();
+            $delete = salesTeamGroupModel::query()->where('id', $id)->delete();
+            if ($delete) {
+                echo "deleteSucess";
+            }else{
+                echo "deleteFailed";
+            }
+        }else{
+
+            $deleteGroup = salesTeamGroupModel::query()->where('id', $id)->delete();
+            $emptyGroup = saleTeamGroupSalesTeamModel::query()
+                ->where('SalesTeamGroup_id', $id)
+                ->delete();
+
+            if (!$emptyGroup && !$deleteGroup) {
+                echo "deleteSucess";
+            }else{
+                echo "deleteFailed";
+
+            }
+        }
+    }
+
+    public function editGroup($id)
+    {
+        $data = $this->requestArray();
+        $edit = salesTeamGroupModel::query()->where('id', $id)->first();
+        $modifyLog = json_decode($edit['modifyLog']) ?? [];
+
+        $modifyLog[] = [
+            "label" => $edit['label'],
+            "userId" => userObject()->userId,
+            "date" => date("Y-m-d H:i:s"),
+            "timestamp" => time(),
+        ];
+        $edit->update([
+            'label' => $data['label'],
+            'modifyLog' => json_encode($modifyLog),
+        ]);
+        if ($edit) {
+            $this->successCallBack('/salesTeam/main');
+        }else{
+            $this->failedCallBack('/salesTeam/main');
+        }
     }
 }

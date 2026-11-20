@@ -491,6 +491,26 @@ $router->mount('/salesTeam', function () use ($router) {
             'method' => 'POST',
             'path' => "/addTeam",
             'action' => 'addTeam'
+        ],
+        [
+            'method' => 'POST',
+            'path' => "/deleteSalesTeam",
+            'action' => 'deleteSalesTeam'
+        ],
+        [
+            'method' => 'GET',
+            'path' => "/checkGroupTeam/(\d+)",
+            'action' => 'checkGroupTeam'
+        ],
+        [
+            'method' => 'GET',
+            'path' => "/deleteGroup/(\d+)",
+            'action' => 'deleteGroup'
+        ],
+        [
+            'method' => 'GET',
+            'path' => "/editGroupIndex/(\d+)",
+            'action' => 'editGroupIndex'
         ]
     ]);
 });

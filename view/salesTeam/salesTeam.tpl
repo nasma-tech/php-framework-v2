@@ -47,7 +47,7 @@
                                                 </button>
 
                                                 <a class="btn btn-sm btn-primary"
-                                                   href="/salesTeam/editGroup/{$data['id']}">
+                                                   href="/salesTeam/editGroupIndex/{$data['id']}">
                                                     <i class="bx bx-edit-alt text-white"></i>
                                                 </a>
 

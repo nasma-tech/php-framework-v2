@@ -17,6 +17,7 @@ class salesTeamGroupModel extends Model
     protected $fillable = [
         //col Name
         "label",
+        "modifyLog",
         "user_id",
         "created_at",
         "updated_at",

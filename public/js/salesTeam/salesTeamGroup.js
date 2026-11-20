@@ -1,4 +1,3 @@
-
 $(function () {
     "use strict";
 
@@ -51,7 +50,17 @@ $(function () {
                         <td>${escapeHtml(item.created_at)}</td>
                         <td>${escapeHtml(item.updated_at)}</td>
                         <td>
+                            <a class="btn btn-sm btn-warning"
+                                href="/salesTeam/editIndex/${item.salesTeam_id}">
+                                <i class="bx bx-show text-white"></i>
+                            </a>
+                            <a class="btn btn-sm btn-primary"
+                                href="/salesTeam/permissions/${item.salesTeam_id}">
+                                <i class="bx bx-key text-white"></i>
+                            </a>
                             <button class="btn btn-sm btn-danger deleteGroupTeam"
+                                data-team-name="${item.sales_team?.team_title}"
+                                data-groupname="${escapeHtml(label)}"
                                 data-group-id="${item.SalesTeamGroup_id}"
                                 data-team-id="${item.salesTeam_id}">
                                 <i class="bx bx-trash-alt"></i>
@@ -102,25 +111,129 @@ $(function () {
             }
         });
     });
-
-    // حذف تیم از گروه
     $(document).on('click', '.deleteGroupTeam', function () {
-        let groupId = $(this).data('group-id');
-        let teamId = $(this).data('team-id');
+        let group_id = $(this).data("group-id")
+        let team_id = $(this).data("team-id")
+        let team_name = $(this).data("team-name")
+        let group_name = $(this).data("groupname")
 
-        Swal.fire({
-            title: 'حذف تیم از گروه؟',
-            text: 'آیا از حذف این تیم از گروه اطمینان دارید؟',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'بله، حذف شود',
-            cancelButtonText: 'انصراف'
-        }).then(result => {
-            if (!result.isConfirmed) return;
+        swal.fire({
+            icon: 'question',
+            title: `آیا از حذف تیم ${team_name} در گروه ${group_name} مطمعن هستید؟`,
+            confirmButtonText: "حذف شود",
+            showDenyButton: true,
+            denyButtonText: 'بستن',
+            preConfirm: () => {
+                $.ajax({
+                    url: "deleteSalesTeam",
+                    method: "POST",
+                    data: {
+                        team_id: team_id,
+                        group_id: group_id
+                    },
+                    success: result => {
+                        if (result == "deleteSucess") {
+                            swal.fire({
+                                icon: "success",
+                                title: 'با موفقیت حذف شد',
+                                confirmButtonText: 'بستن',
+                            }).then(() => {
+                                location.reload();
+                            })
+                        } else {
+                            swal.fire({
+                                icon: "warning",
+                                title: 'حذف انجام نشد',
+                                confirmButtonText: 'بستن',
+                            }).then(() => {
+                                location.reload();
+                            })
+                        }
+                    }
+                })
+            }
+        })
+    });
 
-            // درخواست حذف را با Route مربوط به پروژه ارسال کن.
-            // groupId و teamId شناسه‌های مورد نیاز هستند.
+
+    $(document).on("click", ".deleteGroup", function () {
+        let id = $(this).data('id');
+
+        $.ajax({
+            url: `/salesTeam/checkGroupTeam/${id}`,
+            method: "GET",
+            dataType: "json",
+
+            success: result => {
+                if (result.message === 'withData') {
+
+                    let teamList = result.data.map((item, index) => `
+                    <tr>
+                        <td>${$('<div>').text(item.sales_team?.team_title ?? '-').html()}</td>
+                    </tr>
+                `).join('');
+
+                    Swal.fire({
+                        icon: "warning",
+                        title: "تیم‌های متصل به گروه",
+                        html: `
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>نام تیم</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${teamList}
+                                </tbody>
+                            </table>
+                        </div>
+                    `,
+                        showCancelButton: true,
+                        confirmButtonText: "حذف گروه",
+                        cancelButtonText: "بستن",
+                        confirmButtonColor: "#ea5455"
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: `deleteGroup/${id}`,
+                                method: "GET",
+                                success: result => {
+                                    if (result == "deleteSucess") {
+                                        swal.fire({
+                                            icon: "success",
+                                            title: "با موفقیت حذف شد",
+                                            confirmButtonText: "بستن"
+                                        }).then(() => {
+                                            location.reload();
+                                        })
+                                    } else {
+                                        swal.fire({
+                                            icon: "warning",
+                                            title: "حذف انجام نشد",
+                                            confirmButtonText: "بستن"
+                                        }).then(() => {
+                                            location.reload();
+                                        })
+                                    }
+                                }
+                            })
+                        }
+                    });
+
+                } else {
+                    swal.fire({
+                        icon: "question",
+                        title: 'از حذف گروه مطمعا هستید؟',
+                        confirmButtonText: "بله",
+                        showDenyButton: true,
+                        denyButtonText: 'انصراف',
+                    })
+                }
+            }
         });
     });
+
 
 });
