@@ -135,11 +135,11 @@ class Products extends ControllerScheme
                     'id' => $item['id'],
                     'title' => $item['label'],
                     'unitPrice'=>$item['sale_price'],
-                    'unitName' => $item['measurement_unit_data']['label'],
+                    'unitName' => $item['measurement_unit']['label'],
                 ];
             }, ProductModel::query()
                 ->with([
-                    'measurementUnitData'
+                    'measurementUnit'
                 ])->where('brand_id',$brandId)->get()->toArray()));
         }
     }
