@@ -466,6 +466,31 @@ $router->mount('/salesTeam', function () use ($router) {
             'method' => 'POST',
             'path' => "/getSalePermissionProductsForTeam",
             'action' => 'getSalePermissionProductsForTeam'
+        ],
+        [
+            'method' => 'GET',
+            'path' => "/addGroupIndex",
+            'action' => 'addGroupIndex'
+        ],
+        [
+            'method' => 'POST',
+            'path' => "/addGroup",
+            'action' => 'addGroup'
+        ],
+        [
+            'method' => 'GET',
+            'path' => "/getGroupData/(\d+)",
+            'action' => 'getGroupData'
+        ],
+        [
+            'method' => 'GET',
+            'path' => "/addTeamIndex/(\d+)",
+            'action' => 'addTeamIndex'
+        ],
+        [
+            'method' => 'POST',
+            'path' => "/addTeam",
+            'action' => 'addTeam'
         ]
     ]);
 });

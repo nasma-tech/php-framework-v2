@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers\salesTeam;
+
 use App\Controllers\scheme\ControllerScheme;
 use App\Models\brandsModel\brandsModel;
 use App\Models\ProductModel\ProductModel;
@@ -8,14 +9,16 @@ use App\Models\SalesTeamModel\SalesTeamModel;
 use App\Models\salesTeamModifyLogModel\salesTeamModifyLogModel;
 use App\Models\SalesTeamProductsHistoryModel\SalesTeamProductsHistoryModel;
 use App\Models\SalesTeamProductsModel\SalesTeamProductsModel;
+use App\Models\salesTeamGroupModel\salesTeamGroupModel;
+use App\Models\saleTeamGRoupSalesTeamModel\saleTeamGroupSalesTeamModel;
 use Packages\Security\Csrf;
 
 require_once __SOURCE__ . 'application/Controllers/scheme/ControllerScheme.php';
 
 class salesTeam extends ControllerScheme
 {
-    const string singleName = 'تیم فروش';
-    const string pluralName = 'تیم های فروش';
+    const string singleName = 'گروه تیم فروش';
+    const string pluralName = 'گروه تیم فروش';
     protected string $defaultModel = SalesTeamModel::class;
 
     public function main()
@@ -34,14 +37,16 @@ class salesTeam extends ControllerScheme
             'assets/vendors/js/tables/datatable/pdfmake.min',
             'assets/vendors/js/tables/datatable/vfs_fonts',
             'assets/vendors/js/tables/datatable/buttons.colVis.min',
+            'js/salesTeam/salesTeamGroup',
         ],
             ['vendors/css/tables/datatable/datatables.min'],
             [
-                'list' => SalesTeamModel::query()->get(),
+//                'list' => SalesTeamModel::query()->get(),
+                'list' => salesTeamGroupModel::query()->get(),
             ])->display('salesTeam/salesTeam.tpl');
     }
 
-    public function addIndex()
+    public function addTeamIndex($id)
     {
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
@@ -60,7 +65,8 @@ class salesTeam extends ControllerScheme
             '/js/salesTeam/add-salesTeam',
         ], [
             '/css/valadart/style',
-        ],[
+        ], [
+            'groupId' => $id,
             'Brands' => brandsModel::query()->get(),
         ])->display('salesTeam/add-salesTeam.tpl');
     }
@@ -85,7 +91,7 @@ class salesTeam extends ControllerScheme
             '/js/salesTeam/add-salesTeam',
         ], [
             '/css/valadart/style',
-        ],[
+        ], [
             'Brands' => brandsModel::query()->get(),
         ])->display('salesTeam/edit-salesTeam.tpl');
     }
@@ -128,9 +134,32 @@ class salesTeam extends ControllerScheme
         ])->display('salesTeam/permission-salesTeam.tpl');
     }
 
+    public function addGroupIndex()
+    {
 
+        view->setPageTitle(self::pluralName);
+        view->setSingleName(self::singleName);
+        view->setPluralName(self::pluralName);
+        view->ui([
+            '/js/valadart/app',
+            '/js/valadart/go',
+            '/js/valadart/context-menu',
+            '/js/valadart/data',
+            '/js/valadart/diagram-init',
+            '/js/valadart/editing',
+            '/js/valadart/dragging-tool',
+            '/js/valadart/lookup',
+            '/js/valadart/model-helpers',
+            '/js/valadart/node-template',
+            '/js/salesTeam/add-salesTeam',
+        ], [
+            '/css/valadart/style',
+        ], [
+            'Brands' => brandsModel::query()->get(),
+        ])->display('salesTeam/add-groupSaleTeam.tpl');
+    }
 
-    public function add()
+    public function addTeam()
     {
         csrf->csrfValidate();
         $data = $this->requestArray();
@@ -145,16 +174,24 @@ class salesTeam extends ControllerScheme
 
             $newNodes = json_decode($data['team_data_json'], true)['nodeDataArray'] ?? [];
 
-            $add = SalesTeamModel::query()->insert([
+            $add = SalesTeamModel::query()->create([
                 'team_title' => $data['team_title'],
                 'team_data_json' => json_encode($newNodes, JSON_UNESCAPED_UNICODE),
                 'nodes_data_json' => $data['team_data_json'],
                 'user_id' => userObject()->userId,
             ]);
 
-            if ($add) {
-                return $this->successCallBack('/salesTeam/main');
-
+            if ($add->save()) {
+                $addToGroup = saleTeamGroupSalesTeamModel::query()->insert([
+                    'salesTeam_id' => $add->id,
+                    'SalesTeamGroup_id' => $data['groupId'],
+                    'user_id' => userObject()->userId,
+                ]);
+                if ($addToGroup) {
+                    return $this->successCallBack('/salesTeam/main');
+                }
+            } else {
+                header('location:/notAccess');
             }
         } else {
             header('location:/notAccess');
@@ -278,7 +315,6 @@ class salesTeam extends ControllerScheme
 
         exit();
     }
-
 
 
     public function getSalePermissionProductsForTeam()
@@ -433,8 +469,6 @@ class salesTeam extends ControllerScheme
                 ], JSON_UNESCAPED_UNICODE);
                 return;
             }
-
-
 
 
             $validProducts = [];
@@ -726,5 +760,25 @@ class salesTeam extends ControllerScheme
         }
 
         return $result;
+    }
+
+    public function addGroup()
+    {
+        $data = $this->requestArray();
+        $add = salesTeamGroupModel::query()->create([
+            'label' => $data['label'],
+            'user_id' => userObject()->userId,
+        ]);
+        if ($add) {
+            $this->successCallBack('/salesTeam/main');
+        } else {
+            $this->failedCallBack('/salesTeam/main');
+        }
+    }
+
+    public function getGroupData($id)
+    {
+        $data = saleTeamGroupSalesTeamModel::query()->where('SalesTeamGroup_id', $id)->with(['user', 'salesTeam', 'salesTeamGroup'])->get();
+        echo json_encode($data);
     }
 }
