@@ -50,7 +50,6 @@ class ProformaInvoice extends ControllerScheme
 
     public function createProformaInvoice($priceSuggestionId): void
     {
-        $_ENV['APP_DEBUG'] = 1;
         $getPriceSuggestionData = PriceSuggestionModel::query()->find($priceSuggestionId);
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
