@@ -182,6 +182,11 @@ $router->mount('/Products', function () use ($router) {
             'method' => 'GET',
             'path' => '/getProductData',
             'action' => 'getProductData'
+        ],
+        [
+            'method' => 'GET',
+            'path' => '/getProductDataFilterByBrand',
+            'action' => 'getProductDataFilterByBrand'
         ]
     ]);
 });
