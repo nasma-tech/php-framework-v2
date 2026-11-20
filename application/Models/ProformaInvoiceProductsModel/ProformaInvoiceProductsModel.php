@@ -18,6 +18,8 @@ class ProformaInvoiceProductsModel extends Model
         'product_id',
         'amount',
         'unit_price',
+        'unit_price_edit',
+        'sum_unit_price',
         'discount_type',
         'discount_unit_amount',
         'discount_unit_amount_cash',

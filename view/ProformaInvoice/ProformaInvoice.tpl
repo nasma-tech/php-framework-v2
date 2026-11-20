@@ -12,7 +12,7 @@
                     <div class="card-header">
                         <h4 class="card-title">لیست {$pluralName}</h4>
                         <div class="heading-elements">
-                            {$buttonHelper->refreshAndAddButton({$singleName})}
+                            {$buttonHelper->refreshbtn()}
                         </div>
                     </div>
                     <div class="card-content">
