@@ -14,14 +14,12 @@ class priceChangeLogsModel extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        //col Name
         "product_id",
-        "previous_price",
-        "new_price",
+        "cost_price",
+        "sale_price",
+        "customer_price",
         "user_id",
         "modified_at",
-        "created_at",
-        "deleted_at",
     ];
 
 }

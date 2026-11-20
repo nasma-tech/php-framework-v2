@@ -6,7 +6,7 @@ use App\Models\ProductModel\ProductModel;
 use App\Models\ProjectsTypeModel\ProjectsTypeModel;
 use Illuminate\Database\Eloquent\Model;
 
-class salesTeamModel extends Model
+class SalesTeamModel extends Model
 {
     protected $table = 'SalesTeam';
     protected $primaryKey = 'id';
@@ -30,10 +30,10 @@ class salesTeamModel extends Model
         'create_at',
         'update_at',
         'soft_delete',
-        ];
+    ];
 
     public function product()
     {
-        $this->hasOne(ProductModel::class , 'id', 'id');
+        $this->hasOne(ProductModel::class, 'id', 'id');
     }
 }

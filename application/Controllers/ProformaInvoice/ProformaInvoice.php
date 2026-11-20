@@ -46,7 +46,6 @@ class ProformaInvoice extends ControllerScheme
             ])->display('ProformaInvoice/ProformaInvoice.tpl');
     }
 
-
     public function createProformaInvoice($priceSuggestionId): void
     {
         $_ENV['APP_DEBUG'] = 1;
@@ -145,7 +144,7 @@ class ProformaInvoice extends ControllerScheme
                     $unitDiscount = numberNormalizer->removePriceSeparator($item['discount_unit_amount']);
                 }
                 $invoiceProduct = [
-                    'proforma_invoice_id'=>$addProformaInvoice->id,
+                    'proforma_invoice_id' => $addProformaInvoice->id,
                     'product_id' => $item['product_id'],
                     'amount' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])),
                     'unit_price' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_unit_price'])),
@@ -158,7 +157,6 @@ class ProformaInvoice extends ControllerScheme
                 ];
                 ProformaInvoiceProductsModel::query()->create($invoiceProduct);
             }
-
 
 
             $makeProformaInvoiceDetail = [
@@ -180,7 +178,7 @@ class ProformaInvoice extends ControllerScheme
 
     public function process(int $invoiceId): void
     {
-        $getData = true; //replace with invoiceData
+        $getData = $this->defaultModel::query()->find($invoiceId);
         if ($getData) {
 
             $scripts = [
@@ -260,7 +258,15 @@ class ProformaInvoice extends ControllerScheme
                         "icon" => "bx-shopping-bag success",
                         "sectionFile" => "view/ProformaInvoice/sectionsProcess/salesProcess-sectionsProcess.tpl",
                         "scriptFile" => "js/ProformaInvoice/sectionsProcess/salesProcess-sectionsProcess",
-                        "variables" => []
+                        "variables" => [
+                            "contact" => $getData->contact ?? [],
+                            "company" => $getData->company ?? [],
+                            "expert" => $getData->expert ?? [],
+                            "saleTeam" => $getData->saleTeam ?? [],
+                            "brand" => $getData->brand ?? [],
+                            "state" => $getData->state ?? [],
+                            "city" => $getData->city ?? [],
+                        ]
                     ],
                     [
                         "name" => "financialProcess",
@@ -360,10 +366,9 @@ class ProformaInvoice extends ControllerScheme
             ];
 
             //*********************** options configs ***********************//
-
-            view->setPageTitle("فرآیند فروش روغن");
-            view->setSingleName("فرآیند فروش روغن");
-//            view->setModel($getData);
+            view->setPageTitle("فرآیند فروش");
+            view->setSingleName("فرآیند فروش");
+            view->setModel($getData);
             view->ui(
                 array_merge(
                     $scripts, //static
@@ -388,7 +393,6 @@ class ProformaInvoice extends ControllerScheme
                     $sectionsVariables['mainSections'] ?? [], //sections
                     $sectionsVariables['moreSections'] ?? [], //sections
                     [
-                        'processLogoAddress' => "/public/images/logo/logo-side-menu.png",
                         'cartables' => [
                             //cartables data
                         ],

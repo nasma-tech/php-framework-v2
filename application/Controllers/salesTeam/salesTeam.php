@@ -34,7 +34,7 @@ class salesTeam extends ControllerScheme
         ],
             ['vendors/css/tables/datatable/datatables.min'],
             [
-                'list' => salesTeamModel::query()->get(),
+                'list' => SalesTeamModel::query()->get(),
             ])->display('salesTeam/salesTeam.tpl');
     }
 
@@ -117,7 +117,7 @@ class salesTeam extends ControllerScheme
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
-        view->setModel(salesTeamModel::query()->find($id));
+        view->setModel(SalesTeamModel::query()->find($id));
         view->ui([
             'assets/js/salesTeam/permission-salesTeam',
         ], [], [
@@ -142,7 +142,7 @@ class salesTeam extends ControllerScheme
 
             $newNodes = json_decode($data['team_data_json'], true)['nodeDataArray'] ?? [];
 
-            $add = salesTeamModel::query()->insert([
+            $add = SalesTeamModel::query()->insert([
                 'team_title' => $data['team_title'],
                 'team_data_json' => json_encode($newNodes, JSON_UNESCAPED_UNICODE),
                 'nodes_data_json' => $data['team_data_json'],
@@ -161,7 +161,7 @@ class salesTeam extends ControllerScheme
     public function edit($id)
     {
         csrf->csrfValidate();
-        $getData = salesTeamModel::query()->find($id);
+        $getData = SalesTeamModel::query()->find($id);
 
         if ($getData) {
             $needle = [
