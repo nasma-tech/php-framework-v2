@@ -15,7 +15,9 @@ use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
 use App\Models\ProformaInvoiceModel\ProformaInvoiceModel;
 use App\Models\ProformaInvoiceProductsModel\ProformaInvoiceProductsModel;
 use App\Models\ProformaInvoiceSettingsModel\ProformaInvoiceSettingsModel;
+use App\Models\SalesTeamModel\SalesTeamModel;
 use App\Models\StateModel\StateModel;
+use JetBrains\PhpStorm\NoReturn;
 
 class ProformaInvoice extends ControllerScheme
 {
@@ -68,22 +70,48 @@ class ProformaInvoice extends ControllerScheme
                 'country' => CountryModel::query()->get(),
                 'state' => StateModel::query()->where('country_id', $getPriceSuggestionData->country_id)->get(),
                 'cities' => CityModel::query()->where('state_id', $getPriceSuggestionData->state_id)->get(),
+                'salesTeam' => SalesTeamModel::query()->get(),
             ]
         )->display('ProformaInvoice/add|edit-ProformaInvoice.tpl');
     }
 
     public function editIndex($id): void
     {
+        $_ENV['APP_DEBUG'] = 1;
+        $getData = $this->defaultModel::query()->find($id);
+        $invoiceSetting = ProformaInvoiceSettingsModel::query()->where('brand_id', $getData->brand_id)->first();
+        $decodeInvoiceSetting = json_decode($invoiceSetting->charges_deductions_order, true);
+        $result = [];
+        foreach ($decodeInvoiceSetting as $item) {
+            $chargesDeductions = ChargesDeductionsModel::query()->find($item['charges_deduction_id']);
+            $result[] = [
+                'charges_deduction_id' => $item['charges_deduction_id'],
+                'title' => $chargesDeductions->title,
+                'identifier' => $chargesDeductions->identifier,
+                'coefficient' => $chargesDeductions->coefficient,
+                'netSumMerge' => $item['netSumMerge'],
+            ];
+        }
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
-        //name this model
-        view->setModel();
+        view->setModel($getData);
         view->ui([
-            //'js/ProformaInvoice/edit-ProformaInvoice'
+            'js/ProformaInvoice/add|edit-ProformaInvoice',
+            'js/ProformaInvoice/one',
+            'js/ProformaInvoice/two',
+            'js/ProformaInvoice/three',
         ], [], [
-            //var
-        ])->display('ProformaInvoice/edit-ProformaInvoice.tpl');
+            'brands' => brandsModel::query()->get(),
+            'country' => CountryModel::query()->get(),
+            'state' => StateModel::query()->where('country_id', $getData->country_id)->get(),
+            'cities' => CityModel::query()->where('state_id', $getData->state_id)->get(),
+            'invoiceProduct' => ProformaInvoiceProductsModel::query()->where('proforma_invoice_id', $id)->get(),
+            'invoiceDetail' => ProformaInvoiceDetailsModel::query()->where('proforma_invoice_id', $id)->first(),
+            'products' => ProductModel::query()->get(),
+            'salesTeam' => SalesTeamModel::query()->get(),
+            'invoiceSettings' => $result
+        ])->display('ProformaInvoice/add|edit-ProformaInvoice.tpl');
     }
 
     private function generateInvoiceNumber($id): string
@@ -95,6 +123,7 @@ class ProformaInvoice extends ControllerScheme
 
     public function add(): void
     {
+        csrf->csrfValidate();
         $data = $this->requestArray();
         $makeProformaInvoiceData = [
             'price_suggestion_id' => $data['price_suggestion_id'],
@@ -212,9 +241,142 @@ class ProformaInvoice extends ControllerScheme
             ];
             $addProformaInvoiceDetail = ProformaInvoiceDetailsModel::query()->create($makeProformaInvoiceDetail);
             if ($addProformaInvoiceDetail) {
-                $this->successCallBack('/ProformaInvoice/main', `پیشفاکتور با شماره {$addProformaInvoice->invoice_number}`);
+                $this->successCallBack('/ProformaInvoice/main', "پیشفاکتور با شماره {$addProformaInvoice->invoice_number} با موفقیت ثبت شد.");
             } else {
-                $this->failedCallBack(`/ProformaInvoice/createProformaInvoice/{$data['price_suggestion_id']}`, 'خطا در ثبت اطلاعات پیشفاکتور');
+                $this->failedCallBack("/ProformaInvoice/createProformaInvoice/{$data['price_suggestion_id']}", 'خطا در ثبت اطلاعات پیشفاکتور');
+            }
+        }
+    }
+
+    public function edit($id): void
+    {
+        csrf->csrfValidate();
+        $find = ProformaInvoiceModel::query()->findOrFail($id);
+        $data = $this->requestArray();
+        $makeProformaInvoiceData = [
+            'company_id',
+            'contact_project_followup_id' => $data['contact_project_followup_id'],
+            'delivery_date' => $data['delivery_date'],
+            'brand_id' => $data['brand_id'],
+            'sale_team_id' => $data['sale_team_id'] ?? null,
+            'country_id' => $data['country_id'],
+            'state_id' => $data['state_id'],
+            'city_id' => $data['city_id'],
+            'marketer_id' => $data['marketer_id'] ?? null,
+            'marketer_commission' => $data['marketer_commission'] ?? null,
+            'day_validity' => $data['day_validity'],
+            'day_validity_timestamp' => time() + ($data['day_validity'] * 86400),
+            'user_id' => userObject()->userId,
+        ];
+        $update = $find->update($makeProformaInvoiceData);
+        if (!$update) {
+            $this->failedCallBack(`/ProformaInvoice/editIndex/{$id}`, 'خطا در ویرایش پیشفاکتور');
+        } else {
+            $brandId = $find->brand_id;
+            $proformaInvoiceSettings = ProformaInvoiceSettingsModel::query()->where('brand_id', $brandId)->first();
+            $decodeChargesDeductions = json_decode($proformaInvoiceSettings->charges_deductions_order, true);
+            $makeChargesDeductions = [];
+            foreach ($decodeChargesDeductions as $item) {
+                $chargesDeductionsInfo = ChargesDeductionsModel::query()->find($item['charges_deduction_id']);
+                if (in_array($chargesDeductionsInfo->identifier, $data['chargesDeductionCheckBox'])) {
+                    $makeChargesDeductions[] = [
+                        'netSumMerge' => $item['netSumMerge'] ?? false,
+                        'charges_deduction_id' => $item['charges_deduction_id'],
+                        'title' => $chargesDeductionsInfo->title,
+                        'coefficient' => $chargesDeductionsInfo->coefficient,
+                        'identifier' => $chargesDeductionsInfo->identifier,
+                    ];
+                }
+            }
+
+            $invoice_sum = 0;
+            $invoice_sum_discount = 0;
+            $invoice_net_sum = 0;
+
+            $invoiceProducts = [];
+            foreach ($data['productList'] as $item) {
+                $productInfo = ProductModel::query()->find($item['product_id']);
+                $unitDiscount = 0;
+                if ($item['discount_type'] == 'percentage') {
+                    $unitDiscount = (numberNormalizer->removePriceSeparator($item['discount_unit_amount']) * numberNormalizer->removePriceSeparator($item['product_unit_price']) / 100);
+                } else if ($item['discount_type'] == 'cash') {
+                    $unitDiscount = numberNormalizer->removePriceSeparator($item['discount_unit_amount']);
+                }
+                $invoiceProducts[] = [
+                    'id' => $item['productId'],
+                    'product_id' => $item['product_id'],
+                    'amount' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])),
+                    'unit_price' => numberHelper->persianNumberToEnglish($productInfo->sale_price),
+                    'unit_price_edit' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_unit_price'])),
+                    'sum_unit_price' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_unit_price'])) * numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])),
+                    'discount_type' => (($item['discount_type']) ?: 'noDiscount'),
+                    'discount_unit_amount' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['discount_unit_amount'])),
+                    'discount_unit_amount_cash' => $unitDiscount,
+                    'discount_amount' => numberNormalizer->removePriceSeparator($item['discount_amount']),
+                    'total_unit_price' => numberNormalizer->removePriceSeparator($item['unit_price_after_discount']),
+                    'total_product_price' => numberNormalizer->removePriceSeparator($item['product_amount']) * (numberNormalizer->removePriceSeparator($item['unit_price_after_discount'])),
+                ];
+                $invoice_sum += numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])) * numberHelper->persianNumberToEnglish($productInfo->sale_price);
+                $invoice_sum_discount += $unitDiscount * numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount']));
+                $invoice_net_sum += numberNormalizer->removePriceSeparator($item['unit_price_after_discount']) * numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount']));
+            }
+            ProformaInvoiceProductsModel::query()->upsert($invoiceProducts, ['id'], [
+                'product_id',
+                'amount',
+                'unit_price',
+                'unit_price_edit',
+                'sum_unit_price',
+                'discount_type',
+                'discount_unit_amount',
+                'discount_unit_amount_cash',
+                'discount_amount',
+                'total_unit_price',
+                'total_product_price',
+            ]);
+            $invoice_sum_tax_details = [];
+            $mergeToNetSum = 0;
+            foreach ($makeChargesDeductions as $row) {
+                if ($row['netSumMerge']) {
+                    $mergeToNetSum += $invoice_net_sum * ($row['coefficient'] - 1);
+                    $invoice_sum_tax_details[] = [
+                        'charges_deduction_id' => $row['charges_deduction_id'],
+                        'calculate' => $invoice_net_sum * ($row['coefficient'] - 1),
+                        'coefficient' => round(($row['coefficient'] - 1), 2)
+                    ];
+                }
+            }
+            $sumTaxMergeToNetSum = $invoice_net_sum + $mergeToNetSum;
+            $sumTaxAfterMerge = 0;
+            foreach ($makeChargesDeductions as $row) {
+                if (!$row['netSumMerge']) {
+                    $sumTaxAfterMerge += $sumTaxMergeToNetSum * ($row['coefficient'] - 1);
+                    $invoice_sum_tax_details[] = [
+                        'charges_deduction_id' => $row['charges_deduction_id'],
+                        'calculate' => $sumTaxMergeToNetSum * ($row['coefficient'] - 1),
+                        'coefficient' => round(($row['coefficient'] - 1), 2)
+                    ];
+                }
+            }
+            $invoice_sum_tax = $mergeToNetSum + $sumTaxAfterMerge;
+            $invoice_sum_total = $invoice_net_sum + $invoice_sum_tax;
+            $makeProformaInvoiceDetail = [
+                'expert_alias_name' => $data['expert_alias_name'] ?? null,
+                'charges_deductions' => json_encode($makeChargesDeductions, JSON_UNESCAPED_UNICODE),
+                'invoice_sum' => $invoice_sum,
+                'invoice_sum_discount' => $invoice_sum_discount,
+                'invoice_net_sum' => $invoice_net_sum,
+                'invoice_sum_tax' => $invoice_sum_tax,
+                'invoice_sum_tax_details' => json_encode($invoice_sum_tax_details, JSON_UNESCAPED_UNICODE),
+                'invoice_sum_total' => $invoice_sum_total,
+                'payment_terms' => $data['payment_terms'],
+                'bottom_invoice_text' => $data['bottom_invoice_text'],
+            ];
+            $editProformaInvoiceDetail = ProformaInvoiceDetailsModel::query()->where('proforma_invoice_id', $id)->first();
+            if ($editProformaInvoiceDetail) {
+                $editProformaInvoiceDetail->update($makeProformaInvoiceDetail);
+                $this->successCallBack("/ProformaInvoice/main", 'پیشفاکتور ویرایش شد');
+            } else {
+                $this->failedCallBack("/ProformaInvoice/editIndex/{$id}", 'خطا در ثبت اطلاعات پیشفاکتور');
             }
         }
     }

@@ -71,7 +71,7 @@
                                                         <span class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu">
                                                             </span>
                                                         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(53px, 20px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                                            <a class="dropdown-item" href="#"><i class="bx bx-edit-alt mr-1"></i>ویرایش</a>
+                                                            <a class="dropdown-item" href="/ProformaInvoice/editIndex/{$item.id}"><i class="bx bx-edit-alt mr-1"></i>ویرایش</a>
                                                             <a class="dropdown-item" href="/ProformaInvoice/process/{$item.id}"><i class="bx bx-git-branch mr-1"></i>فرایند</a>
                                                         </div>
                                                     </div>

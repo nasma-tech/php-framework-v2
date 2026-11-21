@@ -124,7 +124,7 @@ $router->mount('/states', function () use ($router) {
 $router->mount('/cities', function () use ($router) {
     dynamicRoute($router, cities::class, [
         [
-            'method' => 'POST',
+            'method' => 'GET',
             'path' => '/getFilterCities',
             'action' => 'getFilterCities'
         ],
@@ -224,7 +224,7 @@ $router->mount('/ProformaInvoice', function () use ($router) {
             'method' => 'GET',
             'path' => '/createProformaInvoice(/\d+)',
             'action' => 'createProformaInvoice'
-        ],
+        ]
     ]);
 });
 $router->mount('/Companies', function () use ($router) {
@@ -370,7 +370,6 @@ $router->mount('/ContactsGroup', function () use ($router) {
         ]
     ]);
 });
-
 $router->mount('/ContactAcquisitionSources', function () use ($router) {
     dynamicRoute($router, App\Controllers\ContactAcquisitionSources\ContactAcquisitionSources::class, [
         [
@@ -380,7 +379,6 @@ $router->mount('/ContactAcquisitionSources', function () use ($router) {
         ]
     ]);
 });
-
 $router->mount('/WorkGroups', function () use ($router) {
     dynamicRoute($router, WorkGroups::class, [
         [
