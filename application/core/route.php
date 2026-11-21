@@ -529,3 +529,9 @@ $router->mount('/salesTeam', function () use ($router) {
         ]
     ]);
 });
+$router->mount('/PaymentManagement', function () use ($router) {
+    dynamicRoute($router, App\Controllers\PaymentManagement\PaymentManagement::class);
+});
+$router->mount('/BankAccount', function () use ($router) {
+    dynamicRoute($router, App\Controllers\BankAccount\BankAccount::class);
+});
