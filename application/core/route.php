@@ -498,6 +498,11 @@ $router->mount('/salesTeam', function () use ($router) {
             'action' => 'deleteSalesTeam'
         ],
         [
+            'method' => 'POST',
+            'path' => "/saveSalePermissions",
+            'action' => 'saveSalePermissions'
+        ],
+        [
             'method' => 'GET',
             'path' => "/checkGroupTeam/(\d+)",
             'action' => 'checkGroupTeam'
@@ -511,6 +516,16 @@ $router->mount('/salesTeam', function () use ($router) {
             'method' => 'GET',
             'path' => "/editGroupIndex/(\d+)",
             'action' => 'editGroupIndex'
+        ],
+        [
+            'method' => 'GET',
+            'path' => "/teamSetting/(\d+)",
+            'action' => 'teamSetting'
+        ],
+        [
+            'method' => 'GET',
+            'path' => "/addSalesTeamSetting/(\d+)",
+            'action' => 'addSalesTeamSetting'
         ]
     ]);
 });

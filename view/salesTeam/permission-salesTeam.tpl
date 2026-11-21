@@ -29,7 +29,9 @@
                             </div>
                             <div class="permissions-header-actions">
                                 {$buttonHelper->refreshAndBackBtn()}
-                                <button class="btn btn-sm btn-primary text-white" style="float: left;margin-right: 5px;margin-left: 5px;cursor: pointer"> ثبت دسترسی های فروش
+                                <button class="btn btn-sm btn-primary text-white"
+                                        style="float: left;margin-right: 5px;margin-left: 5px;cursor: pointer"> ثبت
+                                    دسترسی های فروش
                                     <i class="bx bx-save"></i>
                                 </button>
                             </div>
@@ -51,8 +53,10 @@
                             <div class="brand-search-wrapper">
                                 <div class="brand-search">
                                     <i class="bx bx-search"></i>
-                                    <input type="text" id="brandSearch" class="form-control" placeholder="جستجوی برند..." autocomplete="off">
-                                    <button type="button" class="brand-search-clear" id="brandSearchClear" style="display:none" title="پاک کردن جستجو">
+                                    <input type="text" id="brandSearch" class="form-control"
+                                           placeholder="جستجوی برند..." autocomplete="off">
+                                    <button type="button" class="brand-search-clear" id="brandSearchClear"
+                                            style="display:none" title="پاک کردن جستجو">
                                         <i class="bx bx-x"></i>
                                     </button>
                                 </div>
@@ -81,8 +85,10 @@
                             <div class="product-toolbar">
                                 <div class="product-search">
                                     <i class="bx bx-search"></i>
-                                    <input type="text" id="productSearch" class="form-control" placeholder="جستجوی محصول در این برند..." autocomplete="off">
-                                    <button type="button" class="product-search-clear" id="productSearchClear" style="display:none" title="پاک کردن جستجو">
+                                    <input type="text" id="productSearch" class="form-control"
+                                           placeholder="جستجوی محصول در این برند..." autocomplete="off">
+                                    <button type="button" class="product-search-clear" id="productSearchClear"
+                                            style="display:none" title="پاک کردن جستجو">
                                         <i class="bx bx-x"></i>
                                     </button>
                                 </div>
@@ -90,7 +96,8 @@
                                     <span class="product-actions-text" id="productSelectionInfo">
                                         یک برند را انتخاب کنید
                                     </span>
-                                    <button type="button" class="btn btn-sm product-select-all" id="selectAllProducts" disabled>
+                                    <button type="button" class="btn btn-sm product-select-all" id="selectAllProducts"
+                                            disabled>
                                         <i class="bx bx-check-double"></i>
                                         انتخاب همه
                                     </button>
@@ -119,7 +126,8 @@
                                     </h6>
                                     <div class="selected-panel-actions">
                                         <span class="permission-count" id="selectedCount">۰</span>
-                                        <button type="button" class="btn btn-sm selected-delete-all" id="deleteAllProducts" title="حذف همه محصولات">
+                                        <button type="button" class="btn btn-sm selected-delete-all"
+                                                id="deleteAllProducts" title="حذف همه محصولات">
                                             <i class="bx bx-trash"></i>
                                         </button>
                                     </div>
@@ -142,8 +150,10 @@
                             <div class="selected-products-toolbar">
                                 <div class="sale-search">
                                     <i class="bx bx-search"></i>
-                                    <input type="text" id="selectedProductSearch" class="form-control" placeholder="جستجو در محصولات مجاز..." autocomplete="off">
-                                    <button type="button" class="selected-search-clear" id="selectedSearchClear" style="display:none" title="پاک کردن جستجو">
+                                    <input type="text" id="selectedProductSearch" class="form-control"
+                                           placeholder="جستجو در محصولات مجاز..." autocomplete="off">
+                                    <button type="button" class="selected-search-clear" id="selectedSearchClear"
+                                            style="display:none" title="پاک کردن جستجو">
                                         <i class="bx bx-x"></i>
                                     </button>
                                 </div>
@@ -177,3 +187,11 @@
     </div>
 </div>
 {include 'sections/footer.tpl'}
+<style>#groupDetailModal .table-responsive {
+        overflow: visible !important;
+    }
+
+    #groupDetailModal .dropdown-menu {
+        z-index: 9999 !important;
+    }
+</style>
