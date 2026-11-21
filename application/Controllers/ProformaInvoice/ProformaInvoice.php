@@ -221,12 +221,11 @@ class ProformaInvoice extends ControllerScheme
 
     public function process(int $invoiceId): void
     {
-        $_ENV['APP_DEBUG'] = 1;
-        $getData = $this->defaultModel::query()->
-        with([
-            'invoiceDetail',
-            'invoiceProduct'
-        ])
+        $getData = $this->defaultModel::query()
+            ->with([
+                'invoiceDetail',
+                'invoiceProduct'
+            ])
             ->withCount('invoiceProduct')
             ->find($invoiceId);
         if ($getData) {
