@@ -2,6 +2,7 @@
 
 namespace App\Models\MeasurementUnitModel;
 
+use App\Models\ProductModel\ProductModel;
 use App\Models\UserModel\UserModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -26,5 +27,9 @@ class MeasurementUnitModel extends Model
     public function userData()
     {
         return $this->hasOne(UserModel::class,  'id','user_id');
+    }
+    public function products()
+    {
+        return $this->hasMany(ProductModel::class, 'product_group_id', 'id');
     }
 }
