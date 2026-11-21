@@ -8,14 +8,15 @@
             <div class="col-md-12">
                 <div class="card shadow">
                     <div class="card-header">
-                        <h4 class="card-title">صدور {$singleName} | مشتری :  <code>{$priceSuggestionData.contactData.first_name} {$priceSuggestionData.contactData.last_name}</code></h4>
+                        <h4 class="card-title">صدور {$singleName} | مشتری :  <code>{$priceSuggestionData.contactData.first_name|default:$getData.contact.first_name} {$priceSuggestionData.contactData.last_name|default:$getData.contact.last_name}</code></h4>
                         {$buttonHelper->refreshBtn()}
                     </div>
                 </div>
             </div>
         </div>
         {$csrf->csrfTokenInput()}
-        <form action="/ProformaInvoice/add" method="post">
+        <form action="{if $getData|default:null}/ProformaInvoice/edit/{$getData.id} {else}/ProformaInvoice/add{/if}" method="post">
+            {$csrf->csrfTokenInput()}
             <div class="row">
                 <div class="col-md-12">
                     {include 'ProformaInvoice/steps/one.tpl'}

@@ -48,12 +48,8 @@ $(function () {
             finalSum: 0
         };
         $("#mainProduct tr").each(function () {
-            let sumRow = parseFloat(
-                $(this).find('td').eq(5).find('.productSumRowWithOutDiscount').val().replaceAll(',', '')
-            );
-            let discountAmount = parseFloat(
-                $(this).find('td').eq(5).find('.discountAmount').val().replaceAll(',', '')
-            );
+            let sumRow = parseFloat($(this).find('td').eq(5).find('.productSumRowWithOutDiscount').val().replaceAll(',', ''));
+            let discountAmount = parseFloat($(this).find('td').eq(5).find('.discountAmount').val().replaceAll(',', ''));
             if (!isNaN(sumRow)) {
                 result.sumRow += sumRow;
             }
@@ -61,8 +57,11 @@ $(function () {
                 result.sumDiscount += discountAmount;
             }
         });
-        result.netSumAllProduct = result.sumRow - result.sumDiscount;
+        if (result.sumRow > 0){
+            result.netSumAllProduct = result.sumRow - result.sumDiscount;
+        }
         let finalSum = result.netSumAllProduct;
+
         $(".chargesDeductionCheckBox").each(function () {
             let coefficient = Number($(this).data('coefficient'));
             let merge = $(this).data('merge');
@@ -74,9 +73,7 @@ $(function () {
                 } else {
                     percentageAmount = finalSum * (coefficient - 1);
                 }
-                $(`#${identifier}_tr`).text(
-                    Math.round(percentageAmount).toLocaleString()
-                );
+                $(`#${identifier}_tr`).text(Math.round(percentageAmount).toLocaleString());
                 finalSum += percentageAmount;
             } else {
                 $(`#${identifier}_tr`).text(0);

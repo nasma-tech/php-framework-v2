@@ -584,18 +584,19 @@ class salesTeam extends ControllerScheme
 
     //***** new *****//
 
-    public function getTeamData(?int $teamId = null, bool $asArray = false): IdiormResultSet|array
+    public function getTeamData(?int $teamId = null, bool $asArray = false)
     {
         $query = salesTeamProductsModel::query();
 
         if ($teamId) {
-            $query->where_equal('id', $teamId);
+            $query->where('id', $teamId);
         }
 
         if ($asArray) {
-            return $query->find_array();
+            return $query->get()->toArray();
         }
-        return $query->find_many();
+
+        return $query->get();
     }
 
     //*** دریافت اطلاعات تیم یک نفر در یک یا همه ی تیم ها *** //
