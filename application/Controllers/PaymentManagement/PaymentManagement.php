@@ -5,14 +5,17 @@ namespace App\Controllers\PaymentManagement;
 //use App\Controllers\PaymentAllocation\PaymentAllocation;
 //use App\Controllers\PaymentMethod\PaymentMethod;
 use App\Controllers\scheme\ControllerScheme;
+
 //use App\Models\BankAccountModel\BankAccountModel;
 //use App\Models\BankListModel\BankListModel;
 //use App\Models\ChequeManagementModel\ChequeManagementModel;
 //use App\Models\colorsModel\colorsModel;
 //use App\Models\PaymentAllocationModel\PaymentAllocationModel;
 //use App\Models\PaymentAllocationTypeModel\PaymentAllocationTypeModel;
+use App\Models\ChequeManagementModel\ChequeManagementModel;
 use App\Models\PaymentManagementModel\PaymentManagementModel;
 use App\Models\PaymentMethodModel\PaymentMethodModel;
+use Packages\Cartable\Cartable;
 use PHPMailer\PHPMailer\Exception;
 
 class PaymentManagement extends ControllerScheme
@@ -21,8 +24,9 @@ class PaymentManagement extends ControllerScheme
     const string pluralName = 'مدیریت واریزی ها';
     protected string $defaultModel = PaymentManagementModel::class;
 
-    public function main()
+    public function main(): void
     {
+        $_ENV['APP_DEBUG'] = 1;
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
@@ -119,6 +123,7 @@ class PaymentManagement extends ControllerScheme
      */
     public function add()
     {
+        $_ENV['APP_DEBUG'] = 1;
         $this->validateCSRF();
         $request = $this->requestArray();
         $output = [
@@ -160,8 +165,8 @@ class PaymentManagement extends ControllerScheme
             switch ($request['payment_method_id']) {
                 case 1:
                     $arrayFill = [
-                        'cheque_deposit_date' => helper->convertDateToTimestamp($request['cheque_deposit_date']),
-                        'cheque_number' => helper->faToEn($request['cheque_number']),
+                        'cheque_deposit_date' => dateTimeHelper->convertDateToTimestamp($request['cheque_deposit_date']),
+                        'cheque_number' => numberHelper->persianNumberToEnglish($request['cheque_number']),
                         'cheque_amount' => str_replace([',', ' '], '', $request['cheque_amount']),
                         'cheque_description' => $request['cheque_description'],
                         'user_id' => userObject()->userId
@@ -169,7 +174,7 @@ class PaymentManagement extends ControllerScheme
                     $addCheque = ChequeManagementModel::query()->create($arrayFill);
                     if ($addCheque) {
                         $lastId = $addCheque->id;
-                        $document = helper->fileUpload('ChequeManagement', 'cheque_document', $lastId);
+                        $document = fileHelper->fileUpload('ChequeManagement', 'cheque_document', $lastId);
                         ChequeManagementModel::query()->find($lastId)->update([
                             'cheque_document' => $document
                         ]);
@@ -189,16 +194,16 @@ class PaymentManagement extends ControllerScheme
                     $arrayFill = [
                         'payment_method_id' => $request['payment_method_id'],
                         'bank_account_id' => $request['bank_account_id'],
-                        'reference_no' => helper->faToEn($request['reference_no']),
-                        'date_deposit' => helper->convertDateToTimestamp($request['date_deposit']),
-                        'amount_paid' => helper->faToEn(str_replace([',', ' '], '', $request['amount_paid'])),
+                        'reference_no' => numberHelper->persianNumberToEnglish($request['reference_no']),
+                        'date_deposit' => dateTimeHelper->convertDateToTimestamp($request['date_deposit']),
+                        'amount_paid' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($request['amount_paid'])),
                         'payment_description' => $request['payment_description'],
                         'user_id' => userObject()->userId,
                     ];
                     $add = PaymentManagementModel::query()->create($arrayFill);
                     if ($add) {
                         $requestId = $add->id;
-                        $document = helper->uploadMulipleFiles('payment_documents', 'PaymentManagement', $add->id);
+                        $document = fileHelper->uploadMultipleFiles('PaymentManagement',fileHelper->normalizeUploadedFiles('payment_documents'), $add->id);
                         $add->update([
                             'payment_documents' => json_encode($document)
                         ]);
@@ -207,11 +212,11 @@ class PaymentManagement extends ControllerScheme
                     break;
             }
             if ($requestId) {
-                $cartable = new \Cartable();
-                $cartable->setDataModel(new PaymentManagementModel());
-                $cartable->setRequestId($requestId);
-                $cartable->attachSchemaToCartable(1);
-                $cartable->submitCartable('تست');
+//                $cartable = new Cartable();
+//                $cartable->setDataModel(new PaymentManagementModel());
+//                $cartable->setRequestId($requestId);
+//                $cartable->attachSchemaToCartable(1);
+//                $cartable->submitCartable('تست');
             }
 
         }
@@ -265,14 +270,4 @@ class PaymentManagement extends ControllerScheme
         echo $allocation->checkRemaining($paymentManagementId);
     }
 
-    public function getPaymentMethod()
-    {
-        $get = PaymentMethodModel::all()->toArray();
-        echo json_encode(array_map(function ($item){
-            return [
-                'id' => $item['id'],
-                'title'=>$item['title']
-            ];
-        }, $get),JSON_UNESCAPED_UNICODE);
-    }
 }
