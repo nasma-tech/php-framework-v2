@@ -43,7 +43,7 @@ class ProformaInvoice extends ControllerScheme
         ],
             ['vendors/css/tables/datatable/datatables.min'],
             [
-                //vars
+                'list' => ProformaInvoiceModel::query()->get()
             ])->display('ProformaInvoice/ProformaInvoice.tpl');
     }
 
@@ -114,8 +114,8 @@ class ProformaInvoice extends ControllerScheme
             'user_id' => userObject()->userId,
         ];
         $addProformaInvoice = ProformaInvoiceModel::query()->create($makeProformaInvoiceData);
-        if (!$addProformaInvoice){
-            $this->failedCallBack(`/ProformaInvoice/createProformaInvoice/{$data['price_suggestion_id']}`,'خطا در ثبت پیشفاکتور');
+        if (!$addProformaInvoice) {
+            $this->failedCallBack(`/ProformaInvoice/createProformaInvoice/{$data['price_suggestion_id']}`, 'خطا در ثبت پیشفاکتور');
         }
         if ($addProformaInvoice) {
             $addProformaInvoice->update([
@@ -212,16 +212,23 @@ class ProformaInvoice extends ControllerScheme
             ];
             $addProformaInvoiceDetail = ProformaInvoiceDetailsModel::query()->create($makeProformaInvoiceDetail);
             if ($addProformaInvoiceDetail) {
-                $this->successCallBack('/ProformaInvoice/main',`پیشفاکتور با شماره {$addProformaInvoice->invoice_number}`);
-            }else{
-                $this->failedCallBack(`/ProformaInvoice/createProformaInvoice/{$data['price_suggestion_id']}`,'خطا در ثبت اطلاعات پیشفاکتور');
+                $this->successCallBack('/ProformaInvoice/main', `پیشفاکتور با شماره {$addProformaInvoice->invoice_number}`);
+            } else {
+                $this->failedCallBack(`/ProformaInvoice/createProformaInvoice/{$data['price_suggestion_id']}`, 'خطا در ثبت اطلاعات پیشفاکتور');
             }
         }
     }
 
     public function process(int $invoiceId): void
     {
-        $getData = $this->defaultModel::query()->find($invoiceId);
+        $_ENV['APP_DEBUG'] = 1;
+        $getData = $this->defaultModel::query()->
+        with([
+            'invoiceDetail',
+            'invoiceProduct'
+        ])
+            ->withCount('invoiceProduct')
+            ->find($invoiceId);
         if ($getData) {
 
             $scripts = [
@@ -388,7 +395,7 @@ class ProformaInvoice extends ControllerScheme
                     "description" => "",
                     "type" => 'button',
                     "icon" => "bx-check-shield primary",
-                    "scriptFile" => ''
+                    "scriptFile" => 'js/ProformaInvoice/options/paymentAllocation'
                 ],
                 [
                     "name" => "submit_addendum",

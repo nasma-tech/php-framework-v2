@@ -530,7 +530,23 @@ $router->mount('/salesTeam', function () use ($router) {
     ]);
 });
 $router->mount('/PaymentManagement', function () use ($router) {
-    dynamicRoute($router, App\Controllers\PaymentManagement\PaymentManagement::class);
+    dynamicRoute($router, App\Controllers\PaymentManagement\PaymentManagement::class, [
+        [
+            'method' => 'GET',
+            'path' => '/getPayments',
+            'action' => 'getPayments'
+        ],
+        [
+            'method' => 'GET',
+            'path' => '/getRemainingPayment',
+            'action' => 'getRemainingPayment'
+        ],
+        [
+            'method' => 'GET',
+            'path' => '/viewIndex/(\d+)',
+            'action' => 'viewIndex'
+        ]
+    ]);
 });
 $router->mount('/BankAccount', function () use ($router) {
     dynamicRoute($router, App\Controllers\BankAccount\BankAccount::class,[
@@ -552,4 +568,13 @@ $router->mount('/PaymentMethod', function () use ($router) {
 });
 $router->mount('/BankList', function () use ($router) {
     dynamicRoute($router, App\Controllers\BankList\BankList::class);
+});
+$router->mount('/PaymentAllocation', function () use ($router) {
+    dynamicRoute($router, App\Controllers\PaymentAllocation\PaymentAllocation::class,[
+        [
+            'method' => 'POST',
+            'path' => '/submitPaymentAllocation',
+            'action' => 'submitPaymentAllocation'
+        ]
+    ]);
 });

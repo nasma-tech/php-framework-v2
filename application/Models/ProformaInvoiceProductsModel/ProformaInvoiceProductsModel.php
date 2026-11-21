@@ -2,7 +2,9 @@
 
 namespace App\Models\ProformaInvoiceProductsModel;
 
+use App\Models\ProductModel\ProductModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProformaInvoiceProductsModel extends Model
@@ -29,5 +31,10 @@ class ProformaInvoiceProductsModel extends Model
         'updated_at',
         'deleted_at'
     ];
+
+    public function product(): HasOne
+    {
+        return $this->hasOne(ProductModel::class,'id','product_id');
+    }
 
 }
