@@ -29,9 +29,14 @@ class ProductGroupModel extends Model
     {
         return $this->hasOne(UserModel::class, 'id', 'user_id');
     }
-    public function Categories()
+    public function category()
     {
-        return $this->hasOne(ProductCategoriesModel::class, 'id', 'category_id');
+        return $this->belongsTo(ProductCategoriesModel::class, 'category_id');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(ProductModel::class, 'group_id');
     }
 
 }

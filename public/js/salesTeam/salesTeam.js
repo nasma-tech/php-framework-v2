@@ -1,6 +1,4 @@
-$(function () {
-    addForm();
-    editForm();
+$(function () {;
     justNumber("#manager_percent", 2);
     justNumber("#supervisor_percent", 2);
 

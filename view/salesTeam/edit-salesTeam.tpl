@@ -5,7 +5,7 @@
 <div class="app-content content">
     <div class="content-wrapper">
         {$flashMessageHelper->formCallBack()}
-        <form method="post" id="mainForm">
+        <form method="post" id="mainForm" action="/salesTeam/edit/{$getData['id']}">
             <div class="card shadow">
                 <div class="card-content">
                     <div class="card-header">
@@ -43,7 +43,7 @@
                     <div class="card-body">
                         {$csrf->csrfTokenInput()}
                         <input name="jsonOutput" type="hidden" id="jsonOutput" value='{$getData->nodes_data_json}'>
-                        <button class="btn btn-sm btn-warning editFormAjax" type="button" data-id="{$getData->id}">ویرایش تیم</button>
+                        <button class="btn btn-sm btn-warning editFormAjax" data-id="{$getData->id}">ویرایش تیم</button>
                     </div>
                 </div>
             </div>
