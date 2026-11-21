@@ -46,8 +46,8 @@
                                         <td class="border">
                                             {if $item->bank_account_id}
                                                 <div class="avatar">
-                                                    <img src="{APP_URL}/Storage/bankLogo/{$item->bankAccountData->bankData->bank_list_logo}"
-                                                         alt="{$item->bankAccountData->bankData->bank_list_name}"
+                                                    <img src="{APP_URL}/Storage/bankLogo/{$item.bankAccountData.bankData.bank_list_logo|default:''}"
+                                                         alt="{$item.bankAccountData.bankData.bank_list_name|default:''}"
                                                          height="20" width="20">
                                                 </div>
                                             {else}
@@ -56,7 +56,7 @@
                                         </td>
                                         <td class="border">
                                             {if $item->bank_account_id}
-                                                {$item->bankAccountData->bankData->bank_list_name}
+                                                {$item->bankAccountData.bankData.bank_list_name|default:''}
                                             {else}
                                                 -
                                             {/if}
@@ -80,9 +80,9 @@
                                         </td>
                                         <td class="border">
                                             {if $item->amount_paid}
-                                                {$helper->floatNumberFormat($item->amount_paid)}
+                                                {$numberNormalizer->floatNumberFormat($item->amount_paid)}
                                             {else}
-                                                {$helper->floatNumberFormat($chequeData->cheque_amount)}
+                                                {$numberNormalizer->floatNumberFormat($chequeData->cheque_amount)}
                                             {/if}
                                         </td>
                                         <td class="border">
