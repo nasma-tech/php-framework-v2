@@ -266,144 +266,456 @@ class ProformaInvoice extends ControllerScheme
             return false;
     }
 
+//    public function edit($id): void
+//    {
+//        csrf->csrfValidate();
+//        $find = ProformaInvoiceModel::query()->findOrFail($id);
+//        if (!$this->invoiceLog($find->id)){
+//            $this->failedCallBack("/ProformaInvoice/editIndex/{$id}", 'خطا در ذخیره سازی اطلاعات اولیه پیشفاکتور');
+//        }
+//        $data = $this->requestArray();
+//        $makeProformaInvoiceData = [
+//            'company_id',
+//            'contact_project_followup_id' => $data['contact_project_followup_id'],
+//            'delivery_date' => $data['delivery_date'],
+//            'brand_id' => $data['brand_id'],
+//            'sale_team_id' => $data['sale_team_id'] ?? null,
+//            'country_id' => $data['country_id'],
+//            'state_id' => $data['state_id'],
+//            'city_id' => $data['city_id'],
+//            'marketer_id' => $data['marketer_id'] ?? null,
+//            'marketer_commission' => $data['marketer_commission'] ?? null,
+//            'day_validity' => $data['day_validity'],
+//            'day_validity_timestamp' => time() + ($data['day_validity'] * 86400),
+//            'user_id' => userObject()->userId,
+//        ];
+//        $update = $find->update($makeProformaInvoiceData);
+//        if (!$update) {
+//            $this->failedCallBack(`/ProformaInvoice/editIndex/{$id}`, 'خطا در ویرایش پیشفاکتور');
+//        } else {
+//            $brandId = $find->brand_id;
+//            $proformaInvoiceSettings = ProformaInvoiceSettingsModel::query()->where('brand_id', $brandId)->first();
+//            $decodeChargesDeductions = json_decode($proformaInvoiceSettings->charges_deductions_order, true);
+//            $makeChargesDeductions = [];
+//            foreach ($decodeChargesDeductions as $item) {
+//                $chargesDeductionsInfo = ChargesDeductionsModel::query()->find($item['charges_deduction_id']);
+//                if (in_array($chargesDeductionsInfo->identifier, $data['chargesDeductionCheckBox'])) {
+//                    $makeChargesDeductions[] = [
+//                        'netSumMerge' => $item['netSumMerge'] ?? false,
+//                        'charges_deduction_id' => $item['charges_deduction_id'],
+//                        'title' => $chargesDeductionsInfo->title,
+//                        'coefficient' => $chargesDeductionsInfo->coefficient,
+//                        'identifier' => $chargesDeductionsInfo->identifier,
+//                    ];
+//                }
+//            }
+//            $invoice_sum = 0;
+//            $invoice_sum_discount = 0;
+//            $invoice_net_sum = 0;
+//            $invoiceProducts = [];
+//            foreach ($data['productList'] as $item) {
+//                $productInfo = ProductModel::query()->find($item['product_id']);
+//                $unitDiscount = 0;
+//                if ($item['discount_type'] == 'percentage') {
+//                    $unitDiscount = (numberNormalizer->removePriceSeparator($item['discount_unit_amount']) * numberNormalizer->removePriceSeparator($item['product_unit_price']) / 100);
+//                } else if ($item['discount_type'] == 'cash') {
+//                    $unitDiscount = numberNormalizer->removePriceSeparator($item['discount_unit_amount']);
+//                }
+//                $invoiceProducts[] = [
+//                    'id' => $item['productId']??null,
+//                    'proforma_invoice_id' => $find->id,
+//                    'product_id' => $item['product_id'],
+//                    'amount' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])),
+//                    'unit_price' => numberHelper->persianNumberToEnglish($productInfo->sale_price),
+//                    'unit_price_edit' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_unit_price'])),
+//                    'sum_unit_price' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_unit_price'])) * numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])),
+//                    'discount_type' => (($item['discount_type']) ?: 'noDiscount'),
+//                    'discount_unit_amount' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['discount_unit_amount'])),
+//                    'discount_unit_amount_cash' => $unitDiscount,
+//                    'discount_amount' => numberNormalizer->removePriceSeparator($item['discount_amount']),
+//                    'total_unit_price' => numberNormalizer->removePriceSeparator($item['unit_price_after_discount']),
+//                    'total_product_price' => numberNormalizer->removePriceSeparator($item['product_amount']) * (numberNormalizer->removePriceSeparator($item['unit_price_after_discount'])),
+//                ];
+//                $invoice_sum += numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])) * numberHelper->persianNumberToEnglish($productInfo->sale_price);
+//                $invoice_sum_discount += $unitDiscount * numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount']));
+//                $invoice_net_sum += numberNormalizer->removePriceSeparator($item['unit_price_after_discount']) * numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount']));
+//            }
+//            ProformaInvoiceProductsModel::query()->upsert($invoiceProducts,
+//                ['id'], [
+//                'proforma_invoice_id',
+//                'product_id',
+//                'amount',
+//                'unit_price',
+//                'unit_price_edit',
+//                'sum_unit_price',
+//                'discount_type',
+//                'discount_unit_amount',
+//                'discount_unit_amount_cash',
+//                'discount_amount',
+//                'total_unit_price',
+//                'total_product_price',
+//            ]);
+//            $invoice_sum_tax_details = [];
+//            $mergeToNetSum = 0;
+//            foreach ($makeChargesDeductions as $row) {
+//                if ($row['netSumMerge']) {
+//                    $mergeToNetSum += $invoice_net_sum * ($row['coefficient'] - 1);
+//                    $invoice_sum_tax_details[] = [
+//                        'charges_deduction_id' => $row['charges_deduction_id'],
+//                        'calculate' => $invoice_net_sum * ($row['coefficient'] - 1),
+//                        'coefficient' => round(($row['coefficient'] - 1), 2)
+//                    ];
+//                }
+//            }
+//            $sumTaxMergeToNetSum = $invoice_net_sum + $mergeToNetSum;
+//            $sumTaxAfterMerge = 0;
+//            foreach ($makeChargesDeductions as $row) {
+//                if (!$row['netSumMerge']) {
+//                    $sumTaxAfterMerge += $sumTaxMergeToNetSum * ($row['coefficient'] - 1);
+//                    $invoice_sum_tax_details[] = [
+//                        'charges_deduction_id' => $row['charges_deduction_id'],
+//                        'calculate' => $sumTaxMergeToNetSum * ($row['coefficient'] - 1),
+//                        'coefficient' => round(($row['coefficient'] - 1), 2)
+//                    ];
+//                }
+//            }
+//            $invoice_sum_tax = $mergeToNetSum + $sumTaxAfterMerge;
+//            $invoice_sum_total = $invoice_net_sum + $invoice_sum_tax;
+//            $makeProformaInvoiceDetail = [
+//                'expert_alias_name' => $data['expert_alias_name'] ?? null,
+//                'charges_deductions' => json_encode($makeChargesDeductions, JSON_UNESCAPED_UNICODE),
+//                'invoice_sum' => $invoice_sum,
+//                'invoice_sum_discount' => $invoice_sum_discount,
+//                'invoice_net_sum' => $invoice_net_sum,
+//                'invoice_sum_tax' => $invoice_sum_tax,
+//                'invoice_sum_tax_details' => json_encode($invoice_sum_tax_details, JSON_UNESCAPED_UNICODE),
+//                'invoice_sum_total' => $invoice_sum_total,
+//                'payment_terms' => $data['payment_terms'],
+//                'bottom_invoice_text' => $data['bottom_invoice_text'],
+//            ];
+//            $editProformaInvoiceDetail = ProformaInvoiceDetailsModel::query()->where('proforma_invoice_id', $id)->first();
+//            if ($editProformaInvoiceDetail) {
+//                $editProformaInvoiceDetail->update($makeProformaInvoiceDetail);
+//                $this->successCallBack("/ProformaInvoice/main", 'پیشفاکتور ویرایش شد');
+//            } else {
+//                $this->failedCallBack("/ProformaInvoice/editIndex/{$id}", 'خطا در ثبت اطلاعات پیشفاکتور');
+//            }
+//        }
+//    }
+
+
     public function edit($id): void
     {
         csrf->csrfValidate();
-        $find = ProformaInvoiceModel::query()->findOrFail($id);
-        if (!$this->invoiceLog($find->id)){
-            $this->failedCallBack("/ProformaInvoice/editIndex/{$id}", 'خطا در ذخیره سازی اطلاعات اولیه پیشفاکتور');
-        }
-        $data = $this->requestArray();
-        $makeProformaInvoiceData = [
-            'company_id',
-            'contact_project_followup_id' => $data['contact_project_followup_id'],
-            'delivery_date' => $data['delivery_date'],
-            'brand_id' => $data['brand_id'],
-            'sale_team_id' => $data['sale_team_id'] ?? null,
-            'country_id' => $data['country_id'],
-            'state_id' => $data['state_id'],
-            'city_id' => $data['city_id'],
-            'marketer_id' => $data['marketer_id'] ?? null,
-            'marketer_commission' => $data['marketer_commission'] ?? null,
-            'day_validity' => $data['day_validity'],
-            'day_validity_timestamp' => time() + ($data['day_validity'] * 86400),
-            'user_id' => userObject()->userId,
-        ];
-        $update = $find->update($makeProformaInvoiceData);
-        if (!$update) {
-            $this->failedCallBack(`/ProformaInvoice/editIndex/{$id}`, 'خطا در ویرایش پیشفاکتور');
-        } else {
-            $brandId = $find->brand_id;
-            $proformaInvoiceSettings = ProformaInvoiceSettingsModel::query()->where('brand_id', $brandId)->first();
-            $decodeChargesDeductions = json_decode($proformaInvoiceSettings->charges_deductions_order, true);
-            $makeChargesDeductions = [];
-            foreach ($decodeChargesDeductions as $item) {
-                $chargesDeductionsInfo = ChargesDeductionsModel::query()->find($item['charges_deduction_id']);
-                if (in_array($chargesDeductionsInfo->identifier, $data['chargesDeductionCheckBox'])) {
-                    $makeChargesDeductions[] = [
-                        'netSumMerge' => $item['netSumMerge'] ?? false,
-                        'charges_deduction_id' => $item['charges_deduction_id'],
-                        'title' => $chargesDeductionsInfo->title,
-                        'coefficient' => $chargesDeductionsInfo->coefficient,
-                        'identifier' => $chargesDeductionsInfo->identifier,
-                    ];
+        try {
+            $find = ProformaInvoiceModel::query()->findOrFail($id);
+            $data = $this->requestArray();
+            $toNumber = static function ($value): float {
+                $value = $value ?? 0;
+                return (float) numberHelper->persianNumberToEnglish(
+                    numberNormalizer->removePriceSeparator((string) $value)
+                );
+            };
+            $connection = $find->getConnection();
+            $connection->beginTransaction();
+            try {
+                if (!$this->invoiceLog($find->id)) {
+                    throw new \RuntimeException(
+                        'خطا در ثبت تاریخچه پیش‌فاکتور.'
+                    );
                 }
-            }
-            $invoice_sum = 0;
-            $invoice_sum_discount = 0;
-            $invoice_net_sum = 0;
-            $invoiceProducts = [];
-            foreach ($data['productList'] as $item) {
-                $productInfo = ProductModel::query()->find($item['product_id']);
-                $unitDiscount = 0;
-                if ($item['discount_type'] == 'percentage') {
-                    $unitDiscount = (numberNormalizer->removePriceSeparator($item['discount_unit_amount']) * numberNormalizer->removePriceSeparator($item['product_unit_price']) / 100);
-                } else if ($item['discount_type'] == 'cash') {
-                    $unitDiscount = numberNormalizer->removePriceSeparator($item['discount_unit_amount']);
-                }
-                $invoiceProducts[] = [
-                    'id' => $item['productId'],
-                    'product_id' => $item['product_id'],
-                    'amount' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])),
-                    'unit_price' => numberHelper->persianNumberToEnglish($productInfo->sale_price),
-                    'unit_price_edit' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_unit_price'])),
-                    'sum_unit_price' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_unit_price'])) * numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])),
-                    'discount_type' => (($item['discount_type']) ?: 'noDiscount'),
-                    'discount_unit_amount' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['discount_unit_amount'])),
-                    'discount_unit_amount_cash' => $unitDiscount,
-                    'discount_amount' => numberNormalizer->removePriceSeparator($item['discount_amount']),
-                    'total_unit_price' => numberNormalizer->removePriceSeparator($item['unit_price_after_discount']),
-                    'total_product_price' => numberNormalizer->removePriceSeparator($item['product_amount']) * (numberNormalizer->removePriceSeparator($item['unit_price_after_discount'])),
+                $dayValidity = (int) ($data['day_validity'] ?? 0);
+                $makeProformaInvoiceData = [
+                    'company_id' => $data['company_id'] ?? null,
+                    'contact_project_followup_id' => $data['contact_project_followup_id'] ?? null,
+                    'delivery_date' => $data['delivery_date'] ?? null,
+                    'brand_id' => $data['brand_id'],
+                    'sale_team_id' => $data['sale_team_id'] ?? null,
+                    'country_id' => $data['country_id'] ?? null,
+                    'state_id' => $data['state_id'] ?? null,
+                    'city_id' => $data['city_id'] ?? null,
+                    'marketer_id' => $data['marketer_id'] ?? null,
+                    'marketer_commission' => $data['marketer_commission'] ?? null,
+                    'day_validity' => $dayValidity,
+                    'day_validity_timestamp' => time() + ($dayValidity * 86400),
+                    'user_id' => userObject()->userId,
                 ];
-                $invoice_sum += numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])) * numberHelper->persianNumberToEnglish($productInfo->sale_price);
-                $invoice_sum_discount += $unitDiscount * numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount']));
-                $invoice_net_sum += numberNormalizer->removePriceSeparator($item['unit_price_after_discount']) * numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount']));
-            }
-            ProformaInvoiceProductsModel::query()->upsert($invoiceProducts, ['id'], [
-                'product_id',
-                'amount',
-                'unit_price',
-                'unit_price_edit',
-                'sum_unit_price',
-                'discount_type',
-                'discount_unit_amount',
-                'discount_unit_amount_cash',
-                'discount_amount',
-                'total_unit_price',
-                'total_product_price',
-            ]);
-            $invoice_sum_tax_details = [];
-            $mergeToNetSum = 0;
-            foreach ($makeChargesDeductions as $row) {
-                if ($row['netSumMerge']) {
-                    $mergeToNetSum += $invoice_net_sum * ($row['coefficient'] - 1);
-                    $invoice_sum_tax_details[] = [
-                        'charges_deduction_id' => $row['charges_deduction_id'],
-                        'calculate' => $invoice_net_sum * ($row['coefficient'] - 1),
-                        'coefficient' => round(($row['coefficient'] - 1), 2)
-                    ];
+
+                if (!$find->update($makeProformaInvoiceData)) {
+                    throw new \RuntimeException(
+                        'خطا در ویرایش اطلاعات اصلی پیش‌فاکتور.'
+                    );
                 }
-            }
-            $sumTaxMergeToNetSum = $invoice_net_sum + $mergeToNetSum;
-            $sumTaxAfterMerge = 0;
-            foreach ($makeChargesDeductions as $row) {
-                if (!$row['netSumMerge']) {
-                    $sumTaxAfterMerge += $sumTaxMergeToNetSum * ($row['coefficient'] - 1);
-                    $invoice_sum_tax_details[] = [
-                        'charges_deduction_id' => $row['charges_deduction_id'],
-                        'calculate' => $sumTaxMergeToNetSum * ($row['coefficient'] - 1),
-                        'coefficient' => round(($row['coefficient'] - 1), 2)
-                    ];
+                $proformaInvoiceSettings = ProformaInvoiceSettingsModel::query()
+                    ->where('brand_id', $find->brand_id)
+                    ->first();
+
+                $decodeChargesDeductions = json_decode(
+                    $proformaInvoiceSettings->charges_deductions_order ?? '[]',
+                    true
+                ) ?? [];
+                $chargesDeductionCheckBox = $data['chargesDeductionCheckBox'] ?? [];
+                $makeChargesDeductions = [];
+                foreach ($decodeChargesDeductions as $item) {
+                    $chargesDeductionId = $item['charges_deduction_id'] ?? null;
+                    if (!$chargesDeductionId) {
+                        continue;
+                    }
+                    $chargesDeductionsInfo = ChargesDeductionsModel::query()
+                        ->find($chargesDeductionId);
+                    if (!$chargesDeductionsInfo) {
+                        continue;
+                    }
+                    if (in_array(
+                        $chargesDeductionsInfo->identifier,
+                        $chargesDeductionCheckBox,
+                        true
+                    )) {
+                        $makeChargesDeductions[] = [
+                            'netSumMerge' => filter_var(
+                                $item['netSumMerge'] ?? false,
+                                FILTER_VALIDATE_BOOLEAN
+                            ),
+                            'charges_deduction_id' => $chargesDeductionId,
+                            'title' => $chargesDeductionsInfo->title,
+                            'coefficient' => (float) $chargesDeductionsInfo->coefficient,
+                            'identifier' => $chargesDeductionsInfo->identifier,
+                        ];
+                    }
                 }
+
+                // محاسبه مبالغ محصولات
+                $invoice_sum = 0;
+                $invoice_sum_discount = 0;
+                $invoice_net_sum = 0;
+                $savedProductIds = [];
+                foreach ($data['productList'] ?? [] as $item) {
+                    $productId = $item['product_id'] ?? null;
+                    if (!$productId) {
+                        throw new \RuntimeException(
+                            'شناسه یکی از محصولات معتبر نیست.'
+                        );
+                    }
+                    $productInfo = ProductModel::query()->find($productId);
+                    if (!$productInfo) {
+                        throw new \RuntimeException(
+                            "محصول با شناسه {$productId} پیدا نشد."
+                        );
+                    }
+                    $amount = $toNumber($item['product_amount'] ?? 0);
+
+                    if ($amount <= 0) {
+                        throw new \RuntimeException(
+                            'تعداد محصولات باید بیشتر از صفر باشد.'
+                        );
+                    }
+                    $unitPrice = $toNumber(
+                        $item['product_unit_price'] ?? 0
+                    );
+                    $originalUnitPrice = $toNumber(
+                        $productInfo->sale_price
+                    );
+                    $discountType = $item['discount_type'] ?? 'noDiscount';
+                    $discountUnitAmount = $toNumber(
+                        $item['discount_unit_amount'] ?? 0
+                    );
+                    $unitDiscount = 0;
+                    if ($discountType === 'percentage') {
+                        $unitDiscount = $unitPrice * $discountUnitAmount / 100;
+                    } elseif ($discountType === 'cash') {
+                        $unitDiscount = $discountUnitAmount;
+                    } else {
+                        $discountType = 'noDiscount';
+                    }
+                    $unitDiscount = min(
+                        max($unitDiscount, 0),
+                        $unitPrice
+                    );
+                    $unitPriceAfterDiscount = $unitPrice - $unitDiscount;
+                    $sumUnitPrice = $unitPrice * $amount;
+                    $discountAmount = $unitDiscount * $amount;
+                    $totalProductPrice = $unitPriceAfterDiscount * $amount;
+                    $invoice_sum += $sumUnitPrice;
+                    $invoice_sum_discount += $discountAmount;
+                    $invoice_net_sum += $totalProductPrice;
+                    $productData = [
+                        'proforma_invoice_id' => $find->id,
+                        'product_id' => $productId,
+                        'amount' => $amount,
+                        'unit_price' => $originalUnitPrice,
+                        'unit_price_edit' => $unitPrice,
+                        'sum_unit_price' => $sumUnitPrice,
+                        'discount_type' => $discountType,
+                        'discount_unit_amount' => $discountUnitAmount,
+                        'discount_unit_amount_cash' => $unitDiscount,
+                        'discount_amount' => $discountAmount,
+                        'total_unit_price' => $unitPriceAfterDiscount,
+                        'total_product_price' => $totalProductPrice,
+                    ];
+                    $existingProductId = $item['productId'] ?? null;
+                    if (!empty($existingProductId)) {
+                        $invoiceProduct = ProformaInvoiceProductsModel::query()
+                            ->where('id', $existingProductId)
+                            ->where('proforma_invoice_id', $find->id)
+                            ->first();
+                        if (!$invoiceProduct) {
+                            throw new \RuntimeException(
+                                'محصول ارسالی متعلق به این پیش‌فاکتور نیست.'
+                            );
+                        }
+                        if (!$invoiceProduct->update($productData)) {
+                            throw new \RuntimeException(
+                                'خطا در ویرایش محصول پیش‌فاکتور.'
+                            );
+                        }
+
+                    } else {
+
+                        $invoiceProduct = ProformaInvoiceProductsModel::query()
+                            ->create($productData);
+
+                        if (!$invoiceProduct) {
+                            throw new \RuntimeException(
+                                'خطا در ثبت محصول جدید.'
+                            );
+                        }
+                    }
+
+                    $savedProductIds[] = $invoiceProduct->id;
+                }
+                $deletedProductsQuery = ProformaInvoiceProductsModel::query()
+                    ->where('proforma_invoice_id', $find->id);
+
+                if (!empty($savedProductIds)) {
+
+                    $deletedProductsQuery->whereNotIn(
+                        'id',
+                        $savedProductIds
+                    );
+                }
+
+                $deletedProductsQuery->delete();
+                $invoice_sum_tax_details = [];
+                $mergeToNetSum = 0;
+                foreach ($makeChargesDeductions as $row) {
+
+                    if ($row['netSumMerge']) {
+
+                        $calculate = $invoice_net_sum * (
+                                $row['coefficient'] - 1
+                            );
+
+                        $mergeToNetSum += $calculate;
+
+                        $invoice_sum_tax_details[] = [
+                            'charges_deduction_id' => $row['charges_deduction_id'],
+                            'calculate' => $calculate,
+                            'coefficient' => round(
+                                $row['coefficient'] - 1,
+                                2
+                            ),
+                        ];
+                    }
+                }
+                $sumTaxMergeToNetSum = $invoice_net_sum + $mergeToNetSum;
+                $sumTaxAfterMerge = 0;
+                foreach ($makeChargesDeductions as $row) {
+                    if (!$row['netSumMerge']) {
+                        $calculate = $sumTaxMergeToNetSum * (
+                                $row['coefficient'] - 1
+                            );
+                        $sumTaxAfterMerge += $calculate;
+                        $invoice_sum_tax_details[] = [
+                            'charges_deduction_id' => $row['charges_deduction_id'],
+                            'calculate' => $calculate,
+                            'coefficient' => round(
+                                $row['coefficient'] - 1,
+                                2
+                            ),
+                        ];
+                    }
+                }
+                $invoice_sum_tax = $mergeToNetSum + $sumTaxAfterMerge;
+                $invoice_sum_total = $invoice_net_sum + $invoice_sum_tax;
+                $makeProformaInvoiceDetail = [
+                    'expert_alias_name' => $data['expert_alias_name'] ?? null,
+                    'charges_deductions' => json_encode(
+                        $makeChargesDeductions,
+                        JSON_UNESCAPED_UNICODE
+                    ),
+                    'invoice_sum' => $invoice_sum,
+                    'invoice_sum_discount' => $invoice_sum_discount,
+                    'invoice_net_sum' => $invoice_net_sum,
+                    'invoice_sum_tax' => $invoice_sum_tax,
+                    'invoice_sum_tax_details' => json_encode(
+                        $invoice_sum_tax_details,
+                        JSON_UNESCAPED_UNICODE
+                    ),
+                    'invoice_sum_total' => $invoice_sum_total,
+                    'payment_terms' => $data['payment_terms'] ?? null,
+                    'bottom_invoice_text' => $data['bottom_invoice_text'] ?? null,
+                ];
+                $editProformaInvoiceDetail = ProformaInvoiceDetailsModel::query()
+                    ->where('proforma_invoice_id', $find->id)
+                    ->first();
+                if ($editProformaInvoiceDetail) {
+                    if (!$editProformaInvoiceDetail->update(
+                        $makeProformaInvoiceDetail
+                    )) {
+                        throw new \RuntimeException(
+                            'خطا در ویرایش جزئیات پیش‌فاکتور.'
+                        );
+                    }
+                } else {
+
+                    $makeProformaInvoiceDetail['proforma_invoice_id'] = $find->id;
+
+                    $newDetail = ProformaInvoiceDetailsModel::query()
+                        ->create($makeProformaInvoiceDetail);
+
+                    if (!$newDetail) {
+                        throw new \RuntimeException(
+                            'خطا در ثبت جزئیات پیش‌فاکتور.'
+                        );
+                    }
+                }
+
+                $connection->commit();
+
+            } catch (\Throwable $e) {
+
+                $connection->rollBack();
+
+                throw $e;
             }
-            $invoice_sum_tax = $mergeToNetSum + $sumTaxAfterMerge;
-            $invoice_sum_total = $invoice_net_sum + $invoice_sum_tax;
-            $makeProformaInvoiceDetail = [
-                'expert_alias_name' => $data['expert_alias_name'] ?? null,
-                'charges_deductions' => json_encode($makeChargesDeductions, JSON_UNESCAPED_UNICODE),
-                'invoice_sum' => $invoice_sum,
-                'invoice_sum_discount' => $invoice_sum_discount,
-                'invoice_net_sum' => $invoice_net_sum,
-                'invoice_sum_tax' => $invoice_sum_tax,
-                'invoice_sum_tax_details' => json_encode($invoice_sum_tax_details, JSON_UNESCAPED_UNICODE),
-                'invoice_sum_total' => $invoice_sum_total,
-                'payment_terms' => $data['payment_terms'],
-                'bottom_invoice_text' => $data['bottom_invoice_text'],
-            ];
-            $editProformaInvoiceDetail = ProformaInvoiceDetailsModel::query()->where('proforma_invoice_id', $id)->first();
-            if ($editProformaInvoiceDetail) {
-                $editProformaInvoiceDetail->update($makeProformaInvoiceDetail);
-                $this->successCallBack("/ProformaInvoice/main", 'پیشفاکتور ویرایش شد');
-            } else {
-                $this->failedCallBack("/ProformaInvoice/editIndex/{$id}", 'خطا در ثبت اطلاعات پیشفاکتور');
-            }
+
+            $this->successCallBack(
+                "/ProformaInvoice/main",
+                'پیش‌فاکتور با موفقیت ویرایش شد.'
+            );
+
+        } catch (\Throwable $e) {
+
+            error_log(
+                'ProformaInvoice Edit Error: ' .
+                $e->getMessage() .
+                ' | Line: ' . $e->getLine() .
+                ' | File: ' . $e->getFile()
+            );
+
+            $this->failedCallBack(
+                "/ProformaInvoice/editIndex/{$id}",
+                'خطا در ویرایش پیش‌فاکتور: ' . $e->getMessage()
+            );
         }
     }
+
+
 
     public function process(int $invoiceId): void
     {
         $_ENV['APP_DEBUG'] = 1;
-        $getData = $this->defaultModel::query()
+        $getData = ProformaInvoiceModel::query()
             ->with([
                 'invoiceDetail',
                 'invoiceProduct',
@@ -482,7 +794,9 @@ class ProformaInvoice extends ControllerScheme
                         "icon" => "bx-dashboard info",
                         "sectionFile" => "view/ProformaInvoice/sectionsProcess/summaryProcess-sectionsProcess.tpl",
                         "scriptFile" => "js/ProformaInvoice/sectionsProcess/summaryProcess-sectionsProcess",
-                        "variables" => []
+                        "variables" => [
+                            "invoiceLog"=>$getData->invoiceLog
+                        ]
                     ],
                     [
                         "name" => "salesProcess",
@@ -560,7 +874,7 @@ class ProformaInvoice extends ControllerScheme
                     "name" => "edit_invoice",
                     "title" => "ویرایش پیش فاکتور",
                     "description" => "",
-                    "href" => "#",
+                    "href" => "/ProformaInvoice/editIndex/{$invoiceId}",
                     "icon" => "bx-edit warning",
                     "scriptFile" => ''
                 ],

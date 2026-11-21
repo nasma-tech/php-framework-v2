@@ -93,7 +93,7 @@ class ProformaInvoiceModel extends Model
 
     public function invoiceLog(): HasMany
     {
-        return $this->hasMany(ProformaInvoiceLogModel::class,'proforma_invoice_id','id');
+        return $this->hasMany(ProformaInvoiceLogModel::class,'proforma_invoice_id','id')->orderByDesc('id');
     }
 
 
