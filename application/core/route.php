@@ -514,3 +514,27 @@ $router->mount('/salesTeam', function () use ($router) {
         ]
     ]);
 });
+$router->mount('/PaymentManagement', function () use ($router) {
+    dynamicRoute($router, App\Controllers\PaymentManagement\PaymentManagement::class);
+});
+$router->mount('/BankAccount', function () use ($router) {
+    dynamicRoute($router, App\Controllers\BankAccount\BankAccount::class,[
+        [
+            'method' => 'GET',
+            'path' => "/getAllBankAccountList",
+            'action' => 'getAllBankAccountList'
+        ]
+    ]);
+});
+$router->mount('/PaymentMethod', function () use ($router) {
+    dynamicRoute($router, App\Controllers\PaymentMethod\PaymentMethod::class,[
+        [
+            'method' => 'GET',
+            'path' => "/getPaymentMethod",
+            'action' => 'getPaymentMethod'
+        ]
+    ]);
+});
+$router->mount('/BankList', function () use ($router) {
+    dynamicRoute($router, App\Controllers\BankList\BankList::class);
+});

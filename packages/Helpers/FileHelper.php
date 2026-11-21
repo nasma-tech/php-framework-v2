@@ -2,6 +2,9 @@
 
 namespace Packages\Helpers;
 
+use InvalidArgumentException;
+use RuntimeException;
+
 class FileHelper
 {
     public function fileUpload(
@@ -91,11 +94,7 @@ class FileHelper
         return $files;
     }
 
-    public function uploadMultipleFiles(
-        string $directory,
-        array  $files,
-        string $subdirectory = ''
-    ): array
+    public function uploadMultipleFiles(string $directory,array  $files,string $subdirectory = ''): array
     {
         $uploadedFiles = [];
 
