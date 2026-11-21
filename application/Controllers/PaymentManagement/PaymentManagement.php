@@ -4,6 +4,7 @@ namespace App\Controllers\PaymentManagement;
 
 //use App\Controllers\PaymentAllocation\PaymentAllocation;
 //use App\Controllers\PaymentMethod\PaymentMethod;
+use App\Controllers\PaymentAllocation\PaymentAllocation;
 use App\Controllers\scheme\ControllerScheme;
 
 //use App\Models\BankAccountModel\BankAccountModel;
@@ -13,6 +14,7 @@ use App\Controllers\scheme\ControllerScheme;
 //use App\Models\PaymentAllocationModel\PaymentAllocationModel;
 //use App\Models\PaymentAllocationTypeModel\PaymentAllocationTypeModel;
 use App\Models\ChequeManagementModel\ChequeManagementModel;
+use App\Models\PaymentAllocationTypeModel\PaymentAllocationTypeModel;
 use App\Models\PaymentManagementModel\PaymentManagementModel;
 use App\Models\PaymentMethodModel\PaymentMethodModel;
 use Packages\Cartable\Cartable;
@@ -51,7 +53,6 @@ class PaymentManagement extends ControllerScheme
 
     public function addIndex()
     {
-        $_ENV['APP_DEBUG'] = 1;
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
@@ -225,7 +226,7 @@ class PaymentManagement extends ControllerScheme
 
     }
 
-    public function getPayments()
+    public function getPayments(): void
     {
         $get = $this->defaultModel::byPermission()->get();
         $result = [];
@@ -263,7 +264,7 @@ class PaymentManagement extends ControllerScheme
         }
     }
 
-    public function getRemainingPayment()
+    public function getRemainingPayment(): void
     {
         $paymentManagementId = $this->requestArray()['paymentManagementId'];
         $allocation = new PaymentAllocation();
