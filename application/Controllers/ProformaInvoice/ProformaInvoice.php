@@ -9,6 +9,7 @@ use App\Models\brandsModel\brandsModel;
 use App\Models\ChargesDeductionsModel\ChargesDeductionsModel;
 use App\Models\CityModel\CityModel;
 use App\Models\CountryModel\CountryModel;
+use App\Models\PaymentAllocationModel\PaymentAllocationModel;
 use App\Models\PriceSuggestionModel\PriceSuggestionModel;
 use App\Models\ProductModel\ProductModel;
 use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
@@ -445,12 +446,33 @@ class ProformaInvoice extends ControllerScheme
                         'cartables' => [
                             //cartables data
                         ],
-                        'optionsConfig' => $optionsConfig
-                    ]
+                        'optionsConfig' => $optionsConfig,
+                        'paymentData' => $this->getInvoicePaymentData($invoiceId),
+                        'invoicePaymentDetail' => PaymentAllocationModel::query()->where('invoice_id', $invoiceId)->get()
+                    ],
+
                 )
             )->display('ProformaInvoice/process-ProformaInvoice.tpl');
         } else {
             header('location: /notAccess');
         }
+    }
+
+    public function getInvoicePaymentData($id)
+    {
+        $invoiceData = ProformaInvoiceDetailsModel::query()->find($id);
+        $paymentAllocation = PaymentAllocationModel::query()->where('invoice_id',$id);
+        $makeData = [
+            "invoice_sum" => $invoiceData->invoice_sum,
+            "invoice_sum_discount" => $invoiceData->invoice_sum_discount,
+            "invoice_net_sum" => $invoiceData->invoice_net_sum,
+            "invoice_sum_tax" => $invoiceData->invoice_sum_tax,
+            "invoice_sum_tax_details" => $invoiceData->invoice_sum_tax_details,
+            "invoice_sum_total" => $invoiceData->invoice_sum_total,
+            "approvedPayment" => PaymentAllocationModel::query()->where('invoice_id', $id)->where('status', 1)->sum('payment_amount'),
+            "preparingPayment" => PaymentAllocationModel::query()->where('invoice_id', $id)->where('status', 0)->sum('payment_amount'),
+            "canceledPayment" => PaymentAllocationModel::query()->where('invoice_id', $id)->where('status', 2)->sum('payment_amount'),
+        ];
+        return $makeData;
     }
 }

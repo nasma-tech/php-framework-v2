@@ -914,9 +914,14 @@ class salesTeam extends ControllerScheme
     public function addSalesTeamSetting($id)
     {
         $data = $this->requestArray();
-        foreach ($data as $key =>$value) {
-            $check = salesTeamMemberSettingModel::query()->where('sales_team_id', $id)->where('member_id', $key)->first();
-            $add = salesTeamMemberSettingModel::query()->updateOrCreate([
+
+        foreach ($data as $key => $value) {
+            $check = salesTeamMemberSettingModel::query()
+                ->where('sales_team_id', $id)
+                ->where('member_id', $key)
+                ->first();
+
+            $makeData = [
                 "member_id" => $key,
                 "sales_team_id" => $id,
                 "overPrice" => $value['overPrice'] ?? false,
@@ -924,13 +929,32 @@ class salesTeam extends ControllerScheme
                 "discountPercent" => $value['discountPercent'] ?? false,
                 "sellClose" => $value['sellClose'] ?? false,
                 "user_id" => userObject()->userId,
-                "modifyLog" => json_encode($check) ?? [],
-            ]);
-            if (!$add->save()) {
-                $this->failedCallBack('/salesTeam/main');
-                break;
+            ];
+
+            if ($check) {
+                $modifyLog = [
+                    "member_id" => $check->member_id,
+                    "sales_team_id" => $check->sales_team_id,
+                    "overPrice" => $check->overPrice,
+                    "underPrice" => $check->underPrice,
+                    "discountPercent" => $check->discountPercent,
+                    "sellClose" => $check->sellClose,
+                    "user_id" => $check->user_id,
+                ];
+
+                $oldLogs = json_decode($check->modifyLog, true) ?? [];
+                array_unshift($oldLogs, $modifyLog);
+
+                $makeData['modifyLog'] = json_encode($oldLogs, JSON_UNESCAPED_UNICODE);
+
+                $check->update($makeData);
+            } else {
+                $makeData['modifyLog'] = "[]";
+
+                salesTeamMemberSettingModel::query()->create($makeData);
             }
         }
+
         $this->successCallBack('/salesTeam/main');
     }
 }
