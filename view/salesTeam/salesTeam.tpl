@@ -12,48 +12,55 @@
                     <div class="card-header">
                         <h4 class="card-title">لیست {$pluralName}</h4>
                         <div class="heading-elements">
-                            {$buttonHelper->refreshAndAddButton($singleName)}
+                            {$buttonHelper->refreshBtn()}
+                            <a href="addGroupIndex" style="cursor: pointer;" class="badge badge-primary text-white addIndexButton">
+                                <i class="bx bx-plus"></i>
+                                افزودن گروه
+                            </a>
                         </div>
                     </div>
+
                     <div class="card-content">
                         <div class="card-body">
-                            <table class="table table-hover table-striped tableDataShow dataTable">
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th class="border">#</th>
-                                    <th class="border">عنوان</th>
-                                    <th class="border">عملیات</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {foreach $list as $index => $item}
-                                    <tr>
-                                        <td class="border">
-                                            {$index +1}
-                                        </td>
-                                        <td class="border">
-                                            {$item->team_title}
-                                        </td>
-                                        <td class="border">
-                                            <div>
-                                                <a href="viewIndex/{$item->id}" class="badge badge-info badge-icon text-white" style="margin-right: 2px" data-toggle="tooltip" data-placement="top" title="" data-original-title="مشاهده">
-                                                    <i class="bx bx-show-alt" style="font-size: 14px"></i>
-                                                </a>
-                                                <a href="editIndex/{$item->id}" class="badge badge-warning badge-icon text-white" data-toggle="tooltip" data-placement="top" title="" data-original-title="ویرایش" style="margin-right: 2px;">
-                                                    <i class="bx bxs-edit-alt" style="font-size: 14px"></i>
-                                                </a>
-                                                <a href="permissions/{$item->id}" class="badge badge-permissions badge-icon text-white" style="margin-right: 2px" data-toggle="tooltip" data-placement="top" title="" data-original-title="دسترسی ها">
-                                                    <i class="bx bx-key" style="font-size: 14px"></i>
-                                                </a>
-                                                <a href="#" rel="deleteIndex/delete/{$item->id}" data-id="{$item->id}" class="badge badge-danger badge-icon deleteButtonMain" data-toggle="tooltip" data-placement="top" title="" data-original-title="حذف" style="margin-right: 2px" aria-describedby="tooltip508339">
-                                                    <i class="bx bxs-trash-alt" style="font-size: 14px"></i>
-                                                </a>
-                                            </div>
-                                        </td>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <thead class="thead-dark">
+                                    <tr class="text-center">
+                                        <th>نام گروه</th>
+                                        <th>تاریخ ثبت</th>
+                                        <th>کاربر</th>
+                                        <th>عملیات</th>
                                     </tr>
-                                {/foreach}
-                                </tbody>
-                            </table>
+                                    </thead>
+
+                                    <tbody>
+                                    {foreach $list AS $data}
+                                        <tr class="text-center">
+                                            <td>{$data['label']}</td>
+                                            <td>{jdate("Y/m/d",strtotime($data['created_at']))}</td>
+                                            <td>{$data->users->full_name}</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-warning viewDetail"
+                                                        data-id="{$data['id']}"
+                                                        data-label="{$data['label']}">
+                                                    <i class="bx bxs-cog"></i>
+                                                </button>
+
+                                                <a class="btn btn-sm btn-primary"
+                                                   href="/salesTeam/editGroupIndex/{$data['id']}">
+                                                    <i class="bx bx-edit-alt text-white"></i>
+                                                </a>
+
+                                                <button class="btn btn-sm btn-danger deleteGroup"
+                                                        data-id="{$data['id']}">
+                                                    <i class="bx bx-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    {/foreach}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -62,5 +69,39 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="groupDetailModal" tabindex="-1" role="dialog"
+     aria-labelledby="groupDetailModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="groupDetailModalLabel">
+                    اطلاعات گروه
+                </h5>
+
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div id="groupDetailContent">
+                    <div class="text-center">
+                        در حال دریافت اطلاعات...
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    بستن
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 {include 'sections/footer.tpl'}
