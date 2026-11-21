@@ -103,7 +103,7 @@ class PaymentAllocation extends ControllerScheme
             $add = PaymentAllocationModel::query()->create([
                 'payment_management_id' => $request['payment_management_id'],
                 'payment_allocation_type_id' => $request['payment_allocation_type_id'],
-                'service_invoice_id' => $request['serviceInvoiceId'],
+                'invoice_id' => $request['invoiceId'],
                 'payment_amount' => numberNormalizer->removePriceSeparator($request['payment_amount']),
                 'user_id' => userObject()->userId
             ]);
