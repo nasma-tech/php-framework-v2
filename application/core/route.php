@@ -124,7 +124,7 @@ $router->mount('/states', function () use ($router) {
 $router->mount('/cities', function () use ($router) {
     dynamicRoute($router, cities::class, [
         [
-            'method' => 'POST',
+            'method' => 'GET',
             'path' => '/getFilterCities',
             'action' => 'getFilterCities'
         ],
@@ -224,7 +224,7 @@ $router->mount('/ProformaInvoice', function () use ($router) {
             'method' => 'GET',
             'path' => '/createProformaInvoice(/\d+)',
             'action' => 'createProformaInvoice'
-        ],
+        ]
     ]);
 });
 $router->mount('/Companies', function () use ($router) {
@@ -370,7 +370,6 @@ $router->mount('/ContactsGroup', function () use ($router) {
         ]
     ]);
 });
-
 $router->mount('/ContactAcquisitionSources', function () use ($router) {
     dynamicRoute($router, App\Controllers\ContactAcquisitionSources\ContactAcquisitionSources::class, [
         [
@@ -380,7 +379,6 @@ $router->mount('/ContactAcquisitionSources', function () use ($router) {
         ]
     ]);
 });
-
 $router->mount('/WorkGroups', function () use ($router) {
     dynamicRoute($router, WorkGroups::class, [
         [
@@ -498,6 +496,11 @@ $router->mount('/salesTeam', function () use ($router) {
             'action' => 'deleteSalesTeam'
         ],
         [
+            'method' => 'POST',
+            'path' => "/saveSalePermissions",
+            'action' => 'saveSalePermissions'
+        ],
+        [
             'method' => 'GET',
             'path' => "/checkGroupTeam/(\d+)",
             'action' => 'checkGroupTeam'
@@ -511,11 +514,37 @@ $router->mount('/salesTeam', function () use ($router) {
             'method' => 'GET',
             'path' => "/editGroupIndex/(\d+)",
             'action' => 'editGroupIndex'
+        ],
+        [
+            'method' => 'GET',
+            'path' => "/teamSetting/(\d+)",
+            'action' => 'teamSetting'
+        ],
+        [
+            'method' => 'GET',
+            'path' => "/addSalesTeamSetting/(\d+)",
+            'action' => 'addSalesTeamSetting'
         ]
     ]);
 });
 $router->mount('/PaymentManagement', function () use ($router) {
-    dynamicRoute($router, App\Controllers\PaymentManagement\PaymentManagement::class);
+    dynamicRoute($router, App\Controllers\PaymentManagement\PaymentManagement::class, [
+        [
+            'method' => 'GET',
+            'path' => '/getPayments',
+            'action' => 'getPayments'
+        ],
+        [
+            'method' => 'GET',
+            'path' => '/getRemainingPayment',
+            'action' => 'getRemainingPayment'
+        ],
+        [
+            'method' => 'GET',
+            'path' => '/viewIndex/(\d+)',
+            'action' => 'viewIndex'
+        ]
+    ]);
 });
 $router->mount('/BankAccount', function () use ($router) {
     dynamicRoute($router, App\Controllers\BankAccount\BankAccount::class,[
@@ -540,4 +569,13 @@ $router->mount('/BankList', function () use ($router) {
 });
 $router->mount('/WarehouseUsageTypes', function () use ($router) {
     dynamicRoute($router, App\Controllers\WarehouseUsageTypes\WarehouseUsageTypes::class);
+});
+$router->mount('/PaymentAllocation', function () use ($router) {
+    dynamicRoute($router, App\Controllers\PaymentAllocation\PaymentAllocation::class,[
+        [
+            'method' => 'POST',
+            'path' => '/submitPaymentAllocation',
+            'action' => 'submitPaymentAllocation'
+        ]
+    ]);
 });

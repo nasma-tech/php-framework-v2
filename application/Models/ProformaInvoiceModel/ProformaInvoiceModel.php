@@ -6,10 +6,13 @@ use App\Models\brandsModel\brandsModel;
 use App\Models\CityModel\CityModel;
 use App\Models\CompaniesModel\CompaniesModel;
 use App\Models\CustomerContactInformationModel\CustomerContactInformationModel;
+use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
+use App\Models\ProformaInvoiceProductsModel\ProformaInvoiceProductsModel;
 use App\Models\SalesTeamModel\SalesTeamModel;
 use App\Models\StateModel\StateModel;
 use App\Models\UserModel\UserModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -76,4 +79,17 @@ class ProformaInvoiceModel extends Model
     {
         return $this->hasOne(CityModel::class, 'id', 'city_id');
     }
+
+    public function invoiceProduct(): HasMany
+    {
+        return $this->hasMany(ProformaInvoiceProductsModel::class,'proforma_invoice_id','id');
+    }
+
+    public function invoiceDetail(): HasOne
+    {
+        return $this->hasOne(ProformaInvoiceDetailsModel::class,'proforma_invoice_id','id');
+    }
+
+
+
 }

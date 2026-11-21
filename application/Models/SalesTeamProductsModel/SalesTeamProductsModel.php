@@ -24,4 +24,8 @@ class SalesTeamProductsModel extends Model
         "deleted_at",
     ];
 
+    public function product()
+    {
+        return $this->belongsTo(ProductModel::class, 'product_id', 'id');
+    }
 }

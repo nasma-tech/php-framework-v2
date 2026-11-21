@@ -6,7 +6,7 @@
                     <div class="divider">
                         <div class="divider-text" style="font-size: 12px">شرایط پرداخت</div>
                     </div>
-                    <textarea class="form-control" id="payment_terms" name="payment_terms"></textarea>
+                    <textarea class="form-control" id="payment_terms" name="payment_terms">{$invoiceDetail.payment_terms|default:''}</textarea>
                 </div>
             </div>
             <div class="row">
@@ -14,7 +14,7 @@
                     <div class="divider">
                         <div class="divider-text" style="font-size: 12px">توضیحات</div>
                     </div>
-                    <textarea class="form-control" id="bottom_invoice_text" name="bottom_invoice_text"></textarea>
+                    <textarea class="form-control" id="bottom_invoice_text" name="bottom_invoice_text">{$invoiceDetail.bottom_invoice_text|default:''}</textarea>
                 </div>
             </div>
         </div>

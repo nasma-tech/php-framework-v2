@@ -33,14 +33,7 @@ $(function () {
                         ? result.data
                         : [];
 
-                if (!data.length) {
-                    $('#groupDetailContent').html(`
-                        <div class="alert alert-info text-center">
-                            تیمی برای این گروه ثبت نشده است.
-                        </div>
-                    `);
-                    return;
-                }
+                
 
                 let rows = data.map((item, index) => `
                     <tr class="text-center">
@@ -52,12 +45,14 @@ $(function () {
                         <td>
                             <a class="btn btn-sm btn-warning"
                                 href="/salesTeam/editIndex/${item.salesTeam_id}">
-                                <i class="bx bx-show text-white"></i>
+                                <i class="bx bx-edit-alt text-white"></i>
                             </a>
                             <a class="btn btn-sm btn-primary"
                                 href="/salesTeam/permissions/${item.salesTeam_id}">
                                 <i class="bx bx-key text-white"></i>
                             </a>
+                            <a href="teamSetting/${item.salesTeam_id}" class="btn btn-sm btn-light">
+                            <i class="bx bxs-cog"></i></a>
                             <button class="btn btn-sm btn-danger deleteGroupTeam"
                                 data-team-name="${item.sales_team?.team_title}"
                                 data-groupname="${escapeHtml(label)}"
@@ -65,14 +60,12 @@ $(function () {
                                 data-team-id="${item.salesTeam_id}">
                                 <i class="bx bx-trash-alt"></i>
                             </button>
+                            
                         </td>
                     </tr>
                 `).join('');
-
                 $('#groupDetailContent').html(`
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        
-
                         <a href="/salesTeam/addTeamIndex/${id}" class="btn btn-sm btn-primary addTeamToGroup"
                             data-group-id="${id}">
                             <i class="bx bx-plus"></i>

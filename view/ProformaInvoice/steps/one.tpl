@@ -6,18 +6,23 @@
             </div>
             <div class="row">
                 <div style="display: none">
-                    <input name="contact_id" readonly type="hidden" value="{$priceSuggestionData.contact_id}">
-                    <input name="price_suggestion_id" readonly type="hidden" value="{$priceSuggestionData.id}">
-                    <input name="contact_project_followup_id" readonly type="hidden" value="{$priceSuggestionData.followUpData.id}">
+                    <input name="contact_id" readonly type="hidden" value="{$priceSuggestionData.contact_id|default:$getData.contact_id}">
+                    <input name="price_suggestion_id" readonly type="hidden" value="{$priceSuggestionData.id|default:$getData.price_suggestion_id}">
+                    <input name="contact_project_followup_id" readonly type="hidden" value="{$priceSuggestionData.followUpData.id|default:$getData.contact_project_followup_id}">
                 </div>
                 <div class="col-md-2 mt-2">
                     <label for="">انتخاب تیم</label>
-                    <select class="form-control select2" id="" name=""></select>
+                    <select class="form-control select2" id="sale_team_id" name="sale_team_id">
+                        <option selected disabled>یک تیم را انتخاب کنید</option>
+                        {foreach $salesTeam|default:[] as $item}
+                            <option value="{$item.id}" {($getData.sale_team_id|default:null == $item.id)?'selected':''}>{$item.team_title}</option>
+                        {/foreach}
+                    </select>
                 </div>
                 <div class="col-md-3 mt-2">
                     <label for="">مشتری</label>
                     <input class="form-control" required readonly
-                           value="{$priceSuggestionData.contactData.first_name} {$priceSuggestionData.contactData.last_name}">
+                           value="{$priceSuggestionData.contactData.first_name|default:$getData.contact.first_name} {$priceSuggestionData.contactData.last_name|default:$getData.contact.last_name}">
                 </div>
                 <div class="col-md-3 mt-2">
                     <label>شرکت مشتری</label>
