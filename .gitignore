@@ -24,6 +24,7 @@
 !/Storage/CRMTraining/
 !/Storage/DefaultImages/
 !/Storage/cache/
+!/Storage/brands
 
 !/Storage/bankLogo/**
 !/Storage/companies/**
@@ -31,6 +32,7 @@
 !/Storage/CRMTraining/**
 !/Storage/DefaultImages/**
 !/Storage/socialNetworkIcons/**
+!/Storage/brands/**
 
 # IDE
 .idea/

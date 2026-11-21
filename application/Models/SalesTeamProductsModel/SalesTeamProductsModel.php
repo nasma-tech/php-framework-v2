@@ -2,7 +2,6 @@
 
 namespace App\Models\SalesTeamProductsModel;
 
-use App\Models\ProductModel\ProductModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
