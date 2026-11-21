@@ -49,11 +49,14 @@
                                 <i class="bx bx-edit-alt font-medium-5"></i>
                             </div>
                             <div class="text-muted line-ellipsis line-height-2 mb-50">تعداد ویرایش</div>
-                            <h3 class="line-height-1 mb-50 primary-font font-size-base">10</h3>
+                            <h3 class="line-height-1 mb-50 primary-font font-size-base">{$getData.invoice_log_count|default:0}</h3>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="col-md-6">
+
     </div>
 </div>

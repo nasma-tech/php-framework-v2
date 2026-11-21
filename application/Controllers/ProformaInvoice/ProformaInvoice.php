@@ -24,6 +24,7 @@ class ProformaInvoice extends ControllerScheme
 {
     const string singleName = 'پیشفاکتور';
     const string pluralName = 'پیشفاکتورها';
+
     protected string $defaultModel = ProformaInvoiceModel::class;
 
     public function main(): void
@@ -49,8 +50,6 @@ class ProformaInvoice extends ControllerScheme
                 'list' => ProformaInvoiceModel::query()->get()
             ])->display('ProformaInvoice/ProformaInvoice.tpl');
     }
-
-
     public function createProformaInvoice($priceSuggestionId): void
     {
         $getPriceSuggestionData = PriceSuggestionModel::query()->find($priceSuggestionId);
@@ -254,7 +253,7 @@ class ProformaInvoice extends ControllerScheme
         $invoiceProduct = ProformaInvoiceProductsModel::query()->where('proforma_invoice_id', $invoiceId)->get()->toArray();
         $invoiceDetail = ProformaInvoiceDetailsModel::query()->where('proforma_invoice_id', $invoiceId)->get()->toArray();
         $makeData = [
-            'proforma_invoice_id'=>$invoiceId,
+            'proforma_invoice_id' => $invoiceId,
             'ProformaInvoice' => json_encode($invoice, JSON_UNESCAPED_UNICODE),
             'ProformaInvoiceProducts' => json_encode($invoiceProduct, JSON_UNESCAPED_UNICODE),
             'ProformaInvoiceDetails' => json_encode($invoiceDetail, JSON_UNESCAPED_UNICODE),
@@ -271,7 +270,9 @@ class ProformaInvoice extends ControllerScheme
     {
         csrf->csrfValidate();
         $find = ProformaInvoiceModel::query()->findOrFail($id);
-        $this->invoiceLog($find->id);
+        if (!$this->invoiceLog($find->id)){
+            $this->failedCallBack("/ProformaInvoice/editIndex/{$id}", 'خطا در ذخیره سازی اطلاعات اولیه پیشفاکتور');
+        }
         $data = $this->requestArray();
         $makeProformaInvoiceData = [
             'company_id',
@@ -308,11 +309,9 @@ class ProformaInvoice extends ControllerScheme
                     ];
                 }
             }
-
             $invoice_sum = 0;
             $invoice_sum_discount = 0;
             $invoice_net_sum = 0;
-
             $invoiceProducts = [];
             foreach ($data['productList'] as $item) {
                 $productInfo = ProductModel::query()->find($item['product_id']);
@@ -403,12 +402,15 @@ class ProformaInvoice extends ControllerScheme
 
     public function process(int $invoiceId): void
     {
+        $_ENV['APP_DEBUG'] = 1;
         $getData = $this->defaultModel::query()
             ->with([
                 'invoiceDetail',
-                'invoiceProduct'
+                'invoiceProduct',
+                'invoiceLog',
             ])
             ->withCount('invoiceProduct')
+            ->withCount('invoiceLog')
             ->find($invoiceId);
         if ($getData) {
 

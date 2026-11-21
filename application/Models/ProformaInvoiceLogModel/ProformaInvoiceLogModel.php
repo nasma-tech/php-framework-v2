@@ -19,6 +19,7 @@ class ProformaInvoiceLogModel extends Model
         'ProformaInvoiceProducts',
         'ProformaInvoiceDetails',
         'user_id',
+        'deleted_at'
     ];
 
 }
