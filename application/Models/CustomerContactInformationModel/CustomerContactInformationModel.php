@@ -5,6 +5,7 @@ namespace App\Models\CustomerContactInformationModel;
 use App\Models\CityModel\CityModel;
 use App\Models\CompaniesModel\CompaniesModel;
 use App\Models\ContactAcquisitionSourcesModel\ContactAcquisitionSourcesModel;
+use App\Models\ContactPhonesModel\ContactPhonesModel;
 use App\Models\ContactProjectsModel\ContactProjectsModel;
 use App\Models\ContactsGroupModel\ContactsGroupModel;
 use App\Models\StateModel\StateModel;
@@ -40,6 +41,11 @@ class CustomerContactInformationModel extends Model
     public function companies(): BelongsToMany
     {
         return $this->belongsToMany(CompaniesModel::class, 'ContactCompanyLinks', 'contact_id', 'company_id');
+    }
+
+    public function contactPhones(): HasMany
+    {
+        return $this->hasMany(ContactPhonesModel::class,'id','contact_id');
     }
 
     public function projectData(): HasMany

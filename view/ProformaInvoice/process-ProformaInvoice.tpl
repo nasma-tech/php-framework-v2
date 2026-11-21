@@ -15,7 +15,6 @@
                 {$buttonHelper->refreshAndBackButton(2)}
                 <div dir="rtl" class="btn-group mb-1 float-right">
                     <div class="dropdown">
-
                         <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButtonIcon"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bx-dots-vertical-rounded"></i> گزینه های فرایند
@@ -50,9 +49,10 @@
                 </div>
             </div>
         </div>
-
+        <div style="display: none">
+            <input type="hidden" id="invoiceId" value="{$getData.id}">
+        </div>
         <div class="row mt-1">
-
             <div class="col-12 col-md-3 mb-1">
                 <div class="card shadow h-100">
                     <div class="card-body">
@@ -172,23 +172,17 @@
                     </div>
                 </div>
             </div>
-            <div class="card shadow mt-1">
-                <div class="card-content">
-                    <div class="card-body">
-                        <div class="tab-content">
-                            {foreach $sectionsConfig|default:[] as $mainSectionData}
-                                {foreach $mainSectionData as $mainSectionDatum}
-                                    <div class="tab-pane {((isset($mainSectionDatum['activeStep']) && $mainSectionDatum['activeStep']) ? 'active' : '')}"
-                                         id="{$mainSectionDatum['name']}-justified" role="tabpanel"
-                                         aria-labelledby="{$mainSectionDatum['name']}-tab-justified"
-                                         aria-expanded="{((isset($mainSectionDatum['activeStep']) && $mainSectionDatum['activeStep']) ? 'true' : 'false')}">
-                                        {include $mainSectionDatum['sectionFile']}
-                                    </div>
-                                {/foreach}
-                            {/foreach}
+            <div class="tab-content">
+                {foreach $sectionsConfig|default:[] as $mainSectionData}
+                    {foreach $mainSectionData as $mainSectionDatum}
+                        <div class="tab-pane {((isset($mainSectionDatum['activeStep']) && $mainSectionDatum['activeStep']) ? 'active' : '')}"
+                             id="{$mainSectionDatum['name']}-justified" role="tabpanel"
+                             aria-labelledby="{$mainSectionDatum['name']}-tab-justified"
+                             aria-expanded="{((isset($mainSectionDatum['activeStep']) && $mainSectionDatum['activeStep']) ? 'true' : 'false')}">
+                            {include $mainSectionDatum['sectionFile']}
                         </div>
-                    </div>
-                </div>
+                    {/foreach}
+                {/foreach}
             </div>
         {else}
             <div class="card shadow mt-1 text-center">

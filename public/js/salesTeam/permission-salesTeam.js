@@ -321,12 +321,6 @@
             cancelButtonText: `<i class="bx bx-x"></i> بازگشت و ویرایش`,
             reverseButtons: true,
             focusCancel: true,
-            customClass: {
-                popup: 'rtl sale-confirmation-popup',
-                confirmButton: 'btn btn-primary',
-                cancelButton: 'btn btn-light'
-            },
-            buttonsStyling: false
         }).then(function (result) {
             if (!result.isConfirmed) {
                 return;

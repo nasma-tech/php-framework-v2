@@ -13,7 +13,7 @@
                         <h4 class="card-title">لیست {$pluralName}</h4>
                         <div class="heading-elements">
                             {$buttonHelper->refreshBtn()}
-                            <a href="addGroupIndex" class="badge badge-primary text-white">
+                            <a href="addGroupIndex" style="cursor: pointer;" class="badge badge-primary text-white addIndexButton">
                                 <i class="bx bx-plus"></i>
                                 افزودن گروه
                             </a>
@@ -43,7 +43,7 @@
                                                 <button class="btn btn-sm btn-warning viewDetail"
                                                         data-id="{$data['id']}"
                                                         data-label="{$data['label']}">
-                                                    <i class="bx bx-show-alt"></i>
+                                                    <i class="bx bxs-cog"></i>
                                                 </button>
 
                                                 <a class="btn btn-sm btn-primary"

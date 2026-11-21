@@ -2,7 +2,9 @@
 
 namespace App\Models\BankAccountModel;
 
+use App\Models\BankListModel\BankListModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BankAccountModel extends Model
@@ -28,5 +30,10 @@ class BankAccountModel extends Model
         'update_at',
         'soft_delete'
     ];
+
+    public function bankData() :HasOne
+    {
+        return $this->hasOne(BankListModel::class,'id','bank_list_id');
+    }
 
 }
