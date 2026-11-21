@@ -14,7 +14,8 @@
                     </div>
                     <hr>
                     <div class="card-content">
-                        <form action="/Warehouses/add" id="mainForm" method="post">
+                        <form action="/Warehouses/add" id="mainForm" method="post" enctype="multipart/form-data">
+                            {$csrf->csrfTokenInput()}
                             <div class="card-body">
                                 <ul class="nav nav-tabs nav-justified" id="myTab2" role="tablist">
                                     <li class="nav-item">

@@ -52,19 +52,19 @@ class salesTeam extends ControllerScheme
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
         view->ui([
-            '/js/valadart/app',
-            '/js/valadart/go',
-            '/js/valadart/context-menu',
-            '/js/valadart/data',
-            '/js/valadart/diagram-init',
-            '/js/valadart/editing',
-            '/js/valadart/dragging-tool',
-            '/js/valadart/lookup',
-            '/js/valadart/model-helpers',
-            '/js/valadart/node-template',
-            '/js/salesTeam/add-salesTeam',
+            '/vendors/js/charts/valadart/go',
+            '/vendors/js/charts/valadart/data',
+            '/vendors/js/charts/valadart/lookup',
+            '/vendors/js/charts/valadart/model-helpers',
+            '/vendors/js/charts/valadart/editing',
+            '/vendors/js/charts/valadart/context-menu',
+            '/vendors/js/charts/valadart/node-template',
+            '/vendors/js/charts/valadart/dragging-tool',
+            '/vendors/js/charts/valadart/diagram-init',
+            '/vendors/js/charts/valadart/app',
+            '//js/salesTeam/add-salesTeam',
         ], [
-            '/css/valadart/style',
+            '/vendors/css/charts/valadart/style'
         ], [
             'groupId' => $id,
             'Brands' => brandsModel::query()->get(),
@@ -78,19 +78,19 @@ class salesTeam extends ControllerScheme
         view->setPluralName(self::pluralName);
         view->setModel(SalesTeamModel::query()->find($id));
         view->ui([
-            '/js/valadart/app',
-            '/js/valadart/go',
-            '/js/valadart/context-menu',
-            '/js/valadart/data',
-            '/js/valadart/diagram-init',
-            '/js/valadart/editing',
-            '/js/valadart/dragging-tool',
-            '/js/valadart/lookup',
-            '/js/valadart/model-helpers',
-            '/js/valadart/node-template',
+            '/vendors/js/charts/valadart/go',
+            '/vendors/js/charts/valadart/data',
+            '/vendors/js/charts/valadart/lookup',
+            '/vendors/js/charts/valadart/model-helpers',
+            '/vendors/js/charts/valadart/editing',
+            '/vendors/js/charts/valadart/context-menu',
+            '/vendors/js/charts/valadart/node-template',
+            '/vendors/js/charts/valadart/dragging-tool',
+            '/vendors/js/charts/valadart/diagram-init',
+            '/vendors/js/charts/valadart/app',
             '/js/salesTeam/add-salesTeam',
         ], [
-            '/css/valadart/style',
+            '/vendors/css/charts/valadart/style'
         ], [
             'Brands' => brandsModel::query()->get(),
         ])->display('salesTeam/edit-salesTeam.tpl');
@@ -103,18 +103,18 @@ class salesTeam extends ControllerScheme
         view->setPluralName(self::pluralName);
         view->setModel(SalesTeamModel::query()->find($id));
         view->ui([
-            'assets/vendors/js/charts/valadart/go',
-            'assets/vendors/js/charts/valadart/data',
-            'assets/vendors/js/charts/valadart/lookup',
-            'assets/vendors/js/charts/valadart/model-helpers',
-            'assets/vendors/js/charts/valadart/editing',
-            'assets/vendors/js/charts/valadart/context-menu',
-            'assets/vendors/js/charts/valadart/node-template',
-            'assets/vendors/js/charts/valadart/dragging-tool',
-            'assets/vendors/js/charts/valadart/diagram-init',
-            'assets/vendors/js/charts/valadart/app',
+            '/vendors/js/charts/valadart/go',
+            '/vendors/js/charts/valadart/data',
+            '/vendors/js/charts/valadart/lookup',
+            '/vendors/js/charts/valadart/model-helpers',
+            '/vendors/js/charts/valadart/editing',
+            '/vendors/js/charts/valadart/context-menu',
+            '/vendors/js/charts/valadart/node-template',
+            '/vendors/js/charts/valadart/dragging-tool',
+            '/vendors/js/charts/valadart/diagram-init',
+            '/vendors/js/charts/valadart/app',
         ], [
-            'assets/vendors/css/charts/valadart/style'
+            '/vendors/css/charts/valadart/style'
         ], [
 
         ])->display('SalesAndMarketing/salesTeam/view-salesTeam.tpl');
@@ -141,19 +141,18 @@ class salesTeam extends ControllerScheme
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
         view->ui([
-            '/js/valadart/app',
-            '/js/valadart/go',
-            '/js/valadart/context-menu',
-            '/js/valadart/data',
-            '/js/valadart/diagram-init',
-            '/js/valadart/editing',
-            '/js/valadart/dragging-tool',
-            '/js/valadart/lookup',
-            '/js/valadart/model-helpers',
-            '/js/valadart/node-template',
-            '/js/salesTeam/add-salesTeam',
+            '/vendors/js/charts/valadart/go',
+            '/vendors/js/charts/valadart/data',
+            '/vendors/js/charts/valadart/lookup',
+            '/vendors/js/charts/valadart/model-helpers',
+            '/vendors/js/charts/valadart/editing',
+            '/vendors/js/charts/valadart/context-menu',
+            '/vendors/js/charts/valadart/node-template',
+            '/vendors/js/charts/valadart/dragging-tool',
+            '/vendors/js/charts/valadart/diagram-init',
+            '/vendors/js/charts/valadart/app',
         ], [
-            '/css/valadart/style',
+            '/vendors/css/charts/valadart/style'
         ], [
             'Brands' => brandsModel::query()->get(),
         ])->display('salesTeam/add-groupSaleTeam.tpl');
@@ -167,19 +166,18 @@ class salesTeam extends ControllerScheme
         view->setPluralName(self::pluralName);
         view->setModel(salesTeamGroupModel::query()->find($id));
         view->ui([
-            '/js/valadart/app',
-            '/js/valadart/go',
-            '/js/valadart/context-menu',
-            '/js/valadart/data',
-            '/js/valadart/diagram-init',
-            '/js/valadart/editing',
-            '/js/valadart/dragging-tool',
-            '/js/valadart/lookup',
-            '/js/valadart/model-helpers',
-            '/js/valadart/node-template',
-            '/js/salesTeam/add-salesTeam',
+            '/vendors/js/charts/valadart/go',
+            '/vendors/js/charts/valadart/data',
+            '/vendors/js/charts/valadart/lookup',
+            '/vendors/js/charts/valadart/model-helpers',
+            '/vendors/js/charts/valadart/editing',
+            '/vendors/js/charts/valadart/context-menu',
+            '/vendors/js/charts/valadart/node-template',
+            '/vendors/js/charts/valadart/dragging-tool',
+            '/vendors/js/charts/valadart/diagram-init',
+            '/vendors/js/charts/valadart/app',
         ], [
-            '/css/valadart/style',
+            '/vendors/css/charts/valadart/style'
         ], [
             'Brands' => brandsModel::query()->get(),
         ])->display('salesTeam/edit-groupSaleTeam.tpl');
@@ -811,11 +809,11 @@ class salesTeam extends ControllerScheme
     public function deleteSalesTeam()
     {
         $data = $this->requestArray();
-        $delete = saleTeamGroupSalesTeamModel::query()->where(['SalesTeamGroup_id' => $data['group_id'],'salesTeam_id' => $data['team_id']])->delete();
+        $delete = saleTeamGroupSalesTeamModel::query()->where(['SalesTeamGroup_id' => $data['group_id'], 'salesTeam_id' => $data['team_id']])->delete();
         $deleteTeam = SalesTeamModel::query()->where('id', $data['team_id'])->delete();
-        if ($delete && $deleteTeam){
+        if ($delete && $deleteTeam) {
             echo "deleteSucess";
-        }else{
+        } else {
             echo "deleteFailed";
         }
     }
@@ -849,10 +847,10 @@ class salesTeam extends ControllerScheme
             $delete = salesTeamGroupModel::query()->where('id', $id)->delete();
             if ($delete) {
                 echo "deleteSucess";
-            }else{
+            } else {
                 echo "deleteFailed";
             }
-        }else{
+        } else {
 
             $deleteGroup = salesTeamGroupModel::query()->where('id', $id)->delete();
             $emptyGroup = saleTeamGroupSalesTeamModel::query()
@@ -861,7 +859,7 @@ class salesTeam extends ControllerScheme
 
             if (!$emptyGroup && !$deleteGroup) {
                 echo "deleteSucess";
-            }else{
+            } else {
                 echo "deleteFailed";
 
             }
@@ -886,7 +884,7 @@ class salesTeam extends ControllerScheme
         ]);
         if ($edit) {
             $this->successCallBack('/salesTeam/main');
-        }else{
+        } else {
             $this->failedCallBack('/salesTeam/main');
         }
     }

@@ -9,6 +9,7 @@ use App\Models\personTypeModel\personTypeModel;
 use App\Models\UserModel\UserModel;
 use App\Models\WarehousesModel\WarehousesModel;
 use App\Models\warehouseTypeModel\warehouseTypeModel;
+use App\Models\WarehouseUsageTypeModel\WarehouseUsageTypeModel;
 
 class Warehouses extends ControllerScheme
 {
@@ -21,6 +22,7 @@ class Warehouses extends ControllerScheme
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
+        view->setModel($this->defaultModel::all());
         view->ui([
             'vendors/js/tables/datatable/datatables.min',
             'vendors/js/tables/datatable/dataTables.bootstrap4.min',
@@ -35,9 +37,7 @@ class Warehouses extends ControllerScheme
             //'js/Warehouses/Warehouses'
         ],
             ['vendors/css/tables/datatable/datatables.min'],
-            [
-                //vars
-            ])->display('Warehouses/Warehouses.tpl');
+            )->display('Warehouses/Warehouses.tpl');
     }
 
     public function addIndex()
@@ -46,28 +46,30 @@ class Warehouses extends ControllerScheme
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
         view->ui([
-            'vendors/js/charts/valadart/go',
-            'vendors/js/charts/valadart/data',
-            'vendors/js/charts/valadart/lookup',
-            'vendors/js/charts/valadart/model-helpers',
-            'vendors/js/charts/valadart/editing',
-            'vendors/js/charts/valadart/context-menu',
-            'vendors/js/charts/valadart/node-template',
-            'vendors/js/charts/valadart/dragging-tool',
-            'vendors/js/charts/valadart/diagram-init',
-            'vendors/js/charts/valadart/app',
-            'vendors/js/charts/apextree.min',
-            'js/Warehouses/add-Warehouses',
-            'js/Warehouses/warehouseDefinision',
-            'js/Warehouses/warehouseOwnership',
-            'js/Warehouses/warehousePhysicalAddress',
-            'js/Warehouses/warehouseTeam',
-        ], ['vendors/css/charts/valadart/style'],
-            [//vars
+            '/vendors/js/charts/valadart/go',
+            '/vendors/js/charts/valadart/data',
+            '/vendors/js/charts/valadart/lookup',
+            '/vendors/js/charts/valadart/model-helpers',
+            '/vendors/js/charts/valadart/editing',
+            '/vendors/js/charts/valadart/context-menu',
+            '/vendors/js/charts/valadart/node-template',
+            '/vendors/js/charts/valadart/dragging-tool',
+            '/vendors/js/charts/valadart/diagram-init',
+            '/vendors/js/charts/valadart/app',
+            '/js/salesTeam/add-salesTeam',
+            '/js/Warehouses/add-Warehouses',
+            '/js/Warehouses/warehouseDefinision',
+            '/js/Warehouses/warehouseOwnership',
+            '/js/Warehouses/warehousePhysicalAddress',
+            '/js/Warehouses/warehouseTeam',
+        ], ['vendors/css/charts/valadart/style'
+        ],
+            [
                 'brands' => brandsModel::query()->get(),
                 'warehouseType' => warehouseTypeModel::query()->get(),
                 'countries' => countryModel::query()->get(),
                 'personTypes' => personTypeModel::query()->get(),
+                'warehouseUsageTypes' => WarehouseUsageTypeModel::all()
             ]
         )->display('Warehouses/add-Warehouses.tpl');
     }
@@ -112,8 +114,49 @@ class Warehouses extends ControllerScheme
 
     public function add()
     {
+        csrf->csrfValidate();
         $data = $this->requestArray();
-        var_print($data);
-        die();
+        $files = $_FILES;
+
+        $needle = [
+            'ware_house_name',
+            'warehouse_brand_id',
+            'warehouse_type_id',
+            'warehouse_usage_id',
+            'country_id',
+            'state_id',
+            'city_id',
+            'post_code',
+            'owners_data',
+            'warehouse_phone_number',
+            'warehouse_full_address',
+            'person_type',
+            'jsonOutput'
+        ];
+
+        if (validator->validateRequestsData($needle)) {
+            $data['team_data'] = json_encode(json_decode($data['jsonOutput'], true)['nodeDataArray'], JSON_UNESCAPED_UNICODE);
+            $data['nodes_data'] = $data['jsonOutput'];
+            unset($data['jsonOutput']);
+
+            $data['user_id'] = userObject()->userId;
+            $data['owners_data'] = json_encode(reset($data['owners_data']), JSON_UNESCAPED_UNICODE);
+
+            $add = WarehousesModel::query()->create($data);
+
+            if ($files && isset($files['owner_document'])) {
+                $add->update([
+                    'owners_data' => json_encode(
+                        array_merge(
+                            json_decode($add->owners_data, true),
+                            ["owner_document" => fileHelper->fileUpload('warehouses', 'owner_document', $add->id)]
+                        )
+                        , JSON_UNESCAPED_UNICODE)
+                ]);
+            }
+
+            $this->successCallBack('/Warehouses/main');
+        }
+        $this->failedCallBack('/Warehouses/main','نقص اطلاعات ورودی');
     }
 }
