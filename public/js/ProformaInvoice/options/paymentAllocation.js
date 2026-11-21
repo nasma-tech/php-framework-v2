@@ -1,4 +1,5 @@
 $(function () {
+    let invoiceId = $("#invoiceId").val()
     const depositAllocationForm = () => {
         $.ajax({
             url: '/PaymentManagement/getPayments',
@@ -74,7 +75,7 @@ $(function () {
                 let form = $("#depositForm");
                 if (form.formValidate(false)) {
                     let formData = new FormData(form[0]);
-                    formData.append('serviceInvoiceId', serviceInvoiceId)
+                    formData.append('invoiceId', invoiceId)
                     $.ajax({
                         url: '/PaymentAllocation/submitPaymentAllocation',
                         type: 'POST',
