@@ -12,6 +12,7 @@ use App\Models\CountryModel\CountryModel;
 use App\Models\PriceSuggestionModel\PriceSuggestionModel;
 use App\Models\ProductModel\ProductModel;
 use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
+use App\Models\ProformaInvoiceLogModel\ProformaInvoiceLogModel;
 use App\Models\ProformaInvoiceModel\ProformaInvoiceModel;
 use App\Models\ProformaInvoiceProductsModel\ProformaInvoiceProductsModel;
 use App\Models\ProformaInvoiceSettingsModel\ProformaInvoiceSettingsModel;
@@ -77,7 +78,6 @@ class ProformaInvoice extends ControllerScheme
 
     public function editIndex($id): void
     {
-        $_ENV['APP_DEBUG'] = 1;
         $getData = $this->defaultModel::query()->find($id);
         $invoiceSetting = ProformaInvoiceSettingsModel::query()->where('brand_id', $getData->brand_id)->first();
         $decodeInvoiceSetting = json_decode($invoiceSetting->charges_deductions_order, true);
@@ -248,10 +248,30 @@ class ProformaInvoice extends ControllerScheme
         }
     }
 
+    private function invoiceLog($invoiceId): bool
+    {
+        $invoice = ProformaInvoiceModel::query()->findOrFail($invoiceId)->toArray();
+        $invoiceProduct = ProformaInvoiceProductsModel::query()->where('proforma_invoice_id', $invoiceId)->get()->toArray();
+        $invoiceDetail = ProformaInvoiceDetailsModel::query()->where('proforma_invoice_id', $invoiceId)->get()->toArray();
+        $makeData = [
+            'proforma_invoice_id'=>$invoiceId,
+            'ProformaInvoice' => json_encode($invoice, JSON_UNESCAPED_UNICODE),
+            'ProformaInvoiceProducts' => json_encode($invoiceProduct, JSON_UNESCAPED_UNICODE),
+            'ProformaInvoiceDetails' => json_encode($invoiceDetail, JSON_UNESCAPED_UNICODE),
+            'user_id' => userObject()->userId,
+        ];
+        $addLog = ProformaInvoiceLogModel::query()->create($makeData);
+        if ($addLog)
+            return true;
+        else
+            return false;
+    }
+
     public function edit($id): void
     {
         csrf->csrfValidate();
         $find = ProformaInvoiceModel::query()->findOrFail($id);
+        $this->invoiceLog($find->id);
         $data = $this->requestArray();
         $makeProformaInvoiceData = [
             'company_id',
