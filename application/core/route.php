@@ -578,3 +578,20 @@ $router->mount('/PaymentAllocation', function () use ($router) {
         ]
     ]);
 });
+$router->mount('/marketers', function () use ($router) {
+    dynamicRoute($router, App\Controllers\marketers\marketers::class,[
+        [
+            'method' => 'GET',
+            'path' => "/MarketerData",
+            'action' => 'MarketerData'
+        ],[
+            'method' => 'POST',
+            'path' => "/addMarketerGroup",
+            'action' => 'addMarketerGroup'
+        ],[
+            'method' => 'GET',
+            'path' => "/editMarketeGroup/(\d+)",
+            'action' => 'editMarketeGroup'
+        ]
+    ]);
+});
