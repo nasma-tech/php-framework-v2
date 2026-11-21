@@ -7,9 +7,10 @@ $(function () {
     });
 
     // return false
-    $(".select2").select2({
-        width: "100%"
-    })
+    $('.select2').select2({
+        width: '100%',
+        dir: 'rtl'
+    });
 
     $(document).validateFormBeforeSend({
         checkRequiredAttribute: true
@@ -78,5 +79,8 @@ $(function () {
             confirmButtonText: 'بستن',
         })
     })
+
+
+
 
 });

@@ -31,6 +31,7 @@
 <script src="/public/vendors/libs/jdate/jdate.js"></script>
 <script src="/public/js/scripts/cartable/cartable.js"></script>
 <script type="text/javascript" src="/public/vendors/libs/toastify/toastify-js.js"></script>
+<script type="text/javascript" src="/public/vendors/js/jodit/jodit.min.js"></script>
 
 <script type="text/javascript" src="/public/js/scripts/navs/navs.js"></script>
 

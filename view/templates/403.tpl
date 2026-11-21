@@ -22,9 +22,7 @@
             </h1>
 
             <p class="error-description" id="serverErrorDescription">
-                متأسفانه هنگام پردازش درخواست شما مشکلی در سامانه رخ داده است.
-                این خطا ممکن است موقتی باشد. لطفاً چند لحظه دیگر دوباره تلاش
-                کنید. اطلاعات شما در این صفحه نمایش داده نمی‌شود.
+                {$errorText|default: 'نامشخص'}
             </p>
 
             <div class="error-actions" id="serverErrorActions">
@@ -123,8 +121,8 @@
             </div>
 
             <div class="error-floating-label" id="serverErrorFloatingLabel">
-                <span class="error-floating-label-number">500</span>
-                <span class="error-floating-label-text">خطای سرور</span>
+                <span class="error-floating-label-number">403</span>
+                <span class="error-floating-label-text">عدم دسترسی</span>
             </div>
 
             <div class="error-visual-caption" id="serverErrorVisualCaption">
@@ -142,9 +140,6 @@
 
     </section>
 </main>
-
-
-
 
 
 {include 'sections/footer.tpl'}

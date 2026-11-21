@@ -69,5 +69,17 @@ class countries extends ControllerScheme
         ])->display('countries/view-countries.tpl');
     }
 
+    public function getCountryData($id = 12)
+    {
+        $gerData = CountryModel::query()->where('id',$id)->first()->toArray();
+
+        $result =  [
+                "persian_title" => $gerData['persian_title'],
+                "english_title" => $gerData['english_title'],
+                "area_code" => $gerData['area_code'],
+            ];
+        echo json_encode($result);
+    }
+
 
 }

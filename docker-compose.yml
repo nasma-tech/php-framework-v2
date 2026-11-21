@@ -2,10 +2,10 @@ services:
 
   nginx:
     image: nginx:latest
-    container_name: php-framework-v2-nginx
+    container_name: rrf-erp-final-nginx
 
     ports:
-      - "80:80"
+      - "36401:80"
 
     volumes:
       - ./:/var/www/html
@@ -19,7 +19,7 @@ services:
       context: .
       dockerfile: docker/php/Dockerfile
 
-    container_name: php-framework-v2-php
+    container_name: rrf-erp-final-php
 
     working_dir: /var/www/html
 
@@ -29,7 +29,7 @@ services:
   mysql:
     image: mysql:8.4
 
-    container_name: php-framework-v2-mysql
+    container_name: rrf-erp-final-mysql
 
     restart: unless-stopped
 
@@ -38,16 +38,16 @@ services:
       MYSQL_DATABASE: erp
 
     ports:
-      - "3306:3306"
+      - "36403:3306"
 
     volumes:
-      - php-framework-v2-mysql-data:/var/lib/mysql
+      - rrf-erp-final-mysql-data:/var/lib/mysql
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   mongodb:
     image: mongo:8
 
-    container_name: php-framework-v2-mongodb
+    container_name: rrf-erp-final-mongodb
 
     restart: unless-stopped
 
@@ -56,11 +56,11 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: root
 
     ports:
-      - "27017:27017"
+      - "36407:27017"
 
     volumes:
-      - php-framework-v2-mongodb-data:/data/db
+      - rrf-erp-final-mongodb-data:/data/db
       - ./docker/mongodb/init.js:/docker-entrypoint-initdb.d/init.js:ro
 volumes:
-  php-framework-v2-mysql-data:
-  php-framework-v2-mongodb-data:
+  rrf-erp-final-mysql-data:
+  rrf-erp-final-mongodb-data:
