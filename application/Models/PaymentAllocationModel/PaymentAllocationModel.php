@@ -16,7 +16,7 @@ class PaymentAllocationModel extends Model
     protected $fillable = [
         'payment_management_id',
         'payment_allocation_type_id',
-        'service_invoice_id',
+        'invoice_id',
         'payment_amount',
         'allocation_document',
         'status',
