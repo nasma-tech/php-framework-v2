@@ -49,9 +49,10 @@
                 </div>
             </div>
         </div>
-
+        <div style="display: none">
+            <input type="hidden" id="invoiceId" value="{$getData.id}">
+        </div>
         <div class="row mt-1">
-
             <div class="col-12 col-md-3 mb-1">
                 <div class="card shadow h-100">
                     <div class="card-body">
