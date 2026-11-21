@@ -5,7 +5,8 @@
 <div class="app-content content">
     <div class="content-wrapper">
         {$flashMessageHelper->formCallBack()}
-        <form method="post" id="mainForm" action="/salesTeam/add">
+        <form method="post" id="mainForm" action="/salesTeam/addTeam">
+            <input type="hidden" name="groupId" value="{$groupId}">
             <div class="card shadow">
                 <div class="card-content">
                     <div class="card-header">

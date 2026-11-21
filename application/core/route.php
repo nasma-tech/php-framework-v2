@@ -446,5 +446,71 @@ $router->mount('/ProformaInvoiceSettings', function () use ($router) {
     ]);
 });
 $router->mount('/salesTeam', function () use ($router) {
-    dynamicRoute($router, App\Controllers\salesTeam\salesTeam::class);
+    dynamicRoute($router, App\Controllers\salesTeam\salesTeam::class,[
+        [
+            'method' => 'GET',
+            'path' => "/permissions/(\d+)",
+            'action' => 'permissionIndex'
+        ],
+        [
+            'method' => 'POST',
+            'path' => "/getSalePermissionBrands",
+            'action' => 'getSalePermissionBrands'
+        ],
+        [
+            'method' => 'POST',
+            'path' => "/getSalePermissionProducts",
+            'action' => 'getSalePermissionProducts'
+        ],
+        [
+            'method' => 'POST',
+            'path' => "/getSalePermissionProductsForTeam",
+            'action' => 'getSalePermissionProductsForTeam'
+        ],
+        [
+            'method' => 'GET',
+            'path' => "/addGroupIndex",
+            'action' => 'addGroupIndex'
+        ],
+        [
+            'method' => 'POST',
+            'path' => "/addGroup",
+            'action' => 'addGroup'
+        ],
+        [
+            'method' => 'GET',
+            'path' => "/getGroupData/(\d+)",
+            'action' => 'getGroupData'
+        ],
+        [
+            'method' => 'GET',
+            'path' => "/addTeamIndex/(\d+)",
+            'action' => 'addTeamIndex'
+        ],
+        [
+            'method' => 'POST',
+            'path' => "/addTeam",
+            'action' => 'addTeam'
+        ],
+        [
+            'method' => 'POST',
+            'path' => "/deleteSalesTeam",
+            'action' => 'deleteSalesTeam'
+        ],
+        [
+            'method' => 'GET',
+            'path' => "/checkGroupTeam/(\d+)",
+            'action' => 'checkGroupTeam'
+        ],
+        [
+            'method' => 'GET',
+            'path' => "/deleteGroup/(\d+)",
+            'action' => 'deleteGroup'
+        ],
+        [
+            'method' => 'GET',
+            'path' => "/editGroupIndex/(\d+)",
+            'action' => 'editGroupIndex'
+        ]
+    ]);
 });
