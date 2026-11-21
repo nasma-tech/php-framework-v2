@@ -30,10 +30,11 @@ class View
         $ui->assign('pluralName', $this->getPluralName());
         $ui->assign('getData', $this->getModel());
         $ui->assign('buttonHelper', new ButtonHelper());
-        $ui->assign('dateTimeHelper', new DateTimeHelper());
-        $ui->assign('csrf', new Csrf());
-        $ui->assign('userHelper', new UserHelper());
+        $ui->assign('dateTimeHelper', dateTimeHelper);
+        $ui->assign('csrf', csrf);
+        $ui->assign('userHelper', userHelper);
         $ui->assign('flashMessageHelper', new FlashMessageHelper());
+        $ui->assign('numberNormalizer', numberNormalizer);
         $ui->caching = Smarty::CACHING_OFF;
         $ui->compile_check = true;
         $ui->force_compile = true;

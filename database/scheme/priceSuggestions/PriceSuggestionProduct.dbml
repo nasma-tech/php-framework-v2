@@ -1,0 +1,21 @@
+Enum discountDefault {
+  noDiscount
+  percentageDiscount
+  cashDiscount
+}
+Table PriceSuggestionProduct{
+    id bigint [pk,increment]
+    price_suggestion_id int [note:"ref to PriceSuggestion table"]
+    product_id int [note:"ref to products table"]
+    amount varchar(191)
+    unit_price varchar(255)
+    discount_type discountDefault [not null, default: 'noDiscount']
+    discount_amount varchar(20) [not null,default:'0']
+    unit_price_without_discount varchar(255) [note:"قیمت واحد بدون تحففیف"]
+    unit_price_with_discount varchar(255) [note:"قیمت واحد با تحففیف"]
+    total_unit_price varchar(255) [note:"قیمت واحد نهایی | با تخفیف یا بدون تخفیف"]
+    total_product_price varchar(255) [note:"مقدار * قیمت واحد نهایی"]
+    created_at datetime [default: `CURRENT_TIMESTAMP`]
+    updated_at datetime [default: `CURRENT_TIMESTAMP`]
+    deleted_at datetime
+}

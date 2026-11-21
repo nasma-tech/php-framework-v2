@@ -1,0 +1,33 @@
+#imageGallery .splide__pagination {
+    position: static;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 15px;
+    padding: 0;
+    counter-reset: pagination-num;
+}
+
+#imageGallery .splide__pagination__page {
+    width: 30px;
+    height: 30px;
+    margin: 0;
+    transform: none;
+    opacity: 1;
+    background: #e0e0e0;
+}
+
+#imageGallery .splide__pagination__page::before {
+    counter-increment: pagination-num;
+    content: counter(pagination-num);
+    color: #333;
+    font-size: 12px;
+}
+
+#imageGallery .splide__pagination__page.is-active {
+    background: #696cff;
+}
+
+#imageGallery .splide__pagination__page.is-active::before {
+    color: #fff;
+}

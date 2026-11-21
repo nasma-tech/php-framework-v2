@@ -1,0 +1,67 @@
+
+/* Modern ERP Identifier */
+.cc-code-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+    direction: ltr;
+    padding: 6px 10px;
+    border: 1px solid rgba(32, 107, 196, 0.16);
+    border-radius: 8px;
+    background:
+            linear-gradient(135deg, #f8fbff 0%, #edf4ff 100%);
+    color: #1d4f91;
+    font-family: "Vazirmatn", monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.1px;
+    line-height: 1.5;
+    white-space: nowrap;
+    box-shadow:
+            0 1px 2px rgba(16, 24, 40, 0.03),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    transition:
+            background 180ms ease,
+            border-color 180ms ease,
+            color 180ms ease,
+            box-shadow 180ms ease,
+            transform 180ms ease;
+}
+
+/* Modern status indicator */
+.cc-code-badge::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    flex: 0 0 6px;
+    border-radius: 50%;
+    background: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.10);
+    transition: background 180ms ease, box-shadow 180ms ease;
+}
+
+/* Interactive micro-animation */
+.cc-code-badge:hover {
+    color: #ffffff;
+    background: linear-gradient(135deg, #206bc4 0%, #174a8b 100%);
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(32, 107, 196, 0.22);
+    transform: translateY(-1px);
+}
+
+.cc-code-badge:hover::before {
+    background: #bfdbfe;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.14);
+}
+
+/* Keyboard accessibility */
+.cc-code-badge:focus-visible {
+    outline: 2px solid #206bc4;
+    outline-offset: 3px;
+}
+
+td .cc-code-badge {
+    vertical-align: middle;
+}

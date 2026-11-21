@@ -30,7 +30,7 @@
                                 {foreach $units as $item}
                                     <tr>
                                         <td>{$item->id}</td>
-                                        <td>{$item->unit_name}
+                                        <td>{$item->label}
                                         </td>
                                         <td>
                                             {$buttonHelper->actionButtons($item->id)}

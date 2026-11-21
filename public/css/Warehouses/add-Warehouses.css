@@ -1,0 +1,307 @@
+.person-type-radio {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+/* =========================================
+   Warehouse Form - ERP UI
+========================================= */
+
+.warehouse-page {
+    --warehouse-primary: #435ebe;
+    --warehouse-primary-light: #eef1ff;
+    --warehouse-border: #e4e8f0;
+    --warehouse-text: #344054;
+    --warehouse-muted: #8492a6;
+    --warehouse-bg: #f8f9fc;
+
+    direction: rtl;
+    color: var(--warehouse-text);
+    font-family: inherit;
+}
+
+/* Main card */
+
+.warehouse-page .card {
+    border: 1px solid var(--warehouse-border);
+    border-radius: 12px;
+    box-shadow: 0 4px 18px rgba(30, 42, 70, 0.04);
+    overflow: hidden;
+}
+
+.warehouse-page .card-header {
+
+    justify-content: space-between;
+    padding: 20px 24px;
+    background: #fff;
+    border-bottom: 1px solid var(--warehouse-border);
+}
+
+.warehouse-page .card-title {
+    float: none !important;
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: #26334d;
+}
+
+.warehouse-page .card-content {
+    background: #fff;
+}
+
+.warehouse-page .card-body {
+    padding: 24px;
+}
+
+/* Main tabs */
+
+.warehouse-page #myTab2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px;
+    margin: 0 0 24px;
+    background: var(--warehouse-bg);
+    border: 1px solid var(--warehouse-border);
+    border-radius: 10px;
+}
+
+.warehouse-page #myTab2 .nav-item {
+    flex: 1 1 150px;
+    margin: 0;
+}
+
+.warehouse-page #myTab2 .nav-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 48px;
+    padding: 12px 16px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: #667085;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background .2s ease, color .2s ease;
+}
+
+.warehouse-page #myTab2 .nav-link:hover {
+    color: var(--warehouse-primary);
+    background: #fff;
+}
+
+.warehouse-page #myTab2 .nav-link.active {
+    background: #fff;
+    color: var(--warehouse-primary);
+    border-color: #e0e5ff;
+    box-shadow: 0 2px 7px rgba(67, 94, 190, .08);
+}
+
+/* Tab content */
+
+.warehouse-page .tab-content {
+    width: 100%;
+}
+
+.warehouse-page .tab-pane {
+    padding: 8px 4px 20px;
+}
+
+.warehouse-page .tab-pane > .row {
+    margin-right: -8px;
+    margin-left: -8px;
+}
+
+/* Labels */
+
+.warehouse-page label {
+    display: block;
+    margin-bottom: 8px;
+    color: #475467;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Inputs */
+
+.warehouse-page .form-control {
+    min-height: 42px;
+    border: 1px solid #dce1eb;
+    border-radius: 7px;
+    background-color: #fff;
+    color: #344054;
+    font-size: 13px;
+    box-shadow: none;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.warehouse-page .form-control:focus {
+    border-color: var(--warehouse-primary);
+    box-shadow: 0 0 0 3px rgba(67, 94, 190, .09);
+}
+
+.warehouse-page .form-control::placeholder {
+    color: #a0a9b8;
+}
+
+.warehouse-page textarea.form-control {
+    min-height: 100px;
+    padding: 12px;
+    line-height: 1.8;
+    resize: vertical;
+}
+
+/* Select2 */
+
+.warehouse-page .select2-container {
+    width: 100% !important;
+}
+
+.warehouse-page .select2-container--default .select2-selection--single {
+    height: 42px;
+    border: 1px solid #dce1eb;
+    border-radius: 7px;
+}
+
+.warehouse-page .select2-container--default .select2-selection--single
+.select2-selection__rendered {
+    padding-right: 12px;
+    line-height: 40px;
+    color: #344054;
+    font-size: 13px;
+}
+
+.warehouse-page .select2-container--default .select2-selection--single
+.select2-selection__arrow {
+    height: 40px;
+}
+
+.warehouse-page .select2-container--default.select2-container--focus
+.select2-selection--multiple {
+    border-color: var(--warehouse-primary);
+}
+
+.warehouse-page .select2-container--default .select2-selection--multiple {
+    min-height: 42px;
+    border: 1px solid #dce1eb;
+    border-radius: 7px;
+}
+
+.warehouse-page .select2-container--default .select2-selection--multiple
+.select2-selection__choice {
+    background: var(--warehouse-primary-light);
+    border: 1px solid #dce3ff;
+    border-radius: 5px;
+    color: var(--warehouse-primary);
+    padding: 3px 8px;
+}
+
+/* Inner ownership tabs */
+
+.warehouse-page .card-body > .nav-tabs {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+    padding: 8px;
+    margin-bottom: 22px;
+    background: var(--warehouse-bg);
+    border: 1px solid var(--warehouse-border);
+    border-radius: 9px;
+}
+
+.warehouse-page .card-body > .nav-tabs .nav-link {
+    min-width: 120px;
+    padding: 10px 20px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    color: #667085;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.warehouse-page .card-body > .nav-tabs .nav-link.active {
+    color: var(--warehouse-primary);
+    background: #fff;
+    border-color: #e0e5ff;
+}
+
+/* Input groups */
+
+.warehouse-page .input-group-text {
+    min-height: 42px;
+    border-color: #dce1eb;
+    background: var(--warehouse-bg);
+    color: #667085;
+    font-size: 12px;
+}
+
+/* Address section */
+
+.warehouse-page #physicalAddress-just textarea {
+    min-height: 110px;
+}
+
+/* Ownership sections */
+
+.warehouse-page #ownership-just .tab-pane {
+    padding-top: 16px;
+}
+
+.warehouse-page #ownership-just .col-md-12.row {
+    row-gap: 16px;
+}
+
+/* Team section */
+
+.warehouse-page #team-just {
+    padding: 0;
+}
+
+.warehouse-page #team-just #svg-tree {
+    width: 100%;
+    min-height: 500px;
+    overflow: auto;
+    background: #fff;
+    border: 1px solid var(--warehouse-border);
+    border-radius: 10px;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .warehouse-page .card-header {
+        padding: 16px;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .warehouse-page .card-body {
+        padding: 14px;
+    }
+
+    .warehouse-page #myTab2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .warehouse-page #myTab2 .nav-item {
+        min-width: 0;
+    }
+
+    .warehouse-page #myTab2 .nav-link {
+        padding: 10px 6px;
+        font-size: 11px;
+    }
+
+    .warehouse-page .card-body > .nav-tabs {
+        flex-wrap: wrap;
+    }
+
+    .warehouse-page .card-body > .nav-tabs .nav-link {
+        min-width: 0;
+    }
+
+    .warehouse-page #team-just #svg-tree {
+        min-height: 400px;
+    }
+}

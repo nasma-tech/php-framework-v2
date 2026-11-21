@@ -10,7 +10,6 @@
     "stillat/numeral.php": "^2.0",
     "enyo/dropzone": "^5.9",
     "mpdf/mpdf": "^8.1",
-    "comodojo/httprequest": "^1.3",
     "workerman/phpsocket.io": "^1.1",
     "cboden/ratchet": "^0.4.4",
     "marcelog/pami": "2.*",
@@ -29,7 +28,9 @@
     "ext-curl": "*",
     "ext-openssl": "*",
     "ext-imagick": "*",
-    "ext-mongodb": "*"
+    "ext-mongodb": "*",
+    "symfony/var-dumper": "^8.1"
+    "robmorgan/phinx": "^0.16"
   },
   "autoload": {
     "files": [

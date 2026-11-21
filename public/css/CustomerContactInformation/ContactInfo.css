@@ -1,0 +1,958 @@
+/* ---------- Design Tokens ---------- */
+.cc-initial-info,
+.cc-request-info {
+    --cc-primary: #206bc4;
+    --cc-primary-dark: #174d91;
+    --cc-primary-soft: #edf4ff;
+    --cc-navy: #172b4d;
+    --cc-red: #e05260;
+    --cc-text: #263449;
+    --cc-muted: #75849a;
+    --cc-border: #e3e9f1;
+    --cc-surface: #ffffff;
+    --cc-background: #f7f9fc;
+    --cc-radius: 12px;
+    --cc-shadow: 0 4px 18px rgba(28, 48, 78, 0.065);
+
+    direction: rtl;
+    color: var(--cc-text);
+    font-family: inherit;
+    min-width: 0;
+}
+
+/* ---------- Card ---------- */
+.cc-initial-info,
+.cc-request-info {
+    position: relative;
+    height: 100%;
+    margin-top: 4px;
+    overflow: visible;
+    background: var(--cc-surface);
+    border: 1px solid var(--cc-border);
+    border-radius: var(--cc-radius);
+    box-shadow: var(--cc-shadow) !important;
+    transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.cc-initial-info:hover,
+.cc-request-info:hover {
+    border-color: #d5e0ef;
+    box-shadow: 0 8px 26px rgba(28, 48, 78, 0.09) !important;
+}
+
+.cc-initial-info .card-content,
+.cc-request-info .card-content {
+    height: 100%;
+    min-width: 0;
+}
+
+/* ---------- Card Header ---------- */
+.cc-initial-info .card-header,
+.cc-request-info .card-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 54px;
+    padding: 12px 20px;
+    margin: 0;
+    overflow: hidden;
+    background: linear-gradient(115deg, #172b4d 0%, #233f68 100%);
+    border: 0;
+    border-radius: 11px 11px 0 0;
+}
+
+.cc-initial-info .card-header::after,
+.cc-request-info .card-header::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--cc-red);
+    content: "";
+}
+
+.cc-initial-info .card-header .divider,
+.cc-request-info .card-header .divider {
+    width: 100%;
+    margin: 0;
+    text-align: right;
+    border: 0;
+}
+
+.cc-initial-info .card-header .divider::before,
+.cc-request-info .card-header .divider::before {
+    display: none;
+}
+
+.cc-initial-info .card-header .divider-text,
+.cc-request-info .card-header .divider-text {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 !important;
+    color: #fff;
+    font-size: 13px !important;
+    font-weight: 700;
+    line-height: 1.8;
+    background: transparent;
+    letter-spacing: -0.2px;
+}
+
+.cc-initial-info .card-header .divider-text::before,
+.cc-request-info .card-header .divider-text::before {
+    width: 7px;
+    height: 7px;
+    margin-left: 9px;
+    background: #f08b94;
+    border-radius: 2px;
+    content: "";
+    transform: rotate(45deg);
+}
+
+/* ---------- Card Body ---------- */
+.cc-initial-info .card-body,
+.cc-request-info .card-body {
+    padding: 20px;
+    background: var(--cc-surface);
+    border-radius: 0 0 11px 11px;
+}
+
+.cc-initial-info .card-body > .row,
+.cc-request-info .card-body > .row {
+    min-width: 0;
+}
+
+/* ---------- Labels ---------- */
+.cc-initial-info .card-body label,
+.cc-request-info .card-body label {
+    display: inline-block;
+    margin-bottom: 7px;
+    color: #42536b;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.8;
+}
+
+.cc-initial-info .card-body .form-group label,
+.cc-request-info .card-body .form-group label {
+    margin-bottom: 7px;
+}
+
+/* ---------- Inputs & Textarea ---------- */
+.cc-initial-info .card-body .form-control,
+.cc-request-info .card-body .form-control {
+    width: 100%;
+    min-width: 0;
+    min-height: 39px;
+    padding: 8px 11px;
+    color: var(--cc-text);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.7;
+    text-align: right;
+    background-color: #fff;
+    border: 1px solid #dce4ef;
+    border-radius: 7px;
+    box-shadow: none;
+    outline: none;
+    transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            background-color 0.2s ease;
+}
+
+.cc-initial-info .card-body .form-control:hover,
+.cc-request-info .card-body .form-control:hover {
+    border-color: #b8cbe3;
+}
+
+.cc-initial-info .card-body .form-control:focus,
+.cc-request-info .card-body .form-control:focus {
+    background-color: #fff;
+    border-color: var(--cc-primary);
+    box-shadow: 0 0 0 3px rgba(32, 107, 196, 0.11);
+}
+
+.cc-initial-info .card-body .form-control:disabled,
+.cc-initial-info .card-body .form-control[readonly],
+.cc-request-info .card-body .form-control:disabled,
+.cc-request-info .card-body .form-control[readonly] {
+    color: #738198;
+    background-color: #f2f5f9;
+    border-color: #e3e9f1;
+    cursor: not-allowed;
+}
+
+.cc-initial-info .card-body textarea.form-control,
+.cc-request-info .card-body textarea.form-control {
+    min-height: 130px;
+    padding: 12px;
+    line-height: 1.9;
+}
+
+.cc-initial-info .card-body input::placeholder,
+.cc-initial-info .card-body textarea::placeholder,
+.cc-request-info .card-body input::placeholder,
+.cc-request-info .card-body textarea::placeholder {
+    color: #a2adbc;
+}
+
+/* ---------- Real / Legal Contact Buttons ---------- */
+.cc-initial-info .selectContactTypeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 43px;
+    padding: 9px 15px;
+    color: #526781;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    background: #f6f8fc;
+    border: 1px solid #dce5f1;
+    border-radius: 8px;
+    box-shadow: none;
+    transition: all 0.2s ease;
+}
+
+.cc-initial-info .selectContactTypeButton:hover {
+    color: var(--cc-primary);
+    background: var(--cc-primary-soft);
+    border-color: #b7d1f2;
+    transform: translateY(-1px);
+}
+
+.cc-initial-info .selectContactTypeButton.active {
+    color: #fff;
+    background: linear-gradient(115deg, #206bc4, #347fce);
+    border-color: var(--cc-primary);
+    box-shadow: 0 4px 10px rgba(32, 107, 196, 0.2);
+}
+
+.cc-initial-info .selectContactTypeButton:focus-visible {
+    outline: 3px solid rgba(32, 107, 196, 0.2);
+    outline-offset: 2px;
+}
+
+/* ---------- Select2 ---------- */
+.cc-initial-info .select2-container,
+.cc-request-info .select2-container {
+    width: 100% !important;
+    min-width: 0;
+    font-family: inherit;
+    font-size: 12px;
+    text-align: right;
+}
+
+.cc-initial-info .select2-container--default .select2-selection--single,
+.cc-request-info .select2-container--default .select2-selection--single {
+    display: flex;
+    align-items: center;
+    height: 39px;
+    padding: 0 10px;
+    background: #fff;
+    border: 1px solid #dce4ef;
+    border-radius: 7px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cc-initial-info .select2-container--default .select2-selection--single:hover,
+.cc-request-info .select2-container--default .select2-selection--single:hover {
+    border-color: #b8cbe3;
+}
+
+.cc-initial-info .select2-container--default.select2-container--focus .select2-selection--single,
+.cc-initial-info .select2-container--default.select2-container--open .select2-selection--single,
+.cc-request-info .select2-container--default.select2-container--focus .select2-selection--single,
+.cc-request-info .select2-container--default.select2-container--open .select2-selection--single {
+    border-color: var(--cc-primary);
+    box-shadow: 0 0 0 3px rgba(32, 107, 196, 0.11);
+}
+
+.cc-initial-info .select2-container--default .select2-selection--single .select2-selection__rendered,
+.cc-request-info .select2-container--default .select2-selection--single .select2-selection__rendered {
+    flex: 1;
+    padding: 0 0 0 20px;
+    overflow: hidden;
+    color: #405169;
+    line-height: 37px;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cc-initial-info .select2-container--default .select2-selection--single .select2-selection__arrow,
+.cc-request-info .select2-container--default .select2-selection--single .select2-selection__arrow {
+    right: auto;
+    left: 7px;
+    top: 0;
+    height: 37px;
+}
+
+.select2-dropdown {
+    z-index: 99999;
+    overflow: hidden;
+    font-family: inherit;
+    font-size: 12px;
+    background: #fff;
+    border: 1px solid #dce4ef;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(28, 48, 78, 0.13);
+}
+
+.select2-container--default .select2-results__option {
+    padding: 9px 12px;
+    text-align: right;
+    line-height: 1.8;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    color: #fff;
+    background: var(--cc-primary);
+}
+
+.select2-container--default .select2-results__option[aria-selected="true"] {
+    color: var(--cc-primary-dark);
+    background: var(--cc-primary-soft);
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    width: 100%;
+    padding: 8px 10px;
+    font-family: inherit;
+    font-size: 12px;
+    text-align: right;
+    border: 1px solid #dce4ef;
+    border-radius: 6px;
+    outline: none;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field:focus {
+    border-color: var(--cc-primary);
+    box-shadow: 0 0 0 2px rgba(32, 107, 196, 0.1);
+}
+
+/* ---------- Tables ---------- */
+.cc-initial-info .table-responsive,
+.cc-request-info .table-responsive {
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 0;
+    border: 1px solid var(--cc-border);
+    border-radius: 9px;
+    scrollbar-width: thin;
+    scrollbar-color: #c3d0e1 #f3f6fa;
+}
+
+.cc-initial-info .table,
+.cc-request-info .table {
+    width: 100%;
+    min-width: 410px;
+    margin-bottom: 0;
+    color: var(--cc-text);
+    font-size: 12px;
+    border-collapse: separate;
+    border-spacing: 0;
+    vertical-align: middle;
+}
+
+.cc-request-info .table {
+    min-width: 620px;
+}
+
+.cc-initial-info .table thead.thead-dark th,
+.cc-request-info .table thead.thead-dark th {
+    padding: 12px 10px;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    background: #243a59;
+    border-color: #354b68 !important;
+    border-top: 0;
+    border-bottom: 0;
+    vertical-align: middle;
+}
+
+.cc-initial-info .table thead th:first-child,
+.cc-request-info .table thead th:first-child {
+    border-radius: 0;
+}
+
+.cc-initial-info .table tbody td,
+.cc-request-info .table tbody td {
+    padding: 9px 8px;
+    vertical-align: middle;
+    background: #fff;
+    border-color: #e8edf4 !important;
+}
+
+.cc-initial-info .table tbody tr:hover > td,
+.cc-request-info .table tbody tr:hover > td {
+    background-color: #f7faff;
+}
+
+.cc-initial-info .table td.border,
+.cc-initial-info .table th.border,
+.cc-request-info .table td.border,
+.cc-request-info .table th.border {
+    border-color: #e8edf4 !important;
+}
+
+.cc-initial-info .table tfoot th,
+.cc-request-info .table tfoot th {
+    padding: 8px;
+    background: #f8fafd;
+    border-color: #e8edf4 !important;
+}
+
+/* Phone table inputs */
+.cc-initial-info #phoneTableBody .form-control {
+    min-width: 100px;
+    text-align: center;
+}
+
+.cc-initial-info #phoneTableBody .phone_number {
+    direction: ltr;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Social Network Checkboxes ---------- */
+.cc-initial-info #phoneTableBody #socialRow_1,
+.cc-initial-info #phoneTableBody ul[id^="socialRow_"] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 7px 3px;
+    margin: 0 !important;
+}
+
+.cc-initial-info #phoneTableBody ul[id^="socialRow_"] li {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    margin: 0 !important;
+}
+
+.cc-initial-info #phoneTableBody ul[id^="socialRow_"] fieldset {
+    margin: 0;
+    padding: 0;
+}
+
+.cc-initial-info #phoneTableBody .checkbox.checkbox-primary {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+.cc-initial-info #phoneTableBody .checkbox.checkbox-primary label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 39px;
+    min-height: 39px;
+    margin: 0;
+    padding: 8px;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #e1e8f1;
+    border-radius: 9px;
+    transition: all 0.2s ease;
+}
+
+.cc-initial-info #phoneTableBody .checkbox.checkbox-primary label:hover {
+    background: var(--cc-primary-soft);
+    border-color: #b7d1f2;
+    transform: translateY(-1px);
+}
+
+.cc-initial-info #phoneTableBody .checkbox.checkbox-primary label img {
+    display: block;
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+
+.cc-initial-info #phoneTableBody .checkbox.checkbox-primary input:checked + label {
+    background: #edf4ff;
+    border-color: var(--cc-primary);
+    box-shadow: 0 0 0 2px rgba(32, 107, 196, 0.09);
+}
+
+/* ---------- Add Buttons ---------- */
+.cc-initial-info #phoneAppend,
+.cc-request-info #productAppend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 36px;
+    padding: 6px 12px;
+    color: #fff;
+    background: linear-gradient(110deg, #198754, #20a36a);
+    border: 0;
+    border-radius: 7px;
+    box-shadow: 0 3px 8px rgba(25, 135, 84, 0.14);
+    transition: all 0.2s ease;
+}
+
+.cc-initial-info #phoneAppend:hover,
+.cc-request-info #productAppend:hover {
+    background: linear-gradient(110deg, #157347, #198754);
+    box-shadow: 0 5px 12px rgba(25, 135, 84, 0.22);
+    transform: translateY(-1px);
+}
+
+.cc-initial-info #phoneAppend i,
+.cc-request-info #productAppend i {
+    font-size: 17px !important;
+}
+
+/* ---------- Dropdown / Row Actions ---------- */
+.cc-initial-info .dropup,
+.cc-request-info .dropup {
+    position: relative;
+}
+
+.cc-initial-info .dropdown-toggle,
+.cc-request-info .dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    color: #667993;
+    cursor: pointer;
+    background: #f3f6fa;
+    border: 1px solid #e5ebf3;
+    border-radius: 7px;
+    transition: all 0.2s ease;
+}
+
+.cc-initial-info .dropdown-toggle:hover,
+.cc-request-info .dropdown-toggle:hover {
+    color: var(--cc-primary);
+    background: var(--cc-primary-soft);
+    border-color: #c8dcf5;
+}
+
+.cc-initial-info .dropdown-menu,
+.cc-request-info .dropdown-menu {
+    z-index: 1000;
+    min-width: 140px;
+    padding: 5px;
+    background: #fff;
+    border: 1px solid var(--cc-border);
+    border-radius: 9px;
+    box-shadow: 0 8px 24px rgba(28, 48, 78, 0.13);
+}
+
+.cc-initial-info .dropdown-item,
+.cc-request-info .dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 9px 10px;
+    font-family: inherit;
+    font-size: 12px;
+    border-radius: 6px;
+    transition: background-color 0.15s ease;
+}
+
+.cc-initial-info .dropdown-item:hover,
+.cc-request-info .dropdown-item:hover {
+    background: #f4f7fb;
+}
+
+/* ---------- Request Form Spacing ---------- */
+.cc-request-info .card-body > .row > [class*="col-"] {
+    min-width: 0;
+}
+
+.cc-request-info .card-body > .row > .table-responsive {
+    max-width: 100%;
+}
+
+.cc-request-info #productRequestTableBody select,
+.cc-request-info #productRequestTableBody input {
+    min-width: 85px;
+}
+
+/* ---------- Follow-up Description ---------- */
+.cc-initial-info #followUp_description {
+    min-height: 140px;
+    resize: none;
+    line-height: 2;
+}
+
+/* ---------- Keyboard Accessibility ---------- */
+.cc-initial-info .form-control:focus-visible,
+.cc-request-info .form-control:focus-visible {
+    outline: none;
+}
+
+.cc-initial-info button:focus-visible,
+.cc-request-info button:focus-visible {
+    outline: 2px solid rgba(32, 107, 196, 0.65);
+    outline-offset: 2px;
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 991.98px) {
+    .cc-initial-info .card-body,
+    .cc-request-info .card-body {
+        padding: 16px;
+    }
+
+    .cc-initial-info .card-header,
+    .cc-request-info .card-header {
+        min-height: 50px;
+        padding: 11px 16px;
+    }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 575.98px) {
+    .cc-initial-info,
+    .cc-request-info {
+        margin-top: 8px;
+        border-radius: 10px;
+    }
+
+    .cc-initial-info .card-header,
+    .cc-request-info .card-header {
+        min-height: 48px;
+        padding: 10px 14px;
+        border-radius: 9px 9px 0 0;
+    }
+
+    .cc-initial-info .card-header .divider-text,
+    .cc-request-info .card-header .divider-text {
+        font-size: 12px !important;
+    }
+
+    .cc-initial-info .card-body,
+    .cc-request-info .card-body {
+        padding: 13px;
+    }
+
+    .cc-initial-info .card-body label,
+    .cc-request-info .card-body label {
+        font-size: 11px;
+    }
+
+    .cc-initial-info .card-body .form-control,
+    .cc-request-info .card-body .form-control,
+    .cc-initial-info .select2-container--default .select2-selection--single,
+    .cc-request-info .select2-container--default .select2-selection--single {
+        min-height: 40px;
+    }
+
+    .cc-initial-info .select2-container--default .select2-selection--single .select2-selection__rendered,
+    .cc-request-info .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 38px;
+    }
+
+    .cc-initial-info .table,
+    .cc-request-info .table {
+        font-size: 11px;
+    }
+
+    .cc-initial-info .table thead.thead-dark th,
+    .cc-request-info .table thead.thead-dark th {
+        padding: 10px 8px;
+    }
+
+    .cc-initial-info .table tbody td,
+    .cc-request-info .table tbody td {
+        padding: 7px;
+    }
+
+    .cc-initial-info .selectContactTypeButton {
+        min-height: 42px;
+    }
+}
+
+/* ---------- Reduced Motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .cc-initial-info,
+    .cc-request-info,
+    .cc-initial-info *,
+    .cc-request-info * {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
+
+
+/* ==========================================
+   SOCIAL NETWORKS — MODERN CHECKBOX CARDS
+========================================== */
+
+.cc-initial-info #phoneTableBody tr[id^="socialTrRow_"] > td {
+    padding: 12px !important;
+    background: #f8fafd;
+    border-top: 0 !important;
+}
+
+.cc-initial-info #phoneTableBody ul[id^="socialRow_"] {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 4px !important;
+    margin: 0 !important;
+    list-style: none;
+}
+
+.cc-initial-info #phoneTableBody ul[id^="socialRow_"] li {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.cc-initial-info #phoneTableBody ul[id^="socialRow_"] fieldset {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.cc-initial-info #phoneTableBody .checkbox.checkbox-primary {
+    position: relative;
+    display: block !important;
+    min-height: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Hide the native checkbox without disabling it */
+.cc-initial-info #phoneTableBody .checkbox.checkbox-primary input[type="checkbox"] {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: 0 !important;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Social network card */
+.cc-initial-info #phoneTableBody .checkbox.checkbox-primary label {
+    position: relative;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    margin: 0 !important;
+    padding: 10px !important;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #e0e7f0;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(30, 50, 80, 0.035);
+    transition:
+            background-color 0.2s ease,
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            transform 0.2s ease;
+}
+
+/* Remove legacy checkbox decorations from the theme */
+.cc-initial-info #phoneTableBody .checkbox.checkbox-primary label::before,
+.cc-initial-info #phoneTableBody .checkbox.checkbox-primary label::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Network icon */
+.cc-initial-info #phoneTableBody .checkbox.checkbox-primary label img {
+    display: block;
+    width: 25px !important;
+    height: 25px !important;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+/* Hover */
+.cc-initial-info #phoneTableBody .checkbox.checkbox-primary label:hover {
+    background: #f0f6ff;
+    border-color: #a9c9f1;
+    box-shadow: 0 4px 10px rgba(32, 107, 196, 0.09);
+    transform: translateY(-2px);
+}
+
+.cc-initial-info #phoneTableBody .checkbox.checkbox-primary label:hover img {
+    transform: scale(1.08);
+}
+
+/* Selected */
+.cc-initial-info #phoneTableBody
+.checkbox.checkbox-primary input[type="checkbox"]:checked + label {
+    background: #eaf3ff;
+    border: 1.5px solid #206bc4;
+    box-shadow: 0 0 0 3px rgba(32, 107, 196, 0.09);
+}
+
+/* Small blue indicator */
+.cc-initial-info #phoneTableBody
+.checkbox.checkbox-primary input[type="checkbox"]:checked + label::after {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    display: block !important;
+    width: 16px;
+    height: 16px;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 16px;
+    text-align: center;
+    background: #206bc4;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    content: "✓";
+}
+
+/* Keyboard accessibility */
+.cc-initial-info #phoneTableBody
+.checkbox.checkbox-primary input[type="checkbox"]:focus-visible + label {
+    outline: 2px solid #206bc4;
+    outline-offset: 3px;
+}
+
+/* Mobile */
+@media (max-width: 575.98px) {
+    .cc-initial-info #phoneTableBody ul[id^="socialRow_"] {
+        gap: 8px;
+    }
+
+    .cc-initial-info #phoneTableBody .checkbox.checkbox-primary label {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+        padding: 8px !important;
+        border-radius: 10px;
+    }
+
+    .cc-initial-info #phoneTableBody .checkbox.checkbox-primary label img {
+        width: 23px !important;
+        height: 23px !important;
+    }
+}
+
+
+/*test*/
+
+/* Modern Contact Tabs */
+.cc-modern-tabs {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px;
+    margin-bottom: 18px;
+    background: #f1f4f9;
+    border: 1px solid #e6eaf1;
+    border-radius: 12px;
+    list-style: none;
+    direction: rtl;
+}
+
+/* Tab item */
+.cc-modern-tabs .nav-item {
+    flex: 1 1 0;
+    min-width: 0;
+    margin: 0;
+}
+
+/* Tab link */
+.cc-modern-tabs .nav-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 43px;
+    padding: 10px 14px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    background: transparent;
+    color: #68758a;
+    font-family: "Vazirmatn", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.7;
+    text-align: center;
+    white-space: normal;
+    transition:
+            color 0.22s ease,
+            background 0.22s ease,
+            border-color 0.22s ease,
+            box-shadow 0.22s ease,
+            transform 0.22s ease;
+}
+
+/* Hover */
+.cc-modern-tabs .nav-link:not(.active):hover {
+    color: #206bc4;
+    background: rgba(255, 255, 255, 0.75);
+    border-color: #e1e9f5;
+}
+
+/* Active tab */
+.cc-modern-tabs .nav-link.active {
+    color: #ffffff;
+    background: linear-gradient(135deg, #263f6a 0%, #172844 100%);
+    border-color: transparent;
+    box-shadow:
+            0 3px 8px rgba(23, 40, 68, 0.16),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Active hover */
+.cc-modern-tabs .nav-link.active:hover {
+    color: #ffffff;
+    box-shadow: 0 5px 12px rgba(23, 40, 68, 0.2);
+}
+
+/* Keyboard focus */
+.cc-modern-tabs .nav-link:focus-visible {
+    outline: 2px solid #206bc4;
+    outline-offset: 2px;
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .cc-modern-tabs {
+        gap: 4px;
+        padding: 4px;
+        border-radius: 10px;
+    }
+
+    .cc-modern-tabs .nav-link {
+        min-height: 40px;
+        padding: 8px 6px;
+        font-size: 11px;
+        gap: 4px;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .cc-modern-tabs .nav-link {
+        transition: none;
+    }
+}

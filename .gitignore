@@ -30,6 +30,7 @@
 !/Storage/Companies/**
 !/Storage/CRMTraining/**
 !/Storage/DefaultImages/**
+!/Storage/socialNetworkIcons/**
 
 # IDE
 .idea/

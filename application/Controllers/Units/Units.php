@@ -3,16 +3,16 @@
 namespace App\Controllers\Units;
 
 use App\Controllers\scheme\ControllerScheme;
-use App\Models\UnitModel\UnitModel;
+use App\Models\MeasurementUnitModel\MeasurementUnitModel;
 
 class Units extends ControllerScheme
 {
     const string singleName = 'واحد';
     const string pluralName = 'واحدها';
 
-    protected string $defaultModel = UnitModel::class;
+    protected string $defaultModel = MeasurementUnitModel::class;
 
-    public function main()
+    public function main(): void
     {
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
@@ -32,11 +32,11 @@ class Units extends ControllerScheme
         ], [
             'vendors/css/tables/datatable/datatables.min'
         ], [
-            'units' => UnitModel::all()
+            'units' => MeasurementUnitModel::all()
         ])->display('Units/Units.tpl');
     }
 
-    public function addIndex()
+    public function addIndex(): void
     {
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
@@ -46,42 +46,28 @@ class Units extends ControllerScheme
         ])->display('Units/add-Units.tpl');
     }
 
-    public function editIndex($id)
+    public function editIndex($id): void
     {
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
-        view->setModel(UnitModel::query()->find($id));
+        view->setModel(MeasurementUnitModel::query()->find($id));
         view->ui([
             'js/Units/edit-Units'
         ])->display('Units/edit-Units.tpl');
     }
 
 
-    public function getUnits()
+    public function getUnits(): void
     {
         $output = [];
-        foreach (UnitModel::all() as $item) {
+        foreach (MeasurementUnitModel::all() as $item) {
             $output[] = [
                 'id' => $item->id,
                 'title' => $item->unit_name,
-                'symbol' => $item->unit_symbol
             ];
         }
         echo json_encode($output, JSON_UNESCAPED_UNICODE);
-    }
-
-    public function findOneFilterUnit()
-    {
-        $id = $this->requestArray()['value'];
-        $service_unit = ServicesModel::query()->findOrFail($id);
-        $find = UnitModel::query()->findOrFail($service_unit->unit_id);
-
-        echo json_encode([
-            'id' => $find->id,
-            'title' => $find->unit_name,
-            'symbol' => $find->unit_symbol
-        ], JSON_UNESCAPED_UNICODE);
     }
 
 }

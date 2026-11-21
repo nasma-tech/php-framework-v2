@@ -2,6 +2,7 @@
 
 namespace Packages\Security;
 
+use Packages\View\handleHttpErrorView;
 use Random\RandomException;
 
 class Csrf
@@ -28,8 +29,7 @@ class Csrf
     public function csrfValidate(): bool|int
     {
         if (!isset($_POST['csrfToken']) || $_POST['csrfToken'] != $_SESSION["csrfToken"] || !$_SESSION["csrfToken"]) {
-            echo "<b>Error:</b> [this form not validate]";
-            return http_response_code(400);
+            handleHttpErrorView::handle(403, 'CSRF Validation Failed');
         }
         unset($_POST['csrfToken']);
         return http_response_code(200);
