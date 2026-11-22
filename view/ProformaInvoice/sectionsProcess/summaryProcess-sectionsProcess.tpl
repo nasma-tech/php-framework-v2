@@ -78,12 +78,37 @@
                 <div class="card-body">
                     <ul class="widget-timeline mb-0" style="height: 665px;overflow-y: auto">
                         {foreach $invoiceLog as $item}
+                            {assign var="diffTime" value=$smarty.now - strtotime($item.created_at)}
+                            {assign var="diffMinutes" value=floor($diffTime / 60)}
+                            {assign var="diffHours" value=floor($diffTime / 3600)}
+                            {assign var="diffDays" value=floor($diffTime / 86400)}
                             <li class="timeline-items timeline-icon-primary active">
-                                <div class="timeline-time">{jdate("H:i Y/m/d",strtotime($item.created_at))}</div>
-                                <h6 class="timeline-title">ویرایش  | <code>{$userHelper->getUserFullName($item.user_id)}</code></h6>
-                                <p class="timeline-text">2 ساعت پیش</p>
+
+                                <div class="timeline-time">
+                                    {jdate("H:i Y/m/d", strtotime($item.created_at))}
+                                </div>
+
+                                <h6 class="timeline-title">
+                                    ویرایش |
+                                    <code>{$userHelper->getUserFullName($item.user_id)}</code>
+                                </h6>
+                                <p class="timeline-text">
+                                    {if $diffMinutes < 1}
+                                        همین الان
+                                    {elseif $diffMinutes < 60}
+                                        {$diffMinutes} دقیقه پیش
+                                    {elseif $diffHours < 24}
+                                        {$diffHours} ساعت پیش
+                                    {else}
+                                        {$diffDays} روز پیش
+                                    {/if}
+                                </p>
                                 <div class="timeline-content">
-                                    <img src="{$userHelper->getUserImage($item.user_id)}" alt="document" height="23" width="19" class="mr-50">
+                                    <img src="{$userHelper->getUserImage($item.user_id)}"
+                                         alt="document"
+                                         height="23"
+                                         width="19"
+                                         class="mr-50">
                                 </div>
                             </li>
                         {/foreach}
