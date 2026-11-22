@@ -33,8 +33,8 @@ const validateDocument = (file_id, validateFile = ["jpeg", "jpg", "png", "pdf"])
             return false;
         }
 
-    })
     return true;
+    })
 };
 // tinymce editor create
 const tinyEditor = (textAreaInput) => {

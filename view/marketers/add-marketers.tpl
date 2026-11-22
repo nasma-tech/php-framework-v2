@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        <form id="mainForm" enctype="multipart/form-data">
+        <form action="add" method="POST" enctype="multipart/form-data">
             {$csrf->csrfTokenInput()}
             <div class="card mt-1 shadow">
                 <div class="card-body">
@@ -88,8 +88,8 @@
                                     <label>تصویر قرارداد امضا شده</label>
                                     <div class="input-group">
 
-                                    <input class="form-control" type="file"  name="contract_image"
-                                           id="contract_image">
+                                        <input class="form-control" type="file" name="contract_image"
+                                               id="contract_image">
                                         <div class="input_group_append">
                                             <button class="bn btn-sm btn-primary viewContract_image"
                                                     type="button"><i class="bx bx-file"></i></button>
@@ -103,39 +103,57 @@
                                 <div class="col-md-3 mt-2">
                                     <label>شناسه ملی</label>
                                     <input class="form-control" dir="ltr" name="company_national_code"
-                                           id="company_national_code" maxlength="11">
+                                           id="company_national_code" maxlength="11" required>
                                 </div>
                                 <div class="col-md-3 mt-2">
                                     <label>نام شرکت</label>
-                                    <input class="form-control" name="company_name" id="company_name">
+                                    <input class="form-control" name="company_name" id="company_name" required>
                                 </div>
                                 <div class="col-md-2 mt-2">
                                     <label>تاریخ ثبت</label>
-                                    <input class="form-control" name="registration_date" id="registration_date">
+                                    <input class="form-control" name="registration_date" id="registration_date" required>
                                 </div>
                                 <div class="col-md-2 mt-2">
                                     <label>نام و نام خانودگی مدیر عامل</label>
                                     <input class="form-control" name="ceo_full_name"
-                                           id="ceo_full_name">
+                                           id="ceo_full_name" required>
                                 </div>
                                 <div class="col-md-2 mt-2">
                                     <label>نام و نام خانودگی رابط</label>
-                                    <input class="form-control" name="connector_full_name" id="connector_full_name">
+                                    <input class="form-control" name="connector_full_name" id="connector_full_name"required>
                                 </div>
                                 <div class="col-md-4 mt-2">
                                     <label>تصویر قرارداد امضا شده</label>
-                                    <input class="form-control" type="file" dir="ltr" name="contract_image_legal"
-                                           id="contract_image_legal">
+                                    <div class="input-group">
+                                        <input class="form-control" type="file" name="contract_image_legal"
+                                               id="contract_image_legal" required>
+                                        <div class="input_group_append">
+                                            <button class="bn btn-sm btn-primary viewContract_image_legal"
+                                                    type="button"><i class="bx bx-file"></i></button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-4 mt-2">
                                     <label>تصویر آخرین روزنامه رسمی</label>
-                                    <input class="form-control" type="file" dir="ltr" name="official_newspaper_image"
-                                           id="official_newspaper_image">
+                                    <div class="input-group">
+                                        <input class="form-control" type="file" name="official_newspaper_image"
+                                               id="official_newspaper_image" required>
+                                        <div class="input_group_append">
+                                            <button class="bn btn-sm btn-primary viewOfficial_newspaper_image"
+                                                    type="button"><i class="bx bx-file"></i></button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-4 mt-2">
                                     <label>تصویر گواهی آخرین تغییرات</label>
-                                    <input class="form-control" type="file" dir="ltr" name="last_changes_image"
-                                           id="last_changes_image">
+                                    <div class="input-group">
+                                        <input class="form-control" type="file"  name="last_changes_image"
+                                               id="last_changes_image" required>
+                                        <div class="input_group_append">
+                                            <button class="bn btn-sm btn-primary viewLast_changes_image"
+                                                    type="button"><i class="bx bx-file"></i></button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -149,7 +167,7 @@
                             <label>گروه بازاریابی</label>
                             <div class="input-group">
                                 <select class="form-control" name="marketing_group_id"
-                                        id="marketing_group_id">
+                                        id="marketing_group_id" required>
                                     <option value="" disabled selected>یکی از موارد رو انتخاب کنید</option>
                                     {foreach $marketingGroups as $data}
                                         <option value="{$data['id']}">{$data['title']}</option>
@@ -166,7 +184,7 @@
 
                         <div class="col-md-3 mt-2">
                             <label>کارشناس</label>
-                            <select class="form-control select2" name="expert_id" id="expert_id">
+                            <select class="form-control select2" name="expert_id" id="expert_id" required>
                                 <option selected disabled>لطفا یک کارشناس را انتخاب کنید</option>
                                 {foreach $experts as $expert}
                                     <option value="{$expert.id}">{$expert.full_name}</option>
@@ -184,7 +202,7 @@
                         </div>
                         <div class="col-md-3 mt-2">
                             <label>شهر</label>
-                            <select class="form-control select2" name="city_id" id="city_id" disabled></select>
+                            <select class="form-control select2" name="city_id" id="city_id" disabled required></select>
                         </div>
                         <div class="col-md-1 mt-2">
                             <label>درصد کمیسیون</label>
@@ -199,11 +217,11 @@
                         <div class="col-md-3 mt-2">
                             <label>شماره کارت</label>
                             <input class="form-control text-center" dir="ltr" name="marketer_cardNumber"
-                                   id="marketer_cardNumber">
+                                   id="marketer_cardNumber" required>
                         </div>
                         <div class="col-md-3 mt-2">
                             <label>بانک</label>
-                            <select class="form-control select2" id="bank_name" name="bank_name">
+                            <select class="form-control select2" id="bank_id" name="bank_id" required>
                                 <option value="" disabled selected>یکی از موارد را انتخاب کنید</option>
                                 {foreach $bankData as $data}
                                     <option value="{$data['id']}">{$data['title']}</option>
@@ -214,13 +232,13 @@
                         <div class="col-md-2 mt-2">
                             <label>شماره حساب</label>
                             <input class="form-control" dir="ltr" name="marketer_accountNumber"
-                                   id="marketer_accountNumber">
+                                   id="marketer_accountNumber" required>
                         </div>
                         <div class="col-md-3 mt-2">
                             <label>شماره شبا</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" dir="ltr" name="marketer_shebaNumber"
-                                       id="marketer_shebaNumber">
+                                       id="marketer_shebaNumber" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text">IR</span>
                                 </div>
@@ -229,6 +247,7 @@
                         <div class="col-md-12 mt-2">
                             <label>آدرس</label>
                             <textarea class="form-control" name="marketer_address" rows="3" style="resize: none"
+                                      id="marketer_address"
                             ></textarea>
                         </div>
                         <div class="col-md-6 mt-2 border">
