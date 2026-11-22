@@ -697,18 +697,18 @@ class ProformaInvoice extends ControllerScheme
                 throw $e;
             }
 
-            if ($find->contract){
+            if ($find->contract) {
                 $makeAddendumData = [
-                    'sale_contract_id'=>$find->contract->id,
-                    'addendum_date'=>time(),
-                    'user_id'=>userObject()->userId,
+                    'sale_contract_id' => $find->contract->id,
+                    'addendum_date' => time(),
+                    'user_id' => userObject()->userId,
                 ];
                 AddendumSaleContractsModel::query()->create($makeAddendumData);
                 $this->successCallBack(
                     "/ProformaInvoice/main",
                     'الحاقیه قراداد با موفقیت ثبت شد.'
                 );
-            }else{
+            } else {
                 $this->successCallBack(
                     "/ProformaInvoice/main",
                     'پیش‌فاکتور با موفقیت ویرایش شد.'
@@ -840,6 +840,8 @@ class ProformaInvoice extends ControllerScheme
                             "brand" => $getData->brand ?? [],
                             "state" => $getData->state ?? [],
                             "city" => $getData->city ?? [],
+                            "getAllocationData" => $this->getAllocationData($getData->id),
+                            "productPart" => $getData->productPart ?? [],
                         ]
                     ],
                     [
@@ -986,7 +988,7 @@ class ProformaInvoice extends ControllerScheme
     public function getInvoicePaymentData($id)
     {
         $invoiceData = ProformaInvoiceDetailsModel::query()->find($id);
-        $paymentAllocation = PaymentAllocationModel::query()->where('invoice_id',$id);
+        $paymentAllocation = PaymentAllocationModel::query()->where('invoice_id', $id);
         $makeData = [
             "invoice_sum" => $invoiceData->invoice_sum,
             "invoice_sum_discount" => $invoiceData->invoice_sum_discount,
@@ -1010,5 +1012,28 @@ class ProformaInvoice extends ControllerScheme
         } else {
             echo 'DeleteFailed';
         }
+    }
+
+    public function getAllocationData(int $invoiceId): array
+    {
+        $get = ProformaInvoiceModel::query()->find($invoiceId);
+
+        if ($get) {
+            foreach ($get->invoiceProduct as $invoiceProduct) {
+                $allocation = $invoiceProduct->allocation;
+
+                $contractAmount = $invoiceProduct->amount;
+                $reservedAmount = $allocation->sum('amount');
+                $remaining = $contractAmount - $reservedAmount;
+
+                $output[$invoiceProduct->id] = [
+                    'contract_amount' => $contractAmount,
+                    'reserved_amount' => $reservedAmount,
+                    'remaining_amount' => $remaining,
+                ];
+            }
+        }
+
+        return $output ?? [];
     }
 }
