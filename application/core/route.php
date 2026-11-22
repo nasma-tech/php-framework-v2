@@ -75,7 +75,7 @@ $router->mount('/dashboard', function () use ($router) {
 $router->mount('/users', function () use ($router) {
     dynamicRoute($router, users::class, [
         [
-            'method' => 'GET',
+            'method' => 'POST',
             'path' => '/getUsersForm',
             'action' => 'getUsersForm'
         ]
@@ -124,7 +124,7 @@ $router->mount('/states', function () use ($router) {
 $router->mount('/cities', function () use ($router) {
     dynamicRoute($router, cities::class, [
         [
-            'method' => 'GET',
+            'method' => 'POST',
             'path' => '/getFilterCities',
             'action' => 'getFilterCities'
         ],
@@ -172,6 +172,7 @@ $router->mount('/IssuingPlace', function () use ($router) {
         ]
     ]);
 });
+
 $router->mount('/UserContactTypes', function () use ($router) {
     dynamicRoute($router, App\Controllers\UserContactTypes\UserContactTypes::class);
 });
@@ -183,9 +184,9 @@ $router->mount('/Products', function () use ($router) {
             'action' => 'getProductData'
         ],
         [
-            'method' => 'GET',
-            'path' => '/getProductDataFilterByBrand',
-            'action' => 'getProductDataFilterByBrand'
+            'method' => 'POST',
+            'path' => '/getProductsFilterForm',
+            'action' => 'getProductsFilterForm'
         ]
     ]);
 });
@@ -204,9 +205,11 @@ $router->mount('/ProductGrad', function () use ($router) {
 $router->mount('/brands', function () use ($router) {
     dynamicRoute($router, App\Controllers\brands\brands::class);
 });
+
 $router->mount('/ProductQualities', function () use ($router) {
     dynamicRoute($router, App\Controllers\ProductQualities\ProductQualities::class);
 });
+
 $router->mount('/ProductsPriceList', function () use ($router) {
     dynamicRoute($router, App\Controllers\ProductsPriceList\ProductsPriceList::class);
 });
@@ -383,14 +386,14 @@ $router->mount('/ContactAcquisitionSources', function () use ($router) {
 $router->mount('/WorkGroups', function () use ($router) {
     dynamicRoute($router, WorkGroups::class, [
         [
-            'method' => 'GET',
+            'method' => 'POST',
             'path' => '/getWorkGroupsIndex',
             'action' => 'getWorkGroupsIndex'
         ]
     ]);
 });
 $router->mount('/Warehouses', function () use ($router) {
-    dynamicRoute($router, App\Controllers\Warehouses\Warehouses::class,[
+    dynamicRoute($router, App\Controllers\Warehouses\Warehouses::class, [
         [
             'method' => 'POST',
             'path' => "/getWarehouseKeepers",
@@ -431,7 +434,7 @@ $router->mount('/ChargesDeductions', function () use ($router) {
     dynamicRoute($router, App\Controllers\ChargesDeductions\ChargesDeductions::class);
 });
 $router->mount('/ProformaInvoiceSettings', function () use ($router) {
-    dynamicRoute($router, App\Controllers\ProformaInvoiceSettings\ProformaInvoiceSettings::class,[
+    dynamicRoute($router, App\Controllers\ProformaInvoiceSettings\ProformaInvoiceSettings::class, [
         [
             'method' => 'GET',
             'path' => "/getChargesDeductionsSetting",
@@ -445,7 +448,7 @@ $router->mount('/ProformaInvoiceSettings', function () use ($router) {
     ]);
 });
 $router->mount('/salesTeam', function () use ($router) {
-    dynamicRoute($router, App\Controllers\salesTeam\salesTeam::class,[
+    dynamicRoute($router, App\Controllers\salesTeam\salesTeam::class, [
         [
             'method' => 'GET',
             'path' => "/permissions/(\d+)",
@@ -548,7 +551,7 @@ $router->mount('/PaymentManagement', function () use ($router) {
     ]);
 });
 $router->mount('/BankAccount', function () use ($router) {
-    dynamicRoute($router, App\Controllers\BankAccount\BankAccount::class,[
+    dynamicRoute($router, App\Controllers\BankAccount\BankAccount::class, [
         [
             'method' => 'GET',
             'path' => "/getAllBankAccountList",
@@ -557,7 +560,7 @@ $router->mount('/BankAccount', function () use ($router) {
     ]);
 });
 $router->mount('/PaymentMethod', function () use ($router) {
-    dynamicRoute($router, App\Controllers\PaymentMethod\PaymentMethod::class,[
+    dynamicRoute($router, App\Controllers\PaymentMethod\PaymentMethod::class, [
         [
             'method' => 'GET',
             'path' => "/getPaymentMethod",
@@ -572,11 +575,23 @@ $router->mount('/WarehouseUsageTypes', function () use ($router) {
     dynamicRoute($router, App\Controllers\WarehouseUsageTypes\WarehouseUsageTypes::class);
 });
 $router->mount('/PaymentAllocation', function () use ($router) {
-    dynamicRoute($router, App\Controllers\PaymentAllocation\PaymentAllocation::class,[
+    dynamicRoute($router, App\Controllers\PaymentAllocation\PaymentAllocation::class, [
         [
             'method' => 'POST',
             'path' => '/submitPaymentAllocation',
             'action' => 'submitPaymentAllocation'
         ]
     ]);
+});
+$router->mount('/SaleContracts', function () use ($router) {
+    dynamicRoute($router, App\Controllers\SaleContracts\SaleContracts::class, [
+        [
+            'method' => 'POST',
+            'path' => '/convertToContract',
+            'action' => 'convertToContract'
+        ]
+    ]);
+});
+$router->mount('/AddendumSaleContracts', function () use ($router) {
+    dynamicRoute($router, App\Controllers\AddendumSaleContracts\AddendumSaleContracts::class);
 });

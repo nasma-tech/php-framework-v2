@@ -4,9 +4,8 @@
         <input class="form-control" type="text" name="ware_house_name" id="ware_house_name" required>
     </div>
     <div class="col-md-3">
-        <label for="warehouse_brand_id">برند</label>
-        <select name="warehouse_brand_id" required class="form-control select2" id="warehouse_brand_id">
-            <option disabled selected>لطفا یک مورد را انتخاب کنید</option>
+        <label for="warehouse_brand_ids">برند</label>
+        <select name="warehouse_brand_ids[]" required class="form-control select2" multiple id="warehouse_brand_ids">
             {foreach $brands As $data}
                 <option value="{$data['id']}">{$data['label']}</option>
             {/foreach}
