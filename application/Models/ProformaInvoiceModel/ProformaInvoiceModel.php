@@ -8,6 +8,7 @@ use App\Models\CompaniesModel\CompaniesModel;
 use App\Models\CustomerContactInformationModel\CustomerContactInformationModel;
 use App\Models\marketersModel\marketersModel;
 use App\Models\PaymentAllocationModel\PaymentAllocationModel;
+use App\Models\ProductPartModel\ProductPartModel;
 use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
 use App\Models\ProformaInvoiceLogModel\ProformaInvoiceLogModel;
 use App\Models\ProformaInvoiceProductsModel\ProformaInvoiceProductsModel;
@@ -115,5 +116,9 @@ class ProformaInvoiceModel extends Model
     }
 
 
+    public function productPart(): HasMany
+    {
+        return $this->hasMany(ProductPartModel::class, 'invoice_id', 'id');
+    }
 
 }
