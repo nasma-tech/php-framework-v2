@@ -39,8 +39,10 @@
                         </td>
                         <td class="border">
                             <div class="input-group">
-                                <input class="form-control" type="text" name="" id=""
-                                       placeholder="{$numberNormalizer->floatNumberFormat($allocationData.reserved_amount)}"
+                                <input class="form-control allocationEnteredAmountInput" type="text" name="" id="allocationEnteredAmountInput_{$item.id}"
+                                       data-
+                                       placeholder="{$numberNormalizer->floatNumberFormat($allocationData.remaining_amount)}"
+                                       data-max="{$allocationData.remaining_amount}"
                                        value=""
                                 >
                                 <div class="input-group-append">
@@ -56,35 +58,44 @@
                 {/foreach}
                 </tbody>
             </table>
-            <button type="button" class="btn btn-sm btn-success">ثبت پارت</button>
+            <button type="button" class="btn btn-sm btn-success" id="submitProductPart">ثبت پارت</button>
         </div>
     </div>
     <div class="col-12">
         <div class="divider">
             <div class="divider-text">لیست پارت ها</div>
-
-            {foreach $productPart as $productPartDatum}
-                <div class="table-responsive">
-                    <table class="table table-hover table-striped">
-                        <thead class="thead-dark">
-                        <tr>
-                            <th class="border">#</th>
-                            <th class="border">نام محصول</th>
-                            <th class="border">مقدار مقدار تخصیص داده شده</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {foreach $productPartDatum.productPartItems|default:[] as $key => $productPartItem}
-                            <tr>
-                                <td class="border">{$key + 1}</td>
-                                <td class="border"></td>
-                                <td class="border"></td>
-                            </tr>
-                        {/foreach}
-                        </tbody>
-                    </table>
-                </div>
-            {/foreach}
         </div>
+    </div>
+    <div class="col-12">
+        {foreach $productPart as $productPartDatum}
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th class="border">#</th>
+                        <th class="border">نام محصول</th>
+                        <th class="border">مقدار مقدار تخصیص داده شده</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach $productPartDatum.productPartItems|default:[] as $key => $productPartItem}
+                        <tr>
+                            <td class="border">{$key + 1}</td>
+                            <td class="border">{$productPartItem.invoiceProduct.product.serial_number}
+                                - {$productPartItem.invoiceProduct.product.label}</td>
+                            <td class="border">
+                                <div class="input-group">
+                                    <input class="form-control" type="text" name="" id=""
+                                           readonly
+                                           value="{$numberNormalizer->floatNumberFormat($productPartItem.amount)}">
+                                    <span class="input-group-text">{$productPartItem.invoiceProduct.product.measurementUnit.label}</span>
+                                </div>
+                            </td>
+                        </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+            </div>
+        {/foreach}
     </div>
 </div>
