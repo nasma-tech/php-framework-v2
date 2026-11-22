@@ -10,6 +10,7 @@
                     <div class="card-header">
                         <h4 class="card-title" style="float: right">افزودن {$singleName} جدید</h4>
                         {$flashMessageHelper->formCallBack()}
+                        {$buttonHelper->refreshAndBackBtn()}
                     </div>
                 </div>
             </div>

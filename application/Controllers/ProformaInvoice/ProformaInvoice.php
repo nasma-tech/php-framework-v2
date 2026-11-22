@@ -839,6 +839,7 @@ class ProformaInvoice extends ControllerScheme
                             "saleTeam" => $getData->saleTeam ?? [],
                             "brand" => $getData->brand ?? [],
                             "state" => $getData->state ?? [],
+                            'countries' => countryModel::query()->get() ?? [],
                             "city" => $getData->city ?? [],
                             "getAllocationData" => $this->getAllocationData($getData->id),
                             "productPart" => $getData->productPart ?? [],
