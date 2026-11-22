@@ -2,6 +2,8 @@
 
 namespace App\Models\EntryWarehousePackageModel;
 
+use App\Models\UserModel\UserModel;
+use App\Models\WarehousesModel\WarehousesModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -14,14 +16,25 @@ class EntryWarehousePackageModel extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        "warehouse_id",
         "title",
         "description",
         "entry_datetime",
         "driver_plaques",
         "documents",
         "user_id",
+        "created_at",
         "updated_at",
         "deleted_at",
     ];
 
+    public function warehouseData()
+    {
+        return $this->belongsTo(warehousesModel::class, 'warehouse_id');
+    }
+
+    public function userData()
+    {
+        return $this->belongsTo(UserModel::class, 'user_id');
+    }
 }

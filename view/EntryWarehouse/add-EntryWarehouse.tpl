@@ -14,11 +14,15 @@
                         <div class="card-content">
                             <div id="DirectEntryWarehouse">
                                 <div class="card-body">
-                                    <form id="mainForm" method="post" enctype="multipart/form-data" action="/EntryWarehouse/add">
+                                    <form method="post" enctype="multipart/form-data" action="/EntryWarehouse/add">
                                         {$csrf->csrfTokenInput()}
 
                                         <div class="row mt-1">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
+                                                <label for="title">عنوان</label>
+                                                <input type="text" class="form-control" name="title" required>
+                                            </div>
+                                            <div class="col-md-3">
                                                 <label for="warehouse_id">انتخاب انبار</label>
                                                 <select class="form-control select2" name="warehouse_id"
                                                         id="warehouse_id">
@@ -29,12 +33,12 @@
                                                     {/foreach}
                                                 </select>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label for="">تاریخ ثبت</label>
                                                 <input class="form-control" type="text" name="" id="" disabled
                                                        value="{jdate("Y/m/d")}">
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label for="">تاریخ ورود</label>
                                                 <input class="form-control" type="text" name="entryDateTime"
                                                        id="entryDateTime"
@@ -53,7 +57,7 @@
                                                 <div class="table-responsive">
                                                     <table class="table table-hover table-striped" id="mainTable">
                                                         <thead class="thead-dark">
-                                                        <tr>
+                                                        <tr class="text-center">
                                                             <th class="border">#</th>
                                                             <th class="border">محصول</th>
                                                             <th class="border">مقدار</th>
@@ -94,59 +98,76 @@
 
                                             <div class="card-body">
                                                 <div class="exitData-plates-list">
-                                                    <div class="exitData-plate-row border rounded p-3 mb-2">
-                                                        <div class="form-row align-items-end">
-                                                            <div class="col-md-3">
-                                                                <label>نوع خودرو</label>
-                                                                <input type="text"
-                                                                       name="driver_plaques[0][car_type]"
-                                                                       class="form-control text-center"
-                                                                       placeholder="مثلاً کامیون">
+                                                    <div class="border rounded p-3 mb-3 exitData-plate-row">
+
+
+                                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                                            <strong>
+                                                                <i class="bx bx-car"></i>
+                                                                پلاک خودرو
+                                                            </strong>
+
+
+                                                        </div>
+                                                        <div class="mt-3">
+                                                            <label>نوع خودرو</label>
+                                                            <input type="text"
+                                                                   name="driver_plaques[0][car_type]"
+                                                                   class="form-control text-center"
+                                                                   placeholder="مثلاً کامیون، سواری، وانت"
+                                                                   autocomplete="off">
+                                                        </div>
+                                                        <div class="iran-input-plate mt-2 col-md-8 " dir="ltr">
+
+                                                            <div class="plate-country">
+                                                                <div class="iran-flag"></div>
+                                                                <strong>I.R.</strong>
+                                                                <strong>IRAN</strong>
                                                             </div>
 
-                                                            <div class="col-md-2">
-                                                                <label>دو رقم اول</label>
+                                                            <div class="plate-input-numbers">
+
                                                                 <input type="text"
                                                                        name="driver_plaques[0][first]"
-                                                                       class="form-control text-center"
                                                                        maxlength="2"
-                                                                       inputmode="numeric">
-                                                            </div>
+                                                                       inputmode="numeric"
+                                                                       class="plate-input plate-digits"
+                                                                       placeholder="۰۰"
+                                                                       autocomplete="off">
 
-                                                            <div class="col-md-2">
-                                                                <label>حرف پلاک</label>
                                                                 <input type="text"
                                                                        name="driver_plaques[0][two]"
-                                                                       class="form-control text-center"
-                                                                       maxlength="1">
-                                                            </div>
+                                                                       maxlength="1"
+                                                                       class="plate-input plate-letter"
+                                                                       placeholder="و"
+                                                                       autocomplete="off">
 
-                                                            <div class="col-md-2">
-                                                                <label>سه رقم پلاک</label>
                                                                 <input type="text"
                                                                        name="driver_plaques[0][three]"
-                                                                       class="form-control text-center"
                                                                        maxlength="3"
-                                                                       inputmode="numeric">
+                                                                       inputmode="numeric"
+                                                                       class="plate-input plate-digits"
+                                                                       placeholder="۰۰۰"
+                                                                       autocomplete="off">
+
                                                             </div>
 
-                                                            <div class="col-md-2">
-                                                                <label>ایران</label>
+                                                            <div class="plate-iran-code">
+                                                                <span>ایران</span>
+
                                                                 <input type="text"
                                                                        name="driver_plaques[0][four]"
-                                                                       class="form-control text-center"
                                                                        maxlength="2"
-                                                                       inputmode="numeric">
+                                                                       inputmode="numeric"
+                                                                       class="plate-input plate-code-input"
+                                                                       placeholder="۰۰"
+                                                                       autocomplete="off">
                                                             </div>
 
-                                                            <div class="col-md-1">
-                                                                <button type="button"
-                                                                        class="btn btn-outline-danger btn-block removePlateBtn"
-                                                                        title="حذف پلاک">
-                                                                    <i class="bx bx-trash"></i>
-                                                                </button>
-                                                            </div>
                                                         </div>
+
+
+
                                                     </div>
                                                 </div>
 
@@ -172,12 +193,12 @@
                                             <div class="card-body">
                                                 <div class="table-responsive">
                                                     <table class="table table-bordered table-hover mb-0 exitData-files-table">
-                                                        <thead class="thead-light">
-                                                        <tr>
-                                                            <th>نام فایل <span class="text-danger">*</span></th>
-                                                            <th>توضیحات</th>
-                                                            <th>فایل <span class="text-danger">*</span></th>
-                                                            <th class="text-center">عملیات</th>
+                                                        <thead class="thead-dark">
+                                                        <tr class="text-center">
+                                                            <th class="border">نام فایل <span class="text-danger">*</span></th>
+                                                            <th class="border">توضیحات</th>
+                                                            <th class="border">فایل <span class="text-danger">*</span></th>
+                                                            <th class="border">عملیات</th>
                                                         </tr>
                                                         </thead>
 
