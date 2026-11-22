@@ -609,6 +609,18 @@ $router->mount('/marketers', function () use ($router) {
         ]
     ]);
 });
+$router->mount('/SaleContracts', function () use ($router) {
+    dynamicRoute($router, App\Controllers\SaleContracts\SaleContracts::class, [
+        [
+            'method' => 'POST',
+            'path' => '/convertToContract',
+            'action' => 'convertToContract'
+        ]
+    ]);
+});
+$router->mount('/AddendumSaleContracts', function () use ($router) {
+    dynamicRoute($router, App\Controllers\AddendumSaleContracts\AddendumSaleContracts::class);
+});
 
 $router->get('/valad', function () {
 

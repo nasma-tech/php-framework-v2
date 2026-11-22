@@ -5,6 +5,7 @@ namespace App\Controllers\ProformaInvoice;
 use App\Controllers\CartableDefinition\cities\cities;
 use App\Controllers\countries\countries;
 use App\Controllers\scheme\ControllerScheme;
+use App\Models\AddendumSaleContractsModel\AddendumSaleContractsModel;
 use App\Models\brandsModel\brandsModel;
 use App\Models\ChargesDeductionsModel\ChargesDeductionsModel;
 use App\Models\CityModel\CityModel;
@@ -50,9 +51,12 @@ class ProformaInvoice extends ControllerScheme
         ],
             ['vendors/css/tables/datatable/datatables.min'],
             [
-                'list' => ProformaInvoiceModel::query()->get()
+                'list' => ProformaInvoiceModel::query()
+                    ->withCount('paymentAllocation')
+                    ->get()
             ])->display('ProformaInvoice/ProformaInvoice.tpl');
     }
+
     public function createProformaInvoice($priceSuggestionId): void
     {
         $getPriceSuggestionData = PriceSuggestionModel::query()->find($priceSuggestionId);
@@ -113,7 +117,7 @@ class ProformaInvoice extends ControllerScheme
             'products' => ProductModel::query()->get(),
             'salesTeam' => SalesTeamModel::query()->get(),
             'invoiceSettings' => $result,
-            'customerCompany'=>CompaniesModel::query()->find($getData->company_id)
+            'customerCompany' => CompaniesModel::query()->find($getData->company_id)
         ])->display('ProformaInvoice/add|edit-ProformaInvoice.tpl');
     }
 
@@ -131,7 +135,7 @@ class ProformaInvoice extends ControllerScheme
         $makeProformaInvoiceData = [
             'price_suggestion_id' => $data['price_suggestion_id'],
             'contact_id' => $data['contact_id'],
-            'company_id'=>$data['customer_company_id'],
+            'company_id' => $data['customer_company_id'],
             'contact_project_followup_id' => $data['contact_project_followup_id'],
             'delivery_date' => $data['delivery_date'],
             'brand_id' => $data['brand_id'],
@@ -416,8 +420,8 @@ class ProformaInvoice extends ControllerScheme
             $data = $this->requestArray();
             $toNumber = static function ($value): float {
                 $value = $value ?? 0;
-                return (float) numberHelper->persianNumberToEnglish(
-                    numberNormalizer->removePriceSeparator((string) $value)
+                return (float)numberHelper->persianNumberToEnglish(
+                    numberNormalizer->removePriceSeparator((string)$value)
                 );
             };
             $connection = $find->getConnection();
@@ -428,9 +432,9 @@ class ProformaInvoice extends ControllerScheme
                         'خطا در ثبت تاریخچه پیش‌فاکتور.'
                     );
                 }
-                $dayValidity = (int) ($data['day_validity'] ?? 0);
+                $dayValidity = (int)($data['day_validity'] ?? 0);
                 $makeProformaInvoiceData = [
-                    'company_id' => (empty($data['customer_company_id']))?:null,
+                    'company_id' => (empty($data['customer_company_id'])) ?: null,
                     'contact_project_followup_id' => $data['contact_project_followup_id'] ?? null,
                     'delivery_date' => $data['delivery_date'] ?? null,
                     'brand_id' => $data['brand_id'],
@@ -482,7 +486,7 @@ class ProformaInvoice extends ControllerScheme
                             ),
                             'charges_deduction_id' => $chargesDeductionId,
                             'title' => $chargesDeductionsInfo->title,
-                            'coefficient' => (float) $chargesDeductionsInfo->coefficient,
+                            'coefficient' => (float)$chargesDeductionsInfo->coefficient,
                             'identifier' => $chargesDeductionsInfo->identifier,
                         ];
                     }
@@ -693,10 +697,23 @@ class ProformaInvoice extends ControllerScheme
                 throw $e;
             }
 
-            $this->successCallBack(
-                "/ProformaInvoice/main",
-                'پیش‌فاکتور با موفقیت ویرایش شد.'
-            );
+            if ($find->contract){
+                $makeAddendumData = [
+                    'sale_contract_id'=>$find->contract->id,
+                    'addendum_date'=>time(),
+                    'user_id'=>userObject()->userId,
+                ];
+                AddendumSaleContractsModel::query()->create($makeAddendumData);
+                $this->successCallBack(
+                    "/ProformaInvoice/main",
+                    'الحاقیه قراداد با موفقیت ثبت شد.'
+                );
+            }else{
+                $this->successCallBack(
+                    "/ProformaInvoice/main",
+                    'پیش‌فاکتور با موفقیت ویرایش شد.'
+                );
+            }
 
         } catch (\Throwable $e) {
 
@@ -714,8 +731,6 @@ class ProformaInvoice extends ControllerScheme
         }
     }
 
-
-
     public function process(int $invoiceId): void
     {
         $_ENV['APP_DEBUG'] = 1;
@@ -724,6 +739,7 @@ class ProformaInvoice extends ControllerScheme
                 'invoiceDetail',
                 'invoiceProduct',
                 'invoiceLog',
+                'contract',
             ])
             ->withCount('invoiceProduct')
             ->withCount('invoiceLog')
@@ -756,32 +772,39 @@ class ProformaInvoice extends ControllerScheme
                     'scriptFile' => 'js/ProformaInvoice/processSteps/stepOne',
                 ],
                 [
+                    'title' => 'قرارداد',
+                    'description' => 'مشاهده واریزی ها و تایید ها جهت تبدیل به قرارداد',
+                    'icon' => 'bx-file-blank',
+                    'stepFile' => 'view/ProformaInvoice/processSteps/stepTwo.tpl',
+                    'scriptFile' => 'js/ProformaInvoice/processSteps/stepTwo',
+                ],
+                [
                     'title' => 'تخصیص محصول',
                     'description' => 'تعیین و تخصیص محصولات به پیش فاکتور',
                     'icon' => 'bx-package',
-                    'stepFile' => 'view/ProformaInvoice/processSteps/stepTwo.tpl',
-                    'scriptFile' => 'js/ProformaInvoice/processSteps/stepTwo',
+                    'stepFile' => 'view/ProformaInvoice/processSteps/stepThree.tpl',
+                    'scriptFile' => 'js/ProformaInvoice/processSteps/stepThree',
                 ],
                 [
                     'title' => 'اعلام خروج',
                     'description' => 'ثبت درخواست خروج و اعلام آمادگی بار برای ارسال',
                     'icon' => 'bx-log-out',
-                    'stepFile' => 'view/ProformaInvoice/processSteps/stepThree.tpl',
-                    'scriptFile' => 'js/ProformaInvoice/processSteps/stepThree',
+                    'stepFile' => 'view/ProformaInvoice/processSteps/stepFour.tpl',
+                    'scriptFile' => 'js/ProformaInvoice/processSteps/stepFour',
                 ],
                 [
                     'title' => 'اعلام آدرس',
                     'description' => 'ثبت آدرس مقصد جهت ارسال و تحویل بار',
                     'icon' => 'bx-map',
-                    'stepFile' => 'view/ProformaInvoice/processSteps/stepFour.tpl',
-                    'scriptFile' => 'js/ProformaInvoice/processSteps/stepFour',
+                    'stepFile' => 'view/ProformaInvoice/processSteps/stepFive.tpl',
+                    'scriptFile' => 'js/ProformaInvoice/processSteps/stepFive',
                 ],
                 [
                     'title' => 'خروج بار',
                     'description' => 'ثبت و پیگیری عملیات خروج و ارسال بار',
                     'icon' => 'bx-truck',
-                    'stepFile' => 'view/ProformaInvoice/processSteps/stepFive.tpl',
-                    'scriptFile' => 'js/ProformaInvoice/processSteps/stepFive',
+                    'stepFile' => 'view/ProformaInvoice/processSteps/stepSix.tpl',
+                    'scriptFile' => 'js/ProformaInvoice/processSteps/stepSix',
                 ],
             ];
 
@@ -799,7 +822,7 @@ class ProformaInvoice extends ControllerScheme
                         "sectionFile" => "view/ProformaInvoice/sectionsProcess/summaryProcess-sectionsProcess.tpl",
                         "scriptFile" => "js/ProformaInvoice/sectionsProcess/summaryProcess-sectionsProcess",
                         "variables" => [
-                            "invoiceLog"=>$getData->invoiceLog
+                            "invoiceLog" => $getData->invoiceLog
                         ]
                     ],
                     [
@@ -880,6 +903,7 @@ class ProformaInvoice extends ControllerScheme
                     "description" => "",
                     "href" => "/ProformaInvoice/editIndex/{$invoiceId}",
                     "icon" => "bx-edit warning",
+                    "target" => "blank",
                     "scriptFile" => ''
                 ],
                 [
