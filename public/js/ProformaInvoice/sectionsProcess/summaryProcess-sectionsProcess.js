@@ -9,7 +9,7 @@ $(function () {
         if (!isNaN(price)) {
             makeData.push(price);
             makeLabels.push(
-                index === 0 ? 'نسخه اولیه' : `ویرایش ${index}`
+                date
             );
             makeDates.push(date);
         }
