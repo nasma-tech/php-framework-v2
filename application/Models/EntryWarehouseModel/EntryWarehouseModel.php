@@ -35,4 +35,5 @@ class EntryWarehouseModel extends Model
     {
         return $this->belongsTo(productModel::class, 'product_id', 'id');
     }
+
 }
