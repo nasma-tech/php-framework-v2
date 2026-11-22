@@ -589,6 +589,11 @@ $router->mount('/SaleContracts', function () use ($router) {
             'method' => 'POST',
             'path' => '/convertToContract',
             'action' => 'convertToContract'
+        ],
+        [
+            'method' => 'GET',
+            'path' => '/saleContractDetail/(\d+)',
+            'action' => 'saleContractDetail'
         ]
     ]);
 });
