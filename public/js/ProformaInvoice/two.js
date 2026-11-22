@@ -296,7 +296,7 @@ $(function () {
                 denyButtonText: 'انصراف',
                 preConfirm: () => {
                     $.ajax({
-                        url: '/PriceSuggestion/removeProductRow',
+                        url: '/ProformaInvoice/removeProductRow',
                         type: 'POST',
                         data: {
                             id: $(this).data('id')

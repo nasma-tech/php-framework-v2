@@ -6,9 +6,12 @@
             </div>
             <div class="row">
                 <div style="display: none">
-                    <input name="contact_id" readonly type="hidden" value="{$priceSuggestionData.contact_id|default:$getData.contact_id}">
-                    <input name="price_suggestion_id" readonly type="hidden" value="{$priceSuggestionData.id|default:$getData.price_suggestion_id}">
-                    <input name="contact_project_followup_id" readonly type="hidden" value="{$priceSuggestionData.followUpData.id|default:$getData.contact_project_followup_id}">
+                    <input name="contact_id" readonly type="hidden"
+                           value="{$priceSuggestionData.contact_id|default:$getData.contact_id}">
+                    <input name="price_suggestion_id" readonly type="hidden"
+                           value="{$priceSuggestionData.id|default:$getData.price_suggestion_id}">
+                    <input name="contact_project_followup_id" readonly type="hidden"
+                           value="{$priceSuggestionData.followUpData.id|default:$getData.contact_project_followup_id}">
                 </div>
                 <div class="col-md-2 mt-2">
                     <label for="">انتخاب تیم</label>
@@ -22,6 +25,7 @@
                 <div class="col-md-3 mt-2">
                     <label for="">مشتری</label>
                     <input class="form-control" required readonly
+                           id="contact_name"
                            value="{$priceSuggestionData.contactData.first_name|default:$getData.contact.first_name} {$priceSuggestionData.contactData.last_name|default:$getData.contact.last_name}">
                 </div>
                 <div class="col-md-3 mt-2">
@@ -33,6 +37,7 @@
                                     data-original-title="افزودن شرکت"><i class="bx bx-plus"></i></button>
                         </div>
                         <input type="text" class="form-control" id="customer_company_title" readonly
+                               value="{$customerCompany.national_ID|default:''} - {$customerCompany.company_name|default:''}"
                                placeholder="انتخاب نشده است">
                         <div class="input-group-append">
                             <button class="btn btn-sm btn-primary" id="searchCustomerCompanyButton" type="button"
@@ -40,7 +45,7 @@
                                         class="bx bx-search"></i></button>
                         </div>
                     </div>
-                    <input readonly="readonly" id="customer_company_id" name="customer_company_id" type="hidden">
+                    <input readonly="readonly" id="customer_company_id" value="{$getData.company_id|default:''}" name="customer_company_id" type="hidden">
                 </div>
                 <div class="col-md-2 mt-2">
                     <label for="">تاریخ صدور</label>

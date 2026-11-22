@@ -49,8 +49,8 @@
                                                 <td class="border">{$item.invoice_number}</td>
                                                 <td class="border">{jdate("Y/m/d",strtotime($item.created_at))}</td>
                                                 <td class="border">{jdate("H:i",strtotime($item.created_at))}</td>
-                                                <td class="border">{($item.updated_at != $item.created_at)?jdate("Y/m/d",strtotime($item.updated_at)):' - '}</td>
-                                                <td class="border">{jdate("H:i",strtotime($item.updated_at))}</td>
+                                                <td class="border">{(strtotime($item.updated_at) != strtotime($item.created_at))?jdate("Y/m/d",strtotime($item.updated_at)):' - '}</td>
+                                                <td class="border">{(strtotime($item.updated_at) != strtotime($item.created_at))?jdate("H:i",strtotime($item.updated_at)):' - '}</td>
                                                 <td class="border">{$item.contact.first_name} {$item.contact.last_name}</td>
                                                 <td class="border">{$item.company.company_name|default:'-'}</td>
                                                 <td class="border">{$item.brand.label}</td>
