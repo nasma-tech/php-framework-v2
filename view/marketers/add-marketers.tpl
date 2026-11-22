@@ -1,309 +1,283 @@
-
 {include 'sections/header.tpl'}
 {include 'sections/top-bar.tpl'}
 {include 'sections/side-menu.tpl'}
 
 <div class="app-content content">
     <div class="content-wrapper">
-        {$flashMessageHelper->formCallBack()}
-
         <div class="row">
-            <div class="col-12">
-                <div class="card shadow">
+            <div class="col-md-12">
+                <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title float-right">افزودن {$singleName} جدید</h4>
-                        {$buttonHelper->refreshAndBackButton()}
-                    </div>
-
-                    <div class="card-content">
-                        <div class="card-body">
-                            <form action="add" method="POST" enctype="multipart/form-data">
-                                {$csrf->csrfTokenInput()}
-
-                                <input type="hidden" name="marketer_type" id="marketer_type" value="1">
-
-                                <ul class="nav nav-pills nav-justified mb-3" id="marketerInfoTab" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#personalInfo" role="tab">
-                                            اطلاعات شخص
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#generalInfo" role="tab">
-                                            اطلاعات عمومی و همکاری
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#bankInfo" role="tab">
-                                            اطلاعات بانکی
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#contactInfo" role="tab">
-                                            اطلاعات تماس و آدرس
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#documentsInfo" role="tab">
-                                            مدارک و مستندات
-                                        </a>
-                                    </li>
-                                </ul>
-
-                                <div class="tab-content pt-2">
-
-                                    {* اطلاعات شخص حقیقی و حقوقی *}
-                                    <div class="tab-pane fade show active" id="personalInfo" role="tabpanel">
-
-                                        <ul class="nav nav-tabs nav-justified mb-3" id="marketerTypeTab" role="tablist">
-                                            <li class="nav-item">
-                                                <a class="nav-link active"
-                                                   data-toggle="tab"
-                                                   href="#natural"
-                                                   role="tab"
-                                                   data-type="1">
-                                                    حقیقی
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link"
-                                                   data-toggle="tab"
-                                                   href="#legal"
-                                                   role="tab"
-                                                   data-type="2">
-                                                    حقوقی
-                                                </a>
-                                            </li>
-                                        </ul>
-
-                                        <div class="tab-content" id="marketerTypeContent">
-
-                                            <div class="tab-pane fade show active" id="natural" role="tabpanel">
-                                                <div class="row">
-                                                    <div class="col-md-4 form-group">
-                                                        <label>نام و نام خانوادگی</label>
-                                                        <input type="text" name="marketer_full_name" class="form-control">
-                                                    </div>
-
-                                                    <div class="col-md-4 form-group">
-                                                        <label>کد ملی</label>
-                                                        <input type="text" name="marketer_national_code" class="form-control">
-                                                    </div>
-
-                                                    <div class="col-md-4 form-group">
-                                                        <label>جنسیت</label>
-                                                        <select name="marketer_gender" class="form-control">
-                                                            <option value="">انتخاب کنید</option>
-                                                            <option value="1">مرد</option>
-                                                            <option value="2">زن</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="col-md-4 form-group">
-                                                        <label>تاریخ تولد</label>
-                                                        <input type="text" name="birth_date" class="form-control">
-                                                    </div>
-
-                                                    <div class="col-md-4 form-group">
-                                                        <label>تصویر روی کارت ملی</label>
-                                                        <input type="file" name="front_national_card_image" class="form-control-file" accept="image/*">
-                                                    </div>
-
-                                                    <div class="col-md-4 form-group">
-                                                        <label>تصویر پشت کارت ملی</label>
-                                                        <input type="file" name="back_national_card_image" class="form-control-file" accept="image/*">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="tab-pane fade" id="legal" role="tabpanel">
-                                                <div class="row">
-                                                    <div class="col-md-4 form-group">
-                                                        <label>نام شرکت</label>
-                                                        <input type="text" name="company_name" class="form-control">
-                                                    </div>
-
-                                                    <div class="col-md-4 form-group">
-                                                        <label>شناسه ملی شرکت</label>
-                                                        <input type="text" name="company_national_code" class="form-control">
-                                                    </div>
-
-                                                    <div class="col-md-4 form-group">
-                                                        <label>تاریخ ثبت شرکت</label>
-                                                        <input type="text" name="registration_date" class="form-control">
-                                                    </div>
-
-                                                    <div class="col-md-6 form-group">
-                                                        <label>نام مدیرعامل</label>
-                                                        <input type="text" name="ceo_full_name" class="form-control">
-                                                    </div>
-
-                                                    <div class="col-md-6 form-group">
-                                                        <label>نام رابط شرکت</label>
-                                                        <input type="text" name="connector_full_name" class="form-control">
-                                                    </div>
-
-                                                    <div class="col-md-6 form-group">
-                                                        <label>روزنامه رسمی</label>
-                                                        <input type="file" name="official_newspaper_image" class="form-control-file" accept="image/*,.pdf">
-                                                    </div>
-
-                                                    <div class="col-md-6 form-group">
-                                                        <label>قرارداد حقوقی</label>
-                                                        <input type="file" name="contract_image_legal" class="form-control-file" accept="image/*,.pdf">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    {* اطلاعات عمومی و همکاری *}
-                                    <div class="tab-pane fade" id="generalInfo" role="tabpanel">
-                                        <div class="row">
-                                            <div class="col-md-4 form-group">
-                                                <label>گروه بازاریابی</label>
-                                                <div class="input-group">
-                                                    <select name="marketing_group_id" class="form-control">
-                                                        <option value="">انتخاب گروه</option>
-                                                        {foreach $marketingGroups|default:[] as $group}
-                                                            <option value="{$group.id}">{$group.title}</option>
-                                                        {/foreach}
-                                                    </select>
-
-                                                    <div class="input-group-append">
-                                                        <button type="button" class="btn btn-outline-primary"
-                                                                data-toggle="modal" data-target="#marketingGroupModal">
-                                                            مدیریت گروه‌ها
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4 form-group">
-                                                <label>درصد پورسانت</label>
-                                                <div class="input-group">
-                                                    <input type="number" name="commissionPercentage"
-                                                           class="form-control" min="0" max="100" step="0.01">
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4 form-group">
-                                                <label>کارشناس مربوطه</label>
-                                                <select name="expert_id" class="form-control">
-                                                    <option value="">انتخاب کارشناس</option>
-                                                    {foreach $experts|default:[] as $expert}
-                                                        <option value="{$expert.id}">{$expert.full_name}</option>
-                                                    {/foreach}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {* اطلاعات بانکی *}
-                                    <div class="tab-pane fade" id="bankInfo" role="tabpanel">
-                                        <div class="row">
-                                            <div class="col-md-3 form-group">
-                                                <label>بانک</label>
-                                                <select name="bank_id" class="form-control">
-                                                    <option value="">انتخاب بانک</option>
-                                                    {foreach $banks|default:[] as $bank}
-                                                        <option value="{$bank.id}">{$bank.title}</option>
-                                                    {/foreach}
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3 form-group">
-                                                <label>شماره حساب</label>
-                                                <input type="text" name="marketer_accountNumber" class="form-control">
-                                            </div>
-
-                                            <div class="col-md-3 form-group">
-                                                <label>شماره شبا</label>
-                                                <input type="text" name="marketer_shebaNumber" class="form-control">
-                                            </div>
-
-                                            <div class="col-md-3 form-group">
-                                                <label>شماره کارت</label>
-                                                <input type="text" name="marketer_cardNumber" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {* اطلاعات تماس و آدرس *}
-                                    <div class="tab-pane fade" id="contactInfo" role="tabpanel">
-                                        <div class="row">
-                                            <div class="col-md-4 form-group">
-                                                <label>استان</label>
-                                                <select name="state_id" id="state_id" class="form-control">
-                                                    <option value="">انتخاب استان</option>
-                                                    {foreach $states|default:[] as $state}
-                                                        <option value="{$state.id}">{$state.title}</option>
-                                                    {/foreach}
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-4 form-group">
-                                                <label>شهر</label>
-                                                <select name="city_id" id="city_id" class="form-control">
-                                                    <option value="">ابتدا استان را انتخاب کنید</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-4 form-group">
-                                                <label>تلفن ثابت</label>
-                                                <input type="text" name="marketer_phones" class="form-control">
-                                            </div>
-
-                                            <div class="col-md-4 form-group">
-                                                <label>شماره موبایل</label>
-                                                <input type="text" name="marketer_mobiles" class="form-control">
-                                            </div>
-
-                                            <div class="col-md-8 form-group">
-                                                <label>آدرس</label>
-                                                <textarea name="marketer_address" class="form-control" rows="2"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {* مدارک و مستندات *}
-                                    <div class="tab-pane fade" id="documentsInfo" role="tabpanel">
-                                        <div class="row">
-                                            <div class="col-md-6 form-group">
-                                                <label>تصویر قرارداد</label>
-                                                <input type="file" name="contract_image" class="form-control-file" accept="image/*,.pdf">
-                                            </div>
-
-                                            <div class="col-md-6 form-group">
-                                                <label>تصویر آخرین تغییرات</label>
-                                                <input type="file" name="last_changes_image" class="form-control-file" accept="image/*,.pdf">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="text-right mt-3">
-                                    <button type="submit" class="btn btn-primary">
-                                        ثبت بازاریاب
-                                    </button>
-                                    <a href="index" class="btn btn-light">بازگشت</a>
-                                </div>
-
-                            </form>
-                        </div>
+                        <h4 class="card-title" style="float: right">افزودن {$singleName} جدید</h4>
+                        {$flashMessageHelper->formCallBack()}
                     </div>
                 </div>
             </div>
         </div>
+        <form id="mainForm" enctype="multipart/form-data">
+            {$csrf->csrfTokenInput()}
+            <div class="card mt-1 shadow">
+                <div class="card-body">
+                    <input type="hidden" value="person" id="marketer_type" name="marketer_type">
+                    <ul class="nav nav-tabs justify-content-center" role="tablist">
+                        <li class="nav-item current">
+                            <a class="nav-link marketerTypeButton active" id="person-tab-center" data-toggle="tab"
+                               href="#person"
+                               aria-controls="person" role="tab" aria-selected="true">
+                                حقیقی
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link marketerTypeButton" id="legal-tab-center" data-toggle="tab" href="#legal"
+                               aria-controls="legal" role="tab" aria-selected="false">
+                                حقوقی
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="person" aria-labelledby="person-tab-center"
+                             role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-3 mt-2 genderMain">
+                                    <label>جنسیت</label>
+                                    <select class="form-control select2" name="marketer_gender" required>
+                                        <option selected disabled>لطفا یک مورد را انتخاب کنید</option>
+                                        <option value="Mr">آقا</option>
+                                        <option value="Mrs">خانم</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mt-2">
+                                    <label>نام و نام خانوادگی</label>
+                                    <input class="form-control" name="marketer_full_name" required>
+                                </div>
+                                <div class="col-md-3 mt-2">
+                                    <label>تاریخ تولد</label>
+                                    <input class="form-control" id="birth_date" readonly name="birth_date" required>
+                                </div>
+                                <div class="col-md-3 mt-2">
+                                    <label>شماره ملی</label>
+                                    <input class="form-control" dir="ltr" name="marketer_national_code"
+                                           id="marketer_national_code" required>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <label>تصویر روی کارت ملی</label>
+                                    <div class="input-group">
+                                        <input class="form-control" type="file"
+                                               name="front_national_card_image"
+                                               id="front_national_card_image">
+                                        <div class="input-group-append">
+                                            <button class="bn btn-sm btn-primary viewFront_national_card_image"
+                                                    type="button"><i class="bx bx-file"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <label>تصویر پشت کارت ملی</label>
+                                    <div class="input-group">
+                                        <input class="form-control" type="file"
+                                               name="back_national_card_image"
+                                               id="back_national_card_image">
+                                        <div class="input-group-append">
+                                            <button class="bn btn-sm btn-primary viewBack_national_card_image"
+                                                    type="button"><i class="bx bx-file"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <label>تصویر قرارداد امضا شده</label>
+                                    <div class="input-group">
+
+                                    <input class="form-control" type="file"  name="contract_image"
+                                           id="contract_image">
+                                        <div class="input_group_append">
+                                            <button class="bn btn-sm btn-primary viewContract_image"
+                                                    type="button"><i class="bx bx-file"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="legal" aria-labelledby="legal-tab-center" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-3 mt-2">
+                                    <label>شناسه ملی</label>
+                                    <input class="form-control" dir="ltr" name="company_national_code"
+                                           id="company_national_code" maxlength="11">
+                                </div>
+                                <div class="col-md-3 mt-2">
+                                    <label>نام شرکت</label>
+                                    <input class="form-control" name="company_name" id="company_name">
+                                </div>
+                                <div class="col-md-2 mt-2">
+                                    <label>تاریخ ثبت</label>
+                                    <input class="form-control" name="registration_date" id="registration_date">
+                                </div>
+                                <div class="col-md-2 mt-2">
+                                    <label>نام و نام خانودگی مدیر عامل</label>
+                                    <input class="form-control" name="ceo_full_name"
+                                           id="ceo_full_name">
+                                </div>
+                                <div class="col-md-2 mt-2">
+                                    <label>نام و نام خانودگی رابط</label>
+                                    <input class="form-control" name="connector_full_name" id="connector_full_name">
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <label>تصویر قرارداد امضا شده</label>
+                                    <input class="form-control" type="file" dir="ltr" name="contract_image_legal"
+                                           id="contract_image_legal">
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <label>تصویر آخرین روزنامه رسمی</label>
+                                    <input class="form-control" type="file" dir="ltr" name="official_newspaper_image"
+                                           id="official_newspaper_image">
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <label>تصویر گواهی آخرین تغییرات</label>
+                                    <input class="form-control" type="file" dir="ltr" name="last_changes_image"
+                                           id="last_changes_image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-1 shadow">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mt-2">
+                            <label>گروه بازاریابی</label>
+                            <div class="input-group">
+                                <select class="form-control" name="marketing_group_id"
+                                        id="marketing_group_id">
+                                    <option value="" disabled selected>یکی از موارد رو انتخاب کنید</option>
+                                    {foreach $marketingGroups as $data}
+                                        <option value="{$data['id']}">{$data['title']}</option>
+                                    {/foreach}
+                                </select>
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-sm btn-primary"
+                                            data-toggle="modal" data-target="#marketingGroupModal">
+                                        <i class="bx bx-cog"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 mt-2">
+                            <label>کارشناس</label>
+                            <select class="form-control select2" name="expert_id" id="expert_id">
+                                <option selected disabled>لطفا یک کارشناس را انتخاب کنید</option>
+                                {foreach $experts as $expert}
+                                    <option value="{$expert.id}">{$expert.full_name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                        <div class="col-md-3 mt-2">
+                            <label>استان</label>
+                            <select class="form-control select2" name="state_id" id="state_id" required>
+                                <option selected disabled>لطفا یک مورد را انتخاب کنید</option>
+                                {foreach $states as $item}
+                                    <option value="{$item->id}">{$item->title}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                        <div class="col-md-3 mt-2">
+                            <label>شهر</label>
+                            <select class="form-control select2" name="city_id" id="city_id" disabled></select>
+                        </div>
+                        <div class="col-md-1 mt-2">
+                            <label>درصد کمیسیون</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control text-center" name="commissionPercentage"
+                                       id="commissionPercentage" required>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mt-2">
+                            <label>شماره کارت</label>
+                            <input class="form-control text-center" dir="ltr" name="marketer_cardNumber"
+                                   id="marketer_cardNumber">
+                        </div>
+                        <div class="col-md-3 mt-2">
+                            <label>بانک</label>
+                            <select class="form-control select2" id="bank_name" name="bank_name">
+                                <option value="" disabled selected>یکی از موارد را انتخاب کنید</option>
+                                {foreach $bankData as $data}
+                                    <option value="{$data['id']}">{$data['title']}</option>
+                                {/foreach}
+                            </select>
+
+                        </div>
+                        <div class="col-md-2 mt-2">
+                            <label>شماره حساب</label>
+                            <input class="form-control" dir="ltr" name="marketer_accountNumber"
+                                   id="marketer_accountNumber">
+                        </div>
+                        <div class="col-md-3 mt-2">
+                            <label>شماره شبا</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" dir="ltr" name="marketer_shebaNumber"
+                                       id="marketer_shebaNumber">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">IR</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-2">
+                            <label>آدرس</label>
+                            <textarea class="form-control" name="marketer_address" rows="3" style="resize: none"
+                            ></textarea>
+                        </div>
+                        <div class="col-md-6 mt-2 border">
+                            <label class="mt-2">شماره تماس ثابت</label>
+                            <div class="row mb-5 mainPhone">
+                                <div class="col-lg-12 mt-2">
+                                    <button type="button" class="btn btn-primary btn-sm addPhoneButton"
+                                            data-original-title="افزودن فیلد شماره تماس ثابت"><i class="bx bx-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="col-md-6 mt-2">
+                                    <label>شماره تماس ثابت</label>
+                                    <input class="form-control" name="marketer_phones[]" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-2 border">
+                            <label class="mt-2">شماره همراه</label>
+                            <div class="row mb-5 mainMobile">
+                                <div class="col-lg-12 mt-2">
+                                    <button type="button" class="btn btn-primary btn-sm addMobileButton"
+                                            data-toggle="tooltip" data-placement="left" title=""
+                                            data-original-title="افزودن فیلد شماره موبایل"><i class="bx bx-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="col-md-6 mt-2">
+                                    <label>شماره موبایل</label>
+                                    <input class="form-control" name="marketer_mobiles[]" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-2">
+                        <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
+                            <button
+                                    class="btn btn-primary btn-sm glow mb-1 mb-sm-0 mr-0 mr-sm-1">ثبت
+                                اطلاعات
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
     </div>
 </div>
 
-{* Modal مدیریت گروه‌های بازاریابی *}
+
+{include 'sections/footer.tpl'}
 <div class="modal fade" id="marketingGroupModal" tabindex="-1" role="dialog"
      aria-labelledby="marketingGroupModalLabel" aria-hidden="true">
 
@@ -337,9 +311,3 @@
         </div>
     </div>
 </div>
-
-<script>
-
-</script>
-
-{include 'sections/footer.tpl'}

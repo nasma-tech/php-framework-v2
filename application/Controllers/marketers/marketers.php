@@ -3,8 +3,11 @@
 namespace App\Controllers\marketers;
 
 use App\Controllers\scheme\ControllerScheme;
+use App\Models\BankModel\BankModel;
 use App\Models\marketerGroupModel\marketerGroupModel;
 use App\Models\marketersModel\marketersModel;
+use App\Models\StateModel\StateModel;
+use App\Models\UserModel\UserModel;
 
 class marketers extends ControllerScheme
 {
@@ -45,6 +48,10 @@ class marketers extends ControllerScheme
             'js/marketers/add-marketers'
         ], [],
             [//vars
+                'marketingGroups' => marketerGroupModel::query()->get(),
+                'bankData' => bankModel::query()->get(),
+                'states' => stateModel::query()->where('country_id',102)->get(),
+                'experts' => userModel::query()->get(),
             ]
         )->display('marketers/add-marketers.tpl');
     }

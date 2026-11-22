@@ -3,6 +3,7 @@
 namespace App\Controllers\CartableDefinition\cities;
 
 use App\Controllers\scheme\ControllerScheme;
+use App\Models\BankModel\BankModel;
 use App\Models\CityModel\CityModel;
 use App\Models\CountryModel\CountryModel;
 use App\Models\StateModel\StateModel;
@@ -61,7 +62,8 @@ class cities extends ControllerScheme
             'js/cities/cities'
         ], '', [
             'country' => CountryModel::all(),
-            'states' => StateModel::all()
+            'states' => StateModel::all(),
+            'banks' => BankModel::all(),
         ])->display('cities/edit-cities.tpl');
     }
 

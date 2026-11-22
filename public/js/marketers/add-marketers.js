@@ -1,23 +1,55 @@
-
 $(function () {
+    $("#marketer_national_code").numberInput();
+    $("#company_national_code").numberInput(11);
+    $("#marketer_mobiles").numberInput();
+    $("#marketer_shebaNumber").numberInput();
+    $("#marketer_accountNumber").numberInput();
+    $("#commissionPercentage").numberInput(3, true, 100);
+    $("#birth_date").datePicker("attr", "today");
+
+    $("#marketer_cardNumber").on('input', function () {
+        let value = this.value.replace(/\D/g, '').slice(0, 16);
+        this.value = value.replace(/(\d{4})(?=\d)/g, '$1-');
+    });
+
+    $('input[name="marketer_phones[]"]').on('input', function () {
+        let value = this.value.replace(/\D/g, '');
+        this.value = value.replace(/^(\d{3})(?=\d)/, '$1-');
+    });
+
+    $('input[name="marketer_mobiles[]"]').numberInput();
+    $('input[name="marketer_phones[]"]').numberInput();
+
+    validateDocument("contract_image");
+    validateDocument("front_national_card_image");
+    validateDocument("last_changes_image");
+
+    function getCity(state_id) {
+        return $.ajax({
+            url: '/cities/getFilterCities',
+            method: "POST",
+            data: {value: state_id},
+            dataType: "json"
+        });
+    }
+
     const config = {
         marketerDataUrl: '/marketers/MarketerData',
         addUrl: '/marketers/addMarketerGroup',
         editUrl: '/marketers/editMarketeGroup/'
     };
 
-    $('#marketerTypeTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        let type = $(e.target).data('type');
+    $('.marketerTypeButton').on('shown.bs.tab', function (e) {
         let target = $(e.target).attr('href');
+        let type = target.replace('#', '');
 
         $('#marketer_type').val(type);
 
-        $('#marketerTypeContent .tab-pane').each(function () {
-            $(this).find(':input').prop('disabled', $(this).attr('id') !== target.replace('#', ''));
-        });
+        $('#person, #legal').find(':input').prop('disabled', true);
+        $(target).find(':input').prop('disabled', false);
     });
 
-    $('#marketerTypeContent .tab-pane').not('#natural').find(':input').prop('disabled', true);
+    $('#legal').find(':input').prop('disabled', true);
 
     function loadMarketerGroups() {
         $('#marketingGroupContent').html(`
@@ -146,6 +178,8 @@ $(function () {
             type: 'POST',
             data: $(this).serialize(),
             success: function (response) {
+                response = $.trim(response);
+
                 if (response === 'addSucess' || response === 'editSucess') {
                     loadMarketerGroups();
                     return;
@@ -158,4 +192,74 @@ $(function () {
             }
         });
     });
+    const phoneField = (counter) => {
+        return `
+      <div class="col-md-6 mt-2 mainPhoneDelete_${counter}">
+      <label>شماره تماس ثابت</label>
+          <div class="input-group">
+            <input class="form-control marketer_phones" name="marketer_phones[]">
+            <div class="input-group-append">
+              <button class="btn btn-danger deleteButton" data-delete="mainPhoneDelete_${counter}" type="button" >حذف</button>
+            </div>
+        </div>
+      </div>
+      `;
+    }
+    const mobileField = (counter) => {
+        return `
+      <div class="col-md-6 mt-2 mainMobileDelete_${counter}">
+      <label>شماره موبایل</label>
+          <div class="input-group">
+            <input class="form-control marketer_mobiles" name="marketer_mobiles[]" required>
+            <div class="input-group-append">
+              <button class="btn btn-danger deleteButton" data-delete="mainMobileDelete_${counter}" type="button" >حذف</button>
+            </div>
+        </div>
+      </div>
+      `;
+    };
+    $("#state_id").on('change', async function () {
+        let id = $(this).val();
+
+        $("#city_id").empty().prop('disabled', true)
+            .append('<option value="">در حال دریافت شهرها...</option>');
+
+        if (!id) {
+            $("#city_id").html('<option value="">ابتدا استان را انتخاب کنید</option>');
+            return;
+        }
+
+        try {
+            const result = await getCity(id);
+
+            const options = result.map(data =>
+                `<option value="${data.id}">${data.title}</option>`
+            ).join('');
+
+            $("#city_id").html(
+                '<option value="">انتخاب شهر</option>' + options
+            ).prop('disabled', false);
+
+        } catch (error) {
+            $("#city_id").html('<option value="">خطا در دریافت شهرها</option>');
+        }
+    });
+    let countPhone = 0;
+    $('.addPhoneButton').on('click', function () {
+        $(".mainPhone").append(phoneField(countPhone))
+        countPhone++;
+        $(".deleteButton").on('click', function () {
+            let deleteField = $(this).data('delete')
+            $("." + deleteField).remove()
+        })
+    })
+    let countMobile = 0;
+    $('.addMobileButton').on('click', function () {
+        $(".mainMobile").append(mobileField(countMobile))
+        countMobile++;
+        $(".deleteButton").on('click', function () {
+            let deleteField = $(this).data('delete')
+            $("." + deleteField).remove()
+        })
+    })
 });
