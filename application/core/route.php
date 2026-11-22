@@ -172,7 +172,6 @@ $router->mount('/IssuingPlace', function () use ($router) {
         ]
     ]);
 });
-
 $router->mount('/UserContactTypes', function () use ($router) {
     dynamicRoute($router, App\Controllers\UserContactTypes\UserContactTypes::class);
 });
@@ -205,11 +204,9 @@ $router->mount('/ProductGrad', function () use ($router) {
 $router->mount('/brands', function () use ($router) {
     dynamicRoute($router, App\Controllers\brands\brands::class);
 });
-
 $router->mount('/ProductQualities', function () use ($router) {
     dynamicRoute($router, App\Controllers\ProductQualities\ProductQualities::class);
 });
-
 $router->mount('/ProductsPriceList', function () use ($router) {
     dynamicRoute($router, App\Controllers\ProductsPriceList\ProductsPriceList::class);
 });
@@ -224,6 +221,11 @@ $router->mount('/ProformaInvoice', function () use ($router) {
             'method' => 'GET',
             'path' => '/createProformaInvoice(/\d+)',
             'action' => 'createProformaInvoice'
+        ],
+        [
+            'method' => 'POST',
+            'path' => '/removeProductRow',
+            'action' => 'removeProductRow'
         ]
     ]);
 });
@@ -247,7 +249,6 @@ $router->mount('/ProductCategories', function () use ($router) {
 $router->mount('/MeasurementUnit', function () use ($router) {
     dynamicRoute($router, App\Controllers\MeasurementUnit\MeasurementUnit::class);
 });
-
 $router->mount('/ContactPhoneLabel', function () use ($router) {
     dynamicRoute($router, App\Controllers\ContactPhoneLabel\ContactPhoneLabel::class, [
         [

@@ -265,18 +265,14 @@
                                         </thead>
                                         <tbody id="mainChargesDeductions">
                                         {assign var="decodeChargesDeductions" value=json_decode($getData.invoiceDetail.charges_deductions|default:'[]', true)}
-
-                                        {foreach $invoiceSettings as $item}
-
+                                        {foreach $invoiceSettings|default:[] as $item}
                                             {assign var="isChecked" value=false}
-
                                             {foreach $decodeChargesDeductions as $selectedItem}
                                                 {if $selectedItem.charges_deduction_id == $item.charges_deduction_id}
                                                     {assign var="isChecked" value=true}
                                                     {break}
                                                 {/if}
                                             {/foreach}
-
                                             <tr>
                                                 <td class="border">{$item.title}</td>
                                                 <td class="border">

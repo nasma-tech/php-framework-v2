@@ -7,6 +7,7 @@ use App\Models\CityModel\CityModel;
 use App\Models\CompaniesModel\CompaniesModel;
 use App\Models\CustomerContactInformationModel\CustomerContactInformationModel;
 use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
+use App\Models\ProformaInvoiceLogModel\ProformaInvoiceLogModel;
 use App\Models\ProformaInvoiceProductsModel\ProformaInvoiceProductsModel;
 use App\Models\SalesTeamModel\SalesTeamModel;
 use App\Models\StateModel\StateModel;
@@ -88,6 +89,11 @@ class ProformaInvoiceModel extends Model
     public function invoiceDetail(): HasOne
     {
         return $this->hasOne(ProformaInvoiceDetailsModel::class,'proforma_invoice_id','id');
+    }
+
+    public function invoiceLog(): HasMany
+    {
+        return $this->hasMany(ProformaInvoiceLogModel::class,'proforma_invoice_id','id')->orderByDesc('id');
     }
 
 
