@@ -127,22 +127,19 @@ class users extends ControllerScheme
         echo json_encode($this->getUsers(), JSON_UNESCAPED_UNICODE);
     }
 
+
     public function getUsers(): array
     {
-        $get = UserModel::query()
-            ->with([
-                'roleData'
-            ])
-            ->get();
-
-        return array_map(function ($item) {
-            return [
-                'id' => $item['id'],
-                'fullname' => $item['full_name'],
-                'avatar' => userHelper->getUserImage($item['id']),
-                'position' => "-",
-            ];
-        }, $get->toArray());
+        return UserModel::query()
+            ->with('roleData')
+            ->get()
+            ->map(fn($user) => [
+                'id' => $user->id,
+                'fullname' => $user->full_name,
+                'avatar' => userHelper->getUserImage($user->id),
+                'position' => '-',
+            ])->all();
     }
+
 
 }

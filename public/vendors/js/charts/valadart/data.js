@@ -13,16 +13,14 @@
  */
 
 const users = $.ajax({
-    url: '/users/getUsersForm',
-    method: 'POST',
-    dataType: 'json',
+    url: "/users/getUsersForm",
+    dataType: "json",
     async: false
 }).responseJSON;
 
 const workGroups = $.ajax({
-    url: '/WorkGroups/getWorkGroupsIndex',
-    method: 'POST',
-    dataType: 'json',
+    url: "/WorkGroups/getWorkGroupsIndex",
+    dataType: "json",
     async: false
 }).responseJSON;
 
