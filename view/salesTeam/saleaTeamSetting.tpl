@@ -39,29 +39,30 @@
                                         <tbody>
                                         {foreach $Users As $key => $user}
                                             {$data = $getData->where('member_id',$user['id'])->first()}
+                                            <input type="hidden" value="{$user['id']}" name="{$user['id']}[id]">
                                             <tr class="text-center">
                                                 <td class="border">{$user['full_name']}</td>
                                                 <td class="border">
                                                     <div class="checkbox checkbox-success">
-                                                        <input type="checkbox" id="overPrice[{$user['id']}]" name="{$user['id']}[overPrice]" value="True" {if isset($data->overPrice) && $data->overPrice}checked{/if}>
+                                                        <input type="checkbox" id="overPrice[{$user['id']}]" name="{$user['id']}[overPrice]" value="1" {if isset($data->overPrice) && $data->overPrice}checked{/if}>
                                                         <label for="overPrice[{$user['id']}]"></label>
                                                     </div>
                                                 </td>
                                                 <td class="border">
                                                     <div class="checkbox checkbox-success">
-                                                        <input type="checkbox" id="underPrice[{$user['id']}]" name="{$user['id']}[underPrice]" value="True" {if isset($data->underPrice) && $data->underPrice}checked{/if}>
-                                                        <label for="underPrisce[{$user['id']}]"></label>
+                                                        <input type="checkbox" id="underPrice[{$user['id']}]" name="{$user['id']}[underPrice]" value="1" {if isset($data->underPrice) && $data->underPrice}checked{/if}>
+                                                        <label for="underPrice[{$user['id']}]"></label>
                                                     </div>
                                                 </td>
                                                 <td class="border">
                                                     <div class="checkbox checkbox-success">
-                                                        <input type="checkbox" id="discountPercent[{$user['id']}]" name="{$user['id']}[discountPercent]" value="True" {if isset($data->discountPercent) && $data->discountPercent}checked{/if}>
+                                                        <input type="checkbox" id="discountPercent[{$user['id']}]" name="{$user['id']}[discountPercent]" value="1" {if isset($data->discountPercent) && $data->discountPercent}checked{/if}>
                                                         <label for="discountPercent[{$user['id']}]"></label>
                                                     </div>
                                                 </td>
                                                 <td class="border">
                                                     <div class="checkbox checkbox-success">
-                                                        <input type="checkbox" id="seleClose{$user['id']}" name="{$user['id']}[seleClose]" value="True" {if isset($data->sellClose) && $data->sellClose}checked{/if}>                                                        <label for="seleClose{$user['id']}"></label>
+                                                        <input type="checkbox" id="seleClose{$user['id']}" name="{$user['id']}[seleClose]" value="1" {if isset($data->sellClose) && $data->sellClose}checked{/if}>                                                        <label for="seleClose{$user['id']}"></label>
                                                     </div>
                                                 </td>
                                             </tr>

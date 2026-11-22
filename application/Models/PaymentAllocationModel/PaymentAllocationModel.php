@@ -2,6 +2,7 @@
 
 namespace App\Models\PaymentAllocationModel;
 
+use App\Models\PaymentManagementModel\PaymentManagementModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -31,4 +32,8 @@ class PaymentAllocationModel extends Model
         'deleted_at'
     ];
 
+    public function payment()
+    {
+        return $this->belongsTo(PaymentManagementModel::class, 'payment_management_id');
+    }
 }

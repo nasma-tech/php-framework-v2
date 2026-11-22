@@ -12,26 +12,29 @@ const readImage = (input, showImageId) => {
 //validate input file type
 const validateDocument = (file_id, validateFile = ["jpeg", "jpg", "png", "pdf"]) => {
     const $file = $(`#${file_id}`);
-    const file = $file[0].files[0];
+    $($file).on('input', function () {
 
-    if (!file) return true;
+        const file = $file[0].files[0];
 
-    const extension = file.name.split('.').pop().toLowerCase();
+        if (!file) return true;
 
-    if (!validateFile.includes(extension)) {
-        $file.val("");
+        const extension = file.name.split('.').pop().toLowerCase();
 
-        Swal.fire({
-            icon: 'warning',
-            title: "فرمت فایل انتخاب‌شده مجاز نیست",
-            text: `فرمت‌های مجاز: ${validateFile.join(", ")}`,
-            confirmButtonText: 'بستن'
-        });
+        if (!validateFile.includes(extension)) {
+            $file.val("");
 
-        return false;
-    }
+            Swal.fire({
+                icon: 'warning',
+                title: "فرمت فایل انتخاب‌شده مجاز نیست",
+                text: `فرمت‌های مجاز: ${validateFile.join(", ")}`,
+                confirmButtonText: 'بستن'
+            });
+
+            return false;
+        }
 
     return true;
+    })
 };
 // tinymce editor create
 const tinyEditor = (textAreaInput) => {
@@ -955,19 +958,47 @@ $.fn.englishInput = function (spaceLock = true) {
     });
 }
 
-$.fn.numberInput = function (Length = 100, showAlert = true) {
+
+$.fn.numberInput = function (Length = 100, showAlert = true, maxNumber = null) {
     $(this).attr({
-        maxLength: Length, dir: 'ltr'
+        maxLength: Length,
+        dir: 'ltr',
+        inputmode: 'numeric'
     });
+
     $(this).on('keypress', function (e) {
         if (e.which !== 8 && e.which !== 0 && (e.which < 48 || e.which > 57)) {
             if (showAlert) {
-                customAlert('warning', 'مقدار ورودی باید فقط عدد باشد', 3000)
+                customAlert('warning', 'مقدار ورودی باید فقط عدد باشد', 3000);
+            }
+            return false;
+        }
+
+        let value = $(this).val() + String.fromCharCode(e.which);
+
+        if (maxNumber !== null && Number(value) > maxNumber) {
+            if (showAlert) {
+                customAlert('warning', `حداکثر مقدار مجاز ${maxNumber} است`, 3000);
             }
             return false;
         }
     });
-}
+
+    $(this).on('input', function () {
+        let value = $(this).val();
+
+        if (value.length > Length) {
+            value = value.slice(0, Length);
+        }
+
+        if (maxNumber !== null && Number(value) > maxNumber) {
+            value = String(maxNumber);
+        }
+
+        $(this).val(value);
+    });
+};
+
 
 $.fn.numberInputAndDecimal = function () {
     $(this).on("input", function () {
@@ -1228,7 +1259,7 @@ $.fn.formValidate = function (
                     const editor = tinymce.get($el.attr('id'));
 
                     if (editor) {
-                        value = editor.getContent({ format: 'text' }).trim();
+                        value = editor.getContent({format: 'text'}).trim();
                     }
                 }
 
