@@ -83,14 +83,8 @@
                                             <div class="divider-text">اطلاعات ماشین</div>
                                         </div>
 
-                                        <!-- اطلاعات پلاک خودرو -->
                                         <div class="card mb-2">
                                             <div class="card-header d-flex justify-content-between align-items-center">
-                                                <h5 class="mb-0">
-                                                    <i class="bx bx-car"></i>
-                                                    پلاک خودرو
-                                                </h5>
-
                                                 <button type="button" class="btn btn-sm btn-outline-primary addPlateBtn"
                                                         id="driverLicence">
                                                     <i class="bx bx-plus"></i>
@@ -163,14 +157,12 @@
                                             </div>
                                         </div>
 
-                                        <!-- مستندات -->
+                                        <div class="divider">
+                                            <div class="divider-text">مستندات</div>
+                                        </div>
+
                                         <div class="card mb-2">
                                             <div class="card-header d-flex justify-content-between align-items-center">
-                                                <h5 class="mb-0">
-                                                    <i class="bx bx-paperclip"></i>
-                                                    مستندات
-                                                </h5>
-
                                                 <button type="button" class="btn btn-sm btn-outline-primary addFileBtn">
                                                     <i class="bx bx-plus"></i>
                                                     افزودن فایل
@@ -205,18 +197,7 @@
                                             </div>
                                         </div>
 
-                                        <!-- ثبت اطلاعات -->
-                                        <div class="row">
-                                            <div class="col-12 text-right">
-                                                <button type="button"
-                                                        class="btn btn-primary btn-sm addFormAjax">
-                                                    <i class="bx bx-save"></i>
-                                                    ثبت اطلاعات
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-3">
+                                        <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
                                             <button type="button"
                                                     class="btn btn-sm btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1 addFormAjax">
                                                 ثبت

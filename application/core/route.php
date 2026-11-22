@@ -184,9 +184,9 @@ $router->mount('/Products', function () use ($router) {
             'action' => 'getProductData'
         ],
         [
-            'method' => 'GET',
-            'path' => '/getProductDataFilterByBrand',
-            'action' => 'getProductDataFilterByBrand'
+            'method' => 'POST',
+            'path' => '/getProductsFilterForm',
+            'action' => 'getProductsFilterForm'
         ]
     ]);
 });

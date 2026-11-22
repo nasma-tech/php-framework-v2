@@ -45,7 +45,7 @@ $(function () {
         const options = products.map(product => `
             <option value="${escapeHtml(product.id)}"
                     data-unit-name="${escapeHtml(product.unit_title)}">
-                ${escapeHtml(product.product_id)} - ${escapeHtml(product.title)}
+                ${escapeHtml(product.serial_number)} - ${escapeHtml(product.title)}
             </option>
         `).join("");
 
@@ -107,7 +107,7 @@ $(function () {
         cardLoader(".card");
 
         $.ajax({
-            url: "/Products/fetchProductsByFilteredBrandsForm",
+            url: "/Products/getProductsFilterForm",
             method: "POST",
             dataType: "json",
             data: {
@@ -136,9 +136,7 @@ $(function () {
                     width: "100%"
                 });
 
-                priceFormatWithDecimals(
-                    `#product_data_${currentIndex}_amount`
-                );
+                $(`#product_data_${currentIndex}_amount`).numberInputAndDecimal()
             },
 
             error: function (xhr) {
