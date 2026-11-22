@@ -9,7 +9,9 @@ use App\Models\ProductGroupModel\ProductGroupModel;
 use App\Models\ProductQualitiesModel\ProductQualitiesModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 class ProductModel extends Model
 {
@@ -62,5 +64,58 @@ class ProductModel extends Model
     public function quality(): BelongsTo
     {
         return $this->belongsTo(ProductQualitiesModel::class, 'quality_level_id');
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(ProductModel::class, 'parent_id');
+    }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(ProductModel::class, 'parent_id');
+    }
+
+    public static function getProductHierarchy(
+        int  $productId,
+        bool $withChildren = false
+    ): Collection
+    {
+        $products = collect();
+
+        $product = self::query()->find($productId);
+
+        if (!$product) {
+            return $products;
+        }
+
+        while ($product) {
+            $products->prepend($product);
+            $product = $product->parent;
+        }
+
+        if (!$withChildren) {
+            return $products;
+        }
+
+        $getChildren = function ($product, $pathIds) use (&$getChildren, &$products) {
+            foreach ($product->children as $child) {
+                if ($pathIds->contains($child->id)) {
+                    continue;
+                }
+
+                $products->push($child);
+
+                $getChildren($child, $pathIds);
+            }
+        };
+
+        $pathIds = $products->pluck('id');
+
+        foreach ($products->reverse() as $product) {
+            $getChildren($product, $pathIds);
+        }
+
+        return $products->unique('id')->values();
     }
 }

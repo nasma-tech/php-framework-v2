@@ -124,7 +124,7 @@ $router->mount('/states', function () use ($router) {
 $router->mount('/cities', function () use ($router) {
     dynamicRoute($router, cities::class, [
         [
-            'method' => 'GET',
+            'method' => 'POST',
             'path' => '/getFilterCities',
             'action' => 'getFilterCities'
         ],
@@ -183,9 +183,9 @@ $router->mount('/Products', function () use ($router) {
             'action' => 'getProductData'
         ],
         [
-            'method' => 'GET',
-            'path' => '/getProductDataFilterByBrand',
-            'action' => 'getProductDataFilterByBrand'
+            'method' => 'POST',
+            'path' => '/getProductsFilterForm',
+            'action' => 'getProductsFilterForm'
         ]
     ]);
 });
@@ -390,7 +390,7 @@ $router->mount('/WorkGroups', function () use ($router) {
     ]);
 });
 $router->mount('/Warehouses', function () use ($router) {
-    dynamicRoute($router, App\Controllers\Warehouses\Warehouses::class,[
+    dynamicRoute($router, App\Controllers\Warehouses\Warehouses::class, [
         [
             'method' => 'POST',
             'path' => "/getWarehouseKeepers",
@@ -431,7 +431,7 @@ $router->mount('/ChargesDeductions', function () use ($router) {
     dynamicRoute($router, App\Controllers\ChargesDeductions\ChargesDeductions::class);
 });
 $router->mount('/ProformaInvoiceSettings', function () use ($router) {
-    dynamicRoute($router, App\Controllers\ProformaInvoiceSettings\ProformaInvoiceSettings::class,[
+    dynamicRoute($router, App\Controllers\ProformaInvoiceSettings\ProformaInvoiceSettings::class, [
         [
             'method' => 'GET',
             'path' => "/getChargesDeductionsSetting",
@@ -445,7 +445,7 @@ $router->mount('/ProformaInvoiceSettings', function () use ($router) {
     ]);
 });
 $router->mount('/salesTeam', function () use ($router) {
-    dynamicRoute($router, App\Controllers\salesTeam\salesTeam::class,[
+    dynamicRoute($router, App\Controllers\salesTeam\salesTeam::class, [
         [
             'method' => 'GET',
             'path' => "/permissions/(\d+)",
@@ -548,7 +548,7 @@ $router->mount('/PaymentManagement', function () use ($router) {
     ]);
 });
 $router->mount('/BankAccount', function () use ($router) {
-    dynamicRoute($router, App\Controllers\BankAccount\BankAccount::class,[
+    dynamicRoute($router, App\Controllers\BankAccount\BankAccount::class, [
         [
             'method' => 'GET',
             'path' => "/getAllBankAccountList",
@@ -557,7 +557,7 @@ $router->mount('/BankAccount', function () use ($router) {
     ]);
 });
 $router->mount('/PaymentMethod', function () use ($router) {
-    dynamicRoute($router, App\Controllers\PaymentMethod\PaymentMethod::class,[
+    dynamicRoute($router, App\Controllers\PaymentMethod\PaymentMethod::class, [
         [
             'method' => 'GET',
             'path' => "/getPaymentMethod",
@@ -572,11 +572,27 @@ $router->mount('/WarehouseUsageTypes', function () use ($router) {
     dynamicRoute($router, App\Controllers\WarehouseUsageTypes\WarehouseUsageTypes::class);
 });
 $router->mount('/PaymentAllocation', function () use ($router) {
-    dynamicRoute($router, App\Controllers\PaymentAllocation\PaymentAllocation::class,[
+    dynamicRoute($router, App\Controllers\PaymentAllocation\PaymentAllocation::class, [
         [
             'method' => 'POST',
             'path' => '/submitPaymentAllocation',
             'action' => 'submitPaymentAllocation'
         ]
     ]);
+});
+$router->mount('/EntryWarehouse', function () use ($router) {
+    dynamicRoute($router, App\Controllers\EntryWarehouse\EntryWarehouse::class);
+});
+$router->mount('/ExitWarehouse', function () use ($router) {
+    dynamicRoute($router, App\Controllers\ExitWarehouse\ExitWarehouse::class);
+});
+$router->mount('/WarehouseInventory', function () use ($router) {
+    dynamicRoute($router, App\Controllers\WarehouseInventory\WarehouseInventory::class);
+});
+
+$router->get('/valad' , function (){
+
+    $instance = new App\Controllers\Products\Products();
+
+    var_print($instance->getRelatedProducts(2));
 });

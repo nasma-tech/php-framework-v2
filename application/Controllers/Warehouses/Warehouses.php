@@ -37,7 +37,7 @@ class Warehouses extends ControllerScheme
             //'js/Warehouses/Warehouses'
         ],
             ['vendors/css/tables/datatable/datatables.min'],
-            )->display('Warehouses/Warehouses.tpl');
+        )->display('Warehouses/Warehouses.tpl');
     }
 
     public function addIndex()
@@ -120,7 +120,7 @@ class Warehouses extends ControllerScheme
 
         $needle = [
             'ware_house_name',
-            'warehouse_brand_id',
+            'warehouse_brand_ids',
             'warehouse_type_id',
             'warehouse_usage_id',
             'country_id',
@@ -137,6 +137,7 @@ class Warehouses extends ControllerScheme
         if (validator->validateRequestsData($needle)) {
             $data['team_data'] = json_encode(json_decode($data['jsonOutput'], true)['nodeDataArray'], JSON_UNESCAPED_UNICODE);
             $data['nodes_data'] = $data['jsonOutput'];
+            $data['warehouse_brand_ids'] = json_encode($data['warehouse_brand_ids'], JSON_UNESCAPED_UNICODE);
             unset($data['jsonOutput']);
 
             $data['user_id'] = userObject()->userId;
@@ -157,6 +158,6 @@ class Warehouses extends ControllerScheme
 
             $this->successCallBack('/Warehouses/main');
         }
-        $this->failedCallBack('/Warehouses/main','نقص اطلاعات ورودی');
+        $this->failedCallBack('/Warehouses/main', 'نقص اطلاعات ورودی');
     }
 }
