@@ -43,41 +43,56 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        {foreach $list as $item}
-                                            <tr>
-                                                <td class="border">{counter}</td>
-                                                <td class="border">{$item.invoice_number}</td>
-                                                <td class="border">{jdate("Y/m/d",strtotime($item.created_at))}</td>
-                                                <td class="border">{jdate("H:i",strtotime($item.created_at))}</td>
-                                                <td class="border">{(strtotime($item.updated_at) != strtotime($item.created_at))?jdate("Y/m/d",strtotime($item.updated_at)):' - '}</td>
-                                                <td class="border">{(strtotime($item.updated_at) != strtotime($item.created_at))?jdate("H:i",strtotime($item.updated_at)):' - '}</td>
-                                                <td class="border">{$item.contact.first_name} {$item.contact.last_name}</td>
-                                                <td class="border">{$item.company.company_name|default:'-'}</td>
-                                                <td class="border">{$item.brand.label}</td>
-                                                <td class="border">{$item.state.title}</td>
-                                                <td class="border">{$item.city.title}</td>
-                                                <td class="border">{$item.expert.full_name}</td>
-                                                <td class="border">
+                                    {foreach $list as $item}
+                                        <tr>
+                                            <td class="border">{counter}</td>
+                                            <td class="border">{$item.invoice_number}</td>
+                                            <td class="border">{jdate("Y/m/d",strtotime($item.created_at))}</td>
+                                            <td class="border">{jdate("H:i",strtotime($item.created_at))}</td>
+                                            <td class="border">{(strtotime($item.updated_at) != strtotime($item.created_at))?jdate("Y/m/d",strtotime($item.updated_at)):' - '}</td>
+                                            <td class="border">{(strtotime($item.updated_at) != strtotime($item.created_at))?jdate("H:i",strtotime($item.updated_at)):' - '}</td>
+                                            <td class="border">{$item.contact.first_name} {$item.contact.last_name}</td>
+                                            <td class="border">{$item.company.company_name|default:'-'}</td>
+                                            <td class="border">{$item.brand.label}</td>
+                                            <td class="border">{$item.state.title}</td>
+                                            <td class="border">{$item.city.title}</td>
+                                            <td class="border">{$item.expert.full_name}</td>
+                                            <td class="border">
+                                                {if $item.payment_allocation_count > 0}
+                                                    <div class="badge badge-light-success w-100">دارد</div>
+                                                    {else}
                                                     <div class="badge badge-light-warning w-100">ندارد</div>
-                                                </td>
-                                                <td class="border">
+                                                {/if}
+                                            </td>
+                                            <td class="border">
+                                                {if $item.contract}
+                                                    <div class="badge badge-light-success w-100">دارد</div>
+                                                {else}
                                                     <div class="badge badge-light-warning w-100">ندارد</div>
-                                                </td>
-                                                <td class="border">
-                                                    -
-                                                </td>
-                                                <td class="border">
-                                                    <div class="dropup">
-                                                        <span class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu">
+                                                {/if}
+                                            </td>
+                                            <td class="border">
+                                                -
+                                            </td>
+                                            <td class="border">
+                                                <div class="dropup">
+                                                        <span class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer"
+                                                              data-toggle="dropdown" aria-haspopup="true"
+                                                              aria-expanded="false" role="menu">
                                                             </span>
-                                                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(53px, 20px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                                            <a class="dropdown-item" href="/ProformaInvoice/editIndex/{$item.id}"><i class="bx bx-edit-alt mr-1"></i>ویرایش</a>
-                                                            <a class="dropdown-item" href="/ProformaInvoice/process/{$item.id}"><i class="bx bx-git-branch mr-1"></i>فرایند</a>
-                                                        </div>
+                                                    <div class="dropdown-menu" x-placement="bottom-start"
+                                                         style="position: absolute; transform: translate3d(53px, 20px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                        <a class="dropdown-item"
+                                                           href="/ProformaInvoice/editIndex/{$item.id}"><i
+                                                                    class="bx bx-edit-alt mr-1"></i>ویرایش</a>
+                                                        <a class="dropdown-item"
+                                                           href="/ProformaInvoice/process/{$item.id}"><i
+                                                                    class="bx bx-git-branch mr-1"></i>فرایند</a>
                                                     </div>
-                                                </td>
-                                            </tr>
-                                        {/foreach}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {/foreach}
                                     </tbody>
                                 </table>
                             </div>
