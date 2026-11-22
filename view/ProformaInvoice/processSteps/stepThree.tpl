@@ -29,7 +29,8 @@
                         </td>
                         <td class="border">
                             <div class="input-group">
-                                <input class="form-control" type="text" id=""
+                                <input class="form-control" type="text"
+                                       id="allocationReservedAmountInput_{$item.id}"
                                        readonly
                                        value="{$numberNormalizer->floatNumberFormat($allocationData.reserved_amount)}">
                                 <div class="input-group-append">
@@ -39,8 +40,9 @@
                         </td>
                         <td class="border">
                             <div class="input-group">
-                                <input class="form-control allocationEnteredAmountInput" type="text" name="" id="allocationEnteredAmountInput_{$item.id}"
-                                       data-
+                                <input class="form-control allocationEnteredAmountInput" type="text" name=""
+                                       id="allocationEnteredAmountInput_{$item.id}"
+                                       data-id="{$item.id}"
                                        placeholder="{$numberNormalizer->floatNumberFormat($allocationData.remaining_amount)}"
                                        data-max="{$allocationData.remaining_amount}"
                                        value=""

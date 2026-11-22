@@ -33,7 +33,7 @@ const validateDocument = (file_id, validateFile = ["jpeg", "jpg", "png", "pdf"])
             return false;
         }
 
-    return true;
+        return true;
     })
 };
 // tinymce editor create
@@ -1440,6 +1440,10 @@ $.fn.setInputMinMax = function (min = null, max = null, showAlert = false, castT
         });
     });
 };
+
+$.fn.removeSeparator = function () {
+    return this.val().replaceAll(',', '')
+}
 
 const dateToTimestamp = ([gy, gm, gd]) => {
     const date = new Date(gy, gm - 1, gd);
