@@ -583,6 +583,32 @@ $router->mount('/PaymentAllocation', function () use ($router) {
         ]
     ]);
 });
+$router->mount('/EntryWarehouse', function () use ($router) {
+    dynamicRoute($router, App\Controllers\EntryWarehouse\EntryWarehouse::class);
+});
+$router->mount('/ExitWarehouse', function () use ($router) {
+    dynamicRoute($router, App\Controllers\ExitWarehouse\ExitWarehouse::class);
+});
+$router->mount('/WarehouseInventory', function () use ($router) {
+    dynamicRoute($router, App\Controllers\WarehouseInventory\WarehouseInventory::class);
+});
+$router->mount('/marketers', function () use ($router) {
+    dynamicRoute($router, App\Controllers\marketers\marketers::class, [
+        [
+            'method' => 'GET',
+            'path' => "/MarketerData",
+            'action' => 'MarketerData'
+        ], [
+            'method' => 'POST',
+            'path' => "/addMarketerGroup",
+            'action' => 'addMarketerGroup'
+        ], [
+            'method' => 'GET',
+            'path' => "/editMarketeGroup/(\d+)",
+            'action' => 'editMarketeGroup'
+        ]
+    ]);
+});
 $router->mount('/SaleContracts', function () use ($router) {
     dynamicRoute($router, App\Controllers\SaleContracts\SaleContracts::class, [
         [
@@ -594,4 +620,15 @@ $router->mount('/SaleContracts', function () use ($router) {
 });
 $router->mount('/AddendumSaleContracts', function () use ($router) {
     dynamicRoute($router, App\Controllers\AddendumSaleContracts\AddendumSaleContracts::class);
+});
+
+$router->get('/valad', function () {
+
+    $instance = new App\Controllers\WarehouseInventory\WarehouseInventory();
+
+    var_print($instance->inventoryInquiry(2,[1]));
+
+//    $instance = new App\Controllers\Products\Products();
+//
+//    var_print($instance->getRelatedProducts(2));
 });

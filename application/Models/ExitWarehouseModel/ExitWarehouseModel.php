@@ -2,7 +2,9 @@
 
 namespace App\Models\ExitWarehouseModel;
 
+use App\Models\ExitWarehousePackageModel\ExitWarehousePackageModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ExitWarehouseModel extends Model
@@ -25,4 +27,8 @@ class ExitWarehouseModel extends Model
         "deleted_at",
     ];
 
+    public function package(): HasOne
+    {
+        return $this->hasOne(ExitWarehousePackageModel::class, 'id', 'exit_package_id');
+    }
 }

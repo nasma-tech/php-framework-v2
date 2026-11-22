@@ -2,7 +2,9 @@
 
 namespace App\Models\EntryWarehouseModel;
 
+use App\Models\EntryWarehousePackageModel\EntryWarehousePackageModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EntryWarehouseModel extends Model
@@ -14,6 +16,7 @@ class EntryWarehouseModel extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        "entry_package_id",
         "product_id",
         "amount",
         "unit_id",
@@ -25,4 +28,8 @@ class EntryWarehouseModel extends Model
         "deleted_at",
     ];
 
+    public function package(): HasOne
+    {
+        return $this->hasOne(EntryWarehousePackageModel::class, 'id', 'entry_package_id');
+    }
 }
