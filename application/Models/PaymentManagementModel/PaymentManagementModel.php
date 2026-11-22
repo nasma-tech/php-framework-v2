@@ -5,6 +5,7 @@ namespace App\Models\PaymentManagementModel;
 use App\Models\BankAccountModel\BankAccountModel;
 use App\Models\ChequeManagementModel\ChequeManagementModel;
 use App\Models\PaymentMethodModel\PaymentMethodModel;
+use App\Models\UserModel\UserModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -49,6 +50,11 @@ class PaymentManagementModel extends Model
     public function chequeData(): HasOne
     {
         return $this->hasOne(ChequeManagementModel::class, 'id', 'cheque_management_id');
+    }
+
+    public function userData()
+    {
+        return $this->belongsTo(UserModel::class, 'user_id', 'id');
     }
 
     public function scopeByPermission($query)

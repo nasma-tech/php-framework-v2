@@ -2,6 +2,7 @@
 
 namespace App\Models\CityModel;
 
+use App\Models\StateModel\StateModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -23,4 +24,8 @@ class CityModel extends Model
         "updated_at"
     ];
 
+    public function states()
+    {
+        return $this->belongsTo(StateModel::class,'state_id', 'id');
+    }
 }

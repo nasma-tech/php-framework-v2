@@ -75,7 +75,7 @@ $router->mount('/dashboard', function () use ($router) {
 $router->mount('/users', function () use ($router) {
     dynamicRoute($router, users::class, [
         [
-            'method' => 'GET',
+            'method' => 'POST',
             'path' => '/getUsersForm',
             'action' => 'getUsersForm'
         ]
@@ -172,6 +172,7 @@ $router->mount('/IssuingPlace', function () use ($router) {
         ]
     ]);
 });
+
 $router->mount('/UserContactTypes', function () use ($router) {
     dynamicRoute($router, App\Controllers\UserContactTypes\UserContactTypes::class);
 });
@@ -204,9 +205,11 @@ $router->mount('/ProductGrad', function () use ($router) {
 $router->mount('/brands', function () use ($router) {
     dynamicRoute($router, App\Controllers\brands\brands::class);
 });
+
 $router->mount('/ProductQualities', function () use ($router) {
     dynamicRoute($router, App\Controllers\ProductQualities\ProductQualities::class);
 });
+
 $router->mount('/ProductsPriceList', function () use ($router) {
     dynamicRoute($router, App\Controllers\ProductsPriceList\ProductsPriceList::class);
 });
@@ -383,7 +386,7 @@ $router->mount('/ContactAcquisitionSources', function () use ($router) {
 $router->mount('/WorkGroups', function () use ($router) {
     dynamicRoute($router, WorkGroups::class, [
         [
-            'method' => 'GET',
+            'method' => 'POST',
             'path' => '/getWorkGroupsIndex',
             'action' => 'getWorkGroupsIndex'
         ]
@@ -588,6 +591,23 @@ $router->mount('/ExitWarehouse', function () use ($router) {
 });
 $router->mount('/WarehouseInventory', function () use ($router) {
     dynamicRoute($router, App\Controllers\WarehouseInventory\WarehouseInventory::class);
+});
+$router->mount('/marketers', function () use ($router) {
+    dynamicRoute($router, App\Controllers\marketers\marketers::class,[
+        [
+            'method' => 'GET',
+            'path' => "/MarketerData",
+            'action' => 'MarketerData'
+        ],[
+            'method' => 'POST',
+            'path' => "/addMarketerGroup",
+            'action' => 'addMarketerGroup'
+        ],[
+            'method' => 'GET',
+            'path' => "/editMarketeGroup/(\d+)",
+            'action' => 'editMarketeGroup'
+        ]
+    ]);
 });
 
 $router->get('/valad' , function (){
