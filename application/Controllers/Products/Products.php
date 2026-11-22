@@ -134,7 +134,7 @@ class Products extends ControllerScheme
     public function getProductDataFilterByBrand(): void
     {
         $brandId = $this->requestArray()['brandId'];
-        if ($brandId){
+        if ($brandId) {
             echo json_encode(array_map(function ($item) {
                 return [
                     'id' => $item['id'],
@@ -145,7 +145,7 @@ class Products extends ControllerScheme
             }, ProductModel::query()
                 ->with([
                     'measurementUnit'
-                ])->where('brand_id',$brandId)->get()->toArray()));
+                ])->where('brand_id', $brandId)->get()->toArray()));
         }
     }
 
@@ -181,4 +181,72 @@ class Products extends ControllerScheme
 
         return boolval($output ?? false);
     }
+
+    public function getProductsFilterForm(): void
+    {
+        csrf->csrfValidate();
+        $data = $this->requestArray();
+        $output = $this->defaultOutput();
+
+        $needle = [
+            'selectedBrands'
+        ];
+
+        if (validator->validateRequestsData($needle)) {
+            $output = $this->getProductsFilter($data['selectedBrands']);
+        }
+
+        echo json_encode($output, JSON_UNESCAPED_UNICODE);
+    }
+
+    public function getProductsFilter($selectedBrands): array
+    {
+        $products = ProductModel::query()
+            ->select([
+                'id',
+                'label',
+                'serial_number',
+                'brand_id',
+                'measurement_unit_id',
+            ])
+            ->with([
+                'measurementUnit:id,label',
+            ])
+            ->when(!empty($selectedBrands), function ($query) use ($selectedBrands) {
+                $query->whereIn(
+                    'brand_id',
+                    array_values(array_unique($selectedBrands))
+                );
+            })
+            ->get()
+            ->map(function ($product) {
+                return [
+                    'id' => $product->id,
+                    'title' => $product->label,
+                    'serial_number' => $product->serial_number,
+                    'unit_title' => $product->measurementUnit?->label,
+                ];
+            });
+
+        return [
+            'status' => true,
+            'message' => 'عملیات با موفقیت انجام شد',
+            'data' => [
+                'products' => $products,
+            ],
+        ];
+    }
+
+    //************** methods **************//
+
+    public function getRelatedProducts(int $productId)
+    {
+        $get = ProductModel::getProductHierarchy($productId,true)->select([
+            'id'
+        ]);
+
+        var_print($get->toArray());
+    }
+
+    //************** methods **************//
 }

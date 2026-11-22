@@ -8,7 +8,6 @@ use App\Models\CompaniesModel\CompaniesModel;
 use App\Models\CustomerContactInformationModel\CustomerContactInformationModel;
 use App\Models\PaymentAllocationModel\PaymentAllocationModel;
 use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
-use App\Models\ProformaInvoiceLogModel\ProformaInvoiceLogModel;
 use App\Models\ProformaInvoiceProductsModel\ProformaInvoiceProductsModel;
 use App\Models\SaleContractsModel\SaleContractsModel;
 use App\Models\SalesTeamModel\SalesTeamModel;

@@ -11,6 +11,7 @@ use App\Models\SalesTeamProductsHistoryModel\SalesTeamProductsHistoryModel;
 use App\Models\SalesTeamProductsModel\SalesTeamProductsModel;
 use App\Models\salesTeamGroupModel\salesTeamGroupModel;
 use App\Models\saleTeamGRoupSalesTeamModel\saleTeamGroupSalesTeamModel;
+use App\Models\UserModel\UserModel;
 use Packages\Security\Csrf;
 
 require_once __SOURCE__ . 'application/Controllers/scheme/ControllerScheme.php';
@@ -888,5 +889,70 @@ class salesTeam extends ControllerScheme
         } else {
             $this->failedCallBack('/salesTeam/main');
         }
+    }
+
+    public function teamSetting($id)
+    {
+        $team = salesTeamModel::query()->find($id);
+        $jsonData = json_decode($team->team_data_json, true);
+        $users = array_column($jsonData ?? [], 'userId');
+        $users = UserModel::query()->whereIn('id', $users)->get()->toArray();
+        view->setPageTitle(self::pluralName);
+        view->setSingleName(self::singleName);
+        view->setPluralName(self::pluralName);
+        view->setModel(salesTeamMemberSettingModel::query()->where('sales_team_id', $id)->get());
+        view->ui([
+            'js/salesTeam/saleaTeamSetting',
+        ], ["css/salesTeam/sale-permissions"], [
+            'salesTeamId' => $id,
+            'Users' => $users,
+        ])->display('salesTeam/saleaTeamSetting.tpl');
+    }
+
+    public function addSalesTeamSetting($id)
+    {
+        $data = $this->requestArray();
+
+        foreach ($data as $key => $value) {
+            $check = salesTeamMemberSettingModel::query()
+                ->where('sales_team_id', $id)
+                ->where('member_id', $key)
+                ->first();
+
+            $makeData = [
+                "member_id" => $key,
+                "sales_team_id" => $id,
+                "overPrice" => $value['overPrice'] ?? false,
+                "underPrice" => $value['underPrice'] ?? false,
+                "discountPercent" => $value['discountPercent'] ?? false,
+                "sellClose" => $value['sellClose'] ?? false,
+                "user_id" => userObject()->userId,
+            ];
+
+            if ($check) {
+                $modifyLog = [
+                    "member_id" => $check->member_id,
+                    "sales_team_id" => $check->sales_team_id,
+                    "overPrice" => $check->overPrice,
+                    "underPrice" => $check->underPrice,
+                    "discountPercent" => $check->discountPercent,
+                    "sellClose" => $check->sellClose,
+                    "user_id" => $check->user_id,
+                ];
+
+                $oldLogs = json_decode($check->modifyLog, true) ?? [];
+                array_unshift($oldLogs, $modifyLog);
+
+                $makeData['modifyLog'] = json_encode($oldLogs, JSON_UNESCAPED_UNICODE);
+
+                $check->update($makeData);
+            } else {
+                $makeData['modifyLog'] = "[]";
+
+                salesTeamMemberSettingModel::query()->create($makeData);
+            }
+        }
+
+        $this->successCallBack('/salesTeam/main');
     }
 }
