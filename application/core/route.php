@@ -584,7 +584,18 @@ $router->mount('/PaymentAllocation', function () use ($router) {
     ]);
 });
 $router->mount('/EntryWarehouse', function () use ($router) {
-    dynamicRoute($router, App\Controllers\EntryWarehouse\EntryWarehouse::class);
+    dynamicRoute($router, App\Controllers\EntryWarehouse\EntryWarehouse::class,[
+        [
+            'method' => 'POST',
+            'path' => '/EntryWarehouseEdit/(\d+)',
+            'action' => 'EntryWarehouseEdit'
+        ],
+        [
+            'method' => 'POST',
+            'path' => '/EntryWarehouseDelete/(\d+)',
+            'action' => 'EntryWarehouseDelete'
+        ]
+    ]);
 });
 $router->mount('/ExitWarehouse', function () use ($router) {
     dynamicRoute($router, App\Controllers\ExitWarehouse\ExitWarehouse::class);
