@@ -63,4 +63,24 @@ class EntryWarehouse extends ControllerScheme
             //var
         ])->display('EntryWarehouse/edit-EntryWarehouse.tpl');
     }
+
+    public function add()
+    {
+        csrf->csrfValidate();
+
+        $data = $this->requestArray();
+
+        $needle = [
+            "warehouse_id",
+            "entryDateTime",
+            "wareHousePartDescription",
+            "product_data",
+        ];
+
+        if (validator->validateRequestsData($needle)) {
+
+            var_print($data);
+        }
+
+    }
 }

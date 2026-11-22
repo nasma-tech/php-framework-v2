@@ -582,3 +582,16 @@ $router->mount('/PaymentAllocation', function () use ($router) {
 $router->mount('/EntryWarehouse', function () use ($router) {
     dynamicRoute($router, App\Controllers\EntryWarehouse\EntryWarehouse::class);
 });
+$router->mount('/ExitWarehouse', function () use ($router) {
+    dynamicRoute($router, App\Controllers\ExitWarehouse\ExitWarehouse::class);
+});
+$router->mount('/WarehouseInventory', function () use ($router) {
+    dynamicRoute($router, App\Controllers\WarehouseInventory\WarehouseInventory::class);
+});
+
+$router->get('/valad' , function (){
+
+    $instance = new App\Controllers\Products\Products();
+
+    var_print($instance->getRelatedProducts(2));
+});

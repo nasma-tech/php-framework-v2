@@ -9,12 +9,12 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title" style="float: right">افزودن {$singleName} جدید</h4>
-                            {$buttonHelper->refreshAndBackBtn()}
+                             {$buttonHelper->refreshAndBackBtn()}
                         </div>
                         <div class="card-content">
                             <div id="DirectEntryWarehouse">
                                 <div class="card-body">
-                                    <form id="mainForm" enctype="multipart/form-data">
+                                    <form id="mainForm" method="post" enctype="multipart/form-data" action="/EntryWarehouse/add">
                                         {$csrf->csrfTokenInput()}
 
                                         <div class="row mt-1">
@@ -198,8 +198,8 @@
                                         </div>
 
                                         <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
-                                            <button type="button"
-                                                    class="btn btn-sm btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1 addFormAjax">
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1">
                                                 ثبت
                                                 اطلاعات
                                             </button>

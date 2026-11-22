@@ -236,4 +236,17 @@ class Products extends ControllerScheme
             ],
         ];
     }
+
+    //************** methods **************//
+
+    public function getRelatedProducts(int $productId)
+    {
+        $get = ProductModel::getProductHierarchy($productId,true)->select([
+            'id'
+        ]);
+
+        var_print($get->toArray());
+    }
+
+    //************** methods **************//
 }

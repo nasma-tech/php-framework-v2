@@ -17,7 +17,6 @@ class EntryWarehouseModel extends Model
         "product_id",
         "amount",
         "unit_id",
-        "entry_datetime",
         "is_stock",
         "stock_datetime",
         "documents",
