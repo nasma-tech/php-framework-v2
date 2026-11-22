@@ -8,8 +8,10 @@ use App\Controllers\scheme\ControllerScheme;
 use App\Models\brandsModel\brandsModel;
 use App\Models\ChargesDeductionsModel\ChargesDeductionsModel;
 use App\Models\CityModel\CityModel;
+use App\Models\CompaniesModel\CompaniesModel;
 use App\Models\CountryModel\CountryModel;
 use App\Models\PriceSuggestionModel\PriceSuggestionModel;
+use App\Models\PriceSuggestionProductModel\PriceSuggestionProductModel;
 use App\Models\ProductModel\ProductModel;
 use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
 use App\Models\ProformaInvoiceLogModel\ProformaInvoiceLogModel;
@@ -77,7 +79,7 @@ class ProformaInvoice extends ControllerScheme
 
     public function editIndex($id): void
     {
-        $getData = $this->defaultModel::query()->find($id);
+        $getData = ProformaInvoiceModel::query()->find($id);
         $invoiceSetting = ProformaInvoiceSettingsModel::query()->where('brand_id', $getData->brand_id)->first();
         $decodeInvoiceSetting = json_decode($invoiceSetting->charges_deductions_order, true);
         $result = [];
@@ -109,7 +111,8 @@ class ProformaInvoice extends ControllerScheme
             'invoiceDetail' => ProformaInvoiceDetailsModel::query()->where('proforma_invoice_id', $id)->first(),
             'products' => ProductModel::query()->get(),
             'salesTeam' => SalesTeamModel::query()->get(),
-            'invoiceSettings' => $result
+            'invoiceSettings' => $result,
+            'customerCompany'=>CompaniesModel::query()->find($getData->company_id)
         ])->display('ProformaInvoice/add|edit-ProformaInvoice.tpl');
     }
 
@@ -127,7 +130,7 @@ class ProformaInvoice extends ControllerScheme
         $makeProformaInvoiceData = [
             'price_suggestion_id' => $data['price_suggestion_id'],
             'contact_id' => $data['contact_id'],
-            'company_id',
+            'company_id'=>$data['customer_company_id'],
             'contact_project_followup_id' => $data['contact_project_followup_id'],
             'delivery_date' => $data['delivery_date'],
             'brand_id' => $data['brand_id'],
@@ -426,7 +429,7 @@ class ProformaInvoice extends ControllerScheme
                 }
                 $dayValidity = (int) ($data['day_validity'] ?? 0);
                 $makeProformaInvoiceData = [
-                    'company_id' => $data['company_id'] ?? null,
+                    'company_id' => (empty($data['customer_company_id']))?:null,
                     'contact_project_followup_id' => $data['contact_project_followup_id'] ?? null,
                     'delivery_date' => $data['delivery_date'] ?? null,
                     'brand_id' => $data['brand_id'],
@@ -949,6 +952,17 @@ class ProformaInvoice extends ControllerScheme
             )->display('ProformaInvoice/process-ProformaInvoice.tpl');
         } else {
             header('location: /notAccess');
+        }
+    }
+
+    public function removeProductRow(): void
+    {
+        $id = $this->requestArray()['id'];
+        $delete = ProformaInvoiceProductsModel::query()->find($id)?->delete();
+        if ($delete) {
+            echo 'deleteSuccess';
+        } else {
+            echo 'DeleteFailed';
         }
     }
 }
