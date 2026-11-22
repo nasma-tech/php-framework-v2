@@ -739,6 +739,7 @@ class ProformaInvoice extends ControllerScheme
                 'invoiceProduct',
                 'invoiceLog',
                 'contract',
+                'productPart',
             ])
             ->withCount('invoiceProduct')
             ->withCount('invoiceLog')
