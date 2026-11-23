@@ -2,6 +2,7 @@
 
 namespace App\Models\ProformaInvoiceModel;
 
+use App\Models\AddressAnnouncementModel\AddressAnnouncementModel;
 use App\Models\brandsModel\brandsModel;
 use App\Models\CityModel\CityModel;
 use App\Models\CompaniesModel\CompaniesModel;

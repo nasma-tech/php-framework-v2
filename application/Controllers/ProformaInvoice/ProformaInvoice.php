@@ -6,6 +6,7 @@ use App\Controllers\CartableDefinition\cities\cities;
 use App\Controllers\countries\countries;
 use App\Controllers\scheme\ControllerScheme;
 use App\Models\AddendumSaleContractsModel\AddendumSaleContractsModel;
+use App\Models\AddressAnnouncementModel\AddressAnnouncementModel;
 use App\Models\brandsModel\brandsModel;
 use App\Models\ChargesDeductionsModel\ChargesDeductionsModel;
 use App\Models\CityModel\CityModel;
@@ -842,6 +843,7 @@ class ProformaInvoice extends ControllerScheme
                             "city" => $getData->city ?? [],
                             "getAllocationData" => $this->getAllocationData($getData->id),
                             "productPart" => $getData->productPart ?? [],
+                            'addressData'=>$this->addressData($invoiceId)
                         ]
                     ],
                     [
@@ -1035,5 +1037,35 @@ class ProformaInvoice extends ControllerScheme
         }
 
         return $output ?? [];
+    }
+
+    public function AddressAnnouncement($id)
+    {
+        $data = $this->requestArray();
+        $makeData = [
+            "proforma_invoice_id" => $id,
+            "part_id" => $data['part_number'],
+            "city_id" => $data['city_id'],
+            "address" => $data['addressDescription'],
+            "user_id" => userObject()->userId,
+        ];
+
+        $add = addressAnnouncementModel::query()->create($makeData);
+        if ($add->save()) {
+            $add->update(["address_file" => fileHelper->fileUpload("addressAnnouncement", "addressFile", $add->id)]);
+            $this->successCallBack("/ProformaInvoice/process/{$id}");
+        }
+        var_print($data);
+        var_print($_FILES);
+        die();
+
+    }
+
+    public function addressData($proforma_invoice_id)
+    {
+        $data = addressAnnouncementModel::query()->where([
+            "proforma_invoice_id" => $proforma_invoice_id
+        ])->get();
+        return $data ?? [];
     }
 }
