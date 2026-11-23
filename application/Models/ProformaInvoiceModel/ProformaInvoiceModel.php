@@ -118,7 +118,7 @@ class ProformaInvoiceModel extends Model
 
     public function productPart(): HasMany
     {
-        return $this->hasMany(ProductPartModel::class, 'invoice_id', 'id');
+        return $this->hasMany(ProductPartModel::class, 'proforma_invoice_id', 'id');
     }
 
 }
