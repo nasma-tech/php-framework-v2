@@ -137,7 +137,7 @@ class Warehouses extends ControllerScheme
         if (validator->validateRequestsData($needle)) {
             $data['team_data'] = json_encode(json_decode($data['jsonOutput'], true)['nodeDataArray'], JSON_UNESCAPED_UNICODE);
             $data['nodes_data'] = $data['jsonOutput'];
-            $data['warehouse_brand_ids'] = json_encode($data['warehouse_brand_ids'], JSON_UNESCAPED_UNICODE);
+            $data['warehouse_brand_ids'] = json_encode($data['warehouse_brand_ids'], JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
             unset($data['jsonOutput']);
 
             $data['user_id'] = userObject()->userId;

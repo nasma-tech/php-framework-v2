@@ -4,13 +4,15 @@ namespace App\Controllers\ExitWarehouse;
 
 use App\Controllers\scheme\ControllerScheme;
 use App\Models\ExitWarehouseModel\ExitWarehouseModel;
+use App\Models\ExitWarehousePackageModel\ExitWarehousePackageModel;
+use App\Models\ProductModel\ProductModel;
 
 class ExitWarehouse extends ControllerScheme
 {
     const string singleName = 'خروج از انبار';
     const string pluralName = 'خروج از انبار';
     protected string $defaultModel = ExitWarehouseModel::class;
-        
+
     public function main()
     {
         view->setPageTitle(self::pluralName);
@@ -35,30 +37,36 @@ class ExitWarehouse extends ControllerScheme
             ])->display('ExitWarehouse/ExitWarehouse.tpl');
     }
 
-    public function addIndex()
+    public function addExitPackage(int $warehouseId, string $title, int|null $allocationId = null)
     {
-        view->setPageTitle(self::pluralName);
-        view->setSingleName(self::singleName);
-        view->setPluralName(self::pluralName);
-        view->ui([
-            //'js/ExitWarehouse/add-ExitWarehouse'
-        ], [],
-            [//vars
-            ]
-        )->display('ExitWarehouse/add-ExitWarehouse.tpl');
+        return ExitWarehousePackageModel::query()->create([
+            'warehouse_id' => $warehouseId,
+            'allocation_id' => $allocationId,
+            'title' => $title,
+            'user_id' => userObject()->userId
+        ]);
     }
 
-    public function editIndex($id)
+    public function addExitProduct(
+        int         $exitPackageId,
+        int         $product_id,
+        int         $amount,
+        string|null $exit_datetime = null,
+        bool        $exit_status = false
+    )
     {
-        view->setPageTitle(self::pluralName);
-        view->setSingleName(self::singleName);
-        view->setPluralName(self::pluralName);
-        //name this model
-        view->setModel();
-        view->ui([
-            //'js/ExitWarehouse/edit-ExitWarehouse'
-        ], [], [
-            //var
-        ])->display('ExitWarehouse/edit-ExitWarehouse.tpl');
+        $getProduct = ProductModel::query()->find($product_id);
+        if ($product_id) {
+            return ExitWarehouseModel::query()->create([
+                "exit_package_id" => $exitPackageId,
+                "product_id" => $product_id,
+                "amount" => $amount,
+                "unit_id" => $getProduct->measurementUnit->id,
+                "exit_datetime" => $exit_datetime ?: date("Y-m-d H:i:s"),
+                "exit_status" => $exit_status,
+                "user_id" => userObject()->userId,
+            ]);
+        }
+        return false;
     }
 }
