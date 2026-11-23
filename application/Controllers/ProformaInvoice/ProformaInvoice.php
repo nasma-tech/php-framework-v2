@@ -55,6 +55,7 @@ class ProformaInvoice extends ControllerScheme
                     ->get()
             ])->display('ProformaInvoice/ProformaInvoice.tpl');
     }
+
     public function createProformaInvoice($priceSuggestionId): void
     {
         $getPriceSuggestionData = PriceSuggestionModel::query()->find($priceSuggestionId);
@@ -905,7 +906,13 @@ class ProformaInvoice extends ControllerScheme
                     "href" => "/ProformaInvoice/editIndex/{$invoiceId}",
                     "icon" => "bx-edit warning",
                     "target" => "blank",
-                    "scriptFile" => ''
+                    "scriptFile" => '',
+                    "show" => (function () use ($getData) {
+                        if ($getData->contract) {
+                            return false;
+                        }
+                        return true;
+                    })()
                 ],
                 [
                     "name" => "submit_guarantee",
@@ -913,7 +920,8 @@ class ProformaInvoice extends ControllerScheme
                     "description" => "",
                     "icon" => "bx-check-shield success",
                     "type" => 'button',
-                    "scriptFile" => ''
+                    "scriptFile" => '',
+                    "show" => false,
                 ],
                 [
                     "name" => "payment_allocation",
@@ -921,15 +929,23 @@ class ProformaInvoice extends ControllerScheme
                     "description" => "",
                     "type" => 'button',
                     "icon" => "bx-check-shield primary",
-                    "scriptFile" => 'js/ProformaInvoice/options/paymentAllocation'
+                    "scriptFile" => 'js/ProformaInvoice/options/paymentAllocation',
+                    "show" => true
                 ],
                 [
                     "name" => "submit_addendum",
                     "title" => "ثبت الحاقیه",
                     "description" => "",
-                    "type" => 'button',
-                    "icon" => "bx-plus-circle info",
-                    "scriptFile" => ''
+                    "href"=>"/ProformaInvoice/editIndex/{$invoiceId}",
+                    "type" => 'a',
+                    "icon" => "bxs-file-plus info",
+                    "scriptFile" => '',
+                    "show" => (function () use ($getData) {
+                        if (!$getData->contract || $getData->contract->cancelContract) {
+                            return false;
+                        }
+                        return true;
+                    })()
                 ],
                 [
                     "name" => "cancel_contract",
@@ -937,7 +953,13 @@ class ProformaInvoice extends ControllerScheme
                     "description" => "",
                     "type" => 'button',
                     "icon" => "bx-x-circle danger",
-                    "scriptFile" => ''
+                    "scriptFile" => '',
+                    "show" => (function () use ($getData) {
+                        if ($getData->contract) {
+                            return true;
+                        }
+                        return false;
+                    })()
                 ]
             ];
 
