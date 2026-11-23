@@ -75,13 +75,13 @@ class ProductExitParts extends ControllerScheme
         $addExitPart = ProductExitPartsModel::query()->create($makeExitPart);
         if ($addExitPart) {
             $get = json_decode($addExitPart->productParts->proformaInvoice->invoiceDetail->charges_deductions, true);
-            $sumTax = [];
-            $sumTaxTotal = 0;
-            $exit_part_total_sum = 0;
             if (isset($data['exitData'])) {
                 foreach ($data['exitData'] as $item) {
                     $exit_amount = numberNormalizer->removePriceSeparator($item['exit_amount']);
                     $sum_unit_price = $item['total_unit_price'] * $exit_amount;
+                    $sumTaxTotal = 0;
+                    $exit_part_total_sum = 0;
+                    $sumTax = [];
                     foreach ($get as $row) {
                         if ($row['netSumMerge']) {
                             $sumTax[] = [
@@ -89,6 +89,7 @@ class ProductExitParts extends ControllerScheme
                                 'charges_deduction_id' => $row['charges_deduction_id'],
                                 'coefficient' => round($row['coefficient'] - 1, 2),
                                 'netSumMerge' => $row['netSumMerge'],
+                                'identifier' => $row['identifier'],
                                 'sum' => $sum_unit_price * ($row['coefficient'] - 1)
                             ];
                             $sumTaxTotal += $sum_unit_price * ($row['coefficient'] - 1);
@@ -99,6 +100,7 @@ class ProductExitParts extends ControllerScheme
                                 'charges_deduction_id' => $row['charges_deduction_id'],
                                 'coefficient' => round($row['coefficient'] - 1, 2),
                                 'netSumMerge' => $row['netSumMerge'],
+                                'identifier' => $row['identifier'],
                                 'sum' => ($sumTaxTotal + $sum_unit_price) * ($row['coefficient'] - 1)
                             ];
                             $exit_part_total_sum += ($sumTaxTotal + $sum_unit_price) * ($row['coefficient'] - 1);
