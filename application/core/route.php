@@ -637,3 +637,6 @@ $router->get('/valad', function () {
 //
 //    var_print($instance->getRelatedProducts(2));
 });
+$router->mount('/ProductExitParts', function () use ($router) {
+    dynamicRoute($router, App\Controllers\ProductExitParts\ProductExitParts::class);
+});
