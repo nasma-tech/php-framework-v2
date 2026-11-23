@@ -3,6 +3,7 @@
 namespace App\Models\EntryWarehouseModel;
 
 use App\Models\EntryWarehousePackageModel\EntryWarehousePackageModel;
+use App\Models\ProductModel\ProductModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,10 +21,8 @@ class EntryWarehouseModel extends Model
         "product_id",
         "amount",
         "unit_id",
-        "is_stock",
-        "stock_datetime",
-        "documents",
         "user_id",
+        "created_at",
         "updated_at",
         "deleted_at",
     ];
@@ -32,4 +31,9 @@ class EntryWarehouseModel extends Model
     {
         return $this->hasOne(EntryWarehousePackageModel::class, 'id', 'entry_package_id');
     }
+    public function productData()
+    {
+        return $this->belongsTo(productModel::class, 'product_id', 'id');
+    }
+
 }

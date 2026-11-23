@@ -1,5 +1,5 @@
 $(function () {
-    tinyEditor("#wareHousePartDescription");
+    $("#wareHousePartDescription").joditEditor()
 
     let counter = 0;
     let plateIndex = $(".exitData-plate-row").length;
@@ -208,7 +208,7 @@ $(function () {
 
                 <td>
                     <input type="file"
-                           name="files[${index}][file]"
+                           name="files[${index}]"
                            class="form-control"
                            required>
                 </td>
@@ -252,67 +252,80 @@ $(function () {
 
     const createPlate = (index) => {
         return `
-            <div class="border rounded p-3 mb-2 exitData-plate-row">
-                <div class="form-row align-items-end">
+            <div class="border rounded p-3 mb-3 exitData-plate-row">
 
-                    <div class="col-md-3 mb-2">
-                        <label>نوع خودرو</label>
-                        <input type="text"
-                               name="driver_plaques[${index}][car_type]"
-                               class="form-control text-center"
-                               placeholder="مثلاً کامیون"
-                               autocomplete="off">
-                    </div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <strong>
+            <i class="bx bx-car"></i>
+            پلاک خودرو
+        </strong>
 
-                    <div class="col-md-2 mb-2">
-                        <label>دو رقم اول</label>
-                        <input type="text"
-                               name="driver_plaques[${index}][first]"
-                               class="form-control text-center"
-                               maxlength="2"
-                               inputmode="numeric"
-                               autocomplete="off">
-                    </div>
+        <button type="button"
+                class="btn btn-sm btn-outline-danger removePlateBtn"
+                title="حذف پلاک">
+            <i class="bx bx-trash"></i>
+        </button>
+    </div>
+    <div class="mt-3">
+        <label>نوع خودرو</label>
+        <input type="text"
+               name="driver_plaques[${index}][car_type]"
+               class="form-control text-center"
+               placeholder="مثلاً کامیون، سواری، وانت"
+               autocomplete="off">
+    </div>
+    <div class="iran-input-plate mt-2" dir="ltr">
 
-                    <div class="col-md-2 mb-2">
-                        <label>حرف پلاک</label>
-                        <input type="text"
-                               name="driver_plaques[${index}][two]"
-                               class="form-control text-center"
-                               maxlength="1"
-                               autocomplete="off">
-                    </div>
+        <div class="plate-country">
+            <div class="iran-flag"></div>
+            <strong>I.R.</strong>
+            <strong>IRAN</strong>
+        </div>
 
-                    <div class="col-md-2 mb-2">
-                        <label>سه رقم پلاک</label>
-                        <input type="text"
-                               name="driver_plaques[${index}][three]"
-                               class="form-control text-center"
-                               maxlength="3"
-                               inputmode="numeric"
-                               autocomplete="off">
-                    </div>
+        <div class="plate-input-numbers">
 
-                    <div class="col-md-2 mb-2">
-                        <label>ایران</label>
-                        <input type="text"
-                               name="driver_plaques[${index}][four]"
-                               class="form-control text-center"
-                               maxlength="2"
-                               inputmode="numeric"
-                               autocomplete="off">
-                    </div>
+            <input type="text"
+                   name="driver_plaques[${index}][first]"
+                   maxlength="2"
+                   inputmode="numeric"
+                   class="plate-input plate-digits"
+                   placeholder="۰۰"
+                   autocomplete="off">
 
-                    <div class="col-md-1 mb-2">
-                        <button type="button"
-                                class="btn btn-outline-danger btn-block removePlateBtn"
-                                title="حذف پلاک">
-                            <i class="bx bx-trash"></i>
-                        </button>
-                    </div>
+            <input type="text"
+                   name="driver_plaques[${index}][two]"
+                   maxlength="1"
+                   class="plate-input plate-letter"
+                   placeholder="و"
+                   autocomplete="off">
 
-                </div>
-            </div>
+            <input type="text"
+                   name="driver_plaques[${index}][three]"
+                   maxlength="3"
+                   inputmode="numeric"
+                   class="plate-input plate-digits"
+                   placeholder="۰۰۰"
+                   autocomplete="off">
+
+        </div>
+
+        <div class="plate-iran-code">
+            <span>ایران</span>
+
+            <input type="text"
+                   name="driver_plaques[${index}][four]"
+                   maxlength="2"
+                   inputmode="numeric"
+                   class="plate-input plate-code-input"
+                   placeholder="۰۰"
+                   autocomplete="off">
+        </div>
+
+    </div>
+
+    
+
+</div>
         `;
     };
 
