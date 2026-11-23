@@ -10,7 +10,8 @@
                     <select class="form-control select2" required id="brand_id" name="brand_id">
                         <option selected disabled>یک برند انتخاب کنید</option>
                         {foreach $brands as $item}
-                            <option value="{$item.id}">{$item.label}</option>
+                            <option value="{$item.id}"
+                                    {if $getData.brand_id|default:'' == $item.id}selected{/if}>{$item.label}</option>
                         {/foreach}
                     </select>
                 </div>
@@ -34,7 +35,7 @@
                             </tr>
                             </thead>
                             <tbody id="mainProduct">
-                            {foreach $getDataProduct|default:[] as $key=>$item}
+                            {foreach $getDataProduct|default:$invoiceProduct as $key=>$item}
                                 <tr>
                                     <td class="border">
                                         {$key+1}
@@ -44,7 +45,10 @@
                                                 id="product_id_{$key+1}"
                                                 name="productList[{$key+1}][product_id]">
                                             {foreach $products as $product}
-                                                <option value="{$product.id}">{$product.label}</option>
+                                                <option value="{$product.id}"
+                                                        data-price="{$item.sale_price}"
+                                                        data-unit="{$item.product.measurementUnit.label}"
+                                                        {if $product.id|default:'' == $item.id}selected{/if}>{$product.label}</option>
                                             {/foreach}
                                         </select>
                                         <input class="form-control" dir="ltr"
@@ -70,6 +74,9 @@
                                     </td>
                                     <td class="border">
                                         <div class="input-group">
+                                            <input class="form-control text-center productSumRowWithOutDiscount"
+                                                   type="hidden" value="{$item.amount * $item.unit_price_edit}" readonly
+                                                   id="" name="">
                                             <input class="form-control text-center productSumRow"
                                                    value="{$numberNormalizer->floatNumberFormat($item.total_product_price)}"
                                                    readonly id="" name="">
@@ -204,7 +211,32 @@
                                             </td>
                                         </tr>
                                         </tbody>
-                                        <tbody id="mainChargesDeductionsSumTr"></tbody>
+                                        <tbody id="mainChargesDeductionsSumTr">
+                                        {assign var="decodeChargesDeductions" value=json_decode($getData.invoiceDetail.charges_deductions|default:'[]', true)}
+                                        {assign var="decodeChargesDeductionsCalculate" value=json_decode($getData.invoiceDetail.invoice_sum_tax_details|default:'[]', true)}
+                                        {if $decodeChargesDeductions|@count > 0}
+                                            {foreach $invoiceSettings as $item}
+                                                {assign var="calculate" value=0}
+                                                {if $decodeChargesDeductionsCalculate|@count > 0}
+                                                    {foreach $decodeChargesDeductionsCalculate as $calculateItem}
+                                                        {if $calculateItem.charges_deduction_id == $item.charges_deduction_id}
+                                                            {assign var="calculate" value=$calculateItem.calculate}
+                                                            {break}
+                                                        {/if}
+                                                    {/foreach}
+                                                {/if}
+                                                <tr>
+                                                    <td>{$item.title|default:''}</td>
+                                                    <td class="text-right">
+                                                             <span id="{$item.identifier|default:''}_tr" dir="rtl">
+                                                                 {$calculate|number_format:0:'.':','}
+                                                             </span>
+                                                        <span> ریال</span>
+                                                    </td>
+                                                </tr>
+                                            {/foreach}
+                                        {/if}
+                                        </tbody>
                                         <tfoot>
                                         <tr class="border-top">
                                             <td>جمع کل</td>
@@ -231,7 +263,41 @@
                                             </th>
                                         </tr>
                                         </thead>
-                                        <tbody id="mainChargesDeductions"></tbody>
+                                        <tbody id="mainChargesDeductions">
+                                        {assign var="decodeChargesDeductions" value=json_decode($getData.invoiceDetail.charges_deductions|default:'[]', true)}
+                                        {foreach $invoiceSettings|default:[] as $item}
+                                            {assign var="isChecked" value=false}
+                                            {foreach $decodeChargesDeductions as $selectedItem}
+                                                {if $selectedItem.charges_deduction_id == $item.charges_deduction_id}
+                                                    {assign var="isChecked" value=true}
+                                                    {break}
+                                                {/if}
+                                            {/foreach}
+                                            <tr>
+                                                <td class="border">{$item.title}</td>
+                                                <td class="border">
+                                                    <div class="custom-control custom-switch custom-switch-success">
+                                                        <input type="checkbox"
+                                                               name="chargesDeductionCheckBox[{$item.identifier}]"
+                                                               value="{$item.identifier}"
+                                                               class="custom-control-input chargesDeductionCheckBox"
+                                                               data-merge="{$item.netSumMerge}"
+                                                               data-coefficient="{$item.coefficient}"
+                                                               data-identifier="{$item.identifier}"
+                                                               {if $isChecked}checked{/if}
+                                                               id="chargesDeduction_{$item.charges_deduction_id}">
+
+                                                        <label class="custom-control-label"
+                                                               for="chargesDeduction_{$item.charges_deduction_id}">
+                                                            <span class="switch-icon-left"><i class="bx bx-check"></i></span>
+                                                            <span class="switch-icon-right"><i class="bx bx-x"></i></span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        {/foreach}
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -289,7 +355,9 @@
                                                     <option selected disabled>کشور را انتخاب کنید</option>
                                                     {foreach $country as $item}
                                                         <option value="{$item.id}"
-                                                                {if $priceSuggestionData.country_id|default:null == $item.id}selected{/if}>{$item.persian_title}</option>
+                                                                {if $priceSuggestionData.country_id|default:null == $item.id}selected{/if}
+                                                                {if $getData.country_id|default:null == $item.id}selected{/if}
+                                                        >{$item.persian_title}</option>
                                                     {/foreach}
                                                 </select>
                                             </td>
@@ -301,7 +369,9 @@
                                                     <option selected disabled>استان را انتخاب کنید</option>
                                                     {foreach $state as $item}
                                                         <option value="{$item.id}"
-                                                                {if $priceSuggestionData.state_id|default:null == $item.id}selected{/if}>{$item.title}</option>
+                                                                {if $priceSuggestionData.state_id|default:null == $item.id}selected{/if}
+                                                                {if $getData.state_id|default:null == $item.id}selected{/if}
+                                                        >{$item.title}</option>
                                                     {/foreach}
                                                 </select>
                                             </td>
@@ -313,7 +383,9 @@
                                                     <option selected disabled>شهر را انتخاب کنید</option>
                                                     {foreach $cities as $item}
                                                         <option value="{$item.id}"
-                                                                {if $priceSuggestionData.city_id|default:null == $item.id}selected{/if}>{$item.title}</option>
+                                                                {if $priceSuggestionData.city_id|default:null == $item.id}selected{/if}
+                                                                {if $getData.city_id|default:null == $item.id}selected{/if}
+                                                        >{$item.title}</option>
                                                     {/foreach}
                                                 </select>
                                             </td>
@@ -343,7 +415,8 @@
                                             <td>
                                                 <div class="input-group">
                                                     <input class="form-control" type="number" id="delivery_date"
-                                                           name="delivery_date">
+                                                           name="delivery_date"
+                                                           value="{$getData.delivery_date|default:''}">
                                                     <div class="input-group-append">
                                                         <span class="input-group-text">روز</span>
                                                     </div>

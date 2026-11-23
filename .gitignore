@@ -17,20 +17,25 @@
 !/Storage/cache/mpdf/.gitkeep
 !/Storage/cache/imagick/.gitkeep
 !/Storage/cache/MailboxQueueCash/.gitkeep
+!/Storage/cache/warehouses/.gitkeep
 
 !/Storage/bankLogo/
+!/Storage/warehouses/
 !/Storage/companies/
 !/Storage/Companies/
 !/Storage/CRMTraining/
 !/Storage/DefaultImages/
 !/Storage/cache/
+!/Storage/brands
 
 !/Storage/bankLogo/**
+!/Storage/warehouses/**
 !/Storage/companies/**
 !/Storage/Companies/**
 !/Storage/CRMTraining/**
 !/Storage/DefaultImages/**
 !/Storage/socialNetworkIcons/**
+!/Storage/brands/**
 
 # IDE
 .idea/

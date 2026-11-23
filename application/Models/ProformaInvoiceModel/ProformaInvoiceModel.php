@@ -2,14 +2,22 @@
 
 namespace App\Models\ProformaInvoiceModel;
 
+use App\Models\AddressAnnouncementModel\AddressAnnouncementModel;
 use App\Models\brandsModel\brandsModel;
 use App\Models\CityModel\CityModel;
 use App\Models\CompaniesModel\CompaniesModel;
 use App\Models\CustomerContactInformationModel\CustomerContactInformationModel;
+use App\Models\PaymentAllocationModel\PaymentAllocationModel;
+use App\Models\ProductPartModel\ProductPartModel;
+use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
+use App\Models\ProformaInvoiceLogModel\ProformaInvoiceLogModel;
+use App\Models\ProformaInvoiceProductsModel\ProformaInvoiceProductsModel;
+use App\Models\SaleContractsModel\SaleContractsModel;
 use App\Models\SalesTeamModel\SalesTeamModel;
 use App\Models\StateModel\StateModel;
 use App\Models\UserModel\UserModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -76,4 +84,35 @@ class ProformaInvoiceModel extends Model
     {
         return $this->hasOne(CityModel::class, 'id', 'city_id');
     }
+
+    public function invoiceProduct(): HasMany
+    {
+        return $this->hasMany(ProformaInvoiceProductsModel::class, 'proforma_invoice_id', 'id');
+    }
+
+    public function invoiceDetail(): HasOne
+    {
+        return $this->hasOne(ProformaInvoiceDetailsModel::class, 'proforma_invoice_id', 'id');
+    }
+
+    public function invoiceLog(): HasMany
+    {
+        return $this->hasMany(ProformaInvoiceLogModel::class, 'proforma_invoice_id', 'id')->orderByDesc('id');
+    }
+
+    public function contract(): HasOne
+    {
+        return $this->hasOne(SaleContractsModel::class, 'proforma_invoice_id', 'id');
+    }
+
+    public function paymentAllocation(): HasMany
+    {
+        return $this->hasMany(PaymentAllocationModel::class, 'invoice_id', 'id');
+    }
+
+    public function productPart(): HasMany
+    {
+        return $this->hasMany(ProductPartModel::class, 'proforma_invoice_id', 'id');
+    }
+
 }

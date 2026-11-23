@@ -22,4 +22,7 @@ const userHelper = new \Packages\Helpers\UserHelper();
 const dateTimeHelper = new \Packages\Helpers\DateTimeHelper();
 
 const numberHelper = new \Packages\Support\Text\PersianTextNormalizer();
+
 const numberNormalizer = new \Packages\Support\Number\NumberNormalizer();
+
+const number = new \Packages\Support\Number\NumberToWord();

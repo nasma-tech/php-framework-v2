@@ -2,7 +2,11 @@
 
 namespace App\Models\ProformaInvoiceProductsModel;
 
+use App\Models\ProductModel\ProductModel;
+use App\Models\ProductPartItemModel\ProductPartItemModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProformaInvoiceProductsModel extends Model
@@ -10,7 +14,7 @@ class ProformaInvoiceProductsModel extends Model
     protected $table = 'ProformaInvoiceProducts';
     protected $primaryKey = 'id';
     public $timestamps = false;
-    
+
     use SoftDeletes;
 
     protected $fillable = [
@@ -30,4 +34,13 @@ class ProformaInvoiceProductsModel extends Model
         'deleted_at'
     ];
 
+    public function product(): HasOne
+    {
+        return $this->hasOne(ProductModel::class, 'id', 'product_id');
+    }
+
+    public function allocation(): HasMany
+    {
+        return $this->hasMany(ProductPartItemModel::class, 'invoice_product_id', 'id');
+    }
 }

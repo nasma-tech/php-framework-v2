@@ -62,14 +62,47 @@ class Companies extends ControllerScheme
         ])->display('Companies/edit-Companies.tpl');
     }
 
-    public function addCompanies()
+    public function findCompanies(): void
+    {
+        $companyNationalID = $this->requestArray('companyNationalID');
+        $find = CompaniesModel::query()->where('national_ID', $companyNationalID)->first();
+        if ($find) {
+            $result = [
+                'status' => true,
+                'message' => 'با موفقیت یافت شد',
+                'data' => [
+                    'national_ID' => $find->national_ID,
+                    'company_name' => $find->company_name,
+                    'establishment_date' => $find->establishment_date,
+                    'company_status' => $find->company_status,
+                    'registration_number' => $find->registration_number,
+                    'economic_code' => $find->economic_code,
+                    'address' => $find->address,
+                    'postal_code' => $find->postal_code,
+                ]
+            ];
+        } else {
+            $result = [
+                'status' => false,
+                'message' => 'یافت نشد',
+                'data' => []
+            ];
+        }
+        echo json_encode($result,JSON_UNESCAPED_UNICODE);
+    }
+
+    public function addCompanies(): void
     {
         csrf->csrfValidate();
+
         $data = $this->requestArray();
+
+        $nationalID = numberHelper->persianNumberToEnglish($data['national_ID']);
+
         $makeRequest = [
-            'national_ID' => numberHelper->persianNumberToEnglish($data['national_ID']),
+            'national_ID' => $nationalID,
             'company_name' => $data['company_name'],
-            'establishment_date' => $data['establishment_date'] ?? date("Y-m-d", dateTimeHelper->convertDateToTimestamp($data['establishment_date'])),
+            'establishment_date' => $data['establishment_date'],
             'company_status' => $data['company_status'],
             'registration_number' => numberHelper->persianNumberToEnglish($data['registration_number']),
             'economic_code' => numberHelper->persianNumberToEnglish($data['economic_code']),
@@ -78,20 +111,20 @@ class Companies extends ControllerScheme
             'lat' => $data['lat'] ?? null,
             'lang' => $data['lang'] ?? null,
         ];
-        $companiesAdd = CompaniesModel::query()->create($makeRequest);
-        if ($companiesAdd) {
-            echo json_encode([
-                'status' => true,
-                'id' => $companiesAdd->id,
-                'companyName' => $companiesAdd->company_name,
-                'nationalID' => $companiesAdd->national_ID,
-                'message' => 'با موفقیت ثبت شد'
-            ], JSON_UNESCAPED_UNICODE);
-        } else {
-            echo json_encode([
-                'status' => false,
-                'message' => 'خطا در ثبت اطلاعات'
-            ], JSON_UNESCAPED_UNICODE);
-        }
+
+        $companiesAdd = CompaniesModel::query()->firstOrNew([
+            'national_ID' => $nationalID
+        ]);
+
+        $companiesAdd->fill($makeRequest);
+        $companiesAdd->save();
+
+        echo json_encode([
+            'status' => true,
+            'id' => $companiesAdd->id,
+            'companyName' => $companiesAdd->company_name,
+            'nationalID' => $companiesAdd->national_ID,
+            'message' => 'با موفقیت ثبت شد'
+        ], JSON_UNESCAPED_UNICODE);
     }
 }

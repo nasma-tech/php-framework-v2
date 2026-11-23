@@ -1,21 +1,21 @@
 $(function () {
-    tinyEditor("#customer_company_address");
-    $("#national_code").numberInput()
-    $("#registration_number").numberInput()
-    $("#national_code").numberInput()
-    $("#economic_code").numberInput()
-    $("#postal_code").numberInput()
-    $("#birth_date").datePicker("attr", "today")
-    $("#owner_date").datePicker("attr", "today")
-    $("#registration_date").datePicker("attr", "today")
+    //company
+    $("#company_national_code").numberInput(10)
+    $("#company_registration_date").datePicker("attr", "today")
+    $("#company_registration_number").numberInput()
+    $("#company_economic_code").numberInput()
+    $("#owner_postal_code").numberInput(10)
+    $("#company_postal_code").numberInput(10)
 
+    $("#owner_date").datePicker("attr", "today")
+    $("#national_id").numberInput(10)
 
     $("#owner_document").on('input', function () {
-        validateDocument("owner_document")
+        validateDocument("#owner_document")
     })
 
-    $("#showDucomnet").on('click', function () {
-        if (!validateDocument("owner_document")) return;
+    $("#showDocument").on('click', function () {
+        if (!validateDocument("#owner_document")) return;
         const file = $("#owner_document")[0].files[0];
         if (!file) return;
         const fileUrl = URL.createObjectURL(file);
@@ -26,21 +26,33 @@ $(function () {
         });
     });
 
-    $('#personType').select2({
-        width: '100%', tags: true, tokenSeparators: [',', ' ']
+    $('#authorized_signatories').select2({
+        width: '100%', tags: true, tokenSeparators: [',', ' '], placeholder: 'بنویسید...',
     });
 
-    $(".nav-link").on('click', function () {
+    const $personTypeButtons = $(".changePersonTypeButton");
 
-        const id = $(this).attr("href");
+    $personTypeButtons.on("click", function () {
+        const value = $(this).data("value");
 
-        $(".ownership").find("input, select").each(function () {
-            $(this).removeAttr('required').val("");
-            $(this).removeClass("is-invalid")
-        });
-        $(id).find("input, select, textarea").each(function () {
-            $(this).prop('required', true);
-        });
+        $("#person_type").val(value);
 
+        $("#ownerDetailData")
+            .find("input, textarea")
+            .val("")
+            .prop({
+                required: false,
+                disabled: true
+            });
+
+        $(`.ownerDetailDatum_${value}`)
+            .find("input, textarea")
+            .val("")
+            .prop({
+                required: true,
+                disabled: false
+            });
     });
+
+    $personTypeButtons.first().trigger("click");
 })

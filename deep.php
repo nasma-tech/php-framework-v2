@@ -156,43 +156,112 @@ PHP;
             echo " name not valid\n";
     }
 
+
     public function makeService($name)
     {
-        if ($name) {
-            $namespace = "App\\Services\\{$name}Service";
-            $content = <<<PHP
-                <?php
+        if (!$name || !preg_match('/^[A-Z][a-zA-Z0-9]*$/', $name)) {
+            echo "name not valid\n";
+            return;
+        }
 
-                namespace $namespace;
+        $namespace = "App\\Services\\{$name}Service";
 
-                use App\core\Service\ProcessType;
-                use App\core\Service\ServiceSchema;
+        $content = <<<PHP
+<?php
 
-                class {$name}Service extends ServiceSchema
-                {
-                    private mixed \$getData;
+namespace {$namespace};
 
-                    public function __construct(\$getData)
-                    {
-                        \$this->getData = \$getData;
-                    }
+use App\core\Service\ProcessType;
+use App\core\Service\ServiceSchema;
 
-                }
+class {$name}Service extends ServiceSchema
+{
+    private mixed \$getData;
 
-                PHP;
+    public function __construct(\$getData)
+    {
+        \$this->getData = \$getData;
+    }
+}
+PHP;
 
-            $directory = __DIR__ . "/application/Services/{$name}Service";
-            $filename = "{$name}Service.php";
-            $fullPath = $directory . "/" . $filename;
-            if (!file_exists($fullPath)) {
-                if (!is_dir($directory)) {
-                    mkdir($directory, 0777, true);
-                }
-                file_put_contents($fullPath, $content);
-                echo "service append success.\n";
+        $directory = __DIR__ . "/application/Services/{$name}Service";
+        $filename = "{$name}Service.php";
+        $fullPath = $directory . "/" . $filename;
+
+        if (!file_exists($fullPath)) {
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
             }
-        } else
-            echo " name not valid\n";
+
+            file_put_contents($fullPath, $content);
+            echo "service append success.\n";
+        }
+    }
+
+    public function makeView($name)
+    {
+        if (!$name || !preg_match('/^[a-zA-Z][a-zA-Z0-9_-]*$/', $name)) {
+            echo "name not valid\n";
+            return;
+        }
+
+        $content = <<<'TPL'
+{include 'sections/header.tpl'}
+{include 'sections/top-bar.tpl'}
+{include 'sections/side-menu.tpl'}
+
+<div class="app-content content">
+    <div class="content-overlay"></div>
+    <div class="content-wrapper">
+        {$flashMessageHelper->formCallBack()}
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">لیست {$pluralName}</h4>
+
+                        <div class="heading-elements">
+                            {$buttonHelper->refreshAndAddButton($singleName)}
+                        </div>
+                    </div>
+
+                    <div class="card-content">
+                        <div class="card-body">
+                            <table class="table tableDataShow"
+                                   style="background-color: #fff; border-radius: 5px;">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th class="border">#</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{include 'sections/footer.tpl'}
+TPL;
+
+        $directory = __DIR__ . "/view/{$name}";
+        $filename = "{$name}.tpl";
+        $fullPath = $directory . "/" . $filename;
+
+        if (!file_exists($fullPath)) {
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            file_put_contents($fullPath, $content);
+            echo "view append success.\n";
+        }
     }
 
 
@@ -221,6 +290,7 @@ if (php_sapi_name() === 'cli') {
         'make:all' => 'makeAll',
         'make:route' => 'makeRoute',
         'make:service' => 'makeService',
+        'make:view' => 'makeView'
     ];
 
     if (isset($map[$command])) {

@@ -1,18 +1,25 @@
 <?php
 
 namespace App\Controllers\salesTeam;
+
 use App\Controllers\scheme\ControllerScheme;
 use App\Models\brandsModel\brandsModel;
+use App\Models\ProductModel\ProductModel;
 use App\Models\SalesTeamModel\SalesTeamModel;
 use App\Models\salesTeamModifyLogModel\salesTeamModifyLogModel;
+use App\Models\SalesTeamProductsHistoryModel\SalesTeamProductsHistoryModel;
+use App\Models\SalesTeamProductsModel\SalesTeamProductsModel;
+use App\Models\salesTeamGroupModel\salesTeamGroupModel;
+use App\Models\saleTeamGRoupSalesTeamModel\saleTeamGroupSalesTeamModel;
+use App\Models\UserModel\UserModel;
 use Packages\Security\Csrf;
 
 require_once __SOURCE__ . 'application/Controllers/scheme/ControllerScheme.php';
 
 class salesTeam extends ControllerScheme
 {
-    const string singleName = 'تیم فروش';
-    const string pluralName = 'تیم های فروش';
+    const string singleName = 'گروه تیم فروش';
+    const string pluralName = 'گروه تیم فروش';
     protected string $defaultModel = SalesTeamModel::class;
 
     public function main()
@@ -31,33 +38,36 @@ class salesTeam extends ControllerScheme
             'assets/vendors/js/tables/datatable/pdfmake.min',
             'assets/vendors/js/tables/datatable/vfs_fonts',
             'assets/vendors/js/tables/datatable/buttons.colVis.min',
+            'js/salesTeam/salesTeamGroup',
         ],
             ['vendors/css/tables/datatable/datatables.min'],
             [
-                'list' => SalesTeamModel::query()->get(),
+//                'list' => SalesTeamModel::query()->get(),
+                'list' => salesTeamGroupModel::query()->get(),
             ])->display('salesTeam/salesTeam.tpl');
     }
 
-    public function addIndex()
+    public function addTeamIndex($id)
     {
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
         view->ui([
-            '/js/valadart/app',
-            '/js/valadart/go',
-            '/js/valadart/context-menu',
-            '/js/valadart/data',
-            '/js/valadart/diagram-init',
-            '/js/valadart/editing',
-            '/js/valadart/dragging-tool',
-            '/js/valadart/lookup',
-            '/js/valadart/model-helpers',
-            '/js/valadart/node-template',
-            '/js/salesTeam/add-salesTeam',
+            '/vendors/js/charts/valadart/go',
+            '/vendors/js/charts/valadart/data',
+            '/vendors/js/charts/valadart/lookup',
+            '/vendors/js/charts/valadart/model-helpers',
+            '/vendors/js/charts/valadart/editing',
+            '/vendors/js/charts/valadart/context-menu',
+            '/vendors/js/charts/valadart/node-template',
+            '/vendors/js/charts/valadart/dragging-tool',
+            '/vendors/js/charts/valadart/diagram-init',
+            '/vendors/js/charts/valadart/app',
+            '//js/salesTeam/add-salesTeam',
         ], [
-            '/css/valadart/style',
-        ],[
+            '/vendors/css/charts/valadart/style'
+        ], [
+            'groupId' => $id,
             'Brands' => brandsModel::query()->get(),
         ])->display('salesTeam/add-salesTeam.tpl');
     }
@@ -69,20 +79,20 @@ class salesTeam extends ControllerScheme
         view->setPluralName(self::pluralName);
         view->setModel(SalesTeamModel::query()->find($id));
         view->ui([
-            '/js/valadart/app',
-            '/js/valadart/go',
-            '/js/valadart/context-menu',
-            '/js/valadart/data',
-            '/js/valadart/diagram-init',
-            '/js/valadart/editing',
-            '/js/valadart/dragging-tool',
-            '/js/valadart/lookup',
-            '/js/valadart/model-helpers',
-            '/js/valadart/node-template',
+            '/vendors/js/charts/valadart/go',
+            '/vendors/js/charts/valadart/data',
+            '/vendors/js/charts/valadart/lookup',
+            '/vendors/js/charts/valadart/model-helpers',
+            '/vendors/js/charts/valadart/editing',
+            '/vendors/js/charts/valadart/context-menu',
+            '/vendors/js/charts/valadart/node-template',
+            '/vendors/js/charts/valadart/dragging-tool',
+            '/vendors/js/charts/valadart/diagram-init',
+            '/vendors/js/charts/valadart/app',
             '/js/salesTeam/add-salesTeam',
         ], [
-            '/css/valadart/style',
-        ],[
+            '/vendors/css/charts/valadart/style'
+        ], [
             'Brands' => brandsModel::query()->get(),
         ])->display('salesTeam/edit-salesTeam.tpl');
     }
@@ -92,20 +102,20 @@ class salesTeam extends ControllerScheme
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
-        view->setModel(ORM::for_table($this->Model())->find_one($id));
+        view->setModel(SalesTeamModel::query()->find($id));
         view->ui([
-            'assets/vendors/js/charts/valadart/go',
-            'assets/vendors/js/charts/valadart/data',
-            'assets/vendors/js/charts/valadart/lookup',
-            'assets/vendors/js/charts/valadart/model-helpers',
-            'assets/vendors/js/charts/valadart/editing',
-            'assets/vendors/js/charts/valadart/context-menu',
-            'assets/vendors/js/charts/valadart/node-template',
-            'assets/vendors/js/charts/valadart/dragging-tool',
-            'assets/vendors/js/charts/valadart/diagram-init',
-            'assets/vendors/js/charts/valadart/app',
+            '/vendors/js/charts/valadart/go',
+            '/vendors/js/charts/valadart/data',
+            '/vendors/js/charts/valadart/lookup',
+            '/vendors/js/charts/valadart/model-helpers',
+            '/vendors/js/charts/valadart/editing',
+            '/vendors/js/charts/valadart/context-menu',
+            '/vendors/js/charts/valadart/node-template',
+            '/vendors/js/charts/valadart/dragging-tool',
+            '/vendors/js/charts/valadart/diagram-init',
+            '/vendors/js/charts/valadart/app',
         ], [
-            'assets/vendors/css/charts/valadart/style'
+            '/vendors/css/charts/valadart/style'
         ], [
 
         ])->display('SalesAndMarketing/salesTeam/view-salesTeam.tpl');
@@ -119,15 +129,62 @@ class salesTeam extends ControllerScheme
         view->setPluralName(self::pluralName);
         view->setModel(SalesTeamModel::query()->find($id));
         view->ui([
-            'assets/js/salesTeam/permission-salesTeam',
-        ], [], [
+            'js/salesTeam/permission-salesTeam',
+        ], ["css/salesTeam/sale-permissions"], [
             'brands' => BrandsModel::query()->get(),
-        ])->display('/salesTeam/permission-salesTeam.tpl');
+        ])->display('salesTeam/permission-salesTeam.tpl');
     }
 
+    public function addGroupIndex()
+    {
 
+        view->setPageTitle(self::pluralName);
+        view->setSingleName(self::singleName);
+        view->setPluralName(self::pluralName);
+        view->ui([
+            '/vendors/js/charts/valadart/go',
+            '/vendors/js/charts/valadart/data',
+            '/vendors/js/charts/valadart/lookup',
+            '/vendors/js/charts/valadart/model-helpers',
+            '/vendors/js/charts/valadart/editing',
+            '/vendors/js/charts/valadart/context-menu',
+            '/vendors/js/charts/valadart/node-template',
+            '/vendors/js/charts/valadart/dragging-tool',
+            '/vendors/js/charts/valadart/diagram-init',
+            '/vendors/js/charts/valadart/app',
+        ], [
+            '/vendors/css/charts/valadart/style'
+        ], [
+            'Brands' => brandsModel::query()->get(),
+        ])->display('salesTeam/add-groupSaleTeam.tpl');
+    }
 
-    public function add()
+    public function editGroupIndex($id)
+    {
+
+        view->setPageTitle(self::pluralName);
+        view->setSingleName(self::singleName);
+        view->setPluralName(self::pluralName);
+        view->setModel(salesTeamGroupModel::query()->find($id));
+        view->ui([
+            '/vendors/js/charts/valadart/go',
+            '/vendors/js/charts/valadart/data',
+            '/vendors/js/charts/valadart/lookup',
+            '/vendors/js/charts/valadart/model-helpers',
+            '/vendors/js/charts/valadart/editing',
+            '/vendors/js/charts/valadart/context-menu',
+            '/vendors/js/charts/valadart/node-template',
+            '/vendors/js/charts/valadart/dragging-tool',
+            '/vendors/js/charts/valadart/diagram-init',
+            '/vendors/js/charts/valadart/app',
+        ], [
+            '/vendors/css/charts/valadart/style'
+        ], [
+            'Brands' => brandsModel::query()->get(),
+        ])->display('salesTeam/edit-groupSaleTeam.tpl');
+    }
+
+    public function addTeam()
     {
         csrf->csrfValidate();
         $data = $this->requestArray();
@@ -142,16 +199,24 @@ class salesTeam extends ControllerScheme
 
             $newNodes = json_decode($data['team_data_json'], true)['nodeDataArray'] ?? [];
 
-            $add = SalesTeamModel::query()->insert([
+            $add = SalesTeamModel::query()->create([
                 'team_title' => $data['team_title'],
                 'team_data_json' => json_encode($newNodes, JSON_UNESCAPED_UNICODE),
                 'nodes_data_json' => $data['team_data_json'],
                 'user_id' => userObject()->userId,
             ]);
 
-            if ($add) {
-                return $this->successCallBack('/salesTeam/main');
-
+            if ($add->save()) {
+                $addToGroup = saleTeamGroupSalesTeamModel::query()->insert([
+                    'salesTeam_id' => $add->id,
+                    'SalesTeamGroup_id' => $data['groupId'],
+                    'user_id' => userObject()->userId,
+                ]);
+                if ($addToGroup) {
+                    return $this->successCallBack('/salesTeam/main');
+                }
+            } else {
+                header('location:/notAccess');
             }
         } else {
             header('location:/notAccess');
@@ -202,22 +267,14 @@ class salesTeam extends ControllerScheme
 
     public function getSalePermissionBrands()
     {
-        $brands = ORM::for_table('tbl_Brands')
-            ->select_many([
-                'id',
-                'name' => 'brand_persian_name',
-                'latin_name' => 'brand_latin_name',
-                'logo' => 'brand_logo',
-            ])
-            ->where('soft_delete', 0)
-            ->order_by_asc('brand_persian_name')
-            ->find_array();
+        $brands = brandsModel::query()->get();
         echo json_encode([
             'success' => true,
             'brands' => $brands,
         ], JSON_UNESCAPED_UNICODE);
         exit;
     }
+
 
     public function getSalePermissionProducts()
     {
@@ -235,71 +292,61 @@ class salesTeam extends ControllerScheme
             exit();
         }
 
-        $offset = ($page - 1) * $limit;
-        $query = ORM::for_table('qc_Products')
-            ->table_alias('p')
-            ->left_outer_join('qc_ProductCategories', ['p.category_id', '=', 'c.id'], 'c')
-            ->left_outer_join('qc_ProductGroups', ['p.group_id', '=', 'g.id'], 'g')
-            ->left_outer_join('qc_ProductGrades', ['p.grade_id', '=', 'gr.id'], 'gr')
-            ->left_outer_join('qc_ProductQualities', ['p.quality_id', '=', 'q.id'], 'q')
-            ->left_outer_join('qc_Units', ['p.unit_id', '=', 'u.id'], 'u')
-            ->where('p.brand_id', $brandId)
-            ->where('p.is_active', 1)
-            ->where('p.soft_delete', 0);
+        $products = ProductModel::with([
+            'brand',
+            'productGroup.category',
+            'grade',
+            'quality',
+            'measurementUnit',
+        ])
+            ->where('brand_id', $brandId)
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('label', 'LIKE', "%{$search}%")
+                        ->orWhere('serial_number', 'LIKE', "%{$search}%");
+                });
+            })
+            ->orderBy('label')
+            ->paginate($limit, ['*'], 'page', $page);
 
-        if ($search !== '') {
-            $searchLike = '%' . $search . '%';
-            $query->where_raw('(p.title LIKE ? OR p.product_id LIKE ?)', [$searchLike, $searchLike]);
-        }
+        $total = $products->total();
 
-        $total = $query->count();
-        $products = $query->select_many([
-            'id' => 'p.id',
-            'brand_id' => 'p.brand_id',
-            'product_code' => 'p.product_id',
-            'name' => 'p.title',
-            'default_price' => 'p.sale_price',
-            'category_name' => 'c.title',
-            'group_name' => 'g.title',
-            'grade_name' => 'gr.title',
-            'quality_name' => 'q.title',
-            'unit_name' => 'u.unite_name',
-            'unit_symbol' => 'u.unit_symbol',
-        ])->order_by_asc('p.title')
-            ->limit($limit)
-            ->offset($offset)
-            ->find_array();
+        $result = $products->getCollection()->map(function ($product) {
+            return [
+                'id' => (int)$product->id,
+                'brand_id' => (int)$product->brand_id,
+                'product_code' => $product->serial_number,
+                'name' => $product->label,
+                'default_price' => (int)($product->sale_price ?? 0),
+                'category_name' => $product->productGroup?->category?->label ?? '',
+                'group_name' => $product->productGroup?->label ?? '',
+                'grade_name' => $product->grade?->label ?? '',
+                'quality_name' => $product->quality?->label ?? '',
+                'unit_name' => $product->measurementUnit?->label ?? '',
+                'unit_symbol' => $product->measurementUnit?->unit_symbol ?? '',
+            ];
+        })->values();
 
-        foreach ($products as &$product) {
-            $product['id'] = (int)$product['id'];
-            $product['brand_id'] = (int)$product['brand_id'];
-            $product['default_price'] = (int)($product['default_price'] ?? 0);
-            $product['category_name'] = $product['category_name'] ?? '';
-            $product['group_name'] = $product['group_name'] ?? '';
-            $product['grade_name'] = $product['grade_name'] ?? '';
-            $product['quality_name'] = $product['quality_name'] ?? '';
-            $product['unit_name'] = $product['unit_name'] ?? '';
-            $product['unit_symbol'] = $product['unit_symbol'] ?? '';
-        }
-
-        unset($product);
         echo json_encode([
             'success' => true,
-            'products' => $products,
+            'products' => $result,
             'pagination' => [
                 'page' => $page,
                 'limit' => $limit,
                 'total' => $total,
-                'has_more' => ($offset + count($products)) < $total,
+                'has_more' => $products->hasMorePages(),
             ],
         ], JSON_UNESCAPED_UNICODE);
+
         exit();
     }
+
 
     public function getSalePermissionProductsForTeam()
     {
         $data = $this->requestArray();
         $teamId = (int)($data['team_id'] ?? 0);
+
         if ($teamId <= 0) {
             echo json_encode([
                 'success' => false,
@@ -308,58 +355,61 @@ class salesTeam extends ControllerScheme
             exit();
         }
 
-        $permissions = ORM::for_table('qc_SalesTeamProducts')->table_alias('stp')
-            ->select_many([
-                'product_id' => 'stp.product_id',
-                'price' => 'stp.product_price',
-                'brand_id' => 'p.brand_id',
-                'brand_name' => 'b.brand_persian_name',
-                'name' => 'p.title',
-                'code' => 'p.product_id',
-                'default_price' => 'p.sale_price',
-                'category_name' => 'c.title',
-                'group_name' => 'g.title',
-                'grade_name' => 'gr.title',
-                'quality_name' => 'q.title',
-                'unit_name' => 'u.unite_name',
-                'unit_symbol' => 'u.unit_symbol',
-            ])->join('qc_Products', ['stp.product_id', '=', 'p.id'], 'p')
-            ->left_outer_join('tbl_Brands', ['p.brand_id', '=', 'b.id'], 'b')
-            ->left_outer_join('qc_ProductCategories', ['p.category_id', '=', 'c.id'], 'c')
-            ->left_outer_join('qc_ProductGroups', ['p.group_id', '=', 'g.id'], 'g')
-            ->left_outer_join('qc_ProductGrades', ['p.grade_id', '=', 'gr.id'], 'gr')
-            ->left_outer_join('qc_ProductQualities', ['p.quality_id', '=', 'q.id'], 'q')
-            ->left_outer_join('qc_Units', ['p.unit_id', '=', 'u.id'], 'u')
-            ->where('stp.team_id', $teamId)
-            ->order_by_asc('b.brand_persian_name')
-            ->order_by_asc('p.title')
-            ->find_array();
+        $permissions = SalesTeamProductsModel::with([
+            'product.brand',
+            'product.productGroup.category',
+            'product.grade',
+            'product.quality',
+            'product.measurementUnit',
+        ])
+            ->where('team_id', $teamId)
+            ->get();
 
-        foreach ($permissions as &$permission) {
-            $permission['product_id'] = (int)$permission['product_id'];
-            $permission['brand_id'] = (int)$permission['brand_id'];
-            $permission['default_price'] = (int)($permission['default_price'] ?? 0);
-            if ($permission['price'] === null || $permission['price'] === '') {
-                $permission['price'] = null;
-            } else {
-                $permission['price'] = (int)$permission['price'];
+        $permissions = $permissions->sort(function ($a, $b) {
+            $brandA = $a->product?->brand?->brand_persian_name ?? '';
+            $brandB = $b->product?->brand?->brand_persian_name ?? '';
+
+            $brandCompare = strcasecmp($brandA, $brandB);
+
+            if ($brandCompare !== 0) {
+                return $brandCompare;
             }
 
-            $permission['category_name'] = $permission['category_name'] ?? '';
-            $permission['group_name'] = $permission['group_name'] ?? '';
-            $permission['grade_name'] = $permission['grade_name'] ?? '';
-            $permission['quality_name'] = $permission['quality_name'] ?? '';
-            $permission['unit_name'] = $permission['unit_name'] ?? '';
-            $permission['unit_symbol'] = $permission['unit_symbol'] ?? '';
-        }
+            $nameA = $a->product?->label ?? '';
+            $nameB = $b->product?->label ?? '';
 
-        unset($permission);
+            return strcasecmp($nameA, $nameB);
+        });
+
+        $permissions = $permissions->map(function ($item) {
+            $product = $item->product;
+
+            return [
+                'product_id' => (int)$item->product_id,
+                'price' => ($item->product_price === null || $item->product_price === '')
+                    ? null
+                    : (int)$item->product_price,
+                'brand_id' => (int)($product?->brand_id ?? 0),
+                'brand_name' => $product?->brand?->brand_persian_name ?? '',
+                'name' => $product?->label ?? '',
+                'code' => $product?->serial_number ?? '',
+                'default_price' => (int)($product?->sale_price ?? 0),
+                'category_name' => $product?->productGroup?->category?->label ?? '',
+                'group_name' => $product?->productGroup?->label ?? '',
+                'grade_name' => $product?->grade?->label ?? '',
+                'quality_name' => $product?->quality?->label ?? '',
+                'unit_name' => $product?->measurementUnit?->label ?? '',
+                'unit_symbol' => $product?->measurementUnit?->unit_symbol ?? '',
+            ];
+        })->values()->toArray();
+
         echo json_encode([
             'success' => true,
             'permissions' => $permissions,
         ], JSON_UNESCAPED_UNICODE);
         exit();
     }
+
 
     public function saveSalePermissions()
     {
@@ -395,10 +445,8 @@ class salesTeam extends ControllerScheme
 
                 return;
             }
+            $team = SalesTeamModel::query()->find($teamId);
 
-            $team = ORM::for_table('qc_SalesTeam')
-                ->where('id', $teamId)
-                ->find_one();
 
             if (!$team) {
                 echo json_encode([
@@ -439,9 +487,7 @@ class salesTeam extends ControllerScheme
             $products = array_values($products);
 
             if (!$products) {
-                ORM::for_table('qc_SalesTeamProducts')
-                    ->where('team_id', $teamId)
-                    ->delete_many();
+                SalesTeamProductsModel::query()->where('team_id', $teamId)->delete();
                 echo json_encode([
                     'success' => true,
                     'message' => 'دسترسی‌های فروش تیم با موفقیت حذف شد.'
@@ -450,32 +496,26 @@ class salesTeam extends ControllerScheme
             }
 
 
-
-
             $validProducts = [];
 
             foreach ($products as $product) {
-                $productExists = ORM::for_table('qc_Products')
-                    ->where('id', $product['product_id'])
-                    ->where('soft_delete', 0)
-                    ->find_one();
+                $productExists = ProductModel::query()->find($product['product_id']);
 
                 if ($productExists) {
                     $validProducts[] = $product;
                 } else {
-                    ORM::for_table('qc_SalesTeamProducts')
-                        ->where('team_id', $teamId)
-                        ->where('product_id', $product['product_id'])
-                        ->delete_many();
+                    salesTeamProductsModel::query()->where([
+                        'team_id' => $teamId,
+                        'product_id' => $product['product_id'],
+                    ])->delete();
                 }
             }
 
             $products = $validProducts;
 
             if (!$products) {
-                ORM::for_table('qc_SalesTeamProducts')
-                    ->where('team_id', $teamId)
-                    ->delete_many();
+                salesteamProductsModel::query()->where('team_id', $teamId)->delete();
+
 
                 echo json_encode([
                     'success' => true,
@@ -488,25 +528,23 @@ class salesTeam extends ControllerScheme
             $productIds = [];
             foreach ($products as $product) {
                 $changed = false;
-                $row = ORM::for_table('qc_SalesTeamProducts')
-                    ->where([
-                        'team_id' => $teamId,
-                        'product_id' => $product['product_id'],
-                    ])
-                    ->find_one();
+                $row = salesteamProductsModel::query()->where([
+                    'team_id' => $teamId,
+                    'product_id' => $product['product_id'],
+                ])->first();
 
                 if ($row) {
                     if ((int)$row->product_price !== (int)$product['price']) {
                         $changed = true;
                     }
                 } else {
-                    $row = ORM::for_table('qc_SalesTeamProducts')->create();
+                    $row = salesteamProductsModel::query()->create([]);
                     $row->team_id = $teamId;
                     $row->product_id = $product['product_id'];
                 }
 
                 if ($changed) {
-                    $history = ORM::for_table('qc_SalesTeamProductsHistory')->create();
+                    $history = SalesTeamProductsHistoryModel::query()->create([]);
                     $history->team_id = $row->team_id;
                     $history->product_id = $row->product_id;
                     $history->product_price = $row->product_price;
@@ -521,10 +559,8 @@ class salesTeam extends ControllerScheme
 
                 $productIds[] = $row->product_id;
             }
+            $teamProducts = SalesTeamProductsModel::query()->where('team_id', $teamId)->get();
 
-            $teamProducts = ORM::for_table('qc_SalesTeamProducts')
-                ->where('team_id', $teamId)
-                ->find_many();
             foreach ($teamProducts as $teamProduct) {
                 if (!in_array((int)$teamProduct->product_id, $productIds, true)) {
                     $teamProduct->delete();
@@ -547,21 +583,19 @@ class salesTeam extends ControllerScheme
 
     //***** new *****//
 
-    public function getTeamData(?int $teamId = null, bool $asArray = false): IdiormResultSet|array
+    public function getTeamData(?int $teamId = null, bool $asArray = false)
     {
-        $query = ORM::for_table('qc_SalesTeam')
-            ->where([
-                'soft_delete' => 0
-            ]);
+        $query = salesTeamProductsModel::query();
 
         if ($teamId) {
-            $query->where_equal('id', $teamId);
+            $query->where('id', $teamId);
         }
 
         if ($asArray) {
-            return $query->find_array();
+            return $query->get()->toArray();
         }
-        return $query->find_many();
+
+        return $query->get();
     }
 
     //*** دریافت اطلاعات تیم یک نفر در یک یا همه ی تیم ها *** //
@@ -752,5 +786,173 @@ class salesTeam extends ControllerScheme
         }
 
         return $result;
+    }
+
+    public function addGroup()
+    {
+        $data = $this->requestArray();
+        $add = salesTeamGroupModel::query()->create([
+            'label' => $data['label'],
+            'user_id' => userObject()->userId,
+        ]);
+        if ($add) {
+            $this->successCallBack('/salesTeam/main');
+        } else {
+            $this->failedCallBack('/salesTeam/main');
+        }
+    }
+
+    public function getGroupData($id)
+    {
+        $data = saleTeamGroupSalesTeamModel::query()->where('SalesTeamGroup_id', $id)->with(['user', 'salesTeam', 'salesTeamGroup'])->get();
+        echo json_encode($data);
+    }
+
+    public function deleteSalesTeam()
+    {
+        $data = $this->requestArray();
+        $delete = saleTeamGroupSalesTeamModel::query()->where(['SalesTeamGroup_id' => $data['group_id'], 'salesTeam_id' => $data['team_id']])->delete();
+        $deleteTeam = SalesTeamModel::query()->where('id', $data['team_id'])->delete();
+        if ($delete && $deleteTeam) {
+            echo "deleteSucess";
+        } else {
+            echo "deleteFailed";
+        }
+    }
+
+    public function checkGroupTeam($id)
+    {
+        $data = saleTeamGroupSalesTeamModel::query()
+            ->where('SalesTeamGroup_id', $id)
+            ->with(['salesTeam'])
+            ->get();
+
+        if ($data->isNotEmpty()) {
+            echo json_encode([
+                'message' => 'withData',
+                'data' => $data
+            ]);
+        } else {
+            echo json_encode([
+                'message' => 'withoutData',
+                'data' => []
+            ]);
+        }
+    }
+
+    public function deleteGroup($id)
+    {
+        $check = saleTeamGroupSalesTeamModel::query()->where('SalesTeamGroup_id', $id)->get();
+        if (!$check) {
+            var_print('data');
+            die();
+            $delete = salesTeamGroupModel::query()->where('id', $id)->delete();
+            if ($delete) {
+                echo "deleteSucess";
+            } else {
+                echo "deleteFailed";
+            }
+        } else {
+
+            $deleteGroup = salesTeamGroupModel::query()->where('id', $id)->delete();
+            $emptyGroup = saleTeamGroupSalesTeamModel::query()
+                ->where('SalesTeamGroup_id', $id)
+                ->delete();
+
+            if (!$emptyGroup && !$deleteGroup) {
+                echo "deleteSucess";
+            } else {
+                echo "deleteFailed";
+
+            }
+        }
+    }
+
+    public function editGroup($id)
+    {
+        $data = $this->requestArray();
+        $edit = salesTeamGroupModel::query()->where('id', $id)->first();
+        $modifyLog = json_decode($edit['modifyLog']) ?? [];
+
+        $modifyLog[] = [
+            "label" => $edit['label'],
+            "userId" => userObject()->userId,
+            "date" => date("Y-m-d H:i:s"),
+            "timestamp" => time(),
+        ];
+        $edit->update([
+            'label' => $data['label'],
+            'modifyLog' => json_encode($modifyLog),
+        ]);
+        if ($edit) {
+            $this->successCallBack('/salesTeam/main');
+        } else {
+            $this->failedCallBack('/salesTeam/main');
+        }
+    }
+
+    public function teamSetting($id)
+    {
+        $team = salesTeamModel::query()->find($id);
+        $jsonData = json_decode($team->team_data_json, true);
+        $users = array_column($jsonData ?? [], 'userId');
+        $users = UserModel::query()->whereIn('id', $users)->get()->toArray();
+        view->setPageTitle(self::pluralName);
+        view->setSingleName(self::singleName);
+        view->setPluralName(self::pluralName);
+        view->setModel(salesTeamMemberSettingModel::query()->where('sales_team_id', $id)->get());
+        view->ui([
+            'js/salesTeam/saleaTeamSetting',
+        ], ["css/salesTeam/sale-permissions"], [
+            'salesTeamId' => $id,
+            'Users' => $users,
+        ])->display('salesTeam/saleaTeamSetting.tpl');
+    }
+
+    public function addSalesTeamSetting($id)
+    {
+        $data = $this->requestArray();
+
+        foreach ($data as $key => $value) {
+            $check = salesTeamMemberSettingModel::query()
+                ->where('sales_team_id', $id)
+                ->where('member_id', $key)
+                ->first();
+
+            $makeData = [
+                "member_id" => $key,
+                "sales_team_id" => $id,
+                "overPrice" => $value['overPrice'] ?? false,
+                "underPrice" => $value['underPrice'] ?? false,
+                "discountPercent" => $value['discountPercent'] ?? false,
+                "sellClose" => $value['sellClose'] ?? false,
+                "user_id" => userObject()->userId,
+            ];
+
+            if ($check) {
+                $modifyLog = [
+                    "member_id" => $check->member_id,
+                    "sales_team_id" => $check->sales_team_id,
+                    "overPrice" => $check->overPrice,
+                    "underPrice" => $check->underPrice,
+                    "discountPercent" => $check->discountPercent,
+                    "sellClose" => $check->sellClose,
+                    "user_id" => $check->user_id,
+                ];
+
+                $oldLogs = json_decode($check->modifyLog, true) ?? [];
+                array_unshift($oldLogs, $modifyLog);
+
+                $makeData['modifyLog'] = json_encode($oldLogs, JSON_UNESCAPED_UNICODE);
+
+                $check->update($makeData);
+            } else {
+                $makeData['modifyLog'] = "[]";
+
+                salesTeamMemberSettingModel::query()->create($makeData);
+            }
+        }
+
+        $this->successCallBack('/salesTeam/main');
     }
 }
