@@ -16,7 +16,7 @@ class ProductPartModel extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        "invoice_id",
+        "proforma_invoice_id",
         "user_id",
         "updated_at",
         "deleted_at",

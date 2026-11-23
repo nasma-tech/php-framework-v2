@@ -11,11 +11,11 @@ $(function () {
     $("#national_id").numberInput(10)
 
     $("#owner_document").on('input', function () {
-        validateDocument("owner_document")
+        validateDocument("#owner_document")
     })
 
     $("#showDocument").on('click', function () {
-        if (!validateDocument("owner_document")) return;
+        if (!validateDocument("#owner_document")) return;
         const file = $("#owner_document")[0].files[0];
         if (!file) return;
         const fileUrl = URL.createObjectURL(file);

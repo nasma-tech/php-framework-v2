@@ -2,6 +2,7 @@
 
 namespace App\Models\ProformaInvoiceModel;
 
+use App\Models\AddressAnnouncementModel\AddressAnnouncementModel;
 use App\Models\brandsModel\brandsModel;
 use App\Models\CityModel\CityModel;
 use App\Models\CompaniesModel\CompaniesModel;
@@ -111,7 +112,7 @@ class ProformaInvoiceModel extends Model
 
     public function productPart(): HasMany
     {
-        return $this->hasMany(ProductPartModel::class, 'invoice_id', 'id');
+        return $this->hasMany(ProductPartModel::class, 'proforma_invoice_id', 'id');
     }
 
 }

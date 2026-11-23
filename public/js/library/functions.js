@@ -11,7 +11,7 @@ const readImage = (input, showImageId) => {
 
 //validate input file type
 const validateDocument = (file_id, validateFile = ["jpeg", "jpg", "png", "pdf"]) => {
-    const $file = $(`#${file_id}`);
+    const $file = $(`${file_id}`);
     $($file).on('input', function () {
 
         const file = $file[0].files[0];
