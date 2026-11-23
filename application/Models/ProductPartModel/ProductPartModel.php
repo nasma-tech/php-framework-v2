@@ -18,7 +18,8 @@ class ProductPartModel extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        "invoice_id",
+        "proforma_invoice_id",
+        "warehouse_id",
         "user_id",
         "updated_at",
         "deleted_at",
@@ -31,7 +32,7 @@ class ProductPartModel extends Model
 
     public function proformaInvoice(): HasOne
     {
-        return $this->hasOne(ProformaInvoiceModel::class,'id','invoice_id');
+        return $this->hasOne(ProformaInvoiceModel::class, 'id', 'proforma_invoice_id');
     }
 
 }
