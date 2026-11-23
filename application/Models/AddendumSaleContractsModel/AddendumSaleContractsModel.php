@@ -2,7 +2,9 @@
 
 namespace App\Models\AddendumSaleContractsModel;
 
+use App\Models\UserModel\UserModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AddendumSaleContractsModel extends Model
@@ -20,5 +22,10 @@ class AddendumSaleContractsModel extends Model
         'updated_at',
         'deleted_at'
     ];
+
+    public function expert(): HasOne
+    {
+        return $this->hasOne(UserModel::class,'id','user_id');
+    }
 
 }

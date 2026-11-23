@@ -26,7 +26,7 @@ class ProductPartItemModel extends Model
 
     public function invoiceProduct(): HasOne
     {
-        return $this->hasOne(ProformaInvoiceProductsModel::class, 'id', 'invoice_product_id');
+        return $this->hasOne(ProformaInvoiceProductsModel::class,'id','invoice_product_id');
     }
 
 }

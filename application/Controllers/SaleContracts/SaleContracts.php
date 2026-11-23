@@ -31,8 +31,37 @@ class SaleContracts extends ControllerScheme
         ],
             ['vendors/css/tables/datatable/datatables.min'],
             [
-                //vars
+                'list'=>SaleContractsModel::query()
+                    ->withCount('addendum')
+                    ->get()
             ])->display('SaleContracts/SaleContracts.tpl');
+    }
+
+    public function saleContractDetail($id): void
+    {
+        view->setPageTitle(self::pluralName);
+        view->setSingleName(self::singleName);
+        view->setPluralName(self::pluralName);
+        view->setModel($this->defaultModel::query()
+            ->withCount('addendum')
+            ->find($id));
+        view->ui([
+            'vendors/js/tables/datatable/datatables.min',
+            'vendors/js/tables/datatable/dataTables.bootstrap4.min',
+            'vendors/js/tables/datatable/dataTables.buttons.min',
+            'vendors/js/tables/datatable/buttons.html5.min',
+            'vendors/js/tables/datatable/buttons.print.min',
+            'vendors/js/tables/datatable/buttons.bootstrap.min',
+            'vendors/js/tables/datatable/jszip.min',
+            'vendors/js/tables/datatable/pdfmake.min',
+            'vendors/js/tables/datatable/vfs_fonts',
+            'vendors/js/tables/datatable/buttons.colVis.min',
+            //'js/SaleContracts/SaleContracts'
+        ],
+            ['vendors/css/tables/datatable/datatables.min'],
+            [
+
+            ])->display('SaleContracts/view-SaleContracts.tpl');
     }
 
     public function convertToContract(): void

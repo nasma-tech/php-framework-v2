@@ -13,7 +13,6 @@ use App\Models\CompaniesModel\CompaniesModel;
 use App\Models\CountryModel\CountryModel;
 use App\Models\PaymentAllocationModel\PaymentAllocationModel;
 use App\Models\PriceSuggestionModel\PriceSuggestionModel;
-use App\Models\PriceSuggestionProductModel\PriceSuggestionProductModel;
 use App\Models\ProductModel\ProductModel;
 use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
 use App\Models\ProformaInvoiceLogModel\ProformaInvoiceLogModel;
@@ -705,7 +704,7 @@ class ProformaInvoice extends ControllerScheme
                 ];
                 AddendumSaleContractsModel::query()->create($makeAddendumData);
                 $this->successCallBack(
-                    "/ProformaInvoice/main",
+                    "/SaleContracts/saleContractDetail/{$find->contract->id}",
                     'الحاقیه قراداد با موفقیت ثبت شد.'
                 );
             } else {
@@ -740,6 +739,7 @@ class ProformaInvoice extends ControllerScheme
                 'invoiceProduct',
                 'invoiceLog',
                 'contract',
+                'productPart',
             ])
             ->withCount('invoiceProduct')
             ->withCount('invoiceLog')

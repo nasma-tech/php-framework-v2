@@ -6,6 +6,7 @@ use App\Models\brandsModel\brandsModel;
 use App\Models\CityModel\CityModel;
 use App\Models\CompaniesModel\CompaniesModel;
 use App\Models\CustomerContactInformationModel\CustomerContactInformationModel;
+use App\Models\marketersModel\marketersModel;
 use App\Models\PaymentAllocationModel\PaymentAllocationModel;
 use App\Models\ProductPartModel\ProductPartModel;
 use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
@@ -86,28 +87,34 @@ class ProformaInvoiceModel extends Model
 
     public function invoiceProduct(): HasMany
     {
-        return $this->hasMany(ProformaInvoiceProductsModel::class, 'proforma_invoice_id', 'id');
+        return $this->hasMany(ProformaInvoiceProductsModel::class,'proforma_invoice_id','id');
     }
 
     public function invoiceDetail(): HasOne
     {
-        return $this->hasOne(ProformaInvoiceDetailsModel::class, 'proforma_invoice_id', 'id');
+        return $this->hasOne(ProformaInvoiceDetailsModel::class,'proforma_invoice_id','id');
     }
 
     public function invoiceLog(): HasMany
     {
-        return $this->hasMany(ProformaInvoiceLogModel::class, 'proforma_invoice_id', 'id')->orderByDesc('id');
+        return $this->hasMany(ProformaInvoiceLogModel::class,'proforma_invoice_id','id')->orderByDesc('id');
     }
 
     public function contract(): HasOne
     {
-        return $this->hasOne(SaleContractsModel::class, 'proforma_invoice_id', 'id');
+        return $this->hasOne(SaleContractsModel::class,'proforma_invoice_id','id');
     }
 
     public function paymentAllocation(): HasMany
     {
-        return $this->hasMany(PaymentAllocationModel::class, 'invoice_id', 'id');
+        return $this->hasMany(PaymentAllocationModel::class,'invoice_id','id');
     }
+
+    public function marketer(): HasOne
+    {
+        return $this->hasOne(marketersModel::class,'id','marketer_id')->orderByDesc('id');
+    }
+
 
     public function productPart(): HasMany
     {
