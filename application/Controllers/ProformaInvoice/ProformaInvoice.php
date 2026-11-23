@@ -739,7 +739,6 @@ class ProformaInvoice extends ControllerScheme
                 'invoiceProduct',
                 'invoiceLog',
                 'contract',
-                'productPart',
             ])
             ->withCount('invoiceProduct')
             ->withCount('invoiceLog')
@@ -843,7 +842,8 @@ class ProformaInvoice extends ControllerScheme
                             "city" => $getData->city ?? [],
                             "getAllocationData" => $this->getAllocationData($getData->id),
                             "productPart" => $getData->productPart ?? [],
-                            'addressData'=>$this->addressData($invoiceId)
+                            'addressData'=>$this->addressData($invoiceId),
+                            'getCargoExitList' => $this->getCargoExitList($invoiceId),
                         ]
                     ],
                     [
@@ -1054,10 +1054,9 @@ class ProformaInvoice extends ControllerScheme
         if ($add->save()) {
             $add->update(["address_file" => fileHelper->fileUpload("addressAnnouncement", "addressFile", $add->id)]);
             $this->successCallBack("/ProformaInvoice/process/{$id}");
+        }else{
+            $this->failedCallBack("/ProformaInvoice/process/{$id}");
         }
-        var_print($data);
-        var_print($_FILES);
-        die();
 
     }
 
@@ -1067,5 +1066,12 @@ class ProformaInvoice extends ControllerScheme
             "proforma_invoice_id" => $proforma_invoice_id
         ])->get();
         return $data ?? [];
+    }
+
+    public function getCargoExitList($proforma_invoice_id)
+    {
+        $data = AddressAnnouncementModel::query()->where('proforma_invoice_id',$proforma_invoice_id)->with('ProductPartItem')->get();
+        die();
+        return $data;
     }
 }

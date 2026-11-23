@@ -3,6 +3,8 @@
 namespace App\Models\AddressAnnouncementModel;
 
 use App\Models\CityModel\CityModel;
+use App\Models\ProductExitPartsModel\ProductExitPartsModel;
+use App\Models\ProductPartItemModel\ProductPartItemModel;
 use App\Models\UserModel\UserModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -36,5 +38,10 @@ class AddressAnnouncementModel extends Model
     public function userData()
     {
         return  $this->belongsTo(UserModel::class, 'user_id', 'id');
+    }
+
+    public function ProductPartItem()
+    {
+        return $this->hasMany(ProductPartItemModel::class, 'part_id', 'id');
     }
 }
