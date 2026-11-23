@@ -615,6 +615,11 @@ $router->mount('/SaleContracts', function () use ($router) {
             'method' => 'POST',
             'path' => '/convertToContract',
             'action' => 'convertToContract'
+        ],
+        [
+            'method' => 'GET',
+            'path' => '/saleContractDetail/(\d+)',
+            'action' => 'saleContractDetail'
         ]
     ]);
 });
@@ -624,9 +629,9 @@ $router->mount('/AddendumSaleContracts', function () use ($router) {
 
 $router->get('/valad', function () {
 
-    $instance = new App\Controllers\WarehouseInventory\WarehouseInventory();
+    $instance = new App\Controllers\ProformaInvoice\ProformaInvoice();
 
-    var_print($instance->inventoryInquiry(2,[1]));
+    var_print($instance->getAllocationData(5));
 
 //    $instance = new App\Controllers\Products\Products();
 //

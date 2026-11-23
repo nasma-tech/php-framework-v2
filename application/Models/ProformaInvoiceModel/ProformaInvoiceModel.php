@@ -6,8 +6,11 @@ use App\Models\brandsModel\brandsModel;
 use App\Models\CityModel\CityModel;
 use App\Models\CompaniesModel\CompaniesModel;
 use App\Models\CustomerContactInformationModel\CustomerContactInformationModel;
+use App\Models\marketersModel\marketersModel;
 use App\Models\PaymentAllocationModel\PaymentAllocationModel;
+use App\Models\ProductPartModel\ProductPartModel;
 use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
+use App\Models\ProformaInvoiceLogModel\ProformaInvoiceLogModel;
 use App\Models\ProformaInvoiceProductsModel\ProformaInvoiceProductsModel;
 use App\Models\SaleContractsModel\SaleContractsModel;
 use App\Models\SalesTeamModel\SalesTeamModel;
@@ -107,6 +110,15 @@ class ProformaInvoiceModel extends Model
         return $this->hasMany(PaymentAllocationModel::class,'invoice_id','id');
     }
 
+    public function marketer(): HasOne
+    {
+        return $this->hasOne(marketersModel::class,'id','marketer_id')->orderByDesc('id');
+    }
 
+
+    public function productPart(): HasMany
+    {
+        return $this->hasMany(ProductPartModel::class, 'invoice_id', 'id');
+    }
 
 }
