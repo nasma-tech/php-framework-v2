@@ -59,7 +59,6 @@ class ProformaInvoice extends ControllerScheme
                     ->get()
             ])->display('ProformaInvoice/ProformaInvoice.tpl');
     }
-
     public function createProformaInvoice($priceSuggestionId): void
     {
         $getPriceSuggestionData = PriceSuggestionModel::query()->find($priceSuggestionId);

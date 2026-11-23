@@ -309,7 +309,7 @@
                             </span>
                     </div>
                     <div class="cc-contract-stat-value">
-                        1,250,000,000
+                        {$numberNormalizer->floatNumberFormat($getData.invoiceDetail.invoice_sum_total)}
                         <small>ریال</small>
                     </div>
                     <div class="cc-contract-stat-footer">
@@ -333,7 +333,7 @@
                             </span>
                     </div>
                     <div class="cc-contract-stat-value">
-                        450,000,000
+                        {$numberNormalizer->floatNumberFormat($getData.paymentAllocation->sum('payment_amount'))}
                         <small>ریال</small>
                     </div>
 
@@ -359,7 +359,7 @@
                             </span>
                     </div>
                     <div class="cc-contract-stat-value">
-                        450,000,000
+                        {$numberNormalizer->floatNumberFormat($getData.paymentAllocation->where('status',1)->sum('payment_amount'))}
                         <small>ریال</small>
                     </div>
                     <div class="cc-contract-stat-footer">

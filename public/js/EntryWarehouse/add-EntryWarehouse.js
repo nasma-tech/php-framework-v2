@@ -208,7 +208,7 @@ $(function () {
 
                 <td>
                     <input type="file"
-                           name="files[${index}]"
+                           name="files[]"
                            class="form-control"
                            required>
                 </td>

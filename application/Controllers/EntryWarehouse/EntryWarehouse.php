@@ -68,6 +68,7 @@ class EntryWarehouse extends ControllerScheme
     }
 
 
+
     public function add()
     {
         csrf->csrfValidate();
@@ -80,26 +81,42 @@ class EntryWarehouse extends ControllerScheme
             "wareHousePartDescription",
             "product_data",
         ];
+
         if (!validator->validateRequestsData($needle)) {
             $this->failedCallBack("main");
+            return;
         }
+
         $entrydatePackageData = [
             "title" => $data["title"],
             "warehouse_id" => $data["warehouse_id"],
             "description" => $data['wareHousePartDescription'],
             "entry_datetime" => $data['entryDateTime'],
-            "driver_plaques" => json_encode($data['driver_plaques']),
+            "driver_plaques" => json_encode($data['driver_plaques'] ?? []),
             "user_id" => userObject()->userId
         ];
 
         $add = EntryWarehousePackageModel::query()->create($entrydatePackageData);
+
         $rawFiles = fileHelper->normalizeUploadedFiles("files");
         $files = [];
+
         foreach (($data['files'] ?? []) as $key => $file) {
-            $uploadedFile = fileHelper->uploadMultipleFiles("EntryWarehouse", $rawFiles[$key], $add->id);
+
+            if (
+                !isset($rawFiles[$key]) ||
+                $rawFiles[$key]['error'] === UPLOAD_ERR_NO_FILE
+            ) {
+                continue;
+            }
+
+            $uploadedFile = fileHelper->uploadMultipleFiles(
+                "EntryWarehouse",
+                [$rawFiles[$key]],
+                (string) $add->id
+            );
 
             if (!empty($uploadedFile)) {
-
                 $uploaded = reset($uploadedFile);
 
                 $files[] = [
@@ -114,26 +131,36 @@ class EntryWarehouse extends ControllerScheme
             $add->update([
                 "documents" => json_encode($files, JSON_UNESCAPED_UNICODE)
             ]);
-            var_print($data['product_data']);
-            foreach ($data['product_data'] as $key => $value) {
-                $productDAta = productModel::query()->find($value["product_id"]);
-                $data = [
-                    "entry_package_id" => $add->id,
-                    "product_id" => $value["product_id"],
-                    "amount" => numberNormalizer->removePriceSeparator($value["amount"]),
-                    "unit_id" => $productDAta->measurement_unit_id,
-                    "user_id" => userObject()->userId,
-                ];
-                $addDetail = entrywarehouseModel::query()->create($data);
-                if (!$addDetail->save()) {
-                    $this->failedCallBack("main");
-                    die();
-                }
+        }
+
+        foreach ($data['product_data'] as $key => $value) {
+
+            $productData = productModel::query()->find($value["product_id"]);
+
+            if (!$productData) {
+                $this->failedCallBack("main");
+                return;
+            }
+
+            $detailData = [
+                "entry_package_id" => $add->id,
+                "product_id" => $value["product_id"],
+                "amount" => numberNormalizer->removePriceSeparator($value["amount"]),
+                "unit_id" => $productData->measurement_unit_id,
+                "user_id" => userObject()->userId,
+            ];
+
+            $addDetail = entrywarehouseModel::query()->create($detailData);
+
+            if (!$addDetail) {
+                $this->failedCallBack("main");
+                return;
             }
         }
 
         $this->successCallBack("/EntryWarehouse/main");
     }
+
 
     public function viewIndex($id)
     {
