@@ -664,3 +664,12 @@ $router->mount('/ProductPart', function () use ($router) {
 $router->mount('/ProductExitParts', function () use ($router) {
     dynamicRoute($router, App\Controllers\ProductExitParts\ProductExitParts::class);
 });
+$router->mount('/CancelledSaleContracts', function () use ($router) {
+    dynamicRoute($router, App\Controllers\CancelledSaleContracts\CancelledSaleContracts::class,[
+        [
+            'method' => 'POST',
+            'path' => '/cancelContract',
+            'action' => 'cancelContract'
+        ]
+    ]);
+});
