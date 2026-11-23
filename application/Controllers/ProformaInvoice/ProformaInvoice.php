@@ -908,10 +908,10 @@ class ProformaInvoice extends ControllerScheme
                     "target" => "blank",
                     "scriptFile" => '',
                     "show" => (function () use ($getData) {
-                        if ($getData->contract) {
-                            return false;
+                        if (!$getData->contract || !$getData->contract->cancelContract) {
+                            return true;
                         }
-                        return true;
+                        return false;
                     })()
                 ],
                 [
