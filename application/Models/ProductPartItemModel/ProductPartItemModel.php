@@ -2,6 +2,7 @@
 
 namespace App\Models\ProductPartItemModel;
 
+use App\Models\ProductExitPartItemsModel\ProductExitPartItemsModel;
 use App\Models\ProformaInvoiceProductsModel\ProformaInvoiceProductsModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -27,6 +28,11 @@ class ProductPartItemModel extends Model
     public function invoiceProduct(): HasOne
     {
         return $this->hasOne(ProformaInvoiceProductsModel::class,'id','invoice_product_id');
+    }
+
+    public function productExitPartItem(): HasOne
+    {
+        return $this->hasOne(ProductExitPartItemsModel::class,'product_exit_part_item_id','id');
     }
 
 }
