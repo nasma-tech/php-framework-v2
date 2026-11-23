@@ -229,7 +229,17 @@ $router->mount('/ProformaInvoice', function () use ($router) {
             'method' => 'POST',
             'path' => '/removeProductRow',
             'action' => 'removeProductRow'
-        ]
+        ],
+        [
+            'method' => 'POST',
+            'path' => '/inventoryInquiryByInvoiceForm',
+            'action' => 'inventoryInquiryByInvoiceForm'
+        ],
+        [
+            'method' => 'POST',
+            'path' => '/addProductPartForm(/\d+)',
+            'action' => 'addProductPartForm'
+        ],
     ]);
 });
 $router->mount('/Companies', function () use ($router) {
@@ -584,7 +594,7 @@ $router->mount('/PaymentAllocation', function () use ($router) {
     ]);
 });
 $router->mount('/EntryWarehouse', function () use ($router) {
-    dynamicRoute($router, App\Controllers\EntryWarehouse\EntryWarehouse::class,[
+    dynamicRoute($router, App\Controllers\EntryWarehouse\EntryWarehouse::class, [
         [
             'method' => 'POST',
             'path' => '/EntryWarehouseEdit/(\d+)',
@@ -648,6 +658,18 @@ $router->get('/valad', function () {
 //
 //    var_print($instance->getRelatedProducts(2));
 });
+$router->mount('/ProductPart', function () use ($router) {
+    dynamicRoute($router, App\Controllers\ProductPart\ProductPart::class);
+});
 $router->mount('/ProductExitParts', function () use ($router) {
     dynamicRoute($router, App\Controllers\ProductExitParts\ProductExitParts::class);
+});
+$router->mount('/CancelledSaleContracts', function () use ($router) {
+    dynamicRoute($router, App\Controllers\CancelledSaleContracts\CancelledSaleContracts::class,[
+        [
+            'method' => 'POST',
+            'path' => '/cancelContract',
+            'action' => 'cancelContract'
+        ]
+    ]);
 });

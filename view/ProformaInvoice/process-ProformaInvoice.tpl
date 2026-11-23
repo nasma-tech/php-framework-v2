@@ -25,23 +25,25 @@
                              style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(178px, 38px, 0px);">
 
                             {foreach $optionsConfig as $optionConfig}
-                                {if !isset($optionConfig['type']) || $optionConfig['type'] == 'a'}
-                                    <a href="{$optionConfig['href']|default:'#'}"
-                                       target="{$optionConfig['target']|default:"_self"}"
-                                       data-toggle="tooltip"
-                                       id="option_{$optionConfig['name']}"
-                                       data-original-title="{$optionConfig['description']}"
-                                       class="dropdown-item {$optionConfig['class']|default:""}">
-                                        <i class="bx mr-50 {$optionConfig['icon']|default:"bx-dots-vertical-rounded"}"></i>{$optionConfig['title']}
-                                    </a>
-                                {elseif $optionConfig['type'] == 'button'}
-                                    <button type="button"
-                                            id="option_{$optionConfig['name']}"
-                                            data-toggle="tooltip"
-                                            data-original-title="{$optionConfig['description']}"
-                                            class="btn btn-sm dropdown-item {$optionConfig['class']|default:""}">
-                                        <i class="bx mr-50 {$optionConfig['icon']|default:"bx-dots-vertical-rounded"}"></i>{$optionConfig['title']}
-                                    </button>
+                                {if $optionConfig['show']|default:null}
+                                    {if !isset($optionConfig['type']) || $optionConfig['type'] == 'a'}
+                                        <a href="{$optionConfig['href']|default:'#'}"
+                                           target="{$optionConfig['target']|default:"_self"}"
+                                           data-toggle="tooltip"
+                                           id="option_{$optionConfig['name']}"
+                                           data-original-title="{$optionConfig['description']}"
+                                           class="dropdown-item {$optionConfig['class']|default:""}">
+                                            <i class="bx mr-50 {$optionConfig['icon']|default:"bx-dots-vertical-rounded"}"></i>{$optionConfig['title']}
+                                        </a>
+                                    {elseif $optionConfig['type'] == 'button'}
+                                        <button type="button"
+                                                id="option_{$optionConfig['name']}"
+                                                data-toggle="tooltip"
+                                                data-original-title="{$optionConfig['description']}"
+                                                class="btn btn-sm dropdown-item {$optionConfig['class']|default:""}">
+                                            <i class="bx mr-50 {$optionConfig['icon']|default:"bx-dots-vertical-rounded"}"></i>{$optionConfig['title']}
+                                        </button>
+                                    {/if}
                                 {/if}
                             {/foreach}
                         </div>
