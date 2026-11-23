@@ -732,7 +732,6 @@ class ProformaInvoice extends ControllerScheme
 
     public function process(int $invoiceId): void
     {
-        $_ENV['APP_DEBUG'] = 1;
         $getData = ProformaInvoiceModel::query()
             ->with([
                 'invoiceDetail',
