@@ -222,7 +222,7 @@ $(function () {
     $("#mainProduct").on('input', '.product_amount, .product_unit_price', function () {
         let $row = $(this).closest('tr');
         let productAmount = parseFloat($row.find('.product_amount').val().replaceAll(',', '')) || 0;
-        let productUnitPrice = parseFloat($row.find('.unitPriceAfterDiscount').val().replaceAll(',', '')) || 0;
+        let productUnitPrice = parseFloat($row.find('.product_unit_price').val().replaceAll(',', '')) || 0;
         let totalPrice = productAmount * productUnitPrice;
         $row.find('td').eq(5).find('.productSumRow').val(totalPrice.toLocaleString()).priceInput()
         sumAllRow()
