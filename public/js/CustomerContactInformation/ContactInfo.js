@@ -15,7 +15,7 @@ $(function () {
             }, defaultOption: true
         })
         $("#state_id").getOptionsValue({
-            urlAddress: '/states/getStates', callback: result => {
+            urlAddress: '/states/getStates/102', callback: result => {
                 $.each(result, function (key, item) {
                     $("#state_id").append(`<option value="${item.id}">${item.title}</option>`)
                 })
@@ -137,7 +137,6 @@ $(function () {
             }
         })
     })
-
 
     //follow up
     $("#state_id").getOptions({
