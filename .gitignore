@@ -26,7 +26,8 @@
 !/Storage/CRMTraining/
 !/Storage/DefaultImages/
 !/Storage/cache/
-!/Storage/brands
+!/Storage/brands/
+!/Storage/socialNetworkIcons/
 
 !/Storage/bankLogo/**
 !/Storage/warehouses/**
