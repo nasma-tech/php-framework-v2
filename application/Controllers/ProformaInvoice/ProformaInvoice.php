@@ -851,6 +851,7 @@ class ProformaInvoice extends ControllerScheme
                             "productPart" => $getData->productPart ?? [],
                             "warehouses" => WarehousesModel::query()->whereJsonContains('warehouse_brand_ids', $getData->brand_id)->get(),
                             "ProductExitParts" => ProductExitPartsModel::query()->where('proforma_invoice_id', $invoiceId)->get(),
+                            "AddressAnnouncementData" => AddressAnnouncementModel::query()->get(),
                         ]
                     ],
                     [
@@ -1231,7 +1232,7 @@ class ProformaInvoice extends ControllerScheme
             "country_id" => $data['country_id'],
             "state_id" => $data['state_id'],
             "city_id" => $data['city_id'],
-            "address" => $data['address'],
+            "address" => $data['address'] ?? [],
             "user_id" => userObject()->userId
         ];
         $add = AddressAnnouncementModel::query()->create($makeData);
