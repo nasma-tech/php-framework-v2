@@ -340,7 +340,7 @@
                                                     <td>بازاریاب</td>
                                                     <td>
                                                         <select class="form-control select2" id="marketer_id" name="marketer_id">
-                                                            <option selected disabled>یک تیم را انتخاب کنید</option>
+                                                            <option selected disabled>یک بازاریاب را انتخاب کنید</option>
                                                             {foreach $marketers|default:[] as $item}
                                                                 <option value="{($getData.marketer_id|default:null == $item.id)?'selected':''}">{$item.marketer_full_name|default:'بدون نام'}</option>
                                                             {/foreach}

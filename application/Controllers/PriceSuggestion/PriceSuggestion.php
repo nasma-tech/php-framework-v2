@@ -96,7 +96,8 @@ class PriceSuggestion extends ControllerScheme
             'states' => StateModel::query()->where('country_id', 102)->get(),
             'cities' => CityModel::query()->where('state_id', $getData->state_id)->get(),
             'products' => ProductModel::query()->where('brand_id', $getData->brand_id)->get(),
-            'saleTeams'=>SalesTeamModel::query()->get()
+            'saleTeams'=>SalesTeamModel::query()->get(),
+            'marketers'=>marketersModel::query()->get()
         ])->display('PriceSuggestion/add|edit-PriceSuggestion.tpl');
     }
 

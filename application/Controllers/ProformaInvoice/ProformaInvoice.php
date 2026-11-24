@@ -15,6 +15,7 @@ use App\Models\ChargesDeductionsModel\ChargesDeductionsModel;
 use App\Models\CityModel\CityModel;
 use App\Models\CompaniesModel\CompaniesModel;
 use App\Models\CountryModel\CountryModel;
+use App\Models\marketersModel\marketersModel;
 use App\Models\PaymentAllocationModel\PaymentAllocationModel;
 use App\Models\PriceSuggestionModel\PriceSuggestionModel;
 use App\Models\PriceSuggestionProductModel\PriceSuggestionProductModel;
@@ -83,6 +84,7 @@ class ProformaInvoice extends ControllerScheme
                 'state' => StateModel::query()->where('country_id', $getPriceSuggestionData->country_id)->get(),
                 'cities' => CityModel::query()->where('state_id', $getPriceSuggestionData->state_id)->get(),
                 'salesTeam' => SalesTeamModel::query()->get(),
+                'marketers'=>marketersModel::query()->get()
             ]
         )->display('ProformaInvoice/add|edit-ProformaInvoice.tpl');
     }
@@ -122,7 +124,8 @@ class ProformaInvoice extends ControllerScheme
             'products' => ProductModel::query()->get(),
             'salesTeam' => SalesTeamModel::query()->get(),
             'invoiceSettings' => $result,
-            'customerCompany' => CompaniesModel::query()->find($getData->company_id)
+            'customerCompany' => CompaniesModel::query()->find($getData->company_id),
+            'marketers'=>marketersModel::query()->get()
         ])->display('ProformaInvoice/add|edit-ProformaInvoice.tpl');
     }
 
