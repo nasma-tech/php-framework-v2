@@ -745,6 +745,8 @@ class ProformaInvoice extends ControllerScheme
                 'invoiceProduct',
                 'invoiceLog',
                 'contract',
+                'contract',
+                'exitProductData',
             ])
             ->withCount('invoiceProduct')
             ->withCount('invoiceLog')
@@ -848,9 +850,8 @@ class ProformaInvoice extends ControllerScheme
                             "city" => $getData->city ?? [],
                             "getAllocationData" => $this->getAllocationData($getData->id),
                             "productPart" => $getData->productPart ?? [],
-                            'addressData' => $this->addressData($invoiceId),
-                            'getCargoExitList' => $this->getCargoExitList($invoiceId),
                             "warehouses" => WarehousesModel::query()->whereJsonContains('warehouse_brand_ids', $getData->brand_id)->get(),
+                            "exitProductData" => $getData->exitProductData ?? []
                         ]
                     ],
                     [
@@ -1244,17 +1245,4 @@ class ProformaInvoice extends ControllerScheme
 
     }
 
-    public function addressData($proforma_invoice_id)
-    {
-        $data = addressAnnouncementModel::query()->where([
-            "proforma_invoice_id" => $proforma_invoice_id
-        ])->get();
-        return $data ?? [];
-    }
-
-    public function getCargoExitList($proforma_invoice_id)
-    {
-        $data = AddressAnnouncementModel::query()->where('proforma_invoice_id', $proforma_invoice_id)->with('ProductPartItem')->get();
-        return $data;
-    }
 }

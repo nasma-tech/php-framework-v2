@@ -94,7 +94,7 @@ class FileHelper
         return $files;
     }
 
-    public function uploadMultipleFiles(string $directory,array  $files,string $subdirectory = ''): array
+    public function uploadMultipleFiles(string $directory, array $files, string $subdirectory = ''): array
     {
         $uploadedFiles = [];
 
@@ -171,6 +171,75 @@ class FileHelper
         }
 
         return $uploadedFiles;
+    }
+
+    /**
+     * @param $parentArrayName
+     * @param $fileName
+     * @return array
+     * //html temp : name="driverInfo[{counter}][file data base name]"
+     * $parentArrayName = driverInfo
+     * file counter = {counter}
+     * $fileName = file data base name
+     */
+    public function normalizeFilesArray($parentArrayName, $fileName): array
+    {
+        $result = [];
+        foreach ($_FILES[$parentArrayName]['name'] as $key => $files) {
+            $result[$key][$fileName] = [
+                'name' => $files[$fileName],
+                'full_path' => $_FILES[$parentArrayName]['full_path'][$key][$fileName],
+                'type' => $_FILES[$parentArrayName]['type'][$key][$fileName],
+                'tmp_name' => $_FILES[$parentArrayName]['tmp_name'][$key][$fileName],
+                'error' => $_FILES[$parentArrayName]['error'][$key][$fileName],
+                'size' => $_FILES[$parentArrayName]['size'][$key][$fileName],
+            ];
+        }
+        return $result;
+    }
+
+
+    public function fileUploadByArray(string $fileDirection, array $files, string $fileName, string $fileDirectionChild = ''): ?string
+    {
+        $makeParentDirection = __SOURCE__ . 'Storage/' . trim($fileDirection, '/');
+        if (!is_dir($makeParentDirection)) {
+            if (!mkdir($makeParentDirection, 0775, true) && !is_dir($makeParentDirection)) {
+                throw new RuntimeException(
+                    'Unable to create directory: ' . $makeParentDirection
+                );
+            }
+        }
+        $targetDirectory = $makeParentDirection;
+        if ($fileDirectionChild) {
+            $makeChild = $makeParentDirection . '/' . trim($fileDirectionChild, '/');
+
+            if (!is_dir($makeChild)) {
+                if (!mkdir($makeChild, 0775, true) && !is_dir($makeChild)) {
+                    throw new RuntimeException(
+                        'Unable to create directory: ' . $makeChild
+                    );
+                }
+            }
+
+            $targetDirectory = $makeChild;
+        }
+        if (empty($files[$fileName]['name'])) {
+            return null;
+        }
+        $tmpName = $files[$fileName]['tmp_name'];
+        $extension = pathinfo(
+            $files[$fileName]['name'],
+            PATHINFO_EXTENSION
+        );
+        $hashedFileName = md5($tmpName);
+        $uploadedFileName = $hashedFileName . (
+            $extension !== '' ? '.' . $extension : ''
+            );
+
+        $targetFile = $targetDirectory . '/' . $uploadedFileName;
+        move_uploaded_file($tmpName, $targetFile);
+
+        return $uploadedFileName;
     }
 
 }

@@ -686,3 +686,12 @@ $router->mount('/CancelledSaleContracts', function () use ($router) {
         ]
     ]);
 });
+$router->mount('/CargoExit', function () use ($router) {
+    dynamicRoute($router, App\Controllers\CargoExit\CargoExit::class,[
+        [
+        'method' => 'POST',
+        'path' => '/removeCargoExitInfo',
+        'action' => 'removeCargoExitInfo'
+    ]
+    ]);
+});

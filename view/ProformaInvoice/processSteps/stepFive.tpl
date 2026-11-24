@@ -37,9 +37,7 @@
                                     {else}
                                         class="form-control select2 country_id"
                                         required
-                                    {/if}
-                            >
-                                {if $addressData}{/if}
+                                    {/if}>
                                 <option disabled selected>یکی از موارد زیر رو انتخاب کنید</option>
                                 {foreach $countries as $data}
                                     {if $compair}

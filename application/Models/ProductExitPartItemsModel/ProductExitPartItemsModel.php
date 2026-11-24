@@ -3,7 +3,9 @@
 namespace App\Models\ProductExitPartItemsModel;
 
 use App\Models\ProductExitPartsModel\ProductExitPartsModel;
+use App\Models\ProductPartItemModel\ProductPartItemModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductExitPartItemsModel extends Model
@@ -26,4 +28,8 @@ class ProductExitPartItemsModel extends Model
         'deleted_at'
     ];
 
+    public function productPartItem(): HasOne
+    {
+        return $this->hasOne(ProductPartItemModel::class,'id','product_exit_part_item_id');
+    }
 }
