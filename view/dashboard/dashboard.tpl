@@ -784,190 +784,196 @@
 
             <!-- Today -->
             <div class="col-12">
-                <div class="cc-dashboard-stats-heading">
-                    <div class="cc-dashboard-stats-heading-icon today">
-                        <i class="bx bx-calendar-check"></i>
-                    </div>
-                    <div>
-                        <h5>عملکرد امروز</h5>
-                        <p>خلاصه فعالیت‌های فروش در امروز</p>
-                    </div>
-                </div>
-            </div>
+                <div class="card shadow">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="cc-dashboard-stats-heading">
+                                <div class="cc-dashboard-stats-heading-icon today">
+                                    <i class="bx bx-calendar-check"></i>
+                                </div>
+                                <div>
+                                    <h5>عملکرد امروز</h5>
+                                    <p>خلاصه فعالیت‌های فروش در امروز</p>
+                                </div>
+                            </div>
+                            <div class="cc-dashboard-stats-grid">
+                                <div class="cc-dashboard-stat-card blue">
+                                    <div class="cc-dashboard-stat-top">
+                                        <span>پیشنهاد قیمت</span>
+                                        <div class="cc-dashboard-stat-icon">
+                                            <i class="bx bx-file"></i>
+                                        </div>
+                                    </div>
+                                    <div class="cc-dashboard-stat-value">
+                                        {$dashboardStats['today']['proposalCount']}
+                                    </div>
+                                    <div class="cc-dashboard-stat-footer">
+                                        <span>تعداد ثبت‌شده امروز</span>
+                                    </div>
+                                </div>
 
-            <div class="col-12">
-                <div class="cc-dashboard-stats-grid">
+                                <div class="cc-dashboard-stat-card purple">
+                                    <div class="cc-dashboard-stat-top">
+                                        <span>پیش‌فاکتور</span>
+                                        <div class="cc-dashboard-stat-icon">
+                                            <i class="bx bx-receipt"></i>
+                                        </div>
+                                    </div>
+                                    <div class="cc-dashboard-stat-value">
+                                        {$dashboardStats['today']['proformaCount']}
+                                    </div>
+                                    <div class="cc-dashboard-stat-footer">
+                                        <span>تعداد ثبت‌شده امروز</span>
+                                    </div>
+                                </div>
 
-                    <div class="cc-dashboard-stat-card blue">
-                        <div class="cc-dashboard-stat-top">
-                            <span>پیشنهاد قیمت</span>
-                            <div class="cc-dashboard-stat-icon">
-                                <i class="bx bx-file"></i>
+                                <div class="cc-dashboard-stat-card green">
+                                    <div class="cc-dashboard-stat-top">
+                                        <span>قرارداد</span>
+                                        <div class="cc-dashboard-stat-icon">
+                                            <i class="bx bx-file-blank"></i>
+                                        </div>
+                                    </div>
+                                    <div class="cc-dashboard-stat-value">
+                                        {$dashboardStats['today']['contractCount']}
+                                    </div>
+                                    <div class="cc-dashboard-stat-footer">
+                                        <span>تعداد ثبت‌شده امروز</span>
+                                    </div>
+                                </div>
+
+                                <div class="cc-dashboard-stat-card orange">
+                                    <div class="cc-dashboard-stat-top">
+                                        <span>مبلغ پیش‌فاکتورها</span>
+                                        <div class="cc-dashboard-stat-icon">
+                                            <i class="bx bx-wallet"></i>
+                                        </div>
+                                    </div>
+                                    <div class="cc-dashboard-stat-value amount">
+                                        {$dashboardStats['today']['proformaAmount']}
+                                    </div>
+                                    <div class="cc-dashboard-stat-footer">
+                                        <span>مجموع مبلغ امروز</span>
+                                    </div>
+                                </div>
+
+                                <div class="cc-dashboard-stat-card teal">
+                                    <div class="cc-dashboard-stat-top">
+                                        <span>مبلغ قراردادها</span>
+                                        <div class="cc-dashboard-stat-icon">
+                                            <i class="bx bx-money"></i>
+                                        </div>
+                                    </div>
+                                    <div class="cc-dashboard-stat-value amount">
+                                        {$dashboardStats['today']['contractAmount']}
+                                    </div>
+                                    <div class="cc-dashboard-stat-footer">
+                                        <span>مجموع مبلغ امروز</span>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-                        <div class="cc-dashboard-stat-value">
-                            {$dashboardStats['today']['proposalCount']}
-                        </div>
-                        <div class="cc-dashboard-stat-footer">
-                            <span>تعداد ثبت‌شده امروز</span>
-                        </div>
                     </div>
-
-                    <div class="cc-dashboard-stat-card purple">
-                        <div class="cc-dashboard-stat-top">
-                            <span>پیش‌فاکتور</span>
-                            <div class="cc-dashboard-stat-icon">
-                                <i class="bx bx-receipt"></i>
-                            </div>
-                        </div>
-                        <div class="cc-dashboard-stat-value">
-                            {$dashboardStats['today']['proformaCount']}
-                        </div>
-                        <div class="cc-dashboard-stat-footer">
-                            <span>تعداد ثبت‌شده امروز</span>
-                        </div>
-                    </div>
-
-                    <div class="cc-dashboard-stat-card green">
-                        <div class="cc-dashboard-stat-top">
-                            <span>قرارداد</span>
-                            <div class="cc-dashboard-stat-icon">
-                                <i class="bx bx-file-blank"></i>
-                            </div>
-                        </div>
-                        <div class="cc-dashboard-stat-value">
-                            {$dashboardStats['today']['contractCount']}
-                        </div>
-                        <div class="cc-dashboard-stat-footer">
-                            <span>تعداد ثبت‌شده امروز</span>
-                        </div>
-                    </div>
-
-                    <div class="cc-dashboard-stat-card orange">
-                        <div class="cc-dashboard-stat-top">
-                            <span>مبلغ پیش‌فاکتورها</span>
-                            <div class="cc-dashboard-stat-icon">
-                                <i class="bx bx-wallet"></i>
-                            </div>
-                        </div>
-                        <div class="cc-dashboard-stat-value amount">
-                            {$dashboardStats['today']['proformaAmount']}
-                        </div>
-                        <div class="cc-dashboard-stat-footer">
-                            <span>مجموع مبلغ امروز</span>
-                        </div>
-                    </div>
-
-                    <div class="cc-dashboard-stat-card teal">
-                        <div class="cc-dashboard-stat-top">
-                            <span>مبلغ قراردادها</span>
-                            <div class="cc-dashboard-stat-icon">
-                                <i class="bx bx-money"></i>
-                            </div>
-                        </div>
-                        <div class="cc-dashboard-stat-value amount">
-                            {$dashboardStats['today']['contractAmount']}
-                        </div>
-                        <div class="cc-dashboard-stat-footer">
-                            <span>مجموع مبلغ امروز</span>
-                        </div>
-                    </div>
-
                 </div>
             </div>
 
             <!-- Monthly -->
-            <div class="col-12 mt-3">
-                <div class="cc-dashboard-stats-heading">
-                    <div class="cc-dashboard-stats-heading-icon month">
-                        <i class="bx bx-calendar"></i>
-                    </div>
-                    <div>
-                        <h5>عملکرد ماه جاری</h5>
-                        <p>خلاصه فعالیت‌های فروش در ماه جاری</p>
+            <div class="col-12 mt-3 mb-5">
+                <div class="card shadow">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="cc-dashboard-stats-heading">
+                                <div class="cc-dashboard-stats-heading-icon month">
+                                    <i class="bx bx-calendar"></i>
+                                </div>
+                                <div>
+                                    <h5>عملکرد ماه جاری</h5>
+                                    <p>خلاصه فعالیت‌های فروش در ماه جاری</p>
+                                </div>
+                            </div>
+                            <div class="cc-dashboard-stats-grid">
+
+                                <div class="cc-dashboard-stat-card blue">
+                                    <div class="cc-dashboard-stat-top">
+                                        <span>پیشنهاد قیمت</span>
+                                        <div class="cc-dashboard-stat-icon">
+                                            <i class="bx bx-file"></i>
+                                        </div>
+                                    </div>
+                                    <div class="cc-dashboard-stat-value">
+                                        {$dashboardStats['month']['proposalCount']}
+                                    </div>
+                                    <div class="cc-dashboard-stat-footer">
+                                        <span>تعداد ثبت‌شده ماه جاری</span>
+                                    </div>
+                                </div>
+
+                                <div class="cc-dashboard-stat-card purple">
+                                    <div class="cc-dashboard-stat-top">
+                                        <span>پیش‌فاکتور</span>
+                                        <div class="cc-dashboard-stat-icon">
+                                            <i class="bx bx-receipt"></i>
+                                        </div>
+                                    </div>
+                                    <div class="cc-dashboard-stat-value">
+                                        {$dashboardStats['month']['proformaCount']}
+                                    </div>
+                                    <div class="cc-dashboard-stat-footer">
+                                        <span>تعداد ثبت‌شده ماه جاری</span>
+                                    </div>
+                                </div>
+
+                                <div class="cc-dashboard-stat-card green">
+                                    <div class="cc-dashboard-stat-top">
+                                        <span>قرارداد</span>
+                                        <div class="cc-dashboard-stat-icon">
+                                            <i class="bx bx-file-blank"></i>
+                                        </div>
+                                    </div>
+                                    <div class="cc-dashboard-stat-value">
+                                        {$dashboardStats['month']['contractCount']}
+                                    </div>
+                                    <div class="cc-dashboard-stat-footer">
+                                        <span>تعداد ثبت‌شده ماه جاری</span>
+                                    </div>
+                                </div>
+
+                                <div class="cc-dashboard-stat-card orange">
+                                    <div class="cc-dashboard-stat-top">
+                                        <span>مبلغ پیش‌فاکتورها</span>
+                                        <div class="cc-dashboard-stat-icon">
+                                            <i class="bx bx-wallet"></i>
+                                        </div>
+                                    </div>
+                                    <div class="cc-dashboard-stat-value amount">
+                                        {$dashboardStats['month']['proformaAmount']}
+                                    </div>
+                                    <div class="cc-dashboard-stat-footer">
+                                        <span>مجموع مبلغ ماه جاری</span>
+                                    </div>
+                                </div>
+
+                                <div class="cc-dashboard-stat-card teal">
+                                    <div class="cc-dashboard-stat-top">
+                                        <span>مبلغ قراردادها</span>
+                                        <div class="cc-dashboard-stat-icon">
+                                            <i class="bx bx-money"></i>
+                                        </div>
+                                    </div>
+                                    <div class="cc-dashboard-stat-value amount">
+                                        {$dashboardStats['month']['contractAmount']}
+                                    </div>
+                                    <div class="cc-dashboard-stat-footer">
+                                        <span>مجموع مبلغ ماه جاری</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-12">
-                <div class="cc-dashboard-stats-grid">
-
-                    <div class="cc-dashboard-stat-card blue">
-                        <div class="cc-dashboard-stat-top">
-                            <span>پیشنهاد قیمت</span>
-                            <div class="cc-dashboard-stat-icon">
-                                <i class="bx bx-file"></i>
-                            </div>
-                        </div>
-                        <div class="cc-dashboard-stat-value">
-                            {$dashboardStats['month']['proposalCount']}
-                        </div>
-                        <div class="cc-dashboard-stat-footer">
-                            <span>تعداد ثبت‌شده ماه جاری</span>
-                        </div>
-                    </div>
-
-                    <div class="cc-dashboard-stat-card purple">
-                        <div class="cc-dashboard-stat-top">
-                            <span>پیش‌فاکتور</span>
-                            <div class="cc-dashboard-stat-icon">
-                                <i class="bx bx-receipt"></i>
-                            </div>
-                        </div>
-                        <div class="cc-dashboard-stat-value">
-                            {$dashboardStats['month']['proformaCount']}
-                        </div>
-                        <div class="cc-dashboard-stat-footer">
-                            <span>تعداد ثبت‌شده ماه جاری</span>
-                        </div>
-                    </div>
-
-                    <div class="cc-dashboard-stat-card green">
-                        <div class="cc-dashboard-stat-top">
-                            <span>قرارداد</span>
-                            <div class="cc-dashboard-stat-icon">
-                                <i class="bx bx-file-blank"></i>
-                            </div>
-                        </div>
-                        <div class="cc-dashboard-stat-value">
-                            {$dashboardStats['month']['contractCount']}
-                        </div>
-                        <div class="cc-dashboard-stat-footer">
-                            <span>تعداد ثبت‌شده ماه جاری</span>
-                        </div>
-                    </div>
-
-                    <div class="cc-dashboard-stat-card orange">
-                        <div class="cc-dashboard-stat-top">
-                            <span>مبلغ پیش‌فاکتورها</span>
-                            <div class="cc-dashboard-stat-icon">
-                                <i class="bx bx-wallet"></i>
-                            </div>
-                        </div>
-                        <div class="cc-dashboard-stat-value amount">
-                            {$dashboardStats['month']['proformaAmount']}
-                        </div>
-                        <div class="cc-dashboard-stat-footer">
-                            <span>مجموع مبلغ ماه جاری</span>
-                        </div>
-                    </div>
-
-                    <div class="cc-dashboard-stat-card teal">
-                        <div class="cc-dashboard-stat-top">
-                            <span>مبلغ قراردادها</span>
-                            <div class="cc-dashboard-stat-icon">
-                                <i class="bx bx-money"></i>
-                            </div>
-                        </div>
-                        <div class="cc-dashboard-stat-value amount">
-                            {$dashboardStats['month']['contractAmount']}
-                        </div>
-                        <div class="cc-dashboard-stat-footer">
-                            <span>مجموع مبلغ ماه جاری</span>
-                        </div>
-                    </div>
-
-                </div>
             </div>
 
         </div>
