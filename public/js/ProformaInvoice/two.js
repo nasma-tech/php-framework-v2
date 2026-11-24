@@ -57,7 +57,7 @@ $(function () {
                 result.sumDiscount += discountAmount;
             }
         });
-        if (result.sumRow > 0){
+        if (result.sumRow > 0) {
             result.netSumAllProduct = result.sumRow - result.sumDiscount;
         }
         let finalSum = result.netSumAllProduct;
@@ -420,6 +420,11 @@ $(function () {
     $("#brand_id").change(function () {
         $("#mainProduct").empty()
         mainProductCount = $("#mainProduct tr").length;
+    })
+
+    $("#marketer_id").on('change', function () {
+        let percent = $(this).find(':selected').data('percent');
+        $("#marketer_percent").text(percent)
     })
 
     sumAllRow()

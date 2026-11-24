@@ -2,6 +2,7 @@
 
 namespace App\Models\AddressAnnouncementModel;
 
+use App\Models\CargoExitModel\CargoExitModel;
 use App\Models\CityModel\CityModel;
 use App\Models\CountryModel\CountryModel;
 use App\Models\ProductExitPartsModel\ProductExitPartsModel;
@@ -9,6 +10,9 @@ use App\Models\ProductPartItemModel\ProductPartItemModel;
 use App\Models\StateModel\StateModel;
 use App\Models\UserModel\UserModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AddressAnnouncementModel extends Model
@@ -41,18 +45,23 @@ class AddressAnnouncementModel extends Model
     {
         return $this->belongsTo(StateModel::class, 'state_id');
     }
-    public function cityData()
+    public function cityData(): BelongsTo
     {
         return $this->belongsTo(cityModel::class, 'city_id', 'id');
     }
 
-    public function userData()
+    public function userData(): BelongsTo
     {
         return $this->belongsTo(UserModel::class, 'user_id', 'id');
     }
 
-    public function ProductPartItem()
+    public function ProductPartItem(): HasMany
     {
         return $this->hasMany(ProductPartItemModel::class, 'part_id', 'id');
+    }
+
+    public function cargoExit(): HasOne
+    {
+        return $this->hasOne(CargoExitModel::class,'address_announcement_id','id');
     }
 }
