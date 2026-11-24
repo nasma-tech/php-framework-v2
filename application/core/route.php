@@ -6,7 +6,6 @@ use App\Controllers\colors\colors;
 use App\Controllers\countries\countries;
 use App\Controllers\CustomerContactInformation\CustomerContactInformation;
 use App\Controllers\dashboard\dashboard;
-use App\Controllers\salesTeam\salesTeam;
 use App\Controllers\login\login;
 use App\Controllers\login\MenuList\MenuList;
 use App\Controllers\roles\roles;
@@ -663,14 +662,91 @@ $router->mount('/AddendumSaleContracts', function () use ($router) {
     dynamicRoute($router, App\Controllers\AddendumSaleContracts\AddendumSaleContracts::class);
 });
 
-$router->get('/valad', function () {
-
-    $instance = new App\Controllers\ProformaInvoice\ProformaInvoice();
-    var_print($instance->getAllocationData(5));
-//    $instance = new App\Controllers\Products\Products();
+//$router->get('/mpdfTest', function () {
 //
-//    var_print($instance->getRelatedProducts(2));
-});
+//
+//    $data = [
+//        'number' => 'Q-1405-001',
+//        'date' => '1405/09/03',
+//        'logo_path' => 'Storage/brands/83deb7fba0898198edf9287c40f568ab.svg',
+//
+//        'customer' => [
+//            'name' => 'شرکت نمونه',
+//            'national_code' => '1234567890',
+//            'phone' => '02112345678',
+//            'postal_code' => '1234567890',
+//            'address' => 'تهران، خیابان نمونه',
+//        ],
+//
+//        'items' => [
+//            [
+//                'description' => 'محصول اول',
+//                'quantity' => 2,
+//                'unit' => 'عدد',
+//                'unit_price' => 15000000,
+//                'total' => 30000000,
+//            ],
+//            [
+//                'description' => 'محصول دوم',
+//                'quantity' => 3,
+//                'unit' => 'دستگاه',
+//                'unit_price' => 5000000,
+//                'total' => 15000000,
+//            ],
+//        ],
+//
+//        'total' => 45000000,
+//
+//        'conditions' => [
+//            'اعتبار پیشنهاد قیمت به مدت ۷ روز است.',
+//            'هزینه حمل و نقل به عهده خریدار است.',
+//        ],
+//
+//        'applicant_name' => 'نام متقاضی',
+//        'salesperson_name' => 'نام کارشناس فروش',
+//        'signature' => null,
+//    ];
+//
+//    $quotation = new QuotationGenerator($data, 'invoice_template');
+//
+//    $template = $quotation->render();
+//
+//    $instance = new MpdfService();
+//
+//    $mpdf = $instance->makePdfObject([
+//        'debug' => true,
+//        'mode' => 'utf-8',
+//        'format' => 'A4',
+//        'setAutoTopMargin' => 'stretch',
+//        'setAutoBottomMargin' => 'stretch',
+//        'pagenumPrefix' => ' صفحه ',
+//        'nbpgPrefix' => ' از ',
+//        'margin_left' => 0,
+//        'margin_right' => 0,
+//        'margin_top' => 0,
+//        'margin_bottom' => 30
+//    ]);
+//
+//    $mpdf->SetDirectionality('rtl');
+//
+//    $stylesheet = file_get_contents(
+//        'packages/Quotation/templates/invoice_template/invoice_template.css'
+//    );
+//
+//    $mpdf->AddPage();
+//
+//    $mpdf->WriteHTML($stylesheet, 1);
+//    $mpdf->WriteHTML($template);
+//
+//    $mpdf->SetProtection(
+//        ['print'],
+//        '',
+//        'OWrVap6Uet2sgQ'
+//    );
+//
+//    $mpdf->Output('quotation.pdf', 'I');
+//
+//});
 $router->mount('/ProductPart', function () use ($router) {
     dynamicRoute($router, App\Controllers\ProductPart\ProductPart::class);
 });

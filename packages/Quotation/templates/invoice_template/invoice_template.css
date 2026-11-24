@@ -1,0 +1,188 @@
+body {
+    color: #222;
+    font-size: 0.95em;
+    line-height: 1.4;
+    font-family: xbzar, serif;
+    padding: 0;
+    margin: 0;
+    font-weight: normal;
+}
+
+/* Main Container */
+.quotation-container {
+    width: 95%;
+    margin: 0 auto;
+    text-align: justify;
+}
+
+/* Header */
+.quotation-header {
+    width: 100%;
+    margin-top: 50px;
+}
+
+.quotation-header-spacer {
+    width: 25%;
+    height: 50px;
+    margin-top: -50px;
+}
+
+.quotation-header-title {
+    width: 50%;
+    height: 50px;
+    margin-right: 25%;
+    margin-top: -51px;
+}
+
+.quotation-header-info {
+    width: 25%;
+    height: 50px;
+    margin-right: 75%;
+    margin-top: -51px;
+}
+
+.quotation-header-info h6 {
+    padding-right: 25%;
+}
+
+.quotation-header-info h6:first-child {
+    margin: 8px !important;
+}
+
+.quotation-header-info h6:last-child {
+    margin: 2px !important;
+}
+
+/* Tables */
+.invoice-table {
+    width: 95%;
+    height: 1rem;
+    margin-right: 5%;
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+}
+
+.invoice-table td {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    font-size: 10px;
+}
+
+.quotation-customer-table,
+.quotation-items-table {
+    width: 100%;
+    margin: 6px 12px;
+}
+
+.quotation-table-heading {
+    background: #ebebeb;
+}
+
+.quotation-signature-table {
+    width: 100%;
+    border: none;
+    border-collapse: collapse;
+}
+
+.quotation-signature-table td {
+    border: none;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.quotation-signature-image-cell {
+    width: 150px;
+    padding: 0;
+}
+
+/* Conditions */
+.quotation-conditions {
+    margin-right: 0.5rem;
+    line-height: 1.5em;
+}
+
+.quotation-conditions ul {
+    width: 95%;
+    margin-left: 5%;
+}
+
+.quotation-conditions h4 {
+    margin: 0 -8px 0 0 !important;
+}
+
+.quotation-conditions li {
+    font-size: 10px !important;
+}
+
+.quotation-conditions li span {
+    font-weight: bold;
+}
+
+/* Signature */
+.quotation-signature {
+    margin-bottom: 4px;
+}
+
+.quotation-signature-column {
+    width: 45%;
+    float: right;
+}
+
+.quotation-signature-label {
+    font-weight: bold;
+}
+
+.quotation-signature-image-cell img {
+    display: block;
+}
+
+/* Utility Classes */
+.text-center {
+    text-align: center;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.flex-column {
+    flex-direction: column !important;
+    justify-content: center !important;
+}
+
+.lh-1 {
+    line-height: 1.3rem;
+    font-size: 0.8rem !important;
+}
+
+.mt-2 {
+    margin-top: 1rem !important;
+}
+
+.mt-3 {
+    margin-top: 1.5rem !important;
+}
+
+.mb-0 {
+    margin-bottom: 0 !important;
+}
+
+.mb-3 {
+    margin-bottom: 1.5rem !important;
+}
+
+.pr-1 {
+    padding: 0.5rem !important;
+}
+
+.pr-2 {
+    padding-right: 1rem !important;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
