@@ -8,9 +8,11 @@ use App\Models\CityModel\CityModel;
 use App\Models\ContactProjectsFollowUpModel\ContactProjectsFollowUpModel;
 use App\Models\ContactProjectsModel\ContactProjectsModel;
 use App\Models\CountryModel\CountryModel;
+use App\Models\marketersModel\marketersModel;
 use App\Models\PriceSuggestionModel\PriceSuggestionModel;
 use App\Models\PriceSuggestionProductModel\PriceSuggestionProductModel;
 use App\Models\ProductModel\ProductModel;
+use App\Models\SalesTeamModel\SalesTeamModel;
 use App\Models\StateModel\StateModel;
 
 class PriceSuggestion extends ControllerScheme
@@ -61,7 +63,9 @@ class PriceSuggestion extends ControllerScheme
                 'contactProjectFollowUpData' => $contactProjectFollowUpData,
                 'brands' => brandsModel::query()->get(),
                 'countries' => CountryModel::query()->get(),
-                'states' => StateModel::query()->where('country_id', 102)->get()
+                'states' => StateModel::query()->where('country_id', 102)->get(),
+                'saleTeams'=>SalesTeamModel::query()->get(),
+                'marketers'=>marketersModel::query()->get()
             ]
         )->display('PriceSuggestion/add|edit-PriceSuggestion.tpl');
     }
@@ -91,7 +95,8 @@ class PriceSuggestion extends ControllerScheme
             'countries' => CountryModel::query()->get(),
             'states' => StateModel::query()->where('country_id', 102)->get(),
             'cities' => CityModel::query()->where('state_id', $getData->state_id)->get(),
-            'products' => ProductModel::query()->where('brand_id', $getData->brand_id)->get()
+            'products' => ProductModel::query()->where('brand_id', $getData->brand_id)->get(),
+            'saleTeams'=>SalesTeamModel::query()->get()
         ])->display('PriceSuggestion/add|edit-PriceSuggestion.tpl');
     }
 
