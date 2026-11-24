@@ -2,6 +2,7 @@
 
 namespace App\Models\ProductExitPartItemsModel;
 
+use App\Models\ProductExitPartsModel\ProductExitPartsModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

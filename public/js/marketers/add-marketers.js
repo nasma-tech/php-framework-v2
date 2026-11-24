@@ -20,12 +20,12 @@ $(function () {
 
     $('input[name="marketer_mobiles[]"]').numberInput();
     $('input[name="marketer_phones[]"]').numberInput();
-    validateDocument("back_national_card_image");
-    validateDocument("front_national_card_image");
-    validateDocument("contract_image");
-    validateDocument("contract_image_legal");
-    validateDocument("official_newspaper_image");
-    validateDocument("last_changes_image");
+    validateDocument("#back_national_card_image");
+    validateDocument("#front_national_card_image");
+    validateDocument("#contract_image");
+    validateDocument("#contract_image_legal");
+    validateDocument("#official_newspaper_image");
+    validateDocument("#last_changes_image");
 
 
     $(".viewFront_national_card_image").on('click', function () {

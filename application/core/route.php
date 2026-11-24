@@ -227,6 +227,11 @@ $router->mount('/ProformaInvoice', function () use ($router) {
         ],
         [
             'method' => 'POST',
+            'path' => '/AddressAnnouncement(/\d+)',
+            'action' => 'AddressAnnouncement'
+        ],
+        [
+            'method' => 'POST',
             'path' => '/removeProductRow',
             'action' => 'removeProductRow'
         ],
@@ -651,9 +656,7 @@ $router->mount('/AddendumSaleContracts', function () use ($router) {
 $router->get('/valad', function () {
 
     $instance = new App\Controllers\ProformaInvoice\ProformaInvoice();
-
     var_print($instance->getAllocationData(5));
-
 //    $instance = new App\Controllers\Products\Products();
 //
 //    var_print($instance->getRelatedProducts(2));
