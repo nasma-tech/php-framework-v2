@@ -46,7 +46,7 @@
                                                 name="sale_team_id">
                                             <option selected disabled>یک تیم را انتخاب کنید</option>
                                             {foreach $saleTeams|default:[] as $item}
-                                                <option value="{($getData.sale_team_id|default:null == $item.id)?'selected':''}">{$item.team_title}</option>
+                                                <option value="{$item.id}" {($getData.sale_team_id|default:null == $item.id)?'selected':''}>{$item.team_title}</option>
                                             {/foreach}
                                         </select>
                                     </div>
@@ -342,7 +342,7 @@
                                                         <select class="form-control select2" id="marketer_id" name="marketer_id">
                                                             <option selected disabled>یک بازاریاب را انتخاب کنید</option>
                                                             {foreach $marketers|default:[] as $item}
-                                                                <option value="{($getData.marketer_id|default:null == $item.id)?'selected':''}">{$item.marketer_full_name|default:'بدون نام'}</option>
+                                                                <option value="{$item.id}" {($getData.marketer_id|default:null == $item.id)?'selected':''}>{$item.marketer_full_name|default:'بدون نام'}</option>
                                                             {/foreach}
                                                         </select>
                                                     </td>

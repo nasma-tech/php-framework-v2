@@ -234,7 +234,6 @@ class PriceSuggestion extends ControllerScheme
 
     }
 
-
     public function removeProductRow(): void
     {
         $id = $this->requestArray()['id'];
