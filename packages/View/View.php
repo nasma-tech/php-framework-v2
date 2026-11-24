@@ -35,7 +35,7 @@ class View
         $ui->assign('userHelper', userHelper);
         $ui->assign('flashMessageHelper', new FlashMessageHelper());
         $ui->assign('numberNormalizer', numberNormalizer);
-        $ui->assign('number', number);
+        $ui->assign('numberToWord', numberToWord);
         $ui->caching = Smarty::CACHING_OFF;
         $ui->compile_check = true;
         $ui->force_compile = true;

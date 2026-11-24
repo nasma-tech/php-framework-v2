@@ -167,7 +167,7 @@ class PaymentManagement extends ControllerScheme
                 case 1:
                     $arrayFill = [
                         'cheque_deposit_date' => dateTimeHelper->convertDateToTimestamp($request['cheque_deposit_date']),
-                        'cheque_number' => numberHelper->persianNumberToEnglish($request['cheque_number']),
+                        'cheque_number' => persianTextNormalizer->persianNumberToEnglish($request['cheque_number']),
                         'cheque_amount' => str_replace([',', ' '], '', $request['cheque_amount']),
                         'cheque_description' => $request['cheque_description'],
                         'user_id' => userObject()->userId
@@ -195,9 +195,9 @@ class PaymentManagement extends ControllerScheme
                     $arrayFill = [
                         'payment_method_id' => $request['payment_method_id'],
                         'bank_account_id' => $request['bank_account_id'],
-                        'reference_no' => numberHelper->persianNumberToEnglish($request['reference_no']),
+                        'reference_no' => persianTextNormalizer->persianNumberToEnglish($request['reference_no']),
                         'date_deposit' => dateTimeHelper->convertDateToTimestamp($request['date_deposit']),
-                        'amount_paid' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($request['amount_paid'])),
+                        'amount_paid' => persianTextNormalizer->persianNumberToEnglish(numberNormalizer->removePriceSeparator($request['amount_paid'])),
                         'payment_description' => $request['payment_description'],
                         'user_id' => userObject()->userId,
                     ];

@@ -1,5 +1,6 @@
 <?php
 $escape = $escape ?? [];
+$quote = $quote ?? [];
 ?>
 
 <!doctype html>
@@ -7,7 +8,7 @@ $escape = $escape ?? [];
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>پیشنهاد قیمت</title>
+    <title><?= $quote['title'] ?> <?= $quote['number'] ?></title>
 </head>
 
 <body>
@@ -15,10 +16,12 @@ $escape = $escape ?? [];
 
     <!-- Requester Details -->
     <div class="quotation-header">
-        <div class="quotation-header-spacer"></div>
+        <div class="quotation-header-spacer">
+            <img src="<?= $quote['logo_path'] ?>" alt="">
+        </div>
 
         <div class="quotation-header-title">
-            <h3 class="text-center">پیشنهاد قیمت</h3>
+            <h3 class="text-center"><?= $quote['title'] ?></h3>
         </div>
 
         <div class="quotation-header-info">
@@ -34,23 +37,54 @@ $escape = $escape ?? [];
 
     <table class="invoice-table quotation-customer-table">
         <tr>
-            <td>خریدار محترم :</td>
+            <th class="quotation-table-heading" colspan="4">مشخصات پیشنهاد دهنده</th>
+        </tr>
+        <tr>
+            <td>پیشنهاد دهنده:</td>
+            <td><?= $escape($quote['seller']['name'] ?? '') ?></td>
+
+            <td>شناسه / کد ملی:</td>
+            <td><?= $escape($quote['seller']['national_code'] ?? '') ?></td>
+        </tr>
+
+        <tr>
+            <td>شماره تماس:</td>
+            <td><?= $escape($quote['seller']['phone'] ?? '') ?></td>
+
+            <td>کد پستی:</td>
+            <td><?= $escape($quote['seller']['postal_code'] ?? '') ?></td>
+        </tr>
+
+        <tr>
+            <td>نشانی:</td>
+            <td colspan="3">
+                <?= $escape($quote['seller']['address'] ?? '') ?>
+            </td>
+        </tr>
+    </table>
+
+    <table class="invoice-table quotation-customer-table">
+        <tr>
+            <th class="quotation-table-heading" colspan="4">مشخصات خریدار</th>
+        </tr>
+        <tr>
+            <td>خریدار محترم:</td>
             <td><?= $escape($quote['customer']['name'] ?? '') ?></td>
 
-            <td>شناسه یا کد ملی :</td>
+            <td>شناسه / کد ملی:</td>
             <td><?= $escape($quote['customer']['national_code'] ?? '') ?></td>
         </tr>
 
         <tr>
-            <td>شماره تماس :</td>
+            <td>شماره تماس:</td>
             <td><?= $escape($quote['customer']['phone'] ?? '') ?></td>
 
-            <td>کد پستی :</td>
+            <td>کد پستی:</td>
             <td><?= $escape($quote['customer']['postal_code'] ?? '') ?></td>
         </tr>
 
         <tr>
-            <td>نشانی :</td>
+            <td>نشانی:</td>
             <td colspan="3">
                 <?= $escape($quote['customer']['address'] ?? '') ?>
             </td>
@@ -63,11 +97,11 @@ $escape = $escape ?? [];
             <thead>
             <tr>
                 <td class="quotation-table-heading"><b>ردیف</b></td>
-                <td class="quotation-table-heading"><b>مشخصات محصول</b></td>
+                <td class="quotation-table-heading"><b>شرح کالا</b></td>
                 <td class="quotation-table-heading"><b>مقدار</b></td>
                 <td class="quotation-table-heading"><b>واحد</b></td>
-                <td class="quotation-table-heading"><b>قیمت(ریال)</b></td>
-                <td class="quotation-table-heading"><b>جمع(ریال)</b></td>
+                <td class="quotation-table-heading"><b>مبلغ واحد (ریال)</b></td>
+                <td class="quotation-table-heading"><b>مبلغ کل (ریال)</b></td>
             </tr>
             </thead>
 
@@ -83,7 +117,7 @@ $escape = $escape ?? [];
                     </td>
 
                     <td class="text-center">
-                        <?= $escape($item['quantity'] ?? '') ?>
+                        <?= $escape(numberNormalizer->floatNumberFormat($item['quantity']) ?? '') ?>
                     </td>
 
                     <td>
@@ -91,23 +125,43 @@ $escape = $escape ?? [];
                     </td>
 
                     <td>
-                        <?= $formatMoney($item['unit_price'] ?? 0) ?>
+                        <?= number_format($item['unit_price'] ?? 0) ?>
                     </td>
 
                     <td>
-                        <?= $formatMoney($item['total'] ?? 0) ?>
+                        <?= number_format($item['total'] ?? 0) ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
+            <?php foreach ($quote['deductions'] as $deduction): ?>
+                <tr>
+                    <td colspan="5" class="text-left">
+                        <?= $deduction['precent'] ?>% <?= $deduction['description'] ?>
+                    </td>
 
+                    <td>
+                        <?= number_format($deduction['total']) ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
             <tr>
                 <td colspan="5" class="text-left">
                     جمع کل
                 </td>
 
                 <td>
-                    <?= $formatMoney($quote['total'] ?? 0) ?>
-                    <span>ریال</span>
+                    <?= number_format($quote['total'] ?? 0) ?>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" class="text-center">
+                    شرایط و نحوه تسویه: نقدی
+                    <input type="checkbox">
+                    غیر نقدی
+                    <input type="checkbox">
+                </td>
+                <td colspan="3" class="text-left">
+                    <?= numberToWord->numberToWords($quote['total']) ?> ریال
                 </td>
             </tr>
             </tbody>
@@ -116,8 +170,19 @@ $escape = $escape ?? [];
 
     <div>
         <div class="quotation-conditions">
-            <h4 class="pr-2">توضیحات و شرایط</h4>
+            <?php if ($quote['payment_term']): ?>
+                <h4 class="pr-2">شرایط پرداخت</h4>
+                <div class="mr-1">
+                    <?= $quote['payment_term'] ?>
+                </div>
+            <?php endif; ?>
 
+            <?php if ($quote['bottom_invoice_text']): ?>
+                <h4 class="pr-2">توضیحات پیش فاکتور</h4>
+                <div class="mr-1">
+                    <?= $quote['bottom_invoice_text'] ?>
+                </div>
+            <?php endif; ?>
             <ul>
                 <?php foreach (($quote['conditions'] ?? []) as $condition): ?>
                     <li>
@@ -132,7 +197,7 @@ $escape = $escape ?? [];
 
             <div class="quotation-signature-column">
                 <div class="mb-3">
-                    <span class="quotation-signature-label">متقاضی</span>
+                    <span class="quotation-signature-label">پیشنهاد دهنده</span>
                 </div>
 
                 <div>
@@ -140,25 +205,16 @@ $escape = $escape ?? [];
                 </div>
             </div>
 
-            <div class="quotation-signature-column">
-                <div class="mb-3">
-                    <?= $escape($quote['salesperson_name'] ?? 'کارشناس فروش') ?>
-                </div>
+            <div class="quotation-signature-label">
+                <div class="mb-1">متقاضی</div>
 
-                <table class="quotation-signature-table" dir="rtl">
-                    <tr>
-                        <td></td>
-                        <td class="quotation-signature-image-cell">
-                            <?php if (!empty($quote['signature'])): ?>
-                                <img
-                                        src="<?= $escape($quote['signature']) ?>"
-                                        alt="امضا"
-                                        width="150"
-                                >
-                            <?php endif; ?>
-                        </td>
-                    </tr>
-                </table>
+                <?php if (!empty($quote['signature_path'])): ?>
+                    <img
+                            src="<?= $escape($quote['signature_path']) ?>"
+                            alt="signature"
+                            width="150"
+                    >
+                <?php endif; ?>
             </div>
 
         </div>
