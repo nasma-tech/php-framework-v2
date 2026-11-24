@@ -18,6 +18,7 @@ use App\Models\CountryModel\CountryModel;
 use App\Models\PaymentAllocationModel\PaymentAllocationModel;
 use App\Models\PriceSuggestionModel\PriceSuggestionModel;
 use App\Models\PriceSuggestionProductModel\PriceSuggestionProductModel;
+use App\Models\ProductExitPartsModel\ProductExitPartsModel;
 use App\Models\ProductModel\ProductModel;
 use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
 use App\Models\ProformaInvoiceLogModel\ProformaInvoiceLogModel;
@@ -848,9 +849,8 @@ class ProformaInvoice extends ControllerScheme
                             "city" => $getData->city ?? [],
                             "getAllocationData" => $this->getAllocationData($getData->id),
                             "productPart" => $getData->productPart ?? [],
-                            'addressData' => $this->addressData($invoiceId),
-                            'getCargoExitList' => $this->getCargoExitList($invoiceId),
                             "warehouses" => WarehousesModel::query()->whereJsonContains('warehouse_brand_ids', $getData->brand_id)->get(),
+                            "ProductExitParts" => ProductExitPartsModel::query()->where('proforma_invoice_id', $invoiceId)->get(),
                         ]
                     ],
                     [
@@ -1227,34 +1227,22 @@ class ProformaInvoice extends ControllerScheme
     {
         $data = $this->requestArray();
         $makeData = [
-            "proforma_invoice_id" => $id,
-            "part_id" => $data['part_number'],
+            "product_exit_part_id" => $data['partId'],
+            "country_id" => $data['country_id'],
+            "state_id" => $data['state_id'],
             "city_id" => $data['city_id'],
-            "address" => $data['addressDescription'],
-            "user_id" => userObject()->userId,
+            "address" => $data['address'],
+            "user_id" => userObject()->userId
         ];
-
-        $add = addressAnnouncementModel::query()->create($makeData);
-        if ($add->save()) {
-            $add->update(["address_file" => fileHelper->fileUpload("addressAnnouncement", "addressFile", $add->id)]);
+        $add = AddressAnnouncementModel::query()->create($makeData);
+        if ($add) {
+            $add->update([
+                "address_file" => fileHelper->fileUpload('addressAnnouncement','address_file',$add->id),
+            ]);
             $this->successCallBack("/ProformaInvoice/process/{$id}");
-        } else {
+        }else{
             $this->failedCallBack("/ProformaInvoice/process/{$id}");
         }
 
-    }
-
-    public function addressData($proforma_invoice_id)
-    {
-        $data = addressAnnouncementModel::query()->where([
-            "proforma_invoice_id" => $proforma_invoice_id
-        ])->get();
-        return $data ?? [];
-    }
-
-    public function getCargoExitList($proforma_invoice_id)
-    {
-        $data = AddressAnnouncementModel::query()->where('proforma_invoice_id', $proforma_invoice_id)->with('ProductPartItem')->get();
-        return $data;
     }
 }
