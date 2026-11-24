@@ -4,6 +4,7 @@ namespace App\Models\PriceSuggestionModel;
 
 use App\Models\ContactProjectsFollowUpModel\ContactProjectsFollowUpModel;
 use App\Models\CustomerContactInformationModel\CustomerContactInformationModel;
+use App\Models\ProformaInvoiceModel\ProformaInvoiceModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -43,6 +44,11 @@ class PriceSuggestionModel extends Model
     public function followUpData(): HasOne
     {
         return $this->hasOne(ContactProjectsFollowUpModel::class,'id','contact_project_followup_id');
+    }
+
+    public function proformaInvoice(): HasOne
+    {
+        return $this->hasOne(ProformaInvoiceModel::class,'price_suggestion_id','id');
     }
 
 }

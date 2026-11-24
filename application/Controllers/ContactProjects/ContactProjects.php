@@ -71,6 +71,7 @@ class ContactProjects extends ControllerScheme
 
     public function ContactProjectDetail($id): void
     {
+        $_ENV['APP_DEBUG'] = 1;
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
