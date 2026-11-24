@@ -170,7 +170,7 @@
                     </div>
                 </div>
             </div>
-            {if $getData.contract}
+            {if $getData.contract|default:null}
                 <div class="col-md-12">
                     <div class="cc-invoice-contract-notice">
 
