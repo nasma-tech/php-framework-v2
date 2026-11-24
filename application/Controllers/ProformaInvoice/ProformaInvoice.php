@@ -848,8 +848,9 @@ class ProformaInvoice extends ControllerScheme
                             "city" => $getData->city ?? [],
                             "getAllocationData" => $this->getAllocationData($getData->id),
                             "productPart" => $getData->productPart ?? [],
-                            'addressData'=>$this->addressData($invoiceId),
+                            'addressData' => $this->addressData($invoiceId),
                             'getCargoExitList' => $this->getCargoExitList($invoiceId),
+                            "warehouses" => WarehousesModel::query()->whereJsonContains('warehouse_brand_ids', $getData->brand_id)->get(),
                         ]
                     ],
                     [
@@ -979,7 +980,7 @@ class ProformaInvoice extends ControllerScheme
                     "title" => "صفحه قرارداد",
                     "description" => "",
                     "type" => 'a',
-                    "href" =>"/SaleContracts/saleContractDetail/{$getData->contract->id}",
+                    "href" => "/SaleContracts/saleContractDetail/{$getData->contract->id}",
                     "icon" => "bx-show primary",
                     "scriptFile" => "",
                     "show" => (function () use ($getData) {
@@ -1085,6 +1086,143 @@ class ProformaInvoice extends ControllerScheme
 
         return $output ?? [];
     }
+
+    public function inventoryInquiryByInvoiceForm(): void
+    {
+        csrf->csrfValidate();
+        $data = $this->requestArray();
+        $output = $this->defaultOutput();
+
+        $needle = [
+            "invoice_id",
+            "warehouse_id",
+        ];
+
+        if (validator->validateRequestsData($needle)) {
+            $output = $this->successOutput(data: $this->inventoryInquiryByInvoice($data['invoice_id'], $data['warehouse_id']));
+        }
+
+        echo json_encode($output, JSON_UNESCAPED_UNICODE);
+    }
+
+
+    public function inventoryInquiryByInvoice(int $invoiceId, int $warehouseId): array
+    {
+        $getInvoice = ProformaInvoiceModel::query()->find($invoiceId);
+        $getWarehouse = WarehousesModel::query()->find($warehouseId);
+
+        if ($getInvoice && $getWarehouse) {
+            $warehouseInventory = new WarehouseInventory();
+            $invoiceProduct = $getInvoice->invoiceProduct;
+
+            $productIds = array_unique(array_column($invoiceProduct->toArray(), 'product_id'));
+
+            foreach ($productIds as $productId) {
+                $getInquiry = $warehouseInventory->inventoryInquiry($productId, [$warehouseId]);
+
+                if ($getInquiry) {
+                    $output[$productId] = [
+                        'productData' => $getInquiry['productData'],
+                        'summary' => $getInquiry['summary']
+                    ];
+                }
+            }
+        }
+        return $output ?? [];
+    }
+
+    public function addProductPartForm(int $invoiceId): void
+    {
+        csrf->csrfValidate();
+        $data = $this->requestArray();
+
+        $needle = [
+            "allocation_warehouse_id",
+            "allocation_data"
+        ];
+
+        if (validator->validateRequestsData($needle)) {
+            if ($this->addProductPart($invoiceId, $data['allocation_warehouse_id'], $data['allocation_data'])) {
+                $this->successCallBack("/ProformaInvoice/addProductPartForm/{$invoiceId}", 'پارت با موفقیت ثبت شد');
+            }
+            $this->failedCallBack("/ProformaInvoice/addProductPartForm/{$invoiceId}", 'خطا در ثبت پارت');
+        }
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function addProductPart(int $invoiceId, int $warehouseId, array $allocationData): bool
+    {
+        $productPart = new ProductPart();
+        $exitWarehouse = new ExitWarehouse();
+        $invoice = $this->defaultModel::query()->find($invoiceId);
+        $getAllocationData = $this->getAllocationData($invoiceId);
+        $getInventoryInquiryByInvoice = $this->inventoryInquiryByInvoice($invoiceId, $warehouseId);
+
+        $totalAllocation = [];
+
+        foreach ($allocationData as $key => $item) {
+            $allocation = $getAllocationData[$key] ?? [];
+            $remaining = $allocation['remaining_amount'] - $item['amount'];
+            $getItem = ProformaInvoiceProductsModel::query()->find($key);
+
+            if ($remaining < 0 || !$getItem) {
+                throw new \Exception('allocation validation failed');
+            }
+
+            isset($totalAllocation[$getItem->product_id])
+                ? $totalAllocation[$getItem->product_id] += $item['amount']
+                : $totalAllocation[$getItem->product_id] = $item['amount'];
+        }
+
+        foreach ($totalAllocation as $key => $item) {
+            $warehouseData = $getInventoryInquiryByInvoice[$key] ?? [];
+
+            if ($warehouseData) {
+                $remaining = $warehouseData['summary']['total_remaining'];
+                $remainingWarehouse = $remaining - $item;
+
+                if ($remainingWarehouse < 0) {
+                    throw new \Exception('allocation validation failed');
+                }
+            }
+        }
+
+        $addPart = $productPart->addProductPart($invoiceId, $warehouseId);
+
+
+        if (!$addPart) {
+            return false;
+        }
+
+        $addExit = $exitWarehouse->addExitPackage($warehouseId, "تخصیص پیش فاکتور $invoice->invoice_number");
+
+        if (!$addExit) {
+            return false;
+        }
+
+        foreach ($allocationData as $proformaInvoiceProductId => $allocationDatum) {
+            $getProductItem = ProformaInvoiceProductsModel::query()->find($proformaInvoiceProductId);
+            if ($getProductItem) {
+                if (
+                    !$productPart->addProductPartItem(
+                        $addPart->id,
+                        $proformaInvoiceProductId,
+                        $allocationDatum['amount']
+                    ) || !$exitWarehouse->addExitProduct(
+                        $addExit->id,
+                        $getProductItem->product_id,
+                        $allocationDatum['amount'],
+                    )) {
+                    throw new \Exception('failed to add product part item');
+                }
+            }
+        }
+
+        return true;
+    }
+
     public function AddressAnnouncement($id)
     {
         $data = $this->requestArray();
@@ -1100,7 +1238,7 @@ class ProformaInvoice extends ControllerScheme
         if ($add->save()) {
             $add->update(["address_file" => fileHelper->fileUpload("addressAnnouncement", "addressFile", $add->id)]);
             $this->successCallBack("/ProformaInvoice/process/{$id}");
-        }else{
+        } else {
             $this->failedCallBack("/ProformaInvoice/process/{$id}");
         }
 
@@ -1116,7 +1254,7 @@ class ProformaInvoice extends ControllerScheme
 
     public function getCargoExitList($proforma_invoice_id)
     {
-        $data = AddressAnnouncementModel::query()->where('proforma_invoice_id',$proforma_invoice_id)->with('ProductPartItem')->get();
+        $data = AddressAnnouncementModel::query()->where('proforma_invoice_id', $proforma_invoice_id)->with('ProductPartItem')->get();
         return $data;
     }
 }
