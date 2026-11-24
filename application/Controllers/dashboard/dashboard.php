@@ -23,6 +23,22 @@ class dashboard
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
         $cartable = new CartableDefinition();
+        $dashboardStats = [
+            'today' => [
+                'proposalCount' => 0,
+                'proformaCount' => 0,
+                'contractCount' => 0,
+                'proformaAmount' => '۰ ریال',
+                'contractAmount' => '۰ ریال',
+            ],
+            'month' => [
+                'proposalCount' => 0,
+                'proformaCount' => 0,
+                'contractCount' => 0,
+                'proformaAmount' => '۰ ریال',
+                'contractAmount' => '۰ ریال',
+            ],
+        ];
 
         $tabData = [
             [
@@ -112,6 +128,7 @@ class dashboard
                     2 => 'bg-rgba-danger',
                     3 => 'bg-rgba-warning',
                 ],
+                'dashboardStats'=>$dashboardStats
             ]
         )->display('dashboard/dashboard.tpl');
     }
