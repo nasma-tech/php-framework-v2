@@ -97,17 +97,17 @@ class Companies extends ControllerScheme
 
         $data = $this->requestArray();
 
-        $nationalID = numberHelper->persianNumberToEnglish($data['national_ID']);
+        $nationalID = persianTextNormalizer->persianNumberToEnglish($data['national_ID']);
 
         $makeRequest = [
             'national_ID' => $nationalID,
             'company_name' => $data['company_name'],
             'establishment_date' => $data['establishment_date'],
             'company_status' => $data['company_status'],
-            'registration_number' => numberHelper->persianNumberToEnglish($data['registration_number']),
-            'economic_code' => numberHelper->persianNumberToEnglish($data['economic_code']),
+            'registration_number' => persianTextNormalizer->persianNumberToEnglish($data['registration_number']),
+            'economic_code' => persianTextNormalizer->persianNumberToEnglish($data['economic_code']),
             'address' => $data['address'],
-            'postal_code' => numberHelper->persianNumberToEnglish($data['postal_code']),
+            'postal_code' => persianTextNormalizer->persianNumberToEnglish($data['postal_code']),
             'lat' => $data['lat'] ?? null,
             'lang' => $data['lang'] ?? null,
         ];

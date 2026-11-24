@@ -1,148 +1,132 @@
-{if $getData.productPart->count() <= 0}
-    <div class="card shadow-sm">
-        <div class="card-body text-center bg-warning  rounded">
-            <i class="bx bx-info-circle text-white font-large-2 mb-1"></i>
-            <h4 class="mb-0 text-white">هنوز اعلام خروجی ثبت نشده است</h4>
-        </div>
-    </div>
-{else}
-    {foreach $getData.productPart as $key => $part}
-        {$addressDetail = $addressData[$key]|default:[]}
-        {$compair = false}
-        {if ($addressDetail['proforma_invoice_id']|default:[] == $getData['id'] && $addressDetail['part_id']|default:[] == $part['id'])}
-            {$compair = True}
-        {/if}
-        <form action="/ProformaInvoice/AddressAnnouncement/{$getData['id']}" method="POST"
-              enctype="multipart/form-data">
-            <input type="hidden" value="{$part->id}" name="part_number">
-            <div class="card shadow">
-                <div class="card-body">
-                    <div class="divider mt-1">
-                        <div class="divider-text">
-                            پارت شماره
-                            <code>
-                                {$number->numberToWords($key + 1)}
-                            </code>
+{foreach $ProductExitParts as $part}
+
+    {$check = null}
+
+    {if $AddressAnnouncementData}
+        {$check = $AddressAnnouncementData->where('product_exit_part_id', $part['id'])->first()}
+    {/if}
+
+    {$exist = !empty($check)}
+    <form action="/ProformaInvoice/AddressAnnouncement/{$getData['id']}"
+          method="POST"
+          enctype="multipart/form-data">
+
+        <div class="location-form">
+            <input type="hidden" value="{$part['id']}" name="partId">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="col-md-12 text-center">
+                        <div class="divider">
+                            <div class="divider-text">
+                                <code>p - {$part['id']}</code> پارت
+                            </div>
                         </div>
                     </div>
 
-                    <div class="row mt-1">
-                        <div class="col-md-3">
-                            <label>کشور</label>
-                            <select name="country_id"
-                                    data-key="{$key + 1}"
-                                    {if $compair}
-                                        class="form-control select2"
-                                        disabled
-                                    {else}
-                                        class="form-control select2 country_id"
-                                        required
-                                    {/if}>
-                                <option disabled selected>یکی از موارد زیر رو انتخاب کنید</option>
-                                {foreach $countries as $data}
-                                    {if $compair}
-                                        <option value="{$data['id']}"
-                                                {if $addressDetail->cityData->states->country_id == $data['id']}selected{/if}>{$data['persian_title']}</option>
-                                    {else}
-                                        <option value="{$data['id']}">{$data['persian_title']}</option>
-                                    {/if}
-                                {/foreach}
-                            </select>
-                        </div>
+                    <div class="col-md-12">
+                        <div class="row" dir="rtl">
 
-                        <div class="col-md-3">
-                            <label>استان</label>
-                            <select name="state_id"
-                                    class="form-control select2 state_id"
-                                    data-key="{$key + 1}"
-                                    required disabled>
-                                <option disabled selected>کشور را انتخاب کنید</option>
-                                {if $compair}
-                                    <option value="" selected>{$addressDetail->cityData->states->title}</option>
+                            <div class="col-md-3">
+                                <label>کشور</label>
+                                {if $exist}
+                                    <input type="text" disabled class="form-control"
+                                           value="{$check->countryData->persian_title}">
+                                {else}
+                                    <select class="form-control select2 country_id" name="country_id" required>
+                                        <option disabled selected>یکی از موارد زیر را انتخاب کنید</option>
+
+                                        {foreach $countries as $data}
+                                            <option value="{$data['id']}">{$data['persian_title']}</option>
+                                        {/foreach}
+                                    </select>
                                 {/if}
-                            </select>
-                        </div>
+                            </div>
 
-                        <div class="col-md-3">
-                            <label>شهر</label>
-                            <select name="city_id"
-                                    class="form-control select2 city_id"
-                                    data-key="{$key + 1}"
-                                    required disabled>
-                                <option disabled selected>استان را انتخاب کنید</option>
-                                {if $compair}
-                                    <option value="" selected>{$addressDetail->cityData->title}</option>
+                            <div class="col-md-3">
+                                <label>استان</label>
+                                {if $exist}
+                                    <input type="text" disabled class="form-control"
+                                           value="{$check->stateData->title}">
+                                {else}
+                                    <select name="state_id" class="form-control select2 state_id" required
+                                            disabled></select>
                                 {/if}
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label>فرم اعلام آدرس</label>
-                            <div class="input-group">
-                                <input type="file"
-                                       class="form-control addressFile"
-                                       name="addressFile"
-                                       accept="image/*,.pdf"
-                                        {if $compair}
-                                            disabled
-                                        {else}
-                                            required
-                                        {/if}
-                                >
+                            </div>
 
-                                <div class="input-group-append">
-                                    <button type="button"
-                                            {if $compair}
-                                                class="input-group-text previewData"
-                                                data-id="{$addressDetail['id']}"
-                                                data-file="{$addressDetail->address_file}"
-                                            {else}
-                                                class="input-group-text viewAddressFile"
+                            <div class="col-md-3">
+                                <label>شهر</label>
+                                {if $exist}
+                                    <input type="text" disabled class="form-control"
+                                           value="{$check->cityData->title}">
+                                {else}
+                                    <select name="city_id" class="form-control select2 city_id" required
+                                            disabled></select>
+                                {/if}
+                            </div>
+
+                            <div class="col-md-3">
+                                <label>فایل آدرس</label>
+                                <div class="input-group">
+                                    <input type="file"
+                                           class="form-control address_file"
+                                           name="address_file"
+                                           accept="image/*,.pdf"
+                                           required
+                                            {if $exist}
+                                                disabled
                                             {/if}
-                                            data-key="{$key + 1}"
-                                            title="مشاهده فایل">
-                                        <i class="bx bxs-file"></i>
-                                    </button>
+                                    >
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-sm btn-primary viewFile"
+                                                {if $exist}
+                                                    data-id="{$check->id}"
+                                                    data-file="{$check['address_file']}"
+                                                {/if}
+                                        >
+                                            <i class="bx bx-file"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="filePreview mt-2" data-key="{$key + 1}"></div>
-                        </div>
-                        <div class="col-md-12 mt-2">
-                            <label>توضیحات آدرس</label>
-                            <textarea name="addressDescription"
-                                      class="addressDescription"
-                                   {if $compair}
-                                       disabled
-                                   {else}
-                                       required
-                                   {/if}
-                        ></textarea>
-                        </div>
-                        {if $compair}
-                            <div class="col-12  mt-1">
-                                <button class="btn btn-sm btn-success text-white" type="button">
-                                    اعلام آدرس در تاریخ
-                                    <code>
 
-                                        {jdate("Y/m/d",strtotime($addressDetail->create_at))}
-                                    </code>
-                                    توسط
-                                    <code>
-                                        {$addressDetail->userData->full_name}
-                                    </code>
-                                    ثبت شد
-                                </button>
-                            </div>
-                        {else}
-                            <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
-                                <button type="submit"
-                                        class="btn btn-sm btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1">
-                                    ثبت اعلام آدرس
-                                </button>
-                            </div>
-                        {/if}
+                        </div>
                     </div>
                 </div>
+
+                <div class="card-body">
+                    <div class="col-md-12">
+                        <label>آدرس</label>
+                        <textarea class="form-control"
+                                  name="address"
+                                  cols="30"
+                                  rows="5"
+                                  style="resize: none"
+                                   {if $exist}
+                                       disabled
+                                   {/if}
+                        >{if $exist}{$check->address}{/if}</textarea>
+                    </div>
+                </div>
+
+                <div class="mt-auto pt-3">
+                    {if $exist}
+                        <button type="button" class="btn btn-success text-white glow w-100">
+                            در تاریخ
+                            <code>{(jdate("Y/m/d",strtotime($check->create_at)))}</code>
+                            توسط
+                            <code>{$check->userData->full_name}</code>
+                            اعلام آدرس شد
+                        </button>
+                    {else}
+                        <button type="submit" class="btn btn-primary glow w-100">
+                            ثبت اعلام آدرس
+                        </button>
+                    {/if}
+                </div>
             </div>
-        </form>
-    {/foreach}
-{/if}
+        </div>
+    </form>
+    <hr>
+{/foreach}
+

@@ -56,7 +56,7 @@
                                         <option selected disabled>یکی از موارد رو انتخاب کنید</option>
                                         {foreach $Products|default:[] AS $data}
                                             <option value="{$data.id}"
-                                                    {if $data.id = $item.productInfo.id|default:'-'}selected{/if} >{$data.title}</option>
+                                                    {if $data.id == $item.productInfo.id|default:'-'}selected{/if} >{$data.label}</option>
                                         {/foreach}
                                     </select>
                                 </td>

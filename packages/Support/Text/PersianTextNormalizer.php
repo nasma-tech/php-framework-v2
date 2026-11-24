@@ -101,4 +101,15 @@ class PersianTextNormalizer
             'ة' => 'ه',
         ]);
     }
+
+    public function fullCheckPersianText($text): string
+    {
+        return $this->removePunctuationMarks(
+            $this->normalizePersian(
+                $this->fixPersianPunctuationSpacing(
+                    $text
+                )
+            )
+        );
+    }
 }

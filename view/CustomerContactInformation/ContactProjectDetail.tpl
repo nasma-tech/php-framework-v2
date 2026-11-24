@@ -57,7 +57,6 @@
                                     </thead>
                                     <tbody>
                                     {foreach $getData.followUpData|default:[] as $item}
-                                        {var_print($item.priceSuggestionData.id|default:'')}
                                         <tr>
                                             <td class="border">{$item.followUpActionTitleData.title}</td>
                                             <td class="border">{jdate("Y/m/d",strtotime($item.created_at))}</td>
@@ -138,7 +137,7 @@
                                                                    style="cursor: pointer">
                                                                     <i class="bx bxs-file-blank mr-1 text-primary"></i>صدور
                                                                     پیشفاکتور</a>
-                                                            {elseif $item.priceSuggestionData.proformaInvoice}
+                                                            {elseif $item.priceSuggestionData.proformaInvoice|default:''}
                                                                 <a class="dropdown-item text-warning"
                                                                    href="/ProformaInvoice/editIndex/{$item.priceSuggestionData.id}"
                                                                    style="cursor: pointer">

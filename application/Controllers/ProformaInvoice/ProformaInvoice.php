@@ -19,6 +19,7 @@ use App\Models\marketersModel\marketersModel;
 use App\Models\PaymentAllocationModel\PaymentAllocationModel;
 use App\Models\PriceSuggestionModel\PriceSuggestionModel;
 use App\Models\PriceSuggestionProductModel\PriceSuggestionProductModel;
+use App\Models\ProductExitPartsModel\ProductExitPartsModel;
 use App\Models\ProductModel\ProductModel;
 use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
 use App\Models\ProformaInvoiceLogModel\ProformaInvoiceLogModel;
@@ -29,6 +30,8 @@ use App\Models\SalesTeamModel\SalesTeamModel;
 use App\Models\StateModel\StateModel;
 use App\Models\WarehousesModel\WarehousesModel;
 use JetBrains\PhpStorm\NoReturn;
+use Mpdf\MpdfException;
+use const Dom\VALIDATION_ERR;
 
 class ProformaInvoice extends ControllerScheme
 {
@@ -197,12 +200,12 @@ class ProformaInvoice extends ControllerScheme
                 $invoiceProduct = [
                     'proforma_invoice_id' => $addProformaInvoice->id,
                     'product_id' => $item['product_id'],
-                    'amount' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])),
-                    'unit_price' => numberHelper->persianNumberToEnglish($productInfo->sale_price),
-                    'unit_price_edit' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_unit_price'])),
-                    'sum_unit_price' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_unit_price'])) * numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])),
+                    'amount' => persianTextNormalizer->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])),
+                    'unit_price' => persianTextNormalizer->persianNumberToEnglish($productInfo->sale_price),
+                    'unit_price_edit' => persianTextNormalizer->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_unit_price'])),
+                    'sum_unit_price' => persianTextNormalizer->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_unit_price'])) * persianTextNormalizer->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])),
                     'discount_type' => (($item['discount_type']) ?: 'noDiscount'),
-                    'discount_unit_amount' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['discount_unit_amount'])),
+                    'discount_unit_amount' => persianTextNormalizer->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['discount_unit_amount'])),
                     'discount_unit_amount_cash' => $unitDiscount,
                     'discount_amount' => numberNormalizer->removePriceSeparator($item['discount_amount']),
                     'total_unit_price' => numberNormalizer->removePriceSeparator($item['unit_price_after_discount']),
@@ -341,20 +344,20 @@ class ProformaInvoice extends ControllerScheme
 //                    'id' => $item['productId']??null,
 //                    'proforma_invoice_id' => $find->id,
 //                    'product_id' => $item['product_id'],
-//                    'amount' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])),
-//                    'unit_price' => numberHelper->persianNumberToEnglish($productInfo->sale_price),
-//                    'unit_price_edit' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_unit_price'])),
-//                    'sum_unit_price' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_unit_price'])) * numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])),
+//                    'amount' => persianTextNormalizer->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])),
+//                    'unit_price' => persianTextNormalizer->persianNumberToEnglish($productInfo->sale_price),
+//                    'unit_price_edit' => persianTextNormalizer->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_unit_price'])),
+//                    'sum_unit_price' => persianTextNormalizer->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_unit_price'])) * persianTextNormalizer->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])),
 //                    'discount_type' => (($item['discount_type']) ?: 'noDiscount'),
-//                    'discount_unit_amount' => numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['discount_unit_amount'])),
+//                    'discount_unit_amount' => persianTextNormalizer->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['discount_unit_amount'])),
 //                    'discount_unit_amount_cash' => $unitDiscount,
 //                    'discount_amount' => numberNormalizer->removePriceSeparator($item['discount_amount']),
 //                    'total_unit_price' => numberNormalizer->removePriceSeparator($item['unit_price_after_discount']),
 //                    'total_product_price' => numberNormalizer->removePriceSeparator($item['product_amount']) * (numberNormalizer->removePriceSeparator($item['unit_price_after_discount'])),
 //                ];
-//                $invoice_sum += numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])) * numberHelper->persianNumberToEnglish($productInfo->sale_price);
-//                $invoice_sum_discount += $unitDiscount * numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount']));
-//                $invoice_net_sum += numberNormalizer->removePriceSeparator($item['unit_price_after_discount']) * numberHelper->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount']));
+//                $invoice_sum += persianTextNormalizer->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount'])) * persianTextNormalizer->persianNumberToEnglish($productInfo->sale_price);
+//                $invoice_sum_discount += $unitDiscount * persianTextNormalizer->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount']));
+//                $invoice_net_sum += numberNormalizer->removePriceSeparator($item['unit_price_after_discount']) * persianTextNormalizer->persianNumberToEnglish(numberNormalizer->removePriceSeparator($item['product_amount']));
 //            }
 //            ProformaInvoiceProductsModel::query()->upsert($invoiceProducts,
 //                ['id'], [
@@ -428,7 +431,7 @@ class ProformaInvoice extends ControllerScheme
             $data = $this->requestArray();
             $toNumber = static function ($value): float {
                 $value = $value ?? 0;
-                return (float)numberHelper->persianNumberToEnglish(
+                return (float)persianTextNormalizer->persianNumberToEnglish(
                     numberNormalizer->removePriceSeparator((string)$value)
                 );
             };
@@ -854,6 +857,8 @@ class ProformaInvoice extends ControllerScheme
                             "getAllocationData" => $this->getAllocationData($getData->id),
                             "productPart" => $getData->productPart ?? [],
                             "warehouses" => WarehousesModel::query()->whereJsonContains('warehouse_brand_ids', $getData->brand_id)->get(),
+                            "ProductExitParts" => ProductExitPartsModel::query()->where('proforma_invoice_id', $invoiceId)->get(),
+                            "AddressAnnouncementData" => AddressAnnouncementModel::query()->get(),
                             "exitProductData" => $getData->exitProductData ?? []
                         ]
                     ],
@@ -912,6 +917,15 @@ class ProformaInvoice extends ControllerScheme
                 //    "class" => ...,
                 //    "scriptFile" => ... //js file
                 //]
+                [
+                    "name" => "export_invoice",
+                    "title" => "خروجی پیش فاکتور", //persianTitle
+                    "description" => "",
+                    "icon" => "bx-file success",
+                    "href" => "/ProformaInvoice/ExportInvoice/$getData->id",
+                    "scriptFile" => "",
+                    "show" => true,
+                ],
                 [
                     "name" => "edit_invoice",
                     "title" => "ویرایش پیش فاکتور",
@@ -1231,21 +1245,143 @@ class ProformaInvoice extends ControllerScheme
     {
         $data = $this->requestArray();
         $makeData = [
-            "proforma_invoice_id" => $id,
-            "part_id" => $data['part_number'],
+            "product_exit_part_id" => $data['partId'],
+            "country_id" => $data['country_id'],
+            "state_id" => $data['state_id'],
             "city_id" => $data['city_id'],
-            "address" => $data['addressDescription'],
-            "user_id" => userObject()->userId,
+            "address" => $data['address'] ?? [],
+            "user_id" => userObject()->userId
         ];
-
-        $add = addressAnnouncementModel::query()->create($makeData);
-        if ($add->save()) {
-            $add->update(["address_file" => fileHelper->fileUpload("addressAnnouncement", "addressFile", $add->id)]);
+        $add = AddressAnnouncementModel::query()->create($makeData);
+        if ($add) {
+            $add->update([
+                "address_file" => fileHelper->fileUpload('addressAnnouncement', 'address_file', $add->id),
+            ]);
             $this->successCallBack("/ProformaInvoice/process/{$id}");
         } else {
             $this->failedCallBack("/ProformaInvoice/process/{$id}");
         }
 
+    }
+
+    /**
+     * @throws MpdfException
+     * @throws \Throwable
+     */
+    public function ExportInvoice($invoiceId)
+    {
+
+        $getInvoice = $this->defaultModel::query()->find($invoiceId);
+
+        if ($getInvoice) {
+            $companyData = $getInvoice->company;
+            $contactData = $getInvoice->contact;
+            $brandData = $getInvoice->brand;
+
+            $contactPhone = $contactData->contactPhones;
+            $invoiceDetail = $getInvoice->invoiceDetail;
+            $settings = $getInvoice->settings;
+
+            $chargesDeductions = json_decode($invoiceDetail->charges_deductions, true);
+            $invoiceSumTaxDetails = json_decode($invoiceDetail->invoice_sum_tax_details, true);
+            $invoiceTaxes = collect($invoiceSumTaxDetails)->keyBy('charges_deduction_id');
+
+            $data = [
+                'title' => 'پیش فاکتور',
+                'number' => $getInvoice->invoice_number,
+                'date' => jdate("Y/m/d", strtotime($getInvoice->created_at)),
+                'logo_path' => "Storage/brands/{$brandData->logo_address}",
+
+                'customer' => [
+                    'name' => (($companyData) ? $companyData->company_name : $contactData->contactFullName()),
+                    'national_code' => (($companyData) ? $companyData->national_ID : $contactData->national_code),
+                    'phone' => $contactPhone->first()->phone_number ?? '',
+                    'postal_code' => (($companyData) ? $companyData->postal_code : $contactData->postal_code),
+                    'address' => (($companyData) ? $companyData->address : $contactData->address),
+                ],
+                'seller' => [
+                    'name' => $brandData->company_name,
+                    'national_code' => $brandData->national_id,
+                    'phone' => $brandData->phone_number,
+                    'postal_code' => $brandData->postal_code,
+                    'address' => $brandData->address,
+                ],
+
+                'items' => $getInvoice->invoiceProduct->map(static function ($item) {
+                    return [
+                        'description' => $item->product->label,
+                        'quantity' => $item->amount,
+                        'unit' => $item->product->measurementUnit->label,
+                        'unit_price' => $item->total_unit_price,
+                        'total' => $item->total_product_price,
+                    ];
+                })->all(),
+
+                'total' => round($invoiceDetail->invoice_sum_total),
+                'deductions' => collect($chargesDeductions)
+                    ->map(static function ($item) use ($invoiceTaxes) {
+                        $invoiceTax = $invoiceTaxes->get($item['charges_deduction_id']);
+                        if (!$invoiceTax) {
+                            return null;
+                        }
+                        return [
+                            'description' => $item['title'],
+                            'precent' => ($item['coefficient'] - 1) * 100,
+                            'total' => $invoiceTax['calculate'],
+                        ];
+                    })
+                    ->filter()
+                    ->values()
+                    ->all(),
+
+                'payment_term' => textNormalizer->cleanEditorHtml(persianTextNormalizer->fullCheckPersianText($invoiceDetail->payment_terms)),
+                'bottom_invoice_text' => textNormalizer->cleanEditorHtml(persianTextNormalizer->fullCheckPersianText($invoiceDetail->bottom_invoice_text)),
+                'conditions' => [],
+
+                'applicant_name' => '',
+                'signature_path' => "Storage/InvoiceSettings/$settings->id/$settings->invoice_signature_src",
+            ];
+
+            $quotation = new \Packages\Quotation\QuotationGenerator($data, 'invoice_template');
+
+            $template = $quotation->render();
+
+            $instance = new \Packages\Services\Pdf\MpdfService();
+
+            $mpdf = $instance->makePdfObject([
+                'debug' => true,
+                'mode' => 'utf-8',
+                'format' => 'A4',
+                'setAutoTopMargin' => 'stretch',
+                'setAutoBottomMargin' => 'stretch',
+                'pagenumPrefix' => ' صفحه ',
+                'nbpgPrefix' => ' از ',
+                'margin_left' => 0,
+                'margin_right' => 0,
+                'margin_top' => 0,
+                'margin_bottom' => 30
+            ]);
+
+            $mpdf->SetDirectionality('rtl');
+
+            $stylesheet = file_get_contents(
+                'packages/Quotation/templates/invoice_template/invoice_template.css'
+            );
+
+            $mpdf->AddPage();
+
+            $mpdf->WriteHTML($stylesheet, 1);
+            $mpdf->WriteHTML($template);
+
+            $mpdf->SetProtection(
+                ['print'],
+                '',
+                'OWrVap6Uet2sgQ'
+            );
+
+            $mpdf->Output('quotation.pdf', 'I');
+
+        }
     }
 
 }

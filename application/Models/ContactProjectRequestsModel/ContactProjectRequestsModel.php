@@ -16,7 +16,7 @@ class ContactProjectRequestsModel extends Model
     protected $table = 'ContactProjectRequests';
     protected $primaryKey = 'id';
     public $timestamps = false;
-    
+
     use SoftDeletes;
 
     protected $fillable = [

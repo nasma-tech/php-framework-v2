@@ -21,7 +21,7 @@
                         <div class="row">
                             <div class="col-md-3 mt-1">
                                 <label for="parent_id">محصول پایه</label>
-                                <select class="form-control select2" name="parent_id" id="parent_id" required>
+                                <select class="form-control select2" name="parent_id" id="parent_id">
                                     <option value="" selected>محصول پایه</option>
                                     {foreach $parentProducts as $parentProduct}
                                         <option value="{$parentProduct->id}"

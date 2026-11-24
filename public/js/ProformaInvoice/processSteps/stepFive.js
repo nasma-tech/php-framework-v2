@@ -1,16 +1,12 @@
 $(function () {
-    validateDocument(".addressFile")
-
-    $(".addressDescription").joditEditor();
-
-    function getState(country_id) {
+    validateDocument(".address_file")
+    function getState(country_id = 102) {
         return $.ajax({
             url: `/states/getStates/${country_id}`,
             method: "GET",
             dataType: "json"
         });
     }
-
     function getCity(state_id) {
         return $.ajax({
             url: `/cities/getFilterCities`,
@@ -20,19 +16,27 @@ $(function () {
         });
     }
 
-    $(".country_id").on("change", async function () {
+    $(document).on("change", ".country_id", async function () {
+        const form = $(this).closest(".location-form");
+        const country_id = $(this).val() ?? 102;
 
-        const key = $(this).data("key");
-        const countryId = $(this).val();
+        const state = form.find(".state_id");
+        const city = form.find(".city_id");
 
-        const stateSelect = $(`.state_id[data-key="${key}"]`);
-        const citySelect = $(`.city_id[data-key="${key}"]`);
+        state.empty().prop("disabled", true).trigger("change");
+        city.empty().prop("disabled", true).trigger("change");
 
-        stateSelect.empty().prop("disabled", true);
-        citySelect.empty().prop("disabled", true);
+        $.ajax({
+            url: `/countries/getCountryData/${country_id}`,
+            method: "GET",
+            dataType: "json",
+            success: result => {
+                form.find(".area_code").text(result.area_code);
+            }
+        });
 
         try {
-            const result = await getState(countryId);
+            const result = await getState(country_id);
 
             let options = `<option selected disabled>لطفا یک مورد را انتخاب کنید</option>`;
 
@@ -40,21 +44,19 @@ $(function () {
                 `<option value="${data.id}">${data.title}</option>`
             ).join("");
 
-            stateSelect.html(options).prop("disabled", false);
+            state.html(options).prop("disabled", false).trigger("change.select2");
 
         } catch (error) {
             console.error(error);
         }
     });
 
-    $(".state_id").on("change", async function () {
-
-        const key = $(this).data("key");
+    $(document).on("change", ".state_id", async function () {
+        const form = $(this).closest(".location-form");
         const stateId = $(this).val();
+        const city = form.find(".city_id");
 
-        const citySelect = $(`.city_id[data-key="${key}"]`);
-
-        citySelect.empty().prop("disabled", true);
+        city.empty().prop("disabled", true).trigger("change");
 
         if (!stateId) return;
 
@@ -67,64 +69,66 @@ $(function () {
                 `<option value="${data.id}">${data.title}</option>`
             ).join("");
 
-            citySelect.html(options).prop("disabled", false);
+            city.html(options).prop("disabled", false).trigger("change.select2");
 
         } catch (error) {
             console.error(error);
         }
     });
 
-    $(".viewAddressFile").on("click", function () {
-
-        const key = $(this).data("key");
-        const fileInput = $(`.addressFile`).eq(key - 1)[0];
-        const file = fileInput.files[0];
+    $(document).on("click", ".viewFile", function () {
+        let id = $(this).data('id')
+        let imageFile =  $(this).data('file')
+        if (id && imageFile){
+            let src = "/Storage/addressAnnouncement/" + id + "/" + imageFile;
+            Swal.fire({
+                title: 'نمایش فایل',
+                html:`<embed src="${src}" style="width: 100%;height: 70vh">`,
+                width: '80%',
+                showCloseButton: true,
+                confirmButtonText: "بستن",
+                didClose: function () {
+                    URL.revokeObjectURL(src);
+                }
+            });
+            return ;
+        }
+        const form = $(this).closest("form");
+        const file = form.find(".address_file")[0].files[0];
 
         if (!file) {
-            swal.fire('خطا', 'لطفاً ابتدا فایل را انتخاب کنید', 'error');
+            Swal.fire('خطا', 'ابتدا یک فایل انتخاب کنید', 'warning');
             return;
         }
 
-        const fileUrl = URL.createObjectURL(file);
+        const src = URL.createObjectURL(file);
 
-        swal.fire({
+        Swal.fire({
+            title: 'نمایش فایل',
             html: `
-            <embed src="${fileUrl}"
-                   width="100%"
-                   height="600px"
-                   type="${file.type}">
-        `,
-            width: '80%',
+                ${file.type.startsWith('image/')
+                ? `<img src="${src}" style="width:100%; max-height:600px; object-fit:contain;">`
+                : file.type === 'application/pdf'
+                    ? `<iframe src="${src}" width="100%" height="600px"></iframe>`
+                    : 'فرمت فایل پشتیبانی نمی‌شود'
+            }
+            `,
+            width: '800px',
             showCloseButton: true,
-            showConfirmButton: true,
             confirmButtonText: "بستن",
             didClose: function () {
-                URL.revokeObjectURL(fileUrl);
+                URL.revokeObjectURL(src);
             }
         });
     });
 
-    $(".country_id").val("102").trigger("change");
+    $(".location-form").each(function () {
+        const form = $(this);
 
-    $(".previewData").on('click',function () {
-        let id = $(this).data('id')
-        let file = $(this).data('file')
-        let src = "/Storage/addressAnnouncement/" + id + "/" + file
-        swal.fire({
-            html: `
-        <iframe src="${src}"
-                width="100%"
-                height="600px"
-                style="border: none;">
-        </iframe>
-    `,
-            width: '80%',
-            showCloseButton: true,
-            showConfirmButton: true,
-            confirmButtonText: "بستن",
-            didClose: function () {
-                URL.revokeObjectURL(fileUrl);
-            }
+        form.find(".select2").select2({
+            width: "100%"
         });
-    })
+
+        form.find(".country_id").val("102").trigger("change");
+    });
 });

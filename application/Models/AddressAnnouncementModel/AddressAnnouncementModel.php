@@ -4,8 +4,10 @@ namespace App\Models\AddressAnnouncementModel;
 
 use App\Models\CargoExitModel\CargoExitModel;
 use App\Models\CityModel\CityModel;
+use App\Models\CountryModel\CountryModel;
 use App\Models\ProductExitPartsModel\ProductExitPartsModel;
 use App\Models\ProductPartItemModel\ProductPartItemModel;
+use App\Models\StateModel\StateModel;
 use App\Models\UserModel\UserModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,6 +24,7 @@ class AddressAnnouncementModel extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        //col Name
         "product_exit_part_id",
         "country_id",
         "state_id",
@@ -34,14 +37,22 @@ class AddressAnnouncementModel extends Model
         "deleted_at",
     ];
 
+    public function countryData()
+    {
+        return $this->belongsTo(CountryModel::class, 'country_id');
+    }
+    public function stateData()
+    {
+        return $this->belongsTo(StateModel::class, 'state_id');
+    }
     public function cityData(): BelongsTo
     {
-        return  $this->belongsTo(cityModel::class, 'city_id', 'id');
+        return $this->belongsTo(cityModel::class, 'city_id', 'id');
     }
 
     public function userData(): BelongsTo
     {
-        return  $this->belongsTo(UserModel::class, 'user_id', 'id');
+        return $this->belongsTo(UserModel::class, 'user_id', 'id');
     }
 
     public function ProductPartItem(): HasMany
