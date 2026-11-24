@@ -1,0 +1,163 @@
+
+.exitData-plate-row {
+    background: #fff;
+    border-color: #dee2e6 !important;
+
+}
+
+.iran-input-plate {
+
+    display: flex;
+    width: 100%;
+    height: 100px;
+    background: #fff;
+    border: 2px solid #222;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, .15);
+    box-sizing: border-box;
+    max-width: 650px;
+    margin: 0 auto;
+
+}
+
+.plate-country {
+    width: 85px;
+    min-width: 85px;
+    background: #0755bd;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    border-right: 2px solid #222;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.iran-flag {
+    width: 55px;
+    height: 32px;
+    background: linear-gradient(
+            to bottom,
+            #239f40 0%,
+            #239f40 33.33%,
+            #fff 33.33%,
+            #fff 66.66%,
+            #da0000 66.66%,
+            #da0000 100%
+    );
+    border-radius: 3px;
+    margin-bottom: 3px;
+}
+
+.plate-input-numbers {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    background: #fff;
+}
+
+.plate-input {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    color: #111 !important;
+    text-align: center;
+    font-weight: 800;
+    padding: 5px 2px;
+    height: 100%;
+    border-radius: 0 !important;
+}
+
+.plate-digits {
+    flex: 1;
+    min-width: 0;
+    font-family: Arial, sans-serif;
+    font-size: 38px;
+}
+
+.plate-letter {
+    flex: .8;
+    min-width: 35px;
+    font-size: 32px;
+    border-left: 1px solid #aaa !important;
+    border-right: 1px solid #aaa !important;
+}
+
+.plate-code-input {
+    width: 100%;
+    height: 55px;
+    font-size: 29px;
+    font-family: Arial, sans-serif;
+}
+
+.plate-iran-code {
+    width: 85px;
+    min-width: 85px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-left: 2px solid #aaa;
+    color: #111;
+}
+
+.plate-iran-code span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.plate-input::placeholder {
+    color: #c5c5c5;
+    opacity: 1;
+}
+
+.plate-input:focus {
+    background: #f1f5ff !important;
+}
+
+@media (max-width: 500px) {
+    .iran-input-plate {
+        height: 95px;
+        border-width: 3px;
+    }
+
+    .plate-country {
+        width: 55px;
+        min-width: 55px;
+        font-size: 10px;
+    }
+
+    .iran-flag {
+        width: 38px;
+        height: 23px;
+    }
+
+    .plate-iran-code {
+        width: 55px;
+        min-width: 55px;
+    }
+
+    .plate-iran-code span {
+        font-size: 14px;
+    }
+
+    .plate-code-input {
+        height: 40px;
+        font-size: 22px;
+    }
+
+    .plate-digits {
+        font-size: 25px;
+    }
+
+    .plate-letter {
+        font-size: 23px;
+        min-width: 25px;
+    }
+}

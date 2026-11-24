@@ -227,9 +227,24 @@ $router->mount('/ProformaInvoice', function () use ($router) {
         ],
         [
             'method' => 'POST',
+            'path' => '/AddressAnnouncement(/\d+)',
+            'action' => 'AddressAnnouncement'
+        ],
+        [
+            'method' => 'POST',
             'path' => '/removeProductRow',
             'action' => 'removeProductRow'
-        ]
+        ],
+        [
+            'method' => 'POST',
+            'path' => '/inventoryInquiryByInvoiceForm',
+            'action' => 'inventoryInquiryByInvoiceForm'
+        ],
+        [
+            'method' => 'POST',
+            'path' => '/addProductPartForm(/\d+)',
+            'action' => 'addProductPartForm'
+        ],
     ]);
 });
 $router->mount('/Companies', function () use ($router) {
@@ -584,7 +599,18 @@ $router->mount('/PaymentAllocation', function () use ($router) {
     ]);
 });
 $router->mount('/EntryWarehouse', function () use ($router) {
-    dynamicRoute($router, App\Controllers\EntryWarehouse\EntryWarehouse::class);
+    dynamicRoute($router, App\Controllers\EntryWarehouse\EntryWarehouse::class, [
+        [
+            'method' => 'POST',
+            'path' => '/EntryWarehouseEdit/(\d+)',
+            'action' => 'EntryWarehouseEdit'
+        ],
+        [
+            'method' => 'POST',
+            'path' => '/EntryWarehouseDelete/(\d+)',
+            'action' => 'EntryWarehouseDelete'
+        ]
+    ]);
 });
 $router->mount('/ExitWarehouse', function () use ($router) {
     dynamicRoute($router, App\Controllers\ExitWarehouse\ExitWarehouse::class);
@@ -630,12 +656,13 @@ $router->mount('/AddendumSaleContracts', function () use ($router) {
 $router->get('/valad', function () {
 
     $instance = new App\Controllers\ProformaInvoice\ProformaInvoice();
-
     var_print($instance->getAllocationData(5));
-
 //    $instance = new App\Controllers\Products\Products();
 //
 //    var_print($instance->getRelatedProducts(2));
+});
+$router->mount('/ProductPart', function () use ($router) {
+    dynamicRoute($router, App\Controllers\ProductPart\ProductPart::class);
 });
 $router->mount('/ProductExitParts', function () use ($router) {
     dynamicRoute($router, App\Controllers\ProductExitParts\ProductExitParts::class);

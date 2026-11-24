@@ -9,7 +9,13 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-
+                    <div class="card-header">
+                        <h4 class="card-title">لیست {$pluralName}</h4>
+                        <div class="heading-elements">
+                            {$buttonHelper->refreshAndAddButton($singleName)}
+                            {$csrf->csrfTokenInput()}
+                        </div>
+                    </div>
                     <div class="card-body">
                         <ul class="nav nav-pills nav-justified" role="tablist">
                             <li class="nav-item">

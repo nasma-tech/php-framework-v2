@@ -4,8 +4,12 @@ namespace App\Controllers\ProformaInvoice;
 
 use App\Controllers\CartableDefinition\cities\cities;
 use App\Controllers\countries\countries;
+use App\Controllers\ExitWarehouse\ExitWarehouse;
+use App\Controllers\ProductPart\ProductPart;
 use App\Controllers\scheme\ControllerScheme;
+use App\Controllers\WarehouseInventory\WarehouseInventory;
 use App\Models\AddendumSaleContractsModel\AddendumSaleContractsModel;
+use App\Models\AddressAnnouncementModel\AddressAnnouncementModel;
 use App\Models\brandsModel\brandsModel;
 use App\Models\ChargesDeductionsModel\ChargesDeductionsModel;
 use App\Models\CityModel\CityModel;
@@ -13,6 +17,7 @@ use App\Models\CompaniesModel\CompaniesModel;
 use App\Models\CountryModel\CountryModel;
 use App\Models\PaymentAllocationModel\PaymentAllocationModel;
 use App\Models\PriceSuggestionModel\PriceSuggestionModel;
+use App\Models\PriceSuggestionProductModel\PriceSuggestionProductModel;
 use App\Models\ProductModel\ProductModel;
 use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
 use App\Models\ProformaInvoiceLogModel\ProformaInvoiceLogModel;
@@ -21,6 +26,7 @@ use App\Models\ProformaInvoiceProductsModel\ProformaInvoiceProductsModel;
 use App\Models\ProformaInvoiceSettingsModel\ProformaInvoiceSettingsModel;
 use App\Models\SalesTeamModel\SalesTeamModel;
 use App\Models\StateModel\StateModel;
+use App\Models\WarehousesModel\WarehousesModel;
 use JetBrains\PhpStorm\NoReturn;
 
 class ProformaInvoice extends ControllerScheme
@@ -732,13 +738,13 @@ class ProformaInvoice extends ControllerScheme
 
     public function process(int $invoiceId): void
     {
+        $_ENV['APP_DEBUG'] = 1;
         $getData = ProformaInvoiceModel::query()
             ->with([
                 'invoiceDetail',
                 'invoiceProduct',
                 'invoiceLog',
                 'contract',
-                'productPart',
             ])
             ->withCount('invoiceProduct')
             ->withCount('invoiceLog')
@@ -838,9 +844,12 @@ class ProformaInvoice extends ControllerScheme
                             "saleTeam" => $getData->saleTeam ?? [],
                             "brand" => $getData->brand ?? [],
                             "state" => $getData->state ?? [],
+                            'countries' => countryModel::query()->get() ?? [],
                             "city" => $getData->city ?? [],
                             "getAllocationData" => $this->getAllocationData($getData->id),
                             "productPart" => $getData->productPart ?? [],
+                            'addressData'=>$this->addressData($invoiceId),
+                            'getCargoExitList' => $this->getCargoExitList($invoiceId),
                         ]
                     ],
                     [
@@ -1075,5 +1084,39 @@ class ProformaInvoice extends ControllerScheme
         }
 
         return $output ?? [];
+    }
+    public function AddressAnnouncement($id)
+    {
+        $data = $this->requestArray();
+        $makeData = [
+            "proforma_invoice_id" => $id,
+            "part_id" => $data['part_number'],
+            "city_id" => $data['city_id'],
+            "address" => $data['addressDescription'],
+            "user_id" => userObject()->userId,
+        ];
+
+        $add = addressAnnouncementModel::query()->create($makeData);
+        if ($add->save()) {
+            $add->update(["address_file" => fileHelper->fileUpload("addressAnnouncement", "addressFile", $add->id)]);
+            $this->successCallBack("/ProformaInvoice/process/{$id}");
+        }else{
+            $this->failedCallBack("/ProformaInvoice/process/{$id}");
+        }
+
+    }
+
+    public function addressData($proforma_invoice_id)
+    {
+        $data = addressAnnouncementModel::query()->where([
+            "proforma_invoice_id" => $proforma_invoice_id
+        ])->get();
+        return $data ?? [];
+    }
+
+    public function getCargoExitList($proforma_invoice_id)
+    {
+        $data = AddressAnnouncementModel::query()->where('proforma_invoice_id',$proforma_invoice_id)->with('ProductPartItem')->get();
+        return $data;
     }
 }
