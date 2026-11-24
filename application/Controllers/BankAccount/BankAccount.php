@@ -35,7 +35,7 @@ class BankAccount extends ControllerScheme
             ['vendors/css/tables/datatable/datatables.min'],
             [
                 'list' => BankAccountModel::all(),
-//                'bankList'=>new BankListModel(),
+                'bankList'=>new BankListModel(),
             ])->display('BankAccount/BankAccount.tpl');
     }
 
@@ -49,7 +49,7 @@ class BankAccount extends ControllerScheme
             'js/BankAccount/add-BankAccount'
         ], [],
             [
-//                'bankList' => BankListModel::all()
+                'bankList' => BankListModel::all()
             ]
         )->display('BankAccount/add-BankAccount.tpl');
     }

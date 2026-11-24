@@ -5,6 +5,7 @@ namespace App\Controllers\salesTeam;
 use App\Controllers\scheme\ControllerScheme;
 use App\Models\brandsModel\brandsModel;
 use App\Models\ProductModel\ProductModel;
+use App\Models\salesTeamMemberSettingModel\salesTeamMemberSettingModel;
 use App\Models\SalesTeamModel\SalesTeamModel;
 use App\Models\salesTeamModifyLogModel\salesTeamModifyLogModel;
 use App\Models\SalesTeamProductsHistoryModel\SalesTeamProductsHistoryModel;
