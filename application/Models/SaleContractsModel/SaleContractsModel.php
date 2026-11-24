@@ -3,6 +3,7 @@
 namespace App\Models\SaleContractsModel;
 
 use App\Models\AddendumSaleContractsModel\AddendumSaleContractsModel;
+use App\Models\CancelledSaleContractsModel\CancelledSaleContractsModel;
 use App\Models\ProformaInvoiceModel\ProformaInvoiceModel;
 use App\Models\UserModel\UserModel;
 use Illuminate\Database\Eloquent\Model;
@@ -39,6 +40,11 @@ class SaleContractsModel extends Model
     public function addendum(): HasMany
     {
         return $this->hasMany(AddendumSaleContractsModel::class,'sale_contract_id','id')->orderByDesc('id');
+    }
+
+    public function cancelContract(): HasOne
+    {
+        return $this->hasOne(CancelledSaleContractsModel::class,'sale_contract_id','id');
     }
 
 }

@@ -4,7 +4,10 @@ namespace App\Controllers\ProformaInvoice;
 
 use App\Controllers\CartableDefinition\cities\cities;
 use App\Controllers\countries\countries;
+use App\Controllers\ExitWarehouse\ExitWarehouse;
+use App\Controllers\ProductPart\ProductPart;
 use App\Controllers\scheme\ControllerScheme;
+use App\Controllers\WarehouseInventory\WarehouseInventory;
 use App\Models\AddendumSaleContractsModel\AddendumSaleContractsModel;
 use App\Models\AddressAnnouncementModel\AddressAnnouncementModel;
 use App\Models\brandsModel\brandsModel;
@@ -23,6 +26,7 @@ use App\Models\ProformaInvoiceProductsModel\ProformaInvoiceProductsModel;
 use App\Models\ProformaInvoiceSettingsModel\ProformaInvoiceSettingsModel;
 use App\Models\SalesTeamModel\SalesTeamModel;
 use App\Models\StateModel\StateModel;
+use App\Models\WarehousesModel\WarehousesModel;
 use JetBrains\PhpStorm\NoReturn;
 
 class ProformaInvoice extends ControllerScheme
@@ -910,7 +914,13 @@ class ProformaInvoice extends ControllerScheme
                     "href" => "/ProformaInvoice/editIndex/{$invoiceId}",
                     "icon" => "bx-edit warning",
                     "target" => "blank",
-                    "scriptFile" => ''
+                    "scriptFile" => '',
+                    "show" => (function () use ($getData) {
+                        if (!$getData->contract || !$getData->contract->cancelContract) {
+                            return true;
+                        }
+                        return false;
+                    })()
                 ],
                 [
                     "name" => "submit_guarantee",
@@ -918,7 +928,8 @@ class ProformaInvoice extends ControllerScheme
                     "description" => "",
                     "icon" => "bx-check-shield success",
                     "type" => 'button',
-                    "scriptFile" => ''
+                    "scriptFile" => '',
+                    "show" => false,
                 ],
                 [
                     "name" => "payment_allocation",
@@ -926,15 +937,28 @@ class ProformaInvoice extends ControllerScheme
                     "description" => "",
                     "type" => 'button',
                     "icon" => "bx-check-shield primary",
-                    "scriptFile" => 'js/ProformaInvoice/options/paymentAllocation'
+                    "scriptFile" => 'js/ProformaInvoice/options/paymentAllocation',
+                    "show" => (function () use ($getData) {
+                        if ($getData->contract->cancelContract) {
+                            return false;
+                        }
+                        return true;
+                    })()
                 ],
                 [
                     "name" => "submit_addendum",
                     "title" => "ثبت الحاقیه",
                     "description" => "",
-                    "type" => 'button',
-                    "icon" => "bx-plus-circle info",
-                    "scriptFile" => ''
+                    "href" => "/ProformaInvoice/editIndex/{$invoiceId}",
+                    "type" => 'a',
+                    "icon" => "bxs-file-plus info",
+                    "scriptFile" => '',
+                    "show" => (function () use ($getData) {
+                        if ($getData->contract && !$getData->contract->cancelContract) {
+                            return true;
+                        }
+                        return false;
+                    })()
                 ],
                 [
                     "name" => "cancel_contract",
@@ -942,7 +966,28 @@ class ProformaInvoice extends ControllerScheme
                     "description" => "",
                     "type" => 'button',
                     "icon" => "bx-x-circle danger",
-                    "scriptFile" => ''
+                    "scriptFile" => '',
+                    "show" => (function () use ($getData) {
+                        if ($getData->contract && !$getData->contract->cancelContract) {
+                            return true;
+                        }
+                        return false;
+                    })()
+                ],
+                [
+                    "name" => "view_contract",
+                    "title" => "صفحه قرارداد",
+                    "description" => "",
+                    "type" => 'a',
+                    "href" =>"/SaleContracts/saleContractDetail/{$getData->contract->id}",
+                    "icon" => "bx-show primary",
+                    "scriptFile" => "",
+                    "show" => (function () use ($getData) {
+                        if ($getData->contract->cancelContract) {
+                            return true;
+                        }
+                        return false;
+                    })()
                 ]
             ];
 

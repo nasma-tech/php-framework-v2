@@ -17,6 +17,7 @@ class ExitWarehousePackageModel extends Model
 
     protected $fillable = [
         "warehouse_id",
+        "allocation_id",
         "title",
         "user_id",
         "updated_at",

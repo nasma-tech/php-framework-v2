@@ -67,7 +67,22 @@ class WarehouseInventory extends ControllerScheme
 
     public function inventoryInquiry(int $productId, array|null $warehouseIds = null): array
     {
-        $getProducts = ProductModel::query()->find($productId);
+        $getProducts = ProductModel::query()
+            ->select([
+                'id',
+                'label',
+                'measurement_unit_id',
+                'serial_number'
+            ])
+            ->with([
+                'measurementUnit' => function ($query) {
+                    $query->select([
+                        'id',
+                        'label'
+                    ]);
+                }
+            ])
+            ->find($productId);
 
         if ($getProducts) {
 
@@ -102,6 +117,7 @@ class WarehouseInventory extends ControllerScheme
             $totalRemaining = $totalEntry - ($totalReserve + $totalExit);
 
             $output = [
+                'productData' => $getProducts->toArray(),
                 "entry_packages" => $getEntry
                     ->pluck('package')
                     ->select([

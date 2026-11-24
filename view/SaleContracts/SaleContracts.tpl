@@ -33,15 +33,17 @@
                                         <th class="border">کارشناس</th>
                                         <th class="border">تبدیل به قرارداد توسط</th>
                                         <th class="border">الحاقیه</th>
+                                        <th class="border">وضعیت</th>
                                         <th class="border">عملیات</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {foreach $list as $item}
-                                        <tr>
+                                        <tr class="{($item.cancelContract)?'bg-rgba-danger':''}">
                                             <td class="border">{counter}</td>
                                             <td class="border">
-                                                <a target="_blank" href="/ProformaInvoice/process/{$item.proforma_invoice_id}">
+                                                <a target="_blank"
+                                                   href="/ProformaInvoice/process/{$item.proforma_invoice_id}">
                                                     {$item.proformaInvoice.invoice_number}
                                                 </a>
                                             </td>
@@ -59,6 +61,13 @@
                                                     <div class="badge badge-light-success w-100">دارد</div>
                                                 {else}
                                                     <div class="badge badge-light-warning w-100">ندارد</div>
+                                                {/if}
+                                            </td>
+                                            <td class="border">
+                                                {if $item.cancelContract}
+                                                    <div class="badge badge-danger w-100">لغو شده</div>
+                                                {else}
+                                                    <div class="badge badge-light-success w-100">فعال</div>
                                                 {/if}
                                             </td>
                                             <td class="border">
