@@ -4,6 +4,7 @@ namespace App\Controllers\dashboard;
 
 use App\Controllers\CartableDefinition\CartableDefinition;
 use App\Models\ContactProjectsFollowUpModel\ContactProjectsFollowUpModel;
+use App\Models\CustomerContactInformationModel\CustomerContactInformationModel;
 use App\Models\PriceSuggestionModel\PriceSuggestionModel;
 use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
 use App\Models\ProformaInvoiceModel\ProformaInvoiceModel;
@@ -58,6 +59,20 @@ class dashboard
                         ->whereDate('SaleContracts.created_at', '>=', date("Y/m/d", dateTimeHelper->getFirstDayOfMonth(jdate("m"), jdate("Y"))))
                         ->sum('ProformaInvoiceDetails.invoice_sum_total')) . ' ریال'
             ],
+            'alarms'=>[
+                'invoiceValidityCount'=>ProformaInvoiceModel::query()->whereDate('day_validity_timestamp', '=', strtotime('+1 day'))->count(),
+                'contactFollowUpCount'=>CustomerContactInformationModel::query()
+                    ->whereHas('projectData')
+                    ->whereDoesntHave('projectData.followUpData', function ($query) {
+                        $query->whereDate('created_at', '>=', date("Y/m/d", strtotime('today')));
+                    })->count(),
+                'priceSuggestionUndecidedCount'=>ContactProjectsFollowUpModel::query()
+                    ->where('FollowUp_action_id', 8)
+                    ->whereDoesntHave('followUpActionData')->count(),
+                'overdueFollowUpsCount'=>ContactProjectsFollowUpModel::query()
+                    ->where('next_followUp_date', '<', strtotime('today'))
+                    ->whereDoesntHave('followUpActionData')->count(),
+            ]
         ];
         $tabData = [
             [

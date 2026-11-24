@@ -593,7 +593,7 @@
     }
 
 
-    /*test*/
+    /*قیف*/
 
     .sales-funnel-card {
         background: #fff;
@@ -795,6 +795,204 @@
         }
     }
 
+    /*alarm*/
+    .cc-sales-alert-card {
+        background: #fff;
+        border: 1px solid #e9edf3;
+        border-radius: 12px;
+        padding: 18px;
+        box-shadow: 0 3px 14px rgba(30, 45, 70, 0.045);
+        height: 100%;
+        direction: rtl;
+    }
+
+    .cc-sales-alert-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #edf0f4;
+    }
+
+    .cc-sales-alert-heading {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+    }
+
+    .cc-sales-alert-main-icon {
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff0f0;
+        color: #d94343;
+        border-radius: 10px;
+        font-size: 23px;
+    }
+
+    .cc-sales-alert-heading h5 {
+        font-size: 14px;
+        font-weight: 800;
+        color: #25334a;
+        margin: 0 0 5px;
+    }
+
+    .cc-sales-alert-heading span {
+        color: #8993a3;
+        font-size: 11px;
+    }
+
+    .cc-sales-alert-total {
+        background: #fff0f0;
+        color: #d94343;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 6px 10px;
+        border-radius: 7px;
+        white-space: nowrap;
+    }
+
+    .cc-sales-alert-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cc-sales-alert-item {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding: 13px 0;
+        border-bottom: 1px solid #f0f2f5;
+    }
+
+    .cc-sales-alert-item:last-child {
+        border-bottom: none;
+    }
+
+    .cc-sales-alert-icon {
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9px;
+        font-size: 20px;
+    }
+
+    .cc-sales-alert-item.warning .cc-sales-alert-icon {
+        background: #fff6e7;
+        color: #df9a27;
+    }
+
+    .cc-sales-alert-item.danger .cc-sales-alert-icon {
+        background: #fff0f0;
+        color: #d94343;
+    }
+
+    .cc-sales-alert-item.purple .cc-sales-alert-icon {
+        background: #f3efff;
+        color: #8767ce;
+    }
+
+    .cc-sales-alert-item.info .cc-sales-alert-icon {
+        background: #edf5ff;
+        color: #4386ca;
+    }
+
+    .cc-sales-alert-content {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .cc-sales-alert-content strong {
+        font-size: 12px;
+        font-weight: 700;
+        color: #354156;
+    }
+
+    .cc-sales-alert-content span {
+        font-size: 10px;
+        color: #929baa;
+    }
+
+    .cc-sales-alert-action {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 5px;
+        white-space: nowrap;
+    }
+
+    .cc-sales-alert-action strong {
+        font-size: 12px;
+        color: #354156;
+    }
+
+    .cc-sales-alert-action a {
+        font-size: 10px;
+        color: #4386ca;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .cc-sales-alert-action a:hover {
+        color: #205e9d;
+        text-decoration: underline;
+    }
+
+    .cc-sales-alert-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        padding-top: 13px;
+        border-top: 1px solid #edf0f4;
+    }
+
+    .cc-sales-alert-footer span {
+        color: #9aa3b1;
+        font-size: 10px;
+    }
+
+    .cc-sales-alert-footer span i {
+        font-size: 13px;
+        vertical-align: middle;
+    }
+
+    .cc-sales-alert-footer a {
+        color: #344c6b;
+        font-size: 11px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .cc-sales-alert-footer a:hover {
+        color: #d94343;
+    }
+
+    @media (max-width: 576px) {
+        .cc-sales-alert-card {
+            padding: 13px;
+        }
+
+        .cc-sales-alert-header {
+            gap: 8px;
+        }
+
+        .cc-sales-alert-content strong {
+            font-size: 11px;
+        }
+
+        .cc-sales-alert-footer {
+            flex-wrap: wrap;
+        }
+    }
 </style>
 
 <div class="app-content content cc-dashboard">
@@ -999,7 +1197,7 @@
                         </div>
 
                         <div class="sales-funnel-arrow">
-                            <div class="sales-funnel-rate">{($dashboardStats['SalesFunnel']['proposalCount'] / $dashboardStats['SalesFunnel']['followUpCount'])*100}
+                            <div class="sales-funnel-rate">{number_format(($dashboardStats['SalesFunnel']['proposalCount'] / $dashboardStats['SalesFunnel']['followUpCount'])*100)}
                                 %
                             </div>
                             <i class="bx bx-left-arrow-alt"></i>
@@ -1015,7 +1213,7 @@
                         </div>
 
                         <div class="sales-funnel-arrow">
-                            <div class="sales-funnel-rate">{number_format(($dashboardStats['SalesFunnel']['proformaCount'] / $dashboardStats['SalesFunnel']['proposalCount'])*100,1)}
+                            <div class="sales-funnel-rate">{number_format(($dashboardStats['SalesFunnel']['proformaCount'] / $dashboardStats['SalesFunnel']['proposalCount'])*100)}
                                 %
                             </div>
                             <i class="bx bx-left-arrow-alt"></i>
@@ -1031,7 +1229,7 @@
                         </div>
 
                         <div class="sales-funnel-arrow">
-                            <div class="sales-funnel-rate">{number_format(($dashboardStats['SalesFunnel']['contractCount'] / $dashboardStats['SalesFunnel']['proformaCount'])*100,1)}
+                            <div class="sales-funnel-rate">{number_format(($dashboardStats['SalesFunnel']['contractCount'] / $dashboardStats['SalesFunnel']['proformaCount'])*100)}
                                 %
                             </div>
                             <i class="bx bx-left-arrow-alt"></i>
@@ -1055,8 +1253,8 @@
                                 <span>نرخ تبدیل کل قیف فروش</span>
                                 <small>از پیگیری تا عقد قرارداد</small>
                             </div>
-
-                            <strong>{($dashboardStats['SalesFunnel']['contractCount'] / $dashboardStats['SalesFunnel']['followUpCount'])*100}%</strong>
+                            <strong>{number_format(($dashboardStats['SalesFunnel']['contractCount'] / $dashboardStats['SalesFunnel']['followUpCount'])*100)}
+                                %</strong>
                         </div>
 
                     </div>
@@ -1161,7 +1359,7 @@
             </div>
 
             <!-- Monthly -->
-            <div class="col-md-12 mb-5" style="margin-top: 3px">
+            <div class="col-md-12" style="margin-top: 3px">
                 <div class="card shadow">
                     <div class="card-content">
                         <div class="card-body">
@@ -1254,6 +1452,104 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="cc-sales-alert-card shadow" style="margin-top: 3px">
+                    <div class="cc-sales-alert-header">
+                        <div class="cc-sales-alert-heading">
+                            <div class="cc-sales-alert-main-icon">
+                                <i class="bx bx-bell"></i>
+                            </div>
+
+                            <div>
+                                <h5>هشدارهای فروش</h5>
+                                <span>فرصت‌هایی که نیاز به اقدام دارند</span>
+                            </div>
+                        </div>
+
+                        <span class="cc-sales-alert-total">
+                            ۱۲ هشدار فعال
+                        </span>
+                    </div>
+
+                    <div class="cc-sales-alert-list">
+                        <div class="cc-sales-alert-item warning">
+                            <div class="cc-sales-alert-icon">
+                                <i class="bx bx-calendar-alt"></i>
+                            </div>
+
+                            <div class="cc-sales-alert-content">
+                                <strong>پیش‌فاکتورهای نزدیک به انقضا</strong>
+                                <span>در آستانه پایان اعتبار</span>
+                            </div>
+
+                            <div class="cc-sales-alert-action">
+                                <strong>{$dashboardStats['alarms']['invoiceValidityCount']} مورد</strong>
+                                <a href="#">مشاهده</a>
+                            </div>
+                        </div>
+
+                        <div class="cc-sales-alert-item danger">
+                            <div class="cc-sales-alert-icon">
+                                <i class="bx bx-user-x"></i>
+                            </div>
+
+                            <div class="cc-sales-alert-content">
+                                <strong>مشتریان بدون پیگیری</strong>
+                                <span>بدون فعالیت در چند روز اخیر</span>
+                            </div>
+
+                            <div class="cc-sales-alert-action">
+                                <strong>{$dashboardStats['alarms']['contactFollowUpCount']} مورد</strong>
+                                <a href="#">مشاهده</a>
+                            </div>
+                        </div>
+
+                        <div class="cc-sales-alert-item purple">
+                            <div class="cc-sales-alert-icon">
+                                <i class="bx bx-file"></i>
+                            </div>
+
+                            <div class="cc-sales-alert-content">
+                                <strong>پیشنهادهای بلاتکلیف</strong>
+                                <span>منتظر پاسخ مشتری</span>
+                            </div>
+
+                            <div class="cc-sales-alert-action">
+                                <strong>{$dashboardStats['alarms']['priceSuggestionUndecidedCount']} مورد</strong>
+                                <a href="#">مشاهده</a>
+                            </div>
+                        </div>
+
+                        <div class="cc-sales-alert-item danger">
+                            <div class="cc-sales-alert-icon">
+                                <i class="bx bxs-alarm"></i>
+                            </div>
+
+                            <div class="cc-sales-alert-content">
+                                <strong>پیگیری‌های عقب‌افتاده</strong>
+                                <span>موعد پیگیری گذشته است</span>
+                            </div>
+
+                            <div class="cc-sales-alert-action">
+                                <strong>{$dashboardStats['alarms']['overdueFollowUpsCount']} مورد</strong>
+                                <a href="#">مشاهده</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cc-sales-alert-footer">
+                        <span>
+                            <i class="bx bx-refresh"></i>
+                            آخرین به‌روزرسانی: {jdate("Y/m/d")}
+                        </span>
+                        <a href="/SalesAlerts">
+                            مشاهده همه هشدارها
+                            <i class="bx bx-left-arrow-alt"></i>
+                        </a>
+                    </div>
+
                 </div>
             </div>
         </div>
