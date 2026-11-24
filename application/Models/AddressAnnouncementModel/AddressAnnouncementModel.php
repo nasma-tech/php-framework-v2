@@ -19,8 +19,9 @@ class AddressAnnouncementModel extends Model
 
     protected $fillable = [
         //col Name
-        "proforma_invoice_id",
-        "part_id",
+        "product_exit_part_id",
+        "country_id",
+        "state_id",
         "city_id",
         "address",
         "address_file",
@@ -32,12 +33,12 @@ class AddressAnnouncementModel extends Model
 
     public function cityData()
     {
-        return  $this->belongsTo(cityModel::class, 'city_id', 'id');
+        return $this->belongsTo(cityModel::class, 'city_id', 'id');
     }
 
     public function userData()
     {
-        return  $this->belongsTo(UserModel::class, 'user_id', 'id');
+        return $this->belongsTo(UserModel::class, 'user_id', 'id');
     }
 
     public function ProductPartItem()
