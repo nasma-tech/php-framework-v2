@@ -74,12 +74,17 @@ class ContactProjectsFollowUp extends ControllerScheme
             'contact_project_id' => $data['contact_project_id'],
             'FollowUp_action_id' => $data['FollowUp_action_id'],
             'next_followUp_date' => dateTimeHelper->convertDateToTimestamp($data['next_followUp_date']),
-            'followUp_description' => $data['followUp_description'],
+            'followUp_description' => $data['followUp_description'] ?? "",
             'user_id' => userObject()->userId
         ];
         $add = ContactProjectsFollowUpModel::query()->create($makeData);
         if ($add) {
+            if ($data['FollowUp_action_id'] == 8){
+                $this->successCallBack("/PriceSuggestion/createPriceSuggestion/{$data['contact_project_id']}/{$add->id}", 'پیگیری با موفقیت اضافه شد');
+            }else{
+
             $this->successCallBack("/ContactProjects/ContactProjectDetail/{$data['contact_project_id']}", 'پیگیری با موفقیت اضافه شد');
+            }
         } else {
             $this->failedCallBack("/ContactProjects/ContactProjectDetail/{$data['contact_project_id']}", 'افزودن پیگیری با خطا مواجه شد');
         }

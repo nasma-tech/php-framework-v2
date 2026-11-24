@@ -42,5 +42,12 @@ $(function () {
         let partId = $row.eq(0).find('.finalUnitPrice').data('part');
         sumAll(partId)
     })
+    $(document).on('input', '.outBandAmount', function () {
+        let max = parseFloat($(this).attr('max'));
+        let value = parseFloat($(this).val());
 
+        if (value > max) {
+            $(this).val(max);
+        }
+    });
 })

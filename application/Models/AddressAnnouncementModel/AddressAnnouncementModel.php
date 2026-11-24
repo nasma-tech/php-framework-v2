@@ -3,8 +3,10 @@
 namespace App\Models\AddressAnnouncementModel;
 
 use App\Models\CityModel\CityModel;
+use App\Models\CountryModel\CountryModel;
 use App\Models\ProductExitPartsModel\ProductExitPartsModel;
 use App\Models\ProductPartItemModel\ProductPartItemModel;
+use App\Models\StateModel\StateModel;
 use App\Models\UserModel\UserModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -31,6 +33,14 @@ class AddressAnnouncementModel extends Model
         "deleted_at",
     ];
 
+    public function countryData()
+    {
+        return $this->belongsTo(CountryModel::class, 'country_id');
+    }
+    public function stateData()
+    {
+        return $this->belongsTo(StateModel::class, 'state_id');
+    }
     public function cityData()
     {
         return $this->belongsTo(cityModel::class, 'city_id', 'id');
