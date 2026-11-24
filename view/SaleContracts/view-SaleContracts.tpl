@@ -98,6 +98,18 @@
         font-size: 11px;
     }
 
+    .cc-contract-status-cancel {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 10px;
+        color: #fecaca;
+        background: rgba(220, 38, 38, .18);
+        border: 1px solid rgba(248, 113, 113, .3);
+        border-radius: 20px;
+        font-size: 11px;
+    }
+
     .cc-contract-subtitle {
         display: flex;
         align-items: center;
@@ -956,10 +968,11 @@
                                         <div class="cc-contract-heading">
                                             <div class="cc-contract-title-row">
                                                 <h4>قرارداد شماره {$getData.proformaInvoice.invoice_number}</h4>
-                                                <span class="cc-contract-status">
-                                                    <i class="bx bx-check-circle"></i>
-                                                        فعال
-                                                    </span>
+                                                {if !$getData.cancelContract}
+                                                    <span class="cc-contract-status"><i class="bx bx-check-circle"></i>فعال</span>
+                                                    {else}
+                                                    <span class="cc-contract-status-cancel"><i class="bx bx-check-circle"></i>غیر فعال</span>
+                                                {/if}
                                             </div>
 
                                             <div class="cc-contract-subtitle">
@@ -971,11 +984,13 @@
                                     </div>
 
                                     <div class="cc-contract-header-actions">
+                                        {if !$getData.cancelContract}
                                         <a href="/ProformaInvoice/editIndex/{$getData.proforma_invoice_id}"
                                            class="cc-contract-btn cc-contract-btn-primary text-white">
                                             <i class="bx bx-file-plus"></i>
                                             ثبت الحاقیه جدید
                                         </a>
+                                        {/if}
 
                                         <button type="button" class="cc-contract-btn cc-contract-btn-light">
                                             <i class="bx bx-dots-vertical-rounded"></i>
@@ -988,6 +1003,12 @@
                                             <span>تاریخ قرارداد</span>
                                             <strong>{jdate("Y/m/d",$getData.convert_to_contract)}</strong>
                                         </div>
+                                        {if $getData.cancelContract}
+                                            <div class="cc-contract-meta-item">
+                                                <span>تاریخ لغو قرارداد</span>
+                                                <strong>{jdate("Y/m/d",$getData.cancelContract.cancel_date_time)}</strong>
+                                            </div>
+                                        {/if}
 
                                         <div class="cc-contract-meta-item">
                                             <span>تعداد الحاقیه‌ها</span>
@@ -1150,13 +1171,14 @@
                                                     <h5><i class="bx bx-history"></i> تاریخچه الحاقیه‌های قرارداد</h5>
                                                     <p>تمام تغییرات و اصلاحات ثبت‌شده روی قرارداد</p>
                                                 </div>
-
+                                                {if !$getData.cancelContract}
                                                 <a target="_blank"
                                                    href="/ProformaInvoice/editIndex/{$getData.proforma_invoice_id}"
                                                    class="cc-contract-btn cc-contract-btn-primary text-white">
                                                     <i class="bx bx-file-plus"></i>
                                                     ثبت الحاقیه جدید
                                                 </a>
+                                                {/if}
                                             </div>
 
                                             <div class="cc-contract-timeline">
