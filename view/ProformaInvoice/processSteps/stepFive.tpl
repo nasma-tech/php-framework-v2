@@ -1,4 +1,3 @@
-
 {if $getData.productPart->count() <= 0}
     <div class="card shadow-sm">
         <div class="card-body text-center bg-warning  rounded">
@@ -91,3 +90,61 @@
                                             required
                                         {/if}
                                 >
+
+                                <div class="input-group-append">
+                                    <button type="button"
+                                            {if $compair}
+                                                class="input-group-text previewData"
+                                                data-id="{$addressDetail['id']}"
+                                                data-file="{$addressDetail->address_file}"
+                                            {else}
+                                                class="input-group-text viewAddressFile"
+                                            {/if}
+                                            data-key="{$key + 1}"
+                                            title="مشاهده فایل">
+                                        <i class="bx bxs-file"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="filePreview mt-2" data-key="{$key + 1}"></div>
+                        </div>
+                        <div class="col-md-12 mt-2">
+                            <label>توضیحات آدرس</label>
+                            <textarea name="addressDescription"
+                                      class="addressDescription"
+                                   {if $compair}
+                                       disabled
+                                   {else}
+                                       required
+                                   {/if}
+                        ></textarea>
+                        </div>
+                        {if $compair}
+                            <div class="col-12  mt-1">
+                                <button class="btn btn-sm btn-success text-white" type="button">
+                                    اعلام آدرس در تاریخ
+                                    <code>
+
+                                        {jdate("Y/m/d",strtotime($addressDetail->create_at))}
+                                    </code>
+                                    توسط
+                                    <code>
+                                        {$addressDetail->userData->full_name}
+                                    </code>
+                                    ثبت شد
+                                </button>
+                            </div>
+                        {else}
+                            <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
+                                <button type="submit"
+                                        class="btn btn-sm btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1">
+                                    ثبت اعلام آدرس
+                                </button>
+                            </div>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+        </form>
+    {/foreach}
+{/if}
