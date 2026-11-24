@@ -44,7 +44,7 @@ class SaleContractsModel extends Model
 
     public function cancelContract(): HasOne
     {
-        return $this->hasOne(CancelledSaleContractsModel::class,'id','sale_contract_id');
+        return $this->hasOne(CancelledSaleContractsModel::class,'sale_contract_id','id');
     }
 
 }

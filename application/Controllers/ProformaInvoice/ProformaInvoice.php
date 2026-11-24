@@ -736,7 +736,6 @@ class ProformaInvoice extends ControllerScheme
 
     public function process(int $invoiceId): void
     {
-        $_ENV['APP_DEBUG'] = 1;
         $getData = ProformaInvoiceModel::query()
             ->with([
                 'invoiceDetail',
@@ -936,21 +935,26 @@ class ProformaInvoice extends ControllerScheme
                     "type" => 'button',
                     "icon" => "bx-check-shield primary",
                     "scriptFile" => 'js/ProformaInvoice/options/paymentAllocation',
-                    "show" => true
+                    "show" => (function () use ($getData) {
+                        if ($getData->contract->cancelContract) {
+                            return false;
+                        }
+                        return true;
+                    })()
                 ],
                 [
                     "name" => "submit_addendum",
                     "title" => "ثبت الحاقیه",
                     "description" => "",
-                    "href"=>"/ProformaInvoice/editIndex/{$invoiceId}",
+                    "href" => "/ProformaInvoice/editIndex/{$invoiceId}",
                     "type" => 'a',
                     "icon" => "bxs-file-plus info",
                     "scriptFile" => '',
                     "show" => (function () use ($getData) {
-                        if (!$getData->contract || $getData->contract->cancelContract) {
-                            return false;
+                        if ($getData->contract && !$getData->contract->cancelContract) {
+                            return true;
                         }
-                        return true;
+                        return false;
                     })()
                 ],
                 [
@@ -961,7 +965,22 @@ class ProformaInvoice extends ControllerScheme
                     "icon" => "bx-x-circle danger",
                     "scriptFile" => '',
                     "show" => (function () use ($getData) {
-                        if ($getData->contract) {
+                        if ($getData->contract && !$getData->contract->cancelContract) {
+                            return true;
+                        }
+                        return false;
+                    })()
+                ],
+                [
+                    "name" => "view_contract",
+                    "title" => "صفحه قرارداد",
+                    "description" => "",
+                    "type" => 'a',
+                    "href" =>"/SaleContracts/saleContractDetail/{$getData->contract->id}",
+                    "icon" => "bx-show primary",
+                    "scriptFile" => "",
+                    "show" => (function () use ($getData) {
+                        if ($getData->contract->cancelContract) {
                             return true;
                         }
                         return false;
