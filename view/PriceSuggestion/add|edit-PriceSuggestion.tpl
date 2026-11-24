@@ -43,7 +43,12 @@
                                     <div class="col-md-3 mt-2">
                                         <label for="">تیم فروش</label>
                                         <select class="form-control select2" id="sale_team_id"
-                                                name="sale_team_id"></select>
+                                                name="sale_team_id">
+                                            <option selected disabled>یک تیم را انتخاب کنید</option>
+                                            {foreach $saleTeams|default:[] as $item}
+                                                <option value="{($getData.sale_team_id|default:null == $item.id)?'selected':''}">{$item.team_title}</option>
+                                            {/foreach}
+                                        </select>
                                     </div>
                                     <div class="col-md-3 mt-2">
                                         <label for="">برند</label>
@@ -334,7 +339,12 @@
                                                 <tr>
                                                     <td>بازاریاب</td>
                                                     <td>
-                                                        <select class="form-control"></select>
+                                                        <select class="form-control select2" id="marketer_id" name="marketer_id">
+                                                            <option selected disabled>یک بازاریاب را انتخاب کنید</option>
+                                                            {foreach $marketers|default:[] as $item}
+                                                                <option value="{($getData.marketer_id|default:null == $item.id)?'selected':''}">{$item.marketer_full_name|default:'بدون نام'}</option>
+                                                            {/foreach}
+                                                        </select>
                                                     </td>
                                                 </tr>
                                             </table>

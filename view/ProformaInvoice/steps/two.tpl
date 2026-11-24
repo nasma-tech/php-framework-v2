@@ -63,7 +63,7 @@
                                                id="" name="productList[{$key+1}][product_amount]"/>
                                     </td>
                                     <td class="border">
-                                        <span>-</span>
+                                        <span>{$item.product.measurementUnit.label}</span>
                                     </td>
                                     <td class="border">
                                         <input class="form-control product_unit_price"
@@ -289,13 +289,14 @@
 
                                                         <label class="custom-control-label"
                                                                for="chargesDeduction_{$item.charges_deduction_id}">
-                                                            <span class="switch-icon-left"><i class="bx bx-check"></i></span>
-                                                            <span class="switch-icon-right"><i class="bx bx-x"></i></span>
+                                                            <span class="switch-icon-left"><i
+                                                                        class="bx bx-check"></i></span>
+                                                            <span class="switch-icon-right"><i
+                                                                        class="bx bx-x"></i></span>
                                                         </label>
                                                     </div>
                                                 </td>
                                             </tr>
-
                                         {/foreach}
                                         </tbody>
                                     </table>
@@ -308,7 +309,7 @@
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table">
+                                    <table class="table table-striped table-hover text-center">
                                         <thead class="thead-dark">
                                         <tr>
                                             <th class="border text-center" colspan="2">
@@ -321,12 +322,18 @@
                                             <td>معرف</td>
                                             <td>
                                                 <select class="form-control select2" id="marketer_id"
-                                                        name="marketer_id"></select>
+                                                        name="marketer_id">
+                                                    <option selected disabled>یک بازاریاب را انتخاب کنید</option>
+                                                    {foreach $marketers|default:[] as $item}
+                                                        <option data-percent="{$item.commissionPercentage}"
+                                                                value="{($getData.marketer_id|default:null == $item.id)?'selected':''}">{$item.marketer_full_name|default:'بدون نام'}</option>
+                                                    {/foreach}
+                                                </select>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>درصد</td>
-                                            <td>3</td>
+                                            <td id="marketer_percent">{$getData.marketer_commission|default:0}</td>
                                         </tr>
                                         </tbody>
                                     </table>

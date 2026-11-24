@@ -124,9 +124,9 @@ class ProformaInvoiceModel extends Model
         return $this->hasMany(ProductPartModel::class, 'proforma_invoice_id', 'id');
     }
 
-    public function exitProductData()
+    public function exitProductData(): HasMany
     {
-        return $this->hasMany(ProductExitPartsModel::class,'id','proforma_invoice_id');
+        return $this->hasMany(ProductExitPartsModel::class,'proforma_invoice_id','id');
     }
 
     public function settings(): HasOne
