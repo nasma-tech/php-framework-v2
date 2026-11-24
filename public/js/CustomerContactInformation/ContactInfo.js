@@ -61,14 +61,6 @@ $(function () {
             <label for="city_id">شهر محل سکونت</label>
             <select class="form-control select2" required="required" disabled id="city_id" name="city_id"></select>
         </div>
-        <div class="col-md-4 mt-2">
-            <label for="city_id">کد پستی</label>
-            <input type="text" class="form-control select2" id="postal_code" name="postal_code">
-        </div>
-        <div class="col-md-12 mt-2">
-                        <label for="address">آدرس</label>
-                        <textarea class="form-control" id="address" name="address" style="resize: none"></textarea>
-                    </div>
       `
     }
     const legalForm = () => {
@@ -99,12 +91,12 @@ $(function () {
                 <input class="form-control" id="registration_number" name="registration_number">
             </div>
             <div class="col-md-4 mt-2">
+                <label for="address">آدرس</label>
+                <input class="form-control" id="address" name="address">
+            </div>
+            <div class="col-md-4 mt-2">
                 <label for="postal_code">کدپستی</label>
                 <input class="form-control" id="postal_code" name="postal_code">
-            </div>
-            <div class="col-md-12 mt-2">
-                <label for="address">آدرس</label>
-                <textarea class="form-control" id="address" name="address" style="resize: none"></textarea>
             </div>
         `
     }
