@@ -3,7 +3,11 @@
 namespace App\Controllers\dashboard;
 
 use App\Controllers\CartableDefinition\CartableDefinition;
+use App\Models\PriceSuggestionModel\PriceSuggestionModel;
+use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
+use App\Models\ProformaInvoiceModel\ProformaInvoiceModel;
 use App\Models\RoleModel\RoleModel;
+use App\Models\SaleContractsModel\SaleContractsModel;
 use App\Models\UserModel\UserModel;
 use SmartyException;
 use Exception;
@@ -19,27 +23,35 @@ class dashboard
      */
     public function main(): void
     {
+        $_ENV['APP_DEBUG'] = 1;
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
         $cartable = new CartableDefinition();
         $dashboardStats = [
             'today' => [
-                'proposalCount' => 0,
-                'proformaCount' => 0,
-                'contractCount' => 0,
-                'proformaAmount' => '۰ ریال',
-                'contractAmount' => '۰ ریال',
+                'proposalCount' => PriceSuggestionModel::query()->whereDate('created_at', '>=', date("Y/m/d", strtotime('today')))->count(),
+                'proformaCount' => ProformaInvoiceModel::query()->whereDate('created_at', '>=', date("Y/m/d", strtotime('today')))->count(),
+                'contractCount' => SaleContractsModel::query()->whereDate('created_at', '>=', date("Y/m/d", strtotime('today')))->count(),
+                'proformaAmount' => number_format(ProformaInvoiceDetailsModel::query()->whereDate('created_at', '>=', date("Y/m/d", strtotime('today')))->sum('invoice_sum_total')) . ' ریال',
+                'contractAmount' => number_format(SaleContractsModel::query()
+                        ->join('ProformaInvoice', 'ProformaInvoice.id', '=', 'SaleContracts.proforma_invoice_id')
+                        ->join('ProformaInvoiceDetails', 'ProformaInvoiceDetails.proforma_invoice_id', '=', 'ProformaInvoice.id')
+                        ->whereDate('SaleContracts.created_at', '>=', date("Y/m/d", strtotime('today')))
+                        ->sum('ProformaInvoiceDetails.invoice_sum_total')) . ' ریال'
             ],
             'month' => [
-                'proposalCount' => 0,
-                'proformaCount' => 0,
-                'contractCount' => 0,
-                'proformaAmount' => '۰ ریال',
-                'contractAmount' => '۰ ریال',
+                'proposalCount' => PriceSuggestionModel::query()->whereDate('created_at', '>=', date("Y/m/d", dateTimeHelper->getFirstDayOfMonth(jdate("m"), jdate("Y"))))->count(),
+                'proformaCount' => ProformaInvoiceModel::query()->whereDate('created_at', '>=', date("Y/m/d", dateTimeHelper->getFirstDayOfMonth(jdate("m"), jdate("Y"))))->count(),
+                'contractCount' => SaleContractsModel::query()->whereDate('created_at', '>=', date("Y/m/d", dateTimeHelper->getFirstDayOfMonth(jdate("m"), jdate("Y"))))->count(),
+                'proformaAmount' => number_format(ProformaInvoiceDetailsModel::query()->whereDate('created_at', '>=', date("Y/m/d", dateTimeHelper->getFirstDayOfMonth(jdate("m"), jdate("Y"))))->sum('invoice_sum_total')) . ' ریال',
+                'contractAmount' => number_format(SaleContractsModel::query()
+                        ->join('ProformaInvoice', 'ProformaInvoice.id', '=', 'SaleContracts.proforma_invoice_id')
+                        ->join('ProformaInvoiceDetails', 'ProformaInvoiceDetails.proforma_invoice_id', '=', 'ProformaInvoice.id')
+                        ->whereDate('SaleContracts.created_at', '>=', date("Y/m/d", dateTimeHelper->getFirstDayOfMonth(jdate("m"), jdate("Y"))))
+                        ->sum('ProformaInvoiceDetails.invoice_sum_total')) . ' ریال'
             ],
         ];
-
         $tabData = [
             [
                 'persianTitle' => 'کارتابل من',
@@ -128,7 +140,7 @@ class dashboard
                     2 => 'bg-rgba-danger',
                     3 => 'bg-rgba-warning',
                 ],
-                'dashboardStats'=>$dashboardStats
+                'dashboardStats' => $dashboardStats
             ]
         )->display('dashboard/dashboard.tpl');
     }
