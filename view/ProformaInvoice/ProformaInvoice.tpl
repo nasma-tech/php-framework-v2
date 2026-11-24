@@ -18,7 +18,7 @@
                     <div class="card-content">
                         <div class="card-body">
                             <div class="table-responsive table-responsive-lg table-responsive-sm table-responsive-xl">
-                                <table class="table
+                                <table class="table table-hover table-striped
 {*                                tableDataShow *}
                                 text-center"
                                        style="background-color: #fff;border-radius: 5px;">
@@ -60,13 +60,15 @@
                                             <td class="border">
                                                 {if $item.payment_allocation_count > 0}
                                                     <div class="badge badge-light-success w-100">دارد</div>
-                                                    {else}
+                                                {else}
                                                     <div class="badge badge-light-warning w-100">ندارد</div>
                                                 {/if}
                                             </td>
                                             <td class="border">
-                                                {if $item.contract}
+                                                {if $item.contract && !$item.contract.cancelContract}
                                                     <div class="badge badge-light-success w-100">دارد</div>
+                                                {elseif $item.contract.cancelContract}
+                                                    <div class="badge badge-light-danger w-100">لغو شده</div>
                                                 {else}
                                                     <div class="badge badge-light-warning w-100">ندارد</div>
                                                 {/if}

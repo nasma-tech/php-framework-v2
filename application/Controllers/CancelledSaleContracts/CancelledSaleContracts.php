@@ -71,20 +71,17 @@ class CancelledSaleContracts extends ControllerScheme
         if ($find){
             if ($find->contract){
                 $contractId = $find->contract->id;
-                $contract = SaleContractsModel::query()->find($contractId)->delete();
-                if ($contract){
-                    $makeData = [
-                        'sale_contract_id'=>$contractId,
-                        'cancel_date_time'=>time(),
-                        'description'=>'',
-                        'user_id'=>userObject()->userId,
-                    ];
-                    $cancelContract = CancelledSaleContractsModel::query()->create($makeData);
-                    if ($cancelContract){
-                        echo 'cancelSuccess';
-                    }else{
-                        echo 'cancelFailed';
-                    }
+                $makeData = [
+                    'sale_contract_id'=>$contractId,
+                    'cancel_date_time'=>time(),
+                    'description'=>'',
+                    'user_id'=>userObject()->userId,
+                ];
+                $cancelContract = CancelledSaleContractsModel::query()->create($makeData);
+                if ($cancelContract){
+                    echo 'cancelSuccess';
+                }else{
+                    echo 'cancelFailed';
                 }
             }else{
                 echo 'contractNotFound';
