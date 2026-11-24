@@ -326,7 +326,7 @@
                                                     <option selected disabled>یک بازاریاب را انتخاب کنید</option>
                                                     {foreach $marketers|default:[] as $item}
                                                         <option data-percent="{$item.commissionPercentage}"
-                                                                value="{($getData.marketer_id|default:null == $item.id)?'selected':''}">{$item.marketer_full_name|default:'بدون نام'}</option>
+                                                                value="{$item.id}" {($getData.marketer_id|default:null == $item.id)?'selected':''}>{$item.marketer_full_name|default:'بدون نام'}</option>
                                                     {/foreach}
                                                 </select>
                                             </td>
