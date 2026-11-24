@@ -28,6 +28,7 @@
 !/Storage/cache/
 !/Storage/brands/
 !/Storage/socialNetworkIcons/
+!/Storage/InvoiceSettings/
 
 !/Storage/bankLogo/**
 !/Storage/warehouses/**
@@ -37,6 +38,7 @@
 !/Storage/DefaultImages/**
 !/Storage/socialNetworkIcons/**
 !/Storage/brands/**
+!/Storage/InvoiceSettings/**
 
 # IDE
 .idea/

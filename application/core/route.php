@@ -254,6 +254,11 @@ $router->mount('/ProformaInvoice', function () use ($router) {
             'path' => '/addProductPartForm(/\d+)',
             'action' => 'addProductPartForm'
         ],
+        [
+            'method' => 'GET',
+            'path' => '/ExportInvoice(/\d+)',
+            'action' => 'ExportInvoice'
+        ],
     ]);
 });
 $router->mount('/Companies', function () use ($router) {

@@ -38,10 +38,6 @@ class QuotationGenerator
             );
         };
 
-        $formatMoney = static function ($value): string {
-            return number_format((float)($value ?? 0));
-        };
-
         ob_start();
 
         try {

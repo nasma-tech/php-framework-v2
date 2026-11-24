@@ -30,7 +30,9 @@
     "ext-imagick": "*",
     "ext-mongodb": "*",
     "symfony/var-dumper": "^8.1",
-    "robmorgan/phinx": "^0.16"
+    "robmorgan/phinx": "^0.16",
+    "ext-libxml": "*",
+    "ext-dom": "*"
   },
   "autoload": {
     "files": [

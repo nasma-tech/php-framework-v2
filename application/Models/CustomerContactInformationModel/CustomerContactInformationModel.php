@@ -31,6 +31,8 @@ class CustomerContactInformationModel extends Model
         'state_id',
         'city_id',
         'national_code',
+        'postal_code',
+        'address',
         'contact_group_id',
         'contact_acquisition_source_id',
         'user_id',
@@ -45,7 +47,7 @@ class CustomerContactInformationModel extends Model
 
     public function contactPhones(): HasMany
     {
-        return $this->hasMany(ContactPhonesModel::class,'id','contact_id');
+        return $this->hasMany(ContactPhonesModel::class,'contact_id','id');
     }
 
     public function projectData(): HasMany
