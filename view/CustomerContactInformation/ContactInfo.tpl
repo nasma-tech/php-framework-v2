@@ -8,19 +8,38 @@
         <div class="card-body">
             <input type="hidden" readonly="readonly" id="contact_type" name="contact_type" value="">
             <div class="row mb-4">
-                <div class="col-md-6">
-                    <button class="btn btn-sm btn-light-primary {(($contactData.contact_type|default:'') == 1) ? 'active' : ''} w-100 selectContactTypeButton"
-                            type="button"
-                            data-type="real">حقیقی
-                    </button>
-                </div>
-                <div class="col-md-6 pl-md-0">
-                    <button class="btn btn-sm btn-light-primary {(($contactData.contact_type|default:'') == 2) ? 'active' : ''} w-100 selectContactTypeButton"
-                            type="button"
-                            data-type="legal">
-                        حقوقی
-                    </button>
-                </div>
+                {if !empty($contactData.contact_type|default:'') }
+                    {if $contactData.contact_type == 1}
+                        <div class="col-md-12">
+                            <button class="btn btn-sm btn-primary w-100"
+                                    type="button"
+                                    data-type="real">حقیقی
+                            </button>
+                        </div>
+                    {elseif $contactData.contact_type == 2}
+                        <div class="col-md-12 pl-md-0">
+                            <button class="btn btn-sm btn-primary w-100"
+                                    type="button"
+                                    data-type="legal">
+                                حقوقی
+                            </button>
+                        </div>
+                    {/if}
+                {else}
+                    <div class="col-md-6">
+                        <button class="btn btn-sm btn-light-primary {(($contactData.contact_type|default:'') == 1) ? 'active' : ''} w-100 selectContactTypeButton"
+                                type="button"
+                                data-type="real">حقیقی
+                        </button>
+                    </div>
+                    <div class="col-md-6 pl-md-0">
+                        <button class="btn btn-sm btn-light-primary {(($contactData.contact_type|default:'') == 2) ? 'active' : ''} w-100 selectContactTypeButton"
+                                type="button"
+                                data-type="legal">
+                            حقوقی
+                        </button>
+                    </div>
+                {/if}
             </div>
             <div class="row" id="mainContactForm">
                 <div class="col-md-4">
@@ -35,7 +54,8 @@
                 </div>
                 <div class="col-md-4">
                     <label for="contact_group_id">گروه مشتری</label>
-                    <select class="form-control select2" required="required" id="contact_group_id" name="contact_group_id">
+                    <select class="form-control select2" required="required" id="contact_group_id"
+                            name="contact_group_id">
                         <option selected disabled>یک مورد را انتخاب کنید</option>
                         {foreach $ContactGroups|default:[] as $item}
                             <option value="{$item->id}"{(($contactData.contact_group_id|default:'') == $item.id) ? 'selected' : ''}>{$item.title}</option>
