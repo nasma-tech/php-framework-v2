@@ -80,16 +80,18 @@
                                                          style="position: absolute; transform: translate3d(53px, 20px, 0px); top: 0px; left: 0px; will-change: transform;">
                                                         <a class="dropdown-item"
                                                            target="_blank"
-                                                           href="/ProformaInvoice/editIndex/{$item.proforma_invoice_id}"><i
-                                                                    class="bx bxs-file-plus mr-1"></i>الحاقیه</a>
-                                                        <a class="dropdown-item"
-                                                           target="_blank"
                                                            href="/SaleContracts/saleContractDetail/{$item.id}"><i
-                                                                    class="bx bxs-file-plus mr-1"></i>اطلاعات بیشتر</a>
+                                                                    class="bx bxs-file-plus mr-1"></i>اطلاعات قرارداد</a>
                                                         <a class="dropdown-item"
                                                            target="_blank"
                                                            href="/ProformaInvoice/process/{$item.proforma_invoice_id}"><i
                                                                     class="bx bx-git-branch mr-1"></i>فرایند</a>
+                                                        {if !$item.cancelContract}
+                                                            <a class="dropdown-item"
+                                                               target="_blank"
+                                                               href="/ProformaInvoice/editIndex/{$item.proforma_invoice_id}"><i
+                                                                        class="bx bxs-file-plus mr-1"></i>الحاقیه</a>
+                                                        {/if}
                                                     </div>
                                                 </div>
                                             </td>

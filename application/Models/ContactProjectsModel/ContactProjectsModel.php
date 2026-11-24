@@ -55,7 +55,7 @@ class ContactProjectsModel extends Model
         return $this->hasOne(IndustryTypeModel::class,'id','industry_type_id');
     }
 
-    public function expertData()
+    public function expertData(): HasOne
     {
         return $this->hasOne(UserModel::class,'id','expert_id');
     }

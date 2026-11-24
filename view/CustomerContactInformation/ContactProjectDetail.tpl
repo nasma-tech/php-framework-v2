@@ -57,6 +57,7 @@
                                     </thead>
                                     <tbody>
                                     {foreach $getData.followUpData|default:[] as $item}
+                                        {var_print($item.priceSuggestionData.id|default:'')}
                                         <tr>
                                             <td class="border">{$item.followUpActionTitleData.title}</td>
                                             <td class="border">{jdate("Y/m/d",strtotime($item.created_at))}</td>
@@ -123,8 +124,9 @@
                                                                 <i class="bx bx-show mr-1 text-success"></i>مشاهده
                                                                 نتیجه</a>
                                                         {/if}
+
                                                         {if $item.FollowUp_action_id == 8}
-                                                            {if $item.priceSuggestionData}
+                                                            {if $item.priceSuggestionData|default:'' && !$item.priceSuggestionData.proformaInvoice}
                                                                 <a class="dropdown-item text-warning"
                                                                    href="/PriceSuggestion/editPriceSuggestion/{$item.priceSuggestionData.id}"
                                                                    style="cursor: pointer">
@@ -136,7 +138,13 @@
                                                                    style="cursor: pointer">
                                                                     <i class="bx bxs-file-blank mr-1 text-primary"></i>صدور
                                                                     پیشفاکتور</a>
-                                                            {else}
+                                                            {elseif $item.priceSuggestionData.proformaInvoice}
+                                                                <a class="dropdown-item text-warning"
+                                                                   href="/ProformaInvoice/editIndex/{$item.priceSuggestionData.id}"
+                                                                   style="cursor: pointer">
+                                                                    <i class="bx bxs-file-blank mr-1 text-warning"></i>ویرایش
+                                                                    پیشفاکتور</a>
+                                                                {else}
                                                                 <a class="dropdown-item text-success"
                                                                    href="/PriceSuggestion/createPriceSuggestion/{$getData.id}/{$item.id}"
                                                                    style="cursor: pointer">
