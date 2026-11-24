@@ -1,4 +1,3 @@
-
 {include 'sections/header.tpl'}
 {include 'sections/top-bar.tpl'}
 {include 'sections/side-menu.tpl'}
@@ -309,16 +308,9 @@
     }
 
 
-
-
-
     /* ==========================================
        Dashboard - Sales Statistics
     ========================================== */
-
-    .cc-dashboard-sales {
-        margin-top: 22px;
-    }
 
     /* Section Heading */
     .cc-dashboard-stats-heading {
@@ -600,191 +592,481 @@
         }
     }
 
+
+    /*test*/
+
+    .sales-funnel-card {
+        background: #fff;
+        border: 1px solid #e9edf3;
+        border-radius: 12px;
+        padding: 22px;
+        box-shadow: 0 3px 15px rgba(30, 42, 70, .04);
+        direction: rtl;
+        font-family: inherit;
+    }
+
+    .sales-funnel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 28px;
+    }
+
+    .sales-funnel-title {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 15px;
+        font-weight: 700;
+        color: #27364b;
+    }
+
+    .sales-funnel-title i {
+        font-size: 22px;
+        color: #4056a1;
+    }
+
+    .sales-funnel-period {
+        background: #edf2ff;
+        color: #4056a1;
+        padding: 6px 13px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .sales-funnel-steps {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .sales-funnel-step {
+        flex: 1;
+        min-width: 0;
+        text-align: center;
+        background: #f8f9fc;
+        border: 1px solid #edf0f5;
+        border-radius: 10px;
+        padding: 17px 8px;
+        transition: all .25s ease;
+    }
+
+    .sales-funnel-step:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(30, 42, 70, .08);
+    }
+
+    .sales-funnel-icon {
+        width: 43px;
+        height: 43px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 12px;
+    }
+
+    .sales-funnel-icon i {
+        font-size: 23px;
+    }
+
+    .funnel-blue {
+        background: #e8f0ff;
+        color: #3674db;
+    }
+
+    .funnel-purple {
+        background: #f0eaff;
+        color: #8052d5;
+    }
+
+    .funnel-orange {
+        background: #fff1df;
+        color: #e8952c;
+    }
+
+    .funnel-green {
+        background: #e3f7ed;
+        color: #20a46b;
+    }
+
+    .sales-funnel-label {
+        color: #68768a;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 9px;
+        white-space: nowrap;
+    }
+
+    .sales-funnel-count {
+        font-size: 25px;
+        font-weight: 800;
+        color: #28364b;
+        direction: ltr;
+        line-height: 1.4;
+    }
+
+    .sales-funnel-description {
+        font-size: 10px;
+        color: #98a3b3;
+        margin-top: 5px;
+    }
+
+    .sales-funnel-arrow {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-width: 45px;
+        color: #a0aabd;
+        gap: 4px;
+    }
+
+    .sales-funnel-arrow i {
+        font-size: 25px;
+    }
+
+    .sales-funnel-rate {
+        font-size: 12px;
+        font-weight: 800;
+        color: #16a36a;
+        direction: ltr;
+    }
+
+    .sales-funnel-footer {
+        margin-top: 22px;
+        padding-top: 17px;
+        border-top: 1px solid #edf0f5;
+    }
+
+    .sales-funnel-total {
+        background: linear-gradient(135deg, #f1f7ff, #f2f9f6);
+        border-radius: 9px;
+        padding: 13px 17px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .sales-funnel-total div {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .sales-funnel-total span {
+        color: #34445b;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .sales-funnel-total small {
+        font-size: 10px;
+        color: #8995a6;
+    }
+
+    .sales-funnel-total strong {
+        font-size: 25px;
+        color: #16a36a;
+        direction: ltr;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 767px) {
+        .sales-funnel-steps {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .sales-funnel-arrow {
+            display: none;
+        }
+
+        .sales-funnel-step {
+            padding: 15px 5px;
+        }
+
+        .sales-funnel-card {
+            padding: 15px;
+        }
+    }
+
 </style>
 
 <div class="app-content content cc-dashboard">
     <div class="content-overlay"></div>
-
     <div class="content-wrapper">
-        <div class="container-fluid">
-            <div class="row">
+        <div class="row">
 
-                <!-- Profile -->
-                <div class="col-lg-4 col-md-5 mb-2">
-                    <div class="card shadow-sm h-100 cc-dashboard-profile">
+            <!-- Profile -->
+            <div class="col-lg-4 col-md-5">
+                <div class="card shadow h-100 cc-dashboard-profile">
 
-                        <div class="cc-dashboard-profile-header"></div>
+                    <div class="cc-dashboard-profile-header"></div>
 
-                        <div class="cc-dashboard-profile-body">
-                            <div class="cc-dashboard-avatar">
-                                <img src="{$userHelper->getUserImage()}"
-                                     alt="تصویر کاربر">
-                            </div>
-
-                            <h4 class="cc-dashboard-profile-name">
-                                {$user->full_name}
-                            </h4>
-
-                            <div class="cc-dashboard-profile-role">
-                                <i class="bx bx-shield-quarter align-middle"></i>
-                                {((isset($smarty.session.roleTitle)) ? $smarty.session.roleTitle : 'کاربر سیستم')}
-                            </div>
-
-                            <div class="cc-dashboard-profile-stats">
-
-                                <div class="cc-dashboard-profile-stat">
-                                    <i class="bx bx-camera"></i>
-                                    <strong>0</strong>
-                                    <span>تصاویر</span>
-                                </div>
-
-                                <div class="cc-dashboard-profile-stat">
-                                    <i class="bx bx-heart"></i>
-                                    <strong>0</strong>
-                                    <span>علاقه‌مندی‌ها</span>
-                                </div>
-
-                                <div class="cc-dashboard-profile-stat">
-                                    <i class="bx bx-user"></i>
-                                    <strong>0</strong>
-                                    <span>ارتباطات</span>
-                                </div>
-
-                            </div>
+                    <div class="cc-dashboard-profile-body">
+                        <div class="cc-dashboard-avatar">
+                            <img src="{$userHelper->getUserImage()}"
+                                 alt="تصویر کاربر">
                         </div>
 
-                    </div>
-                </div>
+                        <h4 class="cc-dashboard-profile-name">
+                            {$user->full_name}
+                        </h4>
 
-                <!-- Cartable -->
-                <div class="col-lg-8 col-md-7 mb-2">
-                    <div class="card shadow-sm h-100 cc-dashboard-cartable">
+                        <div class="cc-dashboard-profile-role">
+                            <i class="bx bx-shield-quarter align-middle"></i>
+                            {((isset($smarty.session.roleTitle)) ? $smarty.session.roleTitle : 'کاربر سیستم')}
+                        </div>
 
-                        <div class="cc-dashboard-cartable-header">
+                        <div class="cc-dashboard-profile-stats">
 
-                            <div class="cc-dashboard-section-title">
-                                <i class="bx bx-layer"></i>
-                                <span>کارتابل و درخواست‌های من</span>
+                            <div class="cc-dashboard-profile-stat">
+                                <i class="bx bx-camera"></i>
+                                <strong>0</strong>
+                                <span>تصاویر</span>
                             </div>
 
-                            <ul class="nav nav-tabs cc-dashboard-tabs" role="tablist">
-                                {foreach $tabData as $tabItem}
-                                    <li class="nav-item">
-                                        <a class="nav-link {(($tabItem['isActive']) ? 'active' : '')}"
-                                           id="{$tabItem['englishTitle']}-tab"
-                                           data-toggle="tab"
-                                           href="#{$tabItem['englishTitle']}"
-                                           aria-controls="{$tabItem['englishTitle']}"
-                                           role="tab"
-                                           aria-selected="{(($tabItem['isActive']) ? 'true' : 'false')}">
+                            <div class="cc-dashboard-profile-stat">
+                                <i class="bx bx-heart"></i>
+                                <strong>0</strong>
+                                <span>علاقه‌مندی‌ها</span>
+                            </div>
 
-                                            <i class="bx {$tabItem['tabIcon']}"></i>
+                            <div class="cc-dashboard-profile-stat">
+                                <i class="bx bx-user"></i>
+                                <strong>0</strong>
+                                <span>ارتباطات</span>
+                            </div>
 
-                                            <span>{$tabItem['persianTitle']}</span>
+                        </div>
+                    </div>
 
-                                            <span class="cc-dashboard-tab-count">
+                </div>
+            </div>
+
+            <!-- Cartable -->
+            <div class="col-lg-8 col-md-7 pl-md-0">
+                <div class="card shadow-sm h-100 cc-dashboard-cartable">
+
+                    <div class="cc-dashboard-cartable-header">
+
+                        <div class="cc-dashboard-section-title">
+                            <i class="bx bx-layer"></i>
+                            <span>کارتابل و درخواست‌های من</span>
+                        </div>
+
+                        <ul class="nav nav-tabs cc-dashboard-tabs" role="tablist">
+                            {foreach $tabData as $tabItem}
+                                <li class="nav-item">
+                                    <a class="nav-link {(($tabItem['isActive']) ? 'active' : '')}"
+                                       id="{$tabItem['englishTitle']}-tab"
+                                       data-toggle="tab"
+                                       href="#{$tabItem['englishTitle']}"
+                                       aria-controls="{$tabItem['englishTitle']}"
+                                       role="tab"
+                                       aria-selected="{(($tabItem['isActive']) ? 'true' : 'false')}">
+
+                                        <i class="bx {$tabItem['tabIcon']}"></i>
+
+                                        <span>{$tabItem['persianTitle']}</span>
+
+                                        <span class="cc-dashboard-tab-count">
                                                 {count($tabItem['data'])}
                                             </span>
-                                        </a>
-                                    </li>
-                                {/foreach}
-                            </ul>
-
-                        </div>
-
-                        <div class="card-body p-0">
-                            <div class="tab-content">
-
-                                {foreach $tabData as $tabItem}
-                                    <div class="tab-pane fade {(($tabItem['isActive']) ? 'show active' : '')}"
-                                         id="{$tabItem['englishTitle']}"
-                                         aria-labelledby="{$tabItem['englishTitle']}-tab"
-                                         role="tabpanel">
-
-                                        <div class="cc-dashboard-table-wrapper">
-                                            <div class="table-responsive">
-                                                <table class="table cc-dashboard-table">
-
-                                                    <thead>
-                                                    <tr>
-                                                        {foreach $tabItem['tabHeaders'] as $tabHeader}
-                                                            <th class="text-center">
-                                                                {$tabHeader}
-                                                            </th>
-                                                        {/foreach}
-                                                    </tr>
-                                                    </thead>
-
-                                                    <tbody>
-                                                    {foreach $tabItem['data'] as $cartableItem}
-                                                        <tr class="text-center {$labelColorData[$cartableItem['statusData']['code']]}">
-
-                                                            <td>
-                                                                {$cartableItem['cartableData']['persianTitle']}
-                                                            </td>
-
-                                                            <td>
-                                                                {$cartableItem['statusData']['title']}
-                                                            </td>
-
-                                                            <td>
-                                                                {$cartableItem['requesterData']['userFullName']}
-                                                            </td>
-
-                                                            <td>
-                                                                {$cartableItem['senderData']['userFullName']}
-                                                            </td>
-
-                                                            <td>
-                                                                {$cartableItem['dateSend']}
-                                                            </td>
-
-                                                            <td>
-                                                                {$cartableItem['timeSend']}
-                                                            </td>
-
-                                                            <td>
-                                                                <a class="btn btn-primary cc-dashboard-view-btn"
-                                                                   href="{$cartableItem['viewAddress']}"
-                                                                   title="مشاهده درخواست">
-                                                                    <i class="bx bx-show"></i>
-                                                                </a>
-                                                            </td>
-
-                                                        </tr>
-                                                        {foreachelse}
-                                                        <tr>
-                                                            <td colspan="{count($tabItem['tabHeaders'])}"
-                                                                class="cc-dashboard-empty">
-                                                                <i class="bx bx-inbox"></i>
-                                                                <span>درخواستی برای نمایش وجود ندارد.</span>
-                                                            </td>
-                                                        </tr>
-                                                    {/foreach}
-                                                    </tbody>
-
-                                                </table>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                {/foreach}
-
-                            </div>
-                        </div>
+                                    </a>
+                                </li>
+                            {/foreach}
+                        </ul>
 
                     </div>
-                </div>
 
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+
+                            {foreach $tabData as $tabItem}
+                                <div class="tab-pane fade {(($tabItem['isActive']) ? 'show active' : '')}"
+                                     id="{$tabItem['englishTitle']}"
+                                     aria-labelledby="{$tabItem['englishTitle']}-tab"
+                                     role="tabpanel">
+
+                                    <div class="cc-dashboard-table-wrapper">
+                                        <div class="table-responsive">
+                                            <table class="table cc-dashboard-table">
+
+                                                <thead>
+                                                <tr>
+                                                    {foreach $tabItem['tabHeaders'] as $tabHeader}
+                                                        <th class="text-center">
+                                                            {$tabHeader}
+                                                        </th>
+                                                    {/foreach}
+                                                </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                {foreach $tabItem['data'] as $cartableItem}
+                                                    <tr class="text-center {$labelColorData[$cartableItem['statusData']['code']]}">
+
+                                                        <td>
+                                                            {$cartableItem['cartableData']['persianTitle']}
+                                                        </td>
+
+                                                        <td>
+                                                            {$cartableItem['statusData']['title']}
+                                                        </td>
+
+                                                        <td>
+                                                            {$cartableItem['requesterData']['userFullName']}
+                                                        </td>
+
+                                                        <td>
+                                                            {$cartableItem['senderData']['userFullName']}
+                                                        </td>
+
+                                                        <td>
+                                                            {$cartableItem['dateSend']}
+                                                        </td>
+
+                                                        <td>
+                                                            {$cartableItem['timeSend']}
+                                                        </td>
+
+                                                        <td>
+                                                            <a class="btn btn-primary cc-dashboard-view-btn"
+                                                               href="{$cartableItem['viewAddress']}"
+                                                               title="مشاهده درخواست">
+                                                                <i class="bx bx-show"></i>
+                                                            </a>
+                                                        </td>
+
+                                                    </tr>
+                                                    {foreachelse}
+                                                    <tr>
+                                                        <td colspan="{count($tabItem['tabHeaders'])}"
+                                                            class="cc-dashboard-empty">
+                                                            <i class="bx bx-inbox"></i>
+                                                            <span>درخواستی برای نمایش وجود ندارد.</span>
+                                                        </td>
+                                                    </tr>
+                                                {/foreach}
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            {/foreach}
+
+                        </div>
+                    </div>
+
+                </div>
             </div>
+
         </div>
 
         <!-- Sales Statistics -->
-        <div class="row cc-dashboard-sales">
+        <div class="row cc-dashboard-sales" style="margin-top: 3px">
+
+            <div class="col-md-12">
+                <div class="sales-funnel-card shadow">
+                    <div class="sales-funnel-header">
+                        <div class="sales-funnel-title">
+                            <i class="bx bx-git-branch"></i>
+                            <span>نرخ تبدیل قیف فروش</span>
+                        </div>
+
+                        <span class="sales-funnel-period">
+                ماه جاری
+            </span>
+                    </div>
+
+                    <div class="sales-funnel-steps">
+
+                        <div class="sales-funnel-step">
+                            <div class="sales-funnel-icon funnel-blue">
+                                <i class="bx bx-phone-call"></i>
+                            </div>
+                            <div class="sales-funnel-label">تعداد پیگیری</div>
+                            <div class="sales-funnel-count">{$dashboardStats['SalesFunnel']['followUpCount']}</div>
+                            <div class="sales-funnel-description">مرحله اول</div>
+                        </div>
+
+                        <div class="sales-funnel-arrow">
+                            <div class="sales-funnel-rate">{($dashboardStats['SalesFunnel']['proposalCount'] / $dashboardStats['SalesFunnel']['followUpCount'])*100}
+                                %
+                            </div>
+                            <i class="bx bx-left-arrow-alt"></i>
+                        </div>
+
+                        <div class="sales-funnel-step">
+                            <div class="sales-funnel-icon funnel-purple">
+                                <i class="bx bx-file"></i>
+                            </div>
+                            <div class="sales-funnel-label">پیشنهاد قیمت</div>
+                            <div class="sales-funnel-count">{$dashboardStats['SalesFunnel']['proposalCount']}</div>
+                            <div class="sales-funnel-description">تبدیل از پیگیری</div>
+                        </div>
+
+                        <div class="sales-funnel-arrow">
+                            <div class="sales-funnel-rate">{number_format(($dashboardStats['SalesFunnel']['proformaCount'] / $dashboardStats['SalesFunnel']['proposalCount'])*100,1)}
+                                %
+                            </div>
+                            <i class="bx bx-left-arrow-alt"></i>
+                        </div>
+
+                        <div class="sales-funnel-step">
+                            <div class="sales-funnel-icon funnel-orange">
+                                <i class="bx bx-receipt"></i>
+                            </div>
+                            <div class="sales-funnel-label">پیش‌فاکتور</div>
+                            <div class="sales-funnel-count">{$dashboardStats['SalesFunnel']['proformaCount']}</div>
+                            <div class="sales-funnel-description">تبدیل از پیشنهاد</div>
+                        </div>
+
+                        <div class="sales-funnel-arrow">
+                            <div class="sales-funnel-rate">{number_format(($dashboardStats['SalesFunnel']['contractCount'] / $dashboardStats['SalesFunnel']['proformaCount'])*100,1)}
+                                %
+                            </div>
+                            <i class="bx bx-left-arrow-alt"></i>
+                        </div>
+
+                        <div class="sales-funnel-step">
+                            <div class="sales-funnel-icon funnel-green">
+                                <i class="bx bx-check-circle"></i>
+                            </div>
+                            <div class="sales-funnel-label">قرارداد</div>
+                            <div class="sales-funnel-count">{$dashboardStats['SalesFunnel']['contractCount']}</div>
+                            <div class="sales-funnel-description">تبدیل از پیش‌فاکتور</div>
+                        </div>
+
+                    </div>
+
+                    <div class="sales-funnel-footer">
+
+                        <div class="sales-funnel-total">
+                            <div>
+                                <span>نرخ تبدیل کل قیف فروش</span>
+                                <small>از پیگیری تا عقد قرارداد</small>
+                            </div>
+
+                            <strong>{($dashboardStats['SalesFunnel']['contractCount'] / $dashboardStats['SalesFunnel']['followUpCount'])*100}%</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
 
             <!-- Today -->
-            <div class="col-12">
-                <div class="card shadow">
+            <div class="col-md-12">
+                <div class="card shadow" style="margin-top: 3px">
                     <div class="card-content">
                         <div class="card-body">
                             <div class="cc-dashboard-stats-heading">
@@ -879,7 +1161,7 @@
             </div>
 
             <!-- Monthly -->
-            <div class="col-12 mt-3 mb-5">
+            <div class="col-md-12 mb-5" style="margin-top: 3px">
                 <div class="card shadow">
                     <div class="card-content">
                         <div class="card-body">
@@ -973,9 +1255,7 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
 
     </div>

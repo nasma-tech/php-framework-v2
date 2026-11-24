@@ -3,6 +3,7 @@
 namespace App\Controllers\dashboard;
 
 use App\Controllers\CartableDefinition\CartableDefinition;
+use App\Models\ContactProjectsFollowUpModel\ContactProjectsFollowUpModel;
 use App\Models\PriceSuggestionModel\PriceSuggestionModel;
 use App\Models\ProformaInvoiceDetailsModel\ProformaInvoiceDetailsModel;
 use App\Models\ProformaInvoiceModel\ProformaInvoiceModel;
@@ -29,6 +30,12 @@ class dashboard
         view->setPluralName(self::pluralName);
         $cartable = new CartableDefinition();
         $dashboardStats = [
+            'SalesFunnel' => [
+                'followUpCount' => ContactProjectsFollowUpModel::query()->whereDate('created_at', '>=', date("Y/m/d", dateTimeHelper->getFirstDayOfMonth(jdate("m"), jdate("Y"))))->count(),
+                'proposalCount' => PriceSuggestionModel::query()->whereDate('created_at', '>=', date("Y/m/d", dateTimeHelper->getFirstDayOfMonth(jdate("m"), jdate("Y"))))->count(),
+                'proformaCount' => ProformaInvoiceModel::query()->whereDate('created_at', '>=', date("Y/m/d", dateTimeHelper->getFirstDayOfMonth(jdate("m"), jdate("Y"))))->count(),
+                'contractCount' => SaleContractsModel::query()->whereDate('created_at', '>=',date("Y/m/d", dateTimeHelper->getFirstDayOfMonth(jdate("m"), jdate("Y"))))->count(),
+            ],
             'today' => [
                 'proposalCount' => PriceSuggestionModel::query()->whereDate('created_at', '>=', date("Y/m/d", strtotime('today')))->count(),
                 'proformaCount' => ProformaInvoiceModel::query()->whereDate('created_at', '>=', date("Y/m/d", strtotime('today')))->count(),
