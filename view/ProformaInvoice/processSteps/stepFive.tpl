@@ -14,7 +14,7 @@
         <div class="location-form">
             <input type="hidden" value="{$part['id']}" name="partId">
 
-            <div class="card">
+            <div class="card border" style="margin-top: 15px">
                 <div class="card-header">
                     <div class="col-md-12 text-center">
                         <div class="divider">
@@ -108,15 +108,16 @@
                     </div>
                 </div>
 
-                <div class="mt-auto pt-3">
+                <div class="card-footer d-flex justify-content-between border-top">
                     {if $exist}
-                        <button type="button" class="btn btn-success text-white glow w-100">
+                        <span></span>
+                    <div class="badge badge-light-success text-white" style="font-size: 10px">
                             در تاریخ
-                            <code>{(jdate("Y/m/d",strtotime($check->create_at)))}</code>
+                            <code>{(jdate("Y/m/d | H:m",strtotime($check->create_at)))}</code>
                             توسط
                             <code>{$check->userData->full_name}</code>
                             اعلام آدرس شد
-                        </button>
+                    </div>
                     {else}
                         <button type="submit" class="btn btn-primary glow w-100">
                             ثبت اعلام آدرس
@@ -126,6 +127,5 @@
             </div>
         </div>
     </form>
-    <hr>
 {/foreach}
 
