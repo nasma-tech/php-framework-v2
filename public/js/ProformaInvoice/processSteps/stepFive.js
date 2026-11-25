@@ -77,18 +77,16 @@ $(function () {
     });
 
     $(document).on("click", ".viewFile", function () {
-        let id = $(this).data('id')
-        let imageFile =  $(this).data('file')
-        if (id && imageFile){
-            let src = "/Storage/addressAnnouncement/" + id + "/" + imageFile;
+        let FileSrc = $(this).data('src')
+        if (FileSrc){
             Swal.fire({
                 title: 'نمایش فایل',
-                html:`<embed src="${src}" style="width: 100%;height: 70vh">`,
+                html:`<embed src="${FileSrc}" style="width: 100%;height: 70vh">`,
                 width: '80%',
                 showCloseButton: true,
                 confirmButtonText: "بستن",
                 didClose: function () {
-                    URL.revokeObjectURL(src);
+                    URL.revokeObjectURL(FileSrc);
                 }
             });
             return ;
