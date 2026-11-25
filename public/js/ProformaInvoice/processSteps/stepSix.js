@@ -52,7 +52,7 @@ $(function () {
                     class="ir-plate-input ir-plate-first"
                     maxlength="2"
                     inputmode="numeric"
-                    placeholder="۱۲"
+                    placeholder="--"
                     autocomplete="off"
                     name="driverInfo[${driverInfoCounter}][plate][two_left_digit_plate]"
                     aria-label="دو رقم اول پلاک"
@@ -60,7 +60,7 @@ $(function () {
 
                 <!-- حرف پلاک -->
                 <select class="ir-plate-select" aria-label="حرف پلاک" name="driverInfo[${driverInfoCounter}][plate][license_plate_letter]">
-                    <option value="" selected disabled>ب</option>
+                    <option value="" selected disabled>-</option>
                     <option value="ا">ا</option>
                     <option value="آ">آ</option>
                     <option value="ب">ب</option>
@@ -102,7 +102,7 @@ $(function () {
                     class="ir-plate-input ir-plate-last"
                     maxlength="3"
                     inputmode="numeric"
-                    placeholder="۳۶۵"
+                    placeholder="---"
                     autocomplete="off"
                     name="driverInfo[${driverInfoCounter}][plate][three_digit_plate]"
                     aria-label="سه رقم آخر پلاک"
@@ -125,7 +125,7 @@ $(function () {
                 class="ir-plate-city-code"
                 maxlength="2"
                 inputmode="numeric"
-                placeholder="۱۱"
+                placeholder="--"
                 autocomplete="off"
                 name="driverInfo[${driverInfoCounter}][plate][two_right_digit_plate]"
                 aria-label="کد شهر"
@@ -215,12 +215,9 @@ $(function () {
     $(".exit_main_info").on('click', '.showCargoExitCarInfo', function () {
         let fileData = $(this).attr('src')
         swal.fire({
-            icon: 'warning',
-            width: '40%',
-            html: `<embed src="${fileData}" style="width: 100%" height="800">`,
-            showConfirmButton: false,
-            showDenyButton: true,
-            denyButtonText: 'انصراف',
+            width: '80vw',
+            html: `<embed src="${fileData}" style="width: 100%;max-height: 90vh"">`,
+            confirmButtonText: 'بستن',
         })
     })
 

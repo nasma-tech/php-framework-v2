@@ -1151,6 +1151,9 @@ class ProformaInvoice extends ControllerScheme
         return $output ?? [];
     }
 
+    /**
+     * @throws \Exception
+     */
     public function addProductPartForm(int $invoiceId): void
     {
         csrf->csrfValidate();
@@ -1163,9 +1166,9 @@ class ProformaInvoice extends ControllerScheme
 
         if (validator->validateRequestsData($needle)) {
             if ($this->addProductPart($invoiceId, $data['allocation_warehouse_id'], $data['allocation_data'])) {
-                $this->successCallBack("/ProformaInvoice/addProductPartForm/{$invoiceId}", 'پارت با موفقیت ثبت شد');
+                $this->successCallBack("/ProformaInvoice/process/{$invoiceId}", 'پارت با موفقیت ثبت شد');
             }
-            $this->failedCallBack("/ProformaInvoice/addProductPartForm/{$invoiceId}", 'خطا در ثبت پارت');
+            $this->failedCallBack("/ProformaInvoice/process/{$invoiceId}", 'خطا در ثبت پارت');
         }
     }
 
