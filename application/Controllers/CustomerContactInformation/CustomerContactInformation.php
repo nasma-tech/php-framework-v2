@@ -201,6 +201,7 @@ class CustomerContactInformation extends ControllerScheme
                 'national_code' => $data['national_code'],
                 'state_id' => $data['state_id'],
                 'city_id' => $data['city_id'],
+                'address' => $data['realAddress'],
                 'user_id' => userObject()->userId,
             ];
             $mergeData = array_merge($subscriberData, $dataForm);

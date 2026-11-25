@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="/public/css/jalalidatepicker.min.css">
     <link rel="stylesheet" type="text/css" href="/public/vendors/libs/toastify/toastify.min.css">
     <link rel="stylesheet" href="/public/vendors/css/jodit/jodit.min.css">
+    <link rel="stylesheet" href="/public/vendors/css/oil-loader/oil-loader.css">
 
 {*    template styles*}
     <link rel="stylesheet" href="/view/templates/templatesStyle.css">

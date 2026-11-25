@@ -61,6 +61,10 @@ $(function () {
             <label for="city_id">شهر محل سکونت</label>
             <select class="form-control select2" required="required" disabled id="city_id" name="city_id"></select>
         </div>
+        <div class="col-md-12 mt-2">
+            <label for="">آدرس</label>
+            <textarea name="realAddress" id="realAddress"  style="resize: none" class="form-control"></textarea>
+        </div>
       `
     }
     const legalForm = () => {

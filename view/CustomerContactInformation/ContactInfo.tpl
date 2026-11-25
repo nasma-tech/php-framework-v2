@@ -95,6 +95,10 @@
                             {/foreach}
                         </select>
                     </div>
+                    <div class="col-md-12">
+                        <label for="">آدرس</label>
+                        <textarea name="realAddress" id="realAddress" cols="30" rows="10" style="resize: none" class="form-control"></textarea>
+                    </div>
                 {else}
                     <div class="col-md-4 mt-2">
                         <label for="national_ID">شناسه ملی</label>

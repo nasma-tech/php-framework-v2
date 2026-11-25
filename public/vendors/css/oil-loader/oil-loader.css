@@ -1,0 +1,307 @@
+/* ==========================================================================
+   Oil Card Loader — styles
+   One continuous SVG scene (drip → barrel → gallon → carton → truck → loop).
+   All motion lives in oil-card-loader.js (Web Animations API, one master
+   timeline); this file only holds layout, theme tokens and part styling.
+   ========================================================================== */
+
+/* ---------- Theme tokens ------------------------------------------------- */
+
+.oil-card-loader {
+    /* surface */
+    --oil-scrim: rgba(226, 228, 231, .78);
+    --oil-card: rgba(252, 251, 249, .97);
+    --oil-card-edge: rgba(176, 128, 36, .24);
+    --oil-shadow: 0 18px 60px rgba(28, 24, 16, .12), 0 2px 8px rgba(28, 24, 16, .06);
+    --oil-title: #2a2823;
+
+    /* drawing */
+    --oil-line: #34312a;
+    --oil-line-soft: #bdb7a8;
+    --oil-metal: #efebe2;
+    --oil-metal-2: #ded8c9;
+    --oil-glass: rgba(201, 154, 54, .07);
+    --oil-glass-2: rgba(201, 154, 54, .09);
+    --oil-glass-win: rgba(120, 150, 165, .22);
+    --oil-hi: rgba(255, 255, 255, .85);
+    --oil-slot: #3a362d;
+    --oil-cargo: #f6f3ec;
+    --oil-ground: #cdc7b8;
+    --oil-tire: #2e2b25;
+
+    /* brand */
+    --oil-gold: #c99a36;
+    --oil-gold-hi: #f4dc95;
+    --oil-gold-mid: #d9a93f;
+    --oil-gold-lo: #a2701a;
+    --oil-carton: #ead7ac;
+    --oil-carton-2: #d3b678;
+
+    position: absolute;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--oil-scrim);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .45s ease, visibility .45s ease;
+    font-family: inherit;
+}
+
+.oil-card-loader[data-oil-theme="dark"] {
+    --oil-scrim: rgba(8, 8, 10, .72);
+    --oil-card: rgba(25, 25, 28, .97);
+    --oil-card-edge: rgba(214, 172, 74, .28);
+    --oil-shadow: 0 18px 60px rgba(0, 0, 0, .55), 0 2px 8px rgba(0, 0, 0, .35);
+    --oil-title: #efebe0;
+
+    --oil-line: #d2cbb8;
+    --oil-line-soft: #4c4c53;
+    --oil-metal: #2c2c31;
+    --oil-metal-2: #393940;
+    --oil-glass: rgba(255, 255, 255, .05);
+    --oil-glass-2: rgba(255, 255, 255, .07);
+    --oil-glass-win: rgba(150, 185, 205, .18);
+    --oil-hi: rgba(255, 255, 255, .22);
+    --oil-slot: #0d0d0f;
+    --oil-cargo: #202024;
+    --oil-ground: #3d3d44;
+    --oil-tire: #0f0f11;
+
+    --oil-gold: #d6ab47;
+    --oil-gold-hi: #f7e0a0;
+    --oil-gold-mid: #dcae45;
+    --oil-gold-lo: #a8741c;
+    --oil-carton: #94702f;
+    --oil-carton-2: #6f521f;
+}
+
+/* ---------- Overlay modes ------------------------------------------------ */
+
+.oil-loader-fullscreen {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+.oil-loader-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* ---------- Card --------------------------------------------------------- */
+
+.oil-loader-inner {
+    box-sizing: border-box;
+    width: min(440px, calc(100% - 36px));
+    max-height: calc(100% - 24px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 22px 26px 20px;
+    text-align: center;
+    color: var(--oil-title);
+    background: var(--oil-card);
+    border: 1px solid var(--oil-card-edge);
+    border-radius: 18px;
+    box-shadow: var(--oil-shadow);
+    overflow: hidden;
+}
+
+.oil-loader-scene {
+    position: relative;
+    width: 100%;
+    flex: 0 1 auto;
+    min-height: 0;
+    aspect-ratio: 400 / 260;
+}
+
+.oil-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    shape-rendering: geometricPrecision;
+    /* soft edges: parts glide in/out of frame instead of being cut */
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 11%, #000 89%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 11%, #000 89%, transparent 100%);
+}
+
+/* Mirror the whole flow (right → left) for RTL-first layouts */
+.oil-flow-rtl .oil-svg {
+    transform: scaleX(-1);
+}
+
+.oil-loader-title {
+    flex: 0 0 auto;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.6;
+    /* never letter-space Persian/Arabic: it breaks the cursive joins */
+    letter-spacing: 0;
+    color: var(--oil-title);
+}
+
+/* ---------- Compact (inside a card) -------------------------------------- */
+
+.oil-loader-local .oil-loader-inner {
+    width: min(340px, calc(100% - 20px));
+    padding: 16px 18px 14px;
+    gap: 6px;
+    border-radius: 15px;
+}
+
+.oil-loader-local .oil-loader-title {
+    font-size: 13.5px;
+}
+
+@media (max-width: 576px) {
+    .oil-loader-inner {
+        padding: 18px 16px 16px;
+    }
+
+    .oil-loader-title {
+        font-size: 14px;
+    }
+}
+
+/* ---------- SVG parts ---------------------------------------------------- */
+
+.oil-card-loader .oil-st {
+    stroke: var(--oil-line);
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+.oil-card-loader .oil-nf { fill: none; }
+.oil-card-loader .oil-m { fill: var(--oil-metal); }
+.oil-card-loader .oil-m2 { fill: var(--oil-metal-2); }
+.oil-card-loader .oil-gl { fill: var(--oil-glass); }
+.oil-card-loader .oil-gl2 { fill: var(--oil-glass-2); }
+.oil-card-loader .oil-win { fill: var(--oil-glass-win); }
+.oil-card-loader .oil-gold { fill: var(--oil-gold); }
+.oil-card-loader .oil-cart { fill: var(--oil-carton); }
+.oil-card-loader .oil-cart2 { fill: var(--oil-carton-2); }
+.oil-card-loader .oil-hi { fill: var(--oil-hi); }
+.oil-card-loader .oil-slot { fill: var(--oil-slot); }
+.oil-card-loader .oil-cargo { fill: var(--oil-cargo); }
+.oil-card-loader .oil-tire { fill: var(--oil-tire); stroke: var(--oil-line); stroke-width: 1.6; }
+.oil-card-loader .oil-rod { fill: var(--oil-line); }
+.oil-card-loader .oil-label { fill: var(--oil-card); stroke: var(--oil-gold); stroke-width: .9; }
+.oil-card-loader .oil-tape { fill: var(--oil-gold); opacity: .92; }
+
+.oil-card-loader .oil-gstk {
+    fill: none;
+    stroke: var(--oil-gold);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.oil-card-loader .oil-ground {
+    fill: none;
+    stroke: var(--oil-ground);
+    stroke-width: 1.4;
+}
+
+.oil-card-loader .oil-floor {
+    fill: none;
+    stroke: var(--oil-line-soft);
+    stroke-width: 1.2;
+}
+
+.oil-card-loader .oil-hoop {
+    fill: none;
+    stroke: var(--oil-gold);
+    stroke-width: 3;
+}
+
+.oil-card-loader .oil-cap-ridge {
+    fill: none;
+    stroke: var(--oil-line);
+    stroke-width: 1;
+    stroke-linecap: round;
+    opacity: .55;
+}
+
+.oil-card-loader .oil-lever {
+    fill: none;
+    stroke: var(--oil-line);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+}
+
+.oil-card-loader .oil-pipe-o {
+    fill: none;
+    stroke: var(--oil-line);
+    stroke-width: 9;
+    stroke-linejoin: round;
+}
+
+.oil-card-loader .oil-pipe-i {
+    fill: none;
+    stroke: var(--oil-metal);
+    stroke-width: 6;
+    stroke-linejoin: round;
+}
+
+.oil-card-loader .oil-ticks {
+    fill: none;
+    stroke: var(--oil-line-soft);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-dasharray: .1 14;
+}
+
+.oil-card-loader .oil-speed {
+    fill: none;
+    stroke: var(--oil-gold);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+}
+
+.oil-card-loader .oil-stop-hi { stop-color: var(--oil-gold-hi); }
+.oil-card-loader .oil-stop-mid { stop-color: var(--oil-gold-mid); }
+.oil-card-loader .oil-stop-lo { stop-color: var(--oil-gold-lo); }
+
+/* Transform pivots for the animated parts (animated from JS) */
+.oil-card-loader [data-a="rod"],
+.oil-card-loader [data-a="stream"],
+.oil-card-loader [data-a="tape"],
+.oil-card-loader [data-a="door"] {
+    transform-box: fill-box;
+    transform-origin: 50% 0;
+}
+
+.oil-card-loader [data-a="speed"] {
+    transform-box: fill-box;
+    transform-origin: 100% 50%;
+}
+
+/* ---------- Reduced motion ----------------------------------------------- */
+/* JS freezes the scene on one composed frame; only the title breathes. */
+
+.oil-motion-reduced .oil-loader-title {
+    animation: oil-title-breathe 2.6s ease-in-out infinite;
+}
+
+@keyframes oil-title-breathe {
+    0%, 100% { opacity: .55; }
+    50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .oil-card-loader {
+        transition: none;
+    }
+}

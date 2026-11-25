@@ -80,7 +80,18 @@ $(function () {
         })
     })
 
+    //card Loader for each ajax
+    let ajaxCardLoader = null;
 
+    $(document).ajaxStart(function () {
+        ajaxCardLoader = oilCardLoader(".card");
+        console.log('check')
+    });
 
-
+    $(document).ajaxStop(function () {
+        if (ajaxCardLoader) {
+            ajaxCardLoader.hide();
+            ajaxCardLoader = null;
+        }
+    });
 });
