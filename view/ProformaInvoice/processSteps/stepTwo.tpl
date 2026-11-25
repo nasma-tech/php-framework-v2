@@ -381,7 +381,7 @@
                             </div>
                             <div class="cc-convert-text">
                                 <h6>به قرارداد تبدیل شده است</h6>
-                                <p>در تاریخ ..... توسط .......... به قرارداد تبدیل شده است</p>
+                                <p>در تاریخ <code>{jdate("Y/m/d | H:i",$getData.contract.convert_to_contract)}</code> توسط <code>{$getData.contract.expert.full_name}</code> به قرارداد تبدیل شده است</p>
                             </div>
                         </div>
                     </div>

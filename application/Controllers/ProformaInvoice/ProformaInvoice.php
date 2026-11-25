@@ -42,6 +42,7 @@ class ProformaInvoice extends ControllerScheme
 
     public function main(): void
     {
+        $_ENV['APP_DEBUG'] = 1;
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
@@ -87,7 +88,7 @@ class ProformaInvoice extends ControllerScheme
                 'state' => StateModel::query()->where('country_id', $getPriceSuggestionData->country_id)->get(),
                 'cities' => CityModel::query()->where('state_id', $getPriceSuggestionData->state_id)->get(),
                 'salesTeam' => SalesTeamModel::query()->get(),
-                'marketers'=>marketersModel::query()->get()
+                'marketers' => marketersModel::query()->get()
             ]
         )->display('ProformaInvoice/add|edit-ProformaInvoice.tpl');
     }
@@ -128,7 +129,7 @@ class ProformaInvoice extends ControllerScheme
             'salesTeam' => SalesTeamModel::query()->get(),
             'invoiceSettings' => $result,
             'customerCompany' => CompaniesModel::query()->find($getData->company_id),
-            'marketers'=>marketersModel::query()->get()
+            'marketers' => marketersModel::query()->get()
         ])->display('ProformaInvoice/add|edit-ProformaInvoice.tpl');
     }
 
@@ -141,12 +142,13 @@ class ProformaInvoice extends ControllerScheme
 
     public function add(): void
     {
+        $_ENV['APP_DEBUG'] = 1;
         csrf->csrfValidate();
         $data = $this->requestArray();
         $makeProformaInvoiceData = [
             'price_suggestion_id' => $data['price_suggestion_id'],
             'contact_id' => $data['contact_id'],
-            'company_id' => $data['customer_company_id'],
+            'company_id' => !empty($data['customer_company_id'])? $data['customer_company_id']: null,
             'contact_project_followup_id' => $data['contact_project_followup_id'],
             'delivery_date' => $data['delivery_date'],
             'brand_id' => $data['brand_id'],
@@ -958,7 +960,7 @@ class ProformaInvoice extends ControllerScheme
                     "icon" => "bx-check-shield primary",
                     "scriptFile" => 'js/ProformaInvoice/options/paymentAllocation',
                     "show" => (function () use ($getData) {
-                        if ($getData->contract->cancelContract) {
+                        if ($getData?->contract?->cancelContract) {
                             return false;
                         }
                         return true;
@@ -998,11 +1000,11 @@ class ProformaInvoice extends ControllerScheme
                     "title" => "صفحه قرارداد",
                     "description" => "",
                     "type" => 'a',
-                    "href" => "/SaleContracts/saleContractDetail/{$getData->contract->id}",
+                    "href" => "/SaleContracts/saleContractDetail/{$getData->contract?->id}",
                     "icon" => "bx-show primary",
                     "scriptFile" => "",
                     "show" => (function () use ($getData) {
-                        if ($getData->contract->cancelContract) {
+                        if ($getData?->contract?->cancelContract) {
                             return true;
                         }
                         return false;

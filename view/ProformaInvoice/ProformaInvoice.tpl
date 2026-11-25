@@ -67,7 +67,7 @@
                                             <td class="border">
                                                 {if $item.contract && !$item.contract.cancelContract}
                                                     <div class="badge badge-light-success w-100">دارد</div>
-                                                {elseif $item.contract.cancelContract}
+                                                {elseif $item.contract.cancelContract|default:''}
                                                     <div class="badge badge-light-danger w-100">لغو شده</div>
                                                 {else}
                                                     <div class="badge badge-light-warning w-100">ندارد</div>
