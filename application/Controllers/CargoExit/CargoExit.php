@@ -82,10 +82,10 @@ class CargoExit extends ControllerScheme
                         'driver_full_name' => $item['driver_full_name'],
                         'driver_phone' => $item['driver_phone'],
                         'driver_national_id' => $item['driver_national_id'],
-                        'two_left_digit_plate' => $item['plate']['two_left_digit_plate'],
-                        'license_plate_letter' => $item['plate']['license_plate_letter'],
-                        'three_digit_plate' => $item['plate']['three_digit_plate'],
-                        'two_right_digit_plate' => $item['plate']['two_right_digit_plate'],
+                        'two_left_digit_plate' => $item['plate']['two_left_digit_plate'] ?? '',
+                        'license_plate_letter' => $item['plate']['license_plate_letter'] ?? '',
+                        'three_digit_plate' => $item['plate']['three_digit_plate'] ?? '',
+                        'two_right_digit_plate' => $item['plate']['two_right_digit_plate'] ?? '',
                     ];
                     $addCargoExitInfo = CargoExitCarInfoModel::query()->create($makeData);
                     if ($addCargoExitInfo) {
@@ -102,7 +102,7 @@ class CargoExit extends ControllerScheme
                 }
             }
             $this->successCallBack("/ProformaInvoice/process/{$data['invoiceCargoExit']}", 'خروج بار با موفقیت ثبت شد');
-        }else{
+        } else {
             $this->failedCallBack("/ProformaInvoice/process/{$data['invoiceCargoExit']}", 'خروج بار با خطا مواجه شد');
         }
     }
@@ -111,9 +111,9 @@ class CargoExit extends ControllerScheme
     {
         $cargoExitCarInfoId = $this->requestArray('cargoExitCarInfoId');
         $delete = CargoExitCarInfoModel::query()->find($cargoExitCarInfoId)->delete();
-        if ($delete){
+        if ($delete) {
             echo 'deleteSuccess';
-        }else{
+        } else {
             echo 'deleteError';
         }
     }

@@ -157,7 +157,7 @@
         box-shadow: none !important;
 
         color: #080808;
-        font-family: Vazirmatn, Tahoma, sans-serif;
+        font-family: B-Traffic, Tahoma, sans-serif;
 
         font-weight: 900;
         text-align: center;
@@ -215,7 +215,7 @@
     /* Select Options */
 
     .ir-plate-select option {
-        font-family: Vazirmatn, Tahoma, sans-serif;
+        font-family: B-Traffic, Tahoma, sans-serif;
         font-size: 16px;
         font-weight: 600;
         color: #111;
@@ -237,7 +237,7 @@
         background: #fff;
         overflow: hidden;
 
-        font-family: Vazirmatn, Tahoma, sans-serif;
+        font-family: B-Traffic, Tahoma, sans-serif;
     }
 
     .ir-plate-city-title {
@@ -250,7 +250,7 @@
         color: #080808;
         text-align: center;
 
-        font-size: 5.8cqw;
+        font-size: 4.5cqw;
         font-weight: 900;
         line-height: 1.2;
     }
@@ -258,10 +258,7 @@
     .ir-plate-city-code {
         width: 100%;
         height: 65%;
-
-        margin-top: 40%;
-
-        font-size: 12.5cqw !important;
+        font-size: 9.5cqw !important;
         font-weight: 900;
         line-height: 1;
     }
@@ -456,7 +453,7 @@
                                                             class="ir-plate-input ir-plate-first"
                                                             maxlength="2"
                                                             inputmode="numeric"
-                                                            placeholder="۱۲"
+                                                            placeholder="--"
                                                             autocomplete="off"
                                                             name=""
                                                             aria-label="دو رقم اول پلاک"
@@ -470,7 +467,7 @@
                                                             class="ir-plate-select"
                                                             maxlength="3"
                                                             inputmode="numeric"
-                                                            placeholder="۳۶۵"
+                                                            placeholder="-"
                                                             autocomplete="off"
                                                             value="{$row.license_plate_letter}"
                                                     >
@@ -482,7 +479,7 @@
                                                             class="ir-plate-input ir-plate-last"
                                                             maxlength="3"
                                                             inputmode="numeric"
-                                                            placeholder="۳۶۵"
+                                                            placeholder="---"
                                                             autocomplete="off"
                                                             value="{$row.three_digit_plate}"
                                                     >
@@ -505,7 +502,7 @@
                                                         class="ir-plate-city-code"
                                                         maxlength="2"
                                                         inputmode="numeric"
-                                                        placeholder="۱۱"
+                                                        placeholder="--"
                                                         autocomplete="off"
                                                         name="plate]"
                                                         aria-label="کد شهر"
