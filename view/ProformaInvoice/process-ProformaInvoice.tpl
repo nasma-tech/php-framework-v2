@@ -193,7 +193,7 @@
                 </div>
             </div>
         </div>
-        {if $getData.contract.cancelContract}
+        {if $getData.contract.cancelContract|default:''}
             <div class="card shadow" style="margin-top: 3px">
                 <div class="card-content">
                     <div class="card-body">
