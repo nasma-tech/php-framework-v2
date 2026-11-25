@@ -116,7 +116,7 @@
                                     <td>{$data.payment.bankAccountData.bank_branch_name|default:'-'}</td>
                                     <td>{$data.payment.reference_no|default:'-'}</td>
                                     <td>{$data.payment.chequeData.cheque_number|default:'-'}</td>
-                                    <td>{jdate("Y/m/d",$data.payment.date_deposit)|default:'-'}</td>
+                                    <td>{(($data.payment.date_deposit) ? jdate("Y/m/d",$data.payment.date_deposit) : '-')}</td>
                                     <td>{number_format($data.payment.amount_paid)|default:'-'}</td>
                                     <td>
                                         <button class="btn btn-sm btn-primary viewDescription"
