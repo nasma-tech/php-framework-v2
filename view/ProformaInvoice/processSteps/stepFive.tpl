@@ -80,8 +80,7 @@
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-sm btn-primary viewFile"
                                                 {if $exist}
-                                                    data-id="{$check->id}"
-                                                    data-file="{$check['address_file']}"
+                                                    data-src="/Storage/addressAnnouncement/{$check->id}/{$check['address_file']}"
                                                 {/if}
                                         >
                                             <i class="bx bx-file"></i>
