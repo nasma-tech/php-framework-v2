@@ -29,7 +29,7 @@ $(function () {
             toolbar: {
                 show: false
             },
-            fontFamily: 'Vazirmatn, sans-serif'
+            fontFamily: 'primary-font, sans-serif'
         },
 
         dataLabels: {

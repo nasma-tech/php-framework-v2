@@ -59,8 +59,7 @@
                                                         {($partItem.productExitPartItem.exit_amount|default:'')?'readonly':''}
                                                        value="{$partItem.productExitPartItem.exit_amount|default:''}"
                                                        name="exitData[{$partItem.id}][exit_amount]"
-                                                       type="number"
-                                                       max="{$partItem.amount}">
+                                                       >
                                             </td>
                                         </tr>
                                     {/foreach}
