@@ -23,7 +23,7 @@ class Products extends ControllerScheme
         view->setPageTitle(self::pluralName);
         view->setSingleName(self::singleName);
         view->setPluralName(self::pluralName);
-        view->setModel($this->defaultModel::all());
+        view->setModel($this->defaultModel::Saleable()->get());
         view->ui([
             'vendors/js/tables/datatable/datatables.min',
             'vendors/js/tables/datatable/dataTables.bootstrap4.min',

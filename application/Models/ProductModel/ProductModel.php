@@ -38,9 +38,20 @@ class ProductModel extends Model
         'file_address',
         'description',
         'complete_description',
+        'saleable',
         'user_id',
     ];
 
+
+    public function scopeSaleable($query)
+    {
+        if (userObject()->userId <= 0){
+        return $query->where('saleable', 1);
+        }
+        else{
+            return  $query;
+        }
+    }
     public function measurementUnit(): BelongsTo
     {
         return $this->belongsTo(MeasurementUnitModel::class, 'measurement_unit_id');
