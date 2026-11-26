@@ -311,7 +311,6 @@ class CustomerContactInformation extends ControllerScheme
 
     public function add(): void
     {
-        $_ENV['APP_DEBUG'] = 1;
         $addContact = $this->addContactInfo();
         $this->addContactPhonesAndSocialNetWorks($addContact);
         $addContactProject = $this->addContactProject($addContact);

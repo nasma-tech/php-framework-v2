@@ -95,9 +95,13 @@
                             {/foreach}
                         </select>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-4 mt-2">
+                        <label for="postal_code">کد پستی</label>
+                        <input type="text" class="form-control" name="postal_code" value="{$contactData.postal_code}">
+                    </div>
+                    <div class="col-md-12 mt-2">
                         <label for="">آدرس</label>
-                        <textarea name="realAddress" id="realAddress" cols="30" rows="10" style="resize: none" class="form-control"></textarea>
+                        <textarea name="realAddress" id="realAddress" cols="30" rows="10" style="resize: none" class="form-control">{$contactData.address}</textarea>
                     </div>
                 {else}
                     <div class="col-md-4 mt-2">

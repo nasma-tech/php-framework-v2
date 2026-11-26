@@ -84,8 +84,7 @@ $(function () {
     let ajaxCardLoader = null;
 
     $(document).ajaxStart(function () {
-        ajaxCardLoader = oilCardLoader(".card");
-        console.log('check')
+        ajaxCardLoader = oilCardLoader(".card:not(.no-cardLoader)");
     });
 
     $(document).ajaxStop(function () {

@@ -61,6 +61,10 @@ $(function () {
             <label for="city_id">شهر محل سکونت</label>
             <select class="form-control select2" required="required" disabled id="city_id" name="city_id"></select>
         </div>
+        <div class="col-md-4 mt-2">
+            <label for="postal_code">کدپستی</label>
+            <input class="form-control" id="postal_code" name="postal_code">
+        </div>
         <div class="col-md-12 mt-2">
             <label for="">آدرس</label>
             <textarea name="realAddress" id="realAddress"  style="resize: none" class="form-control"></textarea>

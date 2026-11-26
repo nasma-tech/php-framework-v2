@@ -8,7 +8,7 @@
         {$flashMessageHelper->formCallBack()}
         <div class="row">
             <div class="col-md-12">
-                <div class="card shadow">
+                <div class="card shadow no-cardLoader">
                     <div class="card-header">
                         <h4 class="card-title">{$singleName}</h4>
                         <div class="heading-elements">
